@@ -1,0 +1,4679 @@
+Version 4.0 HI-TECH Software Intermediate Code
+"24 ../../source/h/npwt_dis_ofile_lcd_02.h
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 24: {
+[s S684 `us 1 `uc 1 `uc 1 `ul 1 ]
+[n S684 . lq_times show_times step buz_key_pressed_times ]
+"4037 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4037: extern volatile unsigned char PORTB __attribute__((address(0xF81)));
+[v _PORTB `Vuc ~T0 @X0 0 e@3969 ]
+"8 ../../source/h/npwt_dis_main.h
+[; ;../../source/h/npwt_dis_main.h: 8: extern unsigned char err_codea,err_codeb;
+[v _err_codea `uc ~T0 @X0 0 e ]
+[v _err_codeb `uc ~T0 @X0 0 e ]
+"4 ../../source/h/npwt_dis_sys_uart_00.h
+[; ;../../source/h/npwt_dis_sys_uart_00.h: 4: extern volatile unsigned char flager_a,bat_lev;
+[v _bat_lev `Vuc ~T0 @X0 0 e ]
+"5293 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5293: extern volatile unsigned char LATC __attribute__((address(0xF8B)));
+[v _LATC `Vuc ~T0 @X0 0 e@3979 ]
+"9 ../../source/h/npwt_dis_main.h
+[; ;../../source/h/npwt_dis_main.h: 9: extern unsigned char buz_flg,buz_flg1,buz_cnt;
+[v _buz_flg1 `uc ~T0 @X0 0 e ]
+"14
+[; ;../../source/h/npwt_dis_main.h: 14: extern unsigned char SPEAK_flg;
+[v _SPEAK_flg `uc ~T0 @X0 0 e ]
+"26 ../../source/h/sys_cpu.h
+[; ;../../source/h/sys_cpu.h: 26: extern void SetBlk(void);
+[v _SetBlk `(v ~T0 @X0 0 ef ]
+"17 ../../source/h/npwt_dis_ofile_lcd_02.h
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 17: extern unsigned char flg2015;
+[v _flg2015 `uc ~T0 @X0 0 e ]
+"73 ../../source/h/BIOS_JLX1864G_139.h
+[; ;../../source/h/BIOS_JLX1864G_139.h: 73: extern void DISP_ClrZero(unsigned char x,unsigned char x1,unsigned char y,unsigned char y1);
+[v _DISP_ClrZero `(v ~T0 @X0 0 ef4`uc`uc`uc`uc ]
+"16 ../../source/h/npwt_dis_ofile_lcd_02.h
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 16: extern unsigned char all_flg;
+[v _all_flg `uc ~T0 @X0 0 e ]
+"18
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 18: extern unsigned char flg_disp;
+[v _flg_disp `uc ~T0 @X0 0 e ]
+"5 ../../source/h/npwt_dis_main.h
+[; ;../../source/h/npwt_dis_main.h: 5: extern unsigned char audio_flg;
+[v _audio_flg `uc ~T0 @X0 0 e ]
+"23
+[; ;../../source/h/npwt_dis_main.h: 23: extern volatile unsigned short TK_TIME ;
+[v _TK_TIME `Vus ~T0 @X0 0 e ]
+"11 ../../source/h/npwt_con_over.h
+[; ;../../source/h/npwt_con_over.h: 11: extern unsigned short con_lo_delta;
+[v _con_lo_delta `us ~T0 @X0 0 e ]
+"10
+[; ;../../source/h/npwt_con_over.h: 10: extern unsigned short con_hi_delta;
+[v _con_hi_delta `us ~T0 @X0 0 e ]
+"24 ../../source/h/npwt_dis_main.h
+[; ;../../source/h/npwt_dis_main.h: 24: extern unsigned short key_silent_flag;
+[v _key_silent_flag `us ~T0 @X0 0 e ]
+"27
+[; ;../../source/h/npwt_dis_main.h: 27: extern void BUZ_KeyCls(void) ;
+[v _BUZ_KeyCls `(v ~T0 @X0 0 ef ]
+"70 ../../source/h/BIOS_JLX1864G_139.h
+[; ;../../source/h/BIOS_JLX1864G_139.h: 70: extern void DISP_Clear(void);
+[v _DISP_Clear `(v ~T0 @X0 0 ef ]
+"7 ../../source/h/npwt_con_ifile_adc.h
+[; ;../../source/h/npwt_con_ifile_adc.h: 7: extern unsigned short adc_zero;
+[v _adc_zero `us ~T0 @X0 0 e ]
+"6
+[; ;../../source/h/npwt_con_ifile_adc.h: 6: extern unsigned short adc_ps0,adc_bat;
+[v _adc_ps0 `us ~T0 @X0 0 e ]
+"6 ../../source/h/npwt_con_over.h
+[; ;../../source/h/npwt_con_over.h: 6: extern unsigned long scan_dusai_time;
+[v _scan_dusai_time `ul ~T0 @X0 0 e ]
+"4 ../../source/h/npwt_dis_sys_uart_00.h
+[; ;../../source/h/npwt_dis_sys_uart_00.h: 4: extern volatile unsigned char flager_a,bat_lev;
+[v _flager_a `Vuc ~T0 @X0 0 e ]
+"130 ../../source/h/BIOS_JLX1864G_139.h
+[; ;../../source/h/BIOS_JLX1864G_139.h: 130: extern void DISP_Ver(void);
+[v _DISP_Ver `(v ~T0 @X0 0 ef ]
+"5299 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5299:     struct {
+[s S247 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S247 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
+"5309
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5309:     struct {
+[s S248 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S248 . LC0 LC1 LC2 LC3 LC4 LC5 LC6 LC7 ]
+"5298
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5298: typedef union {
+[u S246 `S247 1 `S248 1 ]
+[n S246 . . . ]
+"5320
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5320: extern volatile LATCbits_t LATCbits __attribute__((address(0xF8B)));
+[v _LATCbits `VS246 ~T0 @X0 0 e@3979 ]
+"55 ../../source/h/BIOS_JLX1864G_139.h
+[; ;../../source/h/BIOS_JLX1864G_139.h: 55: extern void SYS_IniLcd(void);
+[v _SYS_IniLcd `(v ~T0 @X0 0 ef ]
+"5187 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5187:     struct {
+[s S244 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S244 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
+"5197
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5197:     struct {
+[s S245 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S245 . LB0 LB1 LB2 LB3 LB4 LB5 LB6 LB7 ]
+"5186
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5186: typedef union {
+[u S243 `S244 1 `S245 1 ]
+[n S243 . . . ]
+"5208
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5208: extern volatile LATBbits_t LATBbits __attribute__((address(0xF8A)));
+[v _LATBbits `VS243 ~T0 @X0 0 e@3978 ]
+"128 ../../source/h/BIOS_JLX1864G_139.h
+[; ;../../source/h/BIOS_JLX1864G_139.h: 128: extern void DISP_Sys100(void);
+[v _DISP_Sys100 `(v ~T0 @X0 0 ef ]
+"5085 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5085:     struct {
+[s S241 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S241 . LATA0 LATA1 LATA2 LATA3 . LATA5 LATA6 LATA7 ]
+"5095
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5095:     struct {
+[s S242 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S242 . LA0 LA1 LA2 LA3 . LA5 LA6 LA7 ]
+"5084
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5084: typedef union {
+[u S240 `S241 1 `S242 1 ]
+[n S240 . . . ]
+"5106
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5106: extern volatile LATAbits_t LATAbits __attribute__((address(0xF89)));
+[v _LATAbits `VS240 ~T0 @X0 0 e@3977 ]
+"22 ../../source/h/npwt_con_over.h
+[; ;../../source/h/npwt_con_over.h: 22: extern unsigned char record_ds_turn;
+[v _record_ds_turn `uc ~T0 @X0 0 e ]
+"23
+[; ;../../source/h/npwt_con_over.h: 23: extern unsigned short twenty_seconds;
+[v _twenty_seconds `us ~T0 @X0 0 e ]
+"18
+[; ;../../source/h/npwt_con_over.h: 18: extern unsigned short debug_air;
+[v _debug_air `us ~T0 @X0 0 e ]
+"4 ../../source/h/npwt_dis_ofile_lcd_02.h
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 4: extern unsigned char language;
+[v _language `uc ~T0 @X0 0 e ]
+"32
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 32: extern unsigned short bbbbb;
+[v _bbbbb `us ~T0 @X0 0 e ]
+"25 ../../source/h/npwt_con_ofile_load_00.h
+[; ;../../source/h/npwt_con_ofile_load_00.h: 25: extern float pwm_k1;
+[v _pwm_k1 `f ~T0 @X0 0 e ]
+"14 ../../source/h/npwt_con_over.h
+[; ;../../source/h/npwt_con_over.h: 14: extern unsigned short adc_ps00;
+[v _adc_ps00 `us ~T0 @X0 0 e ]
+"583 ../../source/npwt_dis_ifile_key_00.c
+[; ;../../source/npwt_dis_ifile_key_00.c: 583:   if (mod_seta_cnt == UI_WORKMODE_SELECT)
+[c E5109 0 1 2 3 4 5 .. ]
+[n E5109 EnumUiSelect UI_WORKMODE_SELECT UI_MODE_SET_HI UI_JIX_MODE_SET_LO UI_JIX_SET_HI_TIME UI_JIX_SET_LO_TIME UI_SET_PRESSURE  ]
+"19 ../../source/h/npwt_con_ofile_load_00.h
+[; ;../../source/h/npwt_con_ofile_load_00.h: 19: extern unsigned short cnt_cnta,cnt_cntaa;
+[v _cnt_cnta `us ~T0 @X0 0 e ]
+[v _cnt_cntaa `us ~T0 @X0 0 e ]
+"133 ../../source/h/BIOS_JLX1864G_139.h
+[; ;../../source/h/BIOS_JLX1864G_139.h: 133: extern void DISP_LANGUAGE(void);
+[v _DISP_LANGUAGE `(v ~T0 @X0 0 ef ]
+"134
+[; ;../../source/h/BIOS_JLX1864G_139.h: 134: extern void DISP_set_sanjiao(unsigned char x,unsigned y);
+[v _DISP_set_sanjiao `(v ~T0 @X0 0 ef2`uc`ui ]
+"135
+[; ;../../source/h/BIOS_JLX1864G_139.h: 135: extern void DISP_set_sanjiao0(unsigned char x,unsigned y);
+[v _DISP_set_sanjiao0 `(v ~T0 @X0 0 ef2`uc`ui ]
+"7 ../../source/h/Flash.h
+[; ;../../source/h/Flash.h: 7: extern void Flash_Erase(unsigned long address) ;
+[v _Flash_Erase `(v ~T0 @X0 0 ef1`ul ]
+"10
+[; ;../../source/h/Flash.h: 10: extern void Write_One_Word(unsigned long address,unsigned int data) ;
+[v _Write_One_Word `(v ~T0 @X0 0 ef2`ul`ui ]
+"52 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 52: __asm("RPOR0 equ 0EC6h");
+[; <" RPOR0 equ 0EC6h ;# ">
+"59
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 59: __asm("RPOR1 equ 0EC7h");
+[; <" RPOR1 equ 0EC7h ;# ">
+"66
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 66: __asm("RPOR2 equ 0EC8h");
+[; <" RPOR2 equ 0EC8h ;# ">
+"73
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 73: __asm("RPOR3 equ 0EC9h");
+[; <" RPOR3 equ 0EC9h ;# ">
+"80
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 80: __asm("RPOR4 equ 0ECAh");
+[; <" RPOR4 equ 0ECAh ;# ">
+"87
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 87: __asm("RPOR5 equ 0ECBh");
+[; <" RPOR5 equ 0ECBh ;# ">
+"94
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 94: __asm("RPOR6 equ 0ECCh");
+[; <" RPOR6 equ 0ECCh ;# ">
+"101
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 101: __asm("RPOR7 equ 0ECDh");
+[; <" RPOR7 equ 0ECDh ;# ">
+"108
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 108: __asm("RPOR8 equ 0ECEh");
+[; <" RPOR8 equ 0ECEh ;# ">
+"115
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 115: __asm("RPOR9 equ 0ECFh");
+[; <" RPOR9 equ 0ECFh ;# ">
+"122
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 122: __asm("RPOR10 equ 0ED0h");
+[; <" RPOR10 equ 0ED0h ;# ">
+"129
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 129: __asm("RPOR11 equ 0ED1h");
+[; <" RPOR11 equ 0ED1h ;# ">
+"136
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 136: __asm("RPOR12 equ 0ED2h");
+[; <" RPOR12 equ 0ED2h ;# ">
+"143
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 143: __asm("RPOR13 equ 0ED3h");
+[; <" RPOR13 equ 0ED3h ;# ">
+"150
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 150: __asm("RPOR14 equ 0ED4h");
+[; <" RPOR14 equ 0ED4h ;# ">
+"170
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 170: __asm("RPOR15 equ 0ED5h");
+[; <" RPOR15 equ 0ED5h ;# ">
+"190
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 190: __asm("RPOR16 equ 0ED6h");
+[; <" RPOR16 equ 0ED6h ;# ">
+"210
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 210: __asm("RPOR17 equ 0ED7h");
+[; <" RPOR17 equ 0ED7h ;# ">
+"217
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 217: __asm("RPOR18 equ 0ED8h");
+[; <" RPOR18 equ 0ED8h ;# ">
+"224
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 224: __asm("RPOR19 equ 0ED9h");
+[; <" RPOR19 equ 0ED9h ;# ">
+"231
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 231: __asm("RPOR20 equ 0EDAh");
+[; <" RPOR20 equ 0EDAh ;# ">
+"238
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 238: __asm("RPOR21 equ 0EDBh");
+[; <" RPOR21 equ 0EDBh ;# ">
+"245
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 245: __asm("RPOR22 equ 0EDCh");
+[; <" RPOR22 equ 0EDCh ;# ">
+"252
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 252: __asm("RPOR23 equ 0EDDh");
+[; <" RPOR23 equ 0EDDh ;# ">
+"259
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 259: __asm("RPOR24 equ 0EDEh");
+[; <" RPOR24 equ 0EDEh ;# ">
+"266
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 266: __asm("RPINR1 equ 0EE7h");
+[; <" RPINR1 equ 0EE7h ;# ">
+"273
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 273: __asm("RPINR2 equ 0EE8h");
+[; <" RPINR2 equ 0EE8h ;# ">
+"280
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 280: __asm("RPINR3 equ 0EE9h");
+[; <" RPINR3 equ 0EE9h ;# ">
+"287
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 287: __asm("RPINR4 equ 0EEAh");
+[; <" RPINR4 equ 0EEAh ;# ">
+"294
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 294: __asm("RPINR6 equ 0EECh");
+[; <" RPINR6 equ 0EECh ;# ">
+"301
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 301: __asm("RPINR7 equ 0EEDh");
+[; <" RPINR7 equ 0EEDh ;# ">
+"308
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 308: __asm("RPINR8 equ 0EEEh");
+[; <" RPINR8 equ 0EEEh ;# ">
+"315
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 315: __asm("RPINR12 equ 0EF2h");
+[; <" RPINR12 equ 0EF2h ;# ">
+"322
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 322: __asm("RPINR13 equ 0EF3h");
+[; <" RPINR13 equ 0EF3h ;# ">
+"329
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 329: __asm("RPINR16 equ 0EF6h");
+[; <" RPINR16 equ 0EF6h ;# ">
+"336
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 336: __asm("RPINR17 equ 0EF7h");
+[; <" RPINR17 equ 0EF7h ;# ">
+"343
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 343: __asm("RPINR21 equ 0EFBh");
+[; <" RPINR21 equ 0EFBh ;# ">
+"350
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 350: __asm("RPINR22 equ 0EFCh");
+[; <" RPINR22 equ 0EFCh ;# ">
+"357
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 357: __asm("RPINR23 equ 0EFDh");
+[; <" RPINR23 equ 0EFDh ;# ">
+"364
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 364: __asm("RPINR24 equ 0EFEh");
+[; <" RPINR24 equ 0EFEh ;# ">
+"371
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 371: __asm("PPSCON equ 0EFFh");
+[; <" PPSCON equ 0EFFh ;# ">
+"391
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 391: __asm("PADCFG1 equ 0F3Ch");
+[; <" PADCFG1 equ 0F3Ch ;# ">
+"423
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 423: __asm("REFOCON equ 0F3Dh");
+[; <" REFOCON equ 0F3Dh ;# ">
+"488
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 488: __asm("RTCCAL equ 0F3Eh");
+[; <" RTCCAL equ 0F3Eh ;# ">
+"558
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 558: __asm("RTCCFG equ 0F3Fh");
+[; <" RTCCFG equ 0F3Fh ;# ">
+"615
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 615: __asm("ODCON3 equ 0F40h");
+[; <" ODCON3 equ 0F40h ;# ">
+"641
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 641: __asm("ODCON2 equ 0F41h");
+[; <" ODCON2 equ 0F41h ;# ">
+"667
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 667: __asm("ODCON1 equ 0F42h");
+[; <" ODCON1 equ 0F42h ;# ">
+"693
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 693: __asm("ANCON0 equ 0F48h");
+[; <" ANCON0 equ 0F48h ;# ">
+"755
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 755: __asm("ANCON1 equ 0F49h");
+[; <" ANCON1 equ 0F49h ;# ">
+"827
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 827: __asm("DSWAKEL equ 0F4Ah");
+[; <" DSWAKEL equ 0F4Ah ;# ">
+"879
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 879: __asm("DSWAKEH equ 0F4Bh");
+[; <" DSWAKEH equ 0F4Bh ;# ">
+"899
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 899: __asm("DSCONL equ 0F4Ch");
+[; <" DSCONL equ 0F4Ch ;# ">
+"931
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 931: __asm("DSCONH equ 0F4Dh");
+[; <" DSCONH equ 0F4Dh ;# ">
+"964
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 964: __asm("DSGPR0 equ 0F4Eh");
+[; <" DSGPR0 equ 0F4Eh ;# ">
+"984
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 984: __asm("DSGPR1 equ 0F4Fh");
+[; <" DSGPR1 equ 0F4Fh ;# ">
+"1004
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1004: __asm("TCLKCON equ 0F52h");
+[; <" TCLKCON equ 0F52h ;# ">
+"1037
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1037: __asm("CVRCON equ 0F53h");
+[; <" CVRCON equ 0F53h ;# ">
+"1116
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1116: __asm("PMSTATL equ 0F54h");
+[; <" PMSTATL equ 0F54h ;# ">
+"1167
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1167: __asm("PMSTATH equ 0F55h");
+[; <" PMSTATH equ 0F55h ;# ">
+"1218
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1218: __asm("PMEL equ 0F56h");
+[; <" PMEL equ 0F56h ;# ">
+"1288
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1288: __asm("PMEH equ 0F57h");
+[; <" PMEH equ 0F57h ;# ">
+"1358
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1358: __asm("PMDIN2L equ 0F58h");
+[; <" PMDIN2L equ 0F58h ;# ">
+"1378
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1378: __asm("PMDIN2H equ 0F59h");
+[; <" PMDIN2H equ 0F59h ;# ">
+"1398
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1398: __asm("PMDOUT2L equ 0F5Ah");
+[; <" PMDOUT2L equ 0F5Ah ;# ">
+"1418
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1418: __asm("PMDOUT2H equ 0F5Bh");
+[; <" PMDOUT2H equ 0F5Bh ;# ">
+"1438
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1438: __asm("PMMODEL equ 0F5Ch");
+[; <" PMMODEL equ 0F5Ch ;# ">
+"1520
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1520: __asm("PMMODEH equ 0F5Dh");
+[; <" PMMODEH equ 0F5Dh ;# ">
+"1582
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1582: __asm("PMCONL equ 0F5Eh");
+[; <" PMCONL equ 0F5Eh ;# ">
+"1644
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1644: __asm("PMCONH equ 0F5Fh");
+[; <" PMCONH equ 0F5Fh ;# ">
+"1701
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1701: __asm("DMABCH equ 0F66h");
+[; <" DMABCH equ 0F66h ;# ">
+"1721
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1721: __asm("DMABCL equ 0F67h");
+[; <" DMABCL equ 0F67h ;# ">
+"1741
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1741: __asm("RXADDRH equ 0F68h");
+[; <" RXADDRH equ 0F68h ;# ">
+"1761
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1761: __asm("RXADDRL equ 0F69h");
+[; <" RXADDRL equ 0F69h ;# ">
+"1781
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1781: __asm("TXADDRH equ 0F6Ah");
+[; <" TXADDRH equ 0F6Ah ;# ">
+"1801
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1801: __asm("TXADDRL equ 0F6Bh");
+[; <" TXADDRL equ 0F6Bh ;# ">
+"1821
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1821: __asm("PMDIN1L equ 0F6Ch");
+[; <" PMDIN1L equ 0F6Ch ;# ">
+"1841
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1841: __asm("PMDIN1H equ 0F6Dh");
+[; <" PMDIN1H equ 0F6Dh ;# ">
+"1861
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1861: __asm("PMADDRL equ 0F6Eh");
+[; <" PMADDRL equ 0F6Eh ;# ">
+"1881
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1881: __asm("PMDOUT1L equ 0F6Eh");
+[; <" PMDOUT1L equ 0F6Eh ;# ">
+"1901
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1901: __asm("PMADDRH equ 0F6Fh");
+[; <" PMADDRH equ 0F6Fh ;# ">
+"1922
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1922: __asm("PMDOUT1H equ 0F6Fh");
+[; <" PMDOUT1H equ 0F6Fh ;# ">
+"1942
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1942: __asm("CMSTAT equ 0F70h");
+[; <" CMSTAT equ 0F70h ;# ">
+"1947
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1947: __asm("CMSTATUS equ 0F70h");
+[; <" CMSTATUS equ 0F70h ;# ">
+"1992
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 1992: __asm("SSP2CON2 equ 0F71h");
+[; <" SSP2CON2 equ 0F71h ;# ">
+"2170
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2170: __asm("SSP2CON1 equ 0F72h");
+[; <" SSP2CON1 equ 0F72h ;# ">
+"2290
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2290: __asm("SSP2STAT equ 0F73h");
+[; <" SSP2STAT equ 0F73h ;# ">
+"2592
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2592: __asm("SSP2ADD equ 0F74h");
+[; <" SSP2ADD equ 0F74h ;# ">
+"2597
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2597: __asm("SSP2MSK equ 0F74h");
+[; <" SSP2MSK equ 0F74h ;# ">
+"2830
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2830: __asm("SSP2BUF equ 0F75h");
+[; <" SSP2BUF equ 0F75h ;# ">
+"2850
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2850: __asm("T4CON equ 0F76h");
+[; <" T4CON equ 0F76h ;# ">
+"2921
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2921: __asm("PR4 equ 0F77h");
+[; <" PR4 equ 0F77h ;# ">
+"2941
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2941: __asm("TMR4 equ 0F78h");
+[; <" TMR4 equ 0F78h ;# ">
+"2961
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 2961: __asm("T3CON equ 0F79h");
+[; <" T3CON equ 0F79h ;# ">
+"3051
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3051: __asm("TMR3 equ 0F7Ah");
+[; <" TMR3 equ 0F7Ah ;# ">
+"3058
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3058: __asm("TMR3L equ 0F7Ah");
+[; <" TMR3L equ 0F7Ah ;# ">
+"3078
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3078: __asm("TMR3H equ 0F7Bh");
+[; <" TMR3H equ 0F7Bh ;# ">
+"3098
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3098: __asm("BAUDCON2 equ 0F7Ch");
+[; <" BAUDCON2 equ 0F7Ch ;# ">
+"3221
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3221: __asm("SPBRGH2 equ 0F7Dh");
+[; <" SPBRGH2 equ 0F7Dh ;# ">
+"3241
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3241: __asm("BAUDCON1 equ 0F7Eh");
+[; <" BAUDCON1 equ 0F7Eh ;# ">
+"3246
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3246: __asm("BAUDCON equ 0F7Eh");
+[; <" BAUDCON equ 0F7Eh ;# ">
+"3250
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3250: __asm("BAUDCTL equ 0F7Eh");
+[; <" BAUDCTL equ 0F7Eh ;# ">
+"3748
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3748: __asm("SPBRGH1 equ 0F7Fh");
+[; <" SPBRGH1 equ 0F7Fh ;# ">
+"3753
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3753: __asm("SPBRGH equ 0F7Fh");
+[; <" SPBRGH equ 0F7Fh ;# ">
+"3786
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 3786: __asm("PORTA equ 0F80h");
+[; <" PORTA equ 0F80h ;# ">
+"4039
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4039: __asm("PORTB equ 0F81h");
+[; <" PORTB equ 0F81h ;# ">
+"4294
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4294: __asm("PORTC equ 0F82h");
+[; <" PORTC equ 0F82h ;# ">
+"4529
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4529: __asm("PORTD equ 0F83h");
+[; <" PORTD equ 0F83h ;# ">
+"4700
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4700: __asm("PORTE equ 0F84h");
+[; <" PORTE equ 0F84h ;# ">
+"4873
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4873: __asm("HLVDCON equ 0F85h");
+[; <" HLVDCON equ 0F85h ;# ">
+"4943
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 4943: __asm("DMACON2 equ 0F86h");
+[; <" DMACON2 equ 0F86h ;# ">
+"5019
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5019: __asm("DMACON1 equ 0F88h");
+[; <" DMACON1 equ 0F88h ;# ">
+"5081
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5081: __asm("LATA equ 0F89h");
+[; <" LATA equ 0F89h ;# ">
+"5183
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5183: __asm("LATB equ 0F8Ah");
+[; <" LATB equ 0F8Ah ;# ">
+"5295
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5295: __asm("LATC equ 0F8Bh");
+[; <" LATC equ 0F8Bh ;# ">
+"5407
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5407: __asm("LATD equ 0F8Ch");
+[; <" LATD equ 0F8Ch ;# ">
+"5519
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5519: __asm("LATE equ 0F8Dh");
+[; <" LATE equ 0F8Dh ;# ">
+"5571
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5571: __asm("ALRMVALL equ 0F8Eh");
+[; <" ALRMVALL equ 0F8Eh ;# ">
+"5591
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5591: __asm("ALRMVALH equ 0F8Fh");
+[; <" ALRMVALH equ 0F8Fh ;# ">
+"5611
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5611: __asm("ALRMRPT equ 0F90h");
+[; <" ALRMRPT equ 0F90h ;# ">
+"5681
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5681: __asm("ALRMCFG equ 0F91h");
+[; <" ALRMCFG equ 0F91h ;# ">
+"5757
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5757: __asm("TRISA equ 0F92h");
+[; <" TRISA equ 0F92h ;# ">
+"5814
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5814: __asm("TRISB equ 0F93h");
+[; <" TRISB equ 0F93h ;# ">
+"5876
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5876: __asm("TRISC equ 0F94h");
+[; <" TRISC equ 0F94h ;# ">
+"5938
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 5938: __asm("TRISD equ 0F95h");
+[; <" TRISD equ 0F95h ;# ">
+"6000
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6000: __asm("TRISE equ 0F96h");
+[; <" TRISE equ 0F96h ;# ">
+"6032
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6032: __asm("T3GCON equ 0F97h");
+[; <" T3GCON equ 0F97h ;# ">
+"6112
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6112: __asm("RTCVALL equ 0F98h");
+[; <" RTCVALL equ 0F98h ;# ">
+"6132
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6132: __asm("RTCVALH equ 0F99h");
+[; <" RTCVALH equ 0F99h ;# ">
+"6202
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6202: __asm("T1GCON equ 0F9Ah");
+[; <" T1GCON equ 0F9Ah ;# ">
+"6282
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6282: __asm("OSCTUNE equ 0F9Bh");
+[; <" OSCTUNE equ 0F9Bh ;# ">
+"6352
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6352: __asm("RCSTA2 equ 0F9Ch");
+[; <" RCSTA2 equ 0F9Ch ;# ">
+"6488
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6488: __asm("PIE1 equ 0F9Dh");
+[; <" PIE1 equ 0F9Dh ;# ">
+"6580
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6580: __asm("PIR1 equ 0F9Eh");
+[; <" PIR1 equ 0F9Eh ;# ">
+"6672
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6672: __asm("IPR1 equ 0F9Fh");
+[; <" IPR1 equ 0F9Fh ;# ">
+"6764
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6764: __asm("PIE2 equ 0FA0h");
+[; <" PIE2 equ 0FA0h ;# ">
+"6839
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6839: __asm("PIR2 equ 0FA1h");
+[; <" PIR2 equ 0FA1h ;# ">
+"6914
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6914: __asm("IPR2 equ 0FA2h");
+[; <" IPR2 equ 0FA2h ;# ">
+"6989
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 6989: __asm("PIE3 equ 0FA3h");
+[; <" PIE3 equ 0FA3h ;# ">
+"7099
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7099: __asm("PIR3 equ 0FA4h");
+[; <" PIR3 equ 0FA4h ;# ">
+"7177
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7177: __asm("IPR3 equ 0FA5h");
+[; <" IPR3 equ 0FA5h ;# ">
+"7255
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7255: __asm("EECON1 equ 0FA6h");
+[; <" EECON1 equ 0FA6h ;# ">
+"7300
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7300: __asm("EECON2 equ 0FA7h");
+[; <" EECON2 equ 0FA7h ;# ">
+"7320
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7320: __asm("TXSTA2 equ 0FA8h");
+[; <" TXSTA2 equ 0FA8h ;# ">
+"7447
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7447: __asm("TXREG2 equ 0FA9h");
+[; <" TXREG2 equ 0FA9h ;# ">
+"7467
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7467: __asm("RCREG2 equ 0FAAh");
+[; <" RCREG2 equ 0FAAh ;# ">
+"7487
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7487: __asm("SPBRG2 equ 0FABh");
+[; <" SPBRG2 equ 0FABh ;# ">
+"7507
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7507: __asm("RCSTA1 equ 0FACh");
+[; <" RCSTA1 equ 0FACh ;# ">
+"7512
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7512: __asm("RCSTA equ 0FACh");
+[; <" RCSTA equ 0FACh ;# ">
+"7845
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7845: __asm("TXSTA1 equ 0FADh");
+[; <" TXSTA1 equ 0FADh ;# ">
+"7850
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 7850: __asm("TXSTA equ 0FADh");
+[; <" TXSTA equ 0FADh ;# ">
+"8133
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8133: __asm("TXREG1 equ 0FAEh");
+[; <" TXREG1 equ 0FAEh ;# ">
+"8138
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8138: __asm("TXREG equ 0FAEh");
+[; <" TXREG equ 0FAEh ;# ">
+"8171
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8171: __asm("RCREG1 equ 0FAFh");
+[; <" RCREG1 equ 0FAFh ;# ">
+"8176
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8176: __asm("RCREG equ 0FAFh");
+[; <" RCREG equ 0FAFh ;# ">
+"8209
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8209: __asm("SPBRG1 equ 0FB0h");
+[; <" SPBRG1 equ 0FB0h ;# ">
+"8214
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8214: __asm("SPBRG equ 0FB0h");
+[; <" SPBRG equ 0FB0h ;# ">
+"8247
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8247: __asm("CTMUICON equ 0FB1h");
+[; <" CTMUICON equ 0FB1h ;# ">
+"8323
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8323: __asm("CTMUCONL equ 0FB2h");
+[; <" CTMUCONL equ 0FB2h ;# ">
+"8401
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8401: __asm("CTMUCONH equ 0FB3h");
+[; <" CTMUCONH equ 0FB3h ;# ">
+"8458
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8458: __asm("CCP2CON equ 0FB4h");
+[; <" CCP2CON equ 0FB4h ;# ">
+"8463
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8463: __asm("ECCP2CON equ 0FB4h");
+[; <" ECCP2CON equ 0FB4h ;# ">
+"8650
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8650: __asm("CCPR2 equ 0FB5h");
+[; <" CCPR2 equ 0FB5h ;# ">
+"8657
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8657: __asm("CCPR2L equ 0FB5h");
+[; <" CCPR2L equ 0FB5h ;# ">
+"8677
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8677: __asm("CCPR2H equ 0FB6h");
+[; <" CCPR2H equ 0FB6h ;# ">
+"8697
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8697: __asm("ECCP2DEL equ 0FB7h");
+[; <" ECCP2DEL equ 0FB7h ;# ">
+"8702
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8702: __asm("PWM2CON equ 0FB7h");
+[; <" PWM2CON equ 0FB7h ;# ">
+"8835
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8835: __asm("ECCP2AS equ 0FB8h");
+[; <" ECCP2AS equ 0FB8h ;# ">
+"8917
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 8917: __asm("PSTR2CON equ 0FB9h");
+[; <" PSTR2CON equ 0FB9h ;# ">
+"9159
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9159: __asm("CCP1CON equ 0FBAh");
+[; <" CCP1CON equ 0FBAh ;# ">
+"9164
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9164: __asm("ECCP1CON equ 0FBAh");
+[; <" ECCP1CON equ 0FBAh ;# ">
+"9351
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9351: __asm("CCPR1 equ 0FBBh");
+[; <" CCPR1 equ 0FBBh ;# ">
+"9358
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9358: __asm("CCPR1L equ 0FBBh");
+[; <" CCPR1L equ 0FBBh ;# ">
+"9378
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9378: __asm("CCPR1H equ 0FBCh");
+[; <" CCPR1H equ 0FBCh ;# ">
+"9398
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9398: __asm("ECCP1DEL equ 0FBDh");
+[; <" ECCP1DEL equ 0FBDh ;# ">
+"9403
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9403: __asm("PWM1CON equ 0FBDh");
+[; <" PWM1CON equ 0FBDh ;# ">
+"9536
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9536: __asm("ECCP1AS equ 0FBEh");
+[; <" ECCP1AS equ 0FBEh ;# ">
+"9618
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9618: __asm("PSTR1CON equ 0FBFh");
+[; <" PSTR1CON equ 0FBFh ;# ">
+"9675
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9675: __asm("WDTCON equ 0FC0h");
+[; <" WDTCON equ 0FC0h ;# ">
+"9740
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9740: __asm("ADCON1 equ 0FC1h");
+[; <" ADCON1 equ 0FC1h ;# ">
+"9837
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9837: __asm("ADCON0 equ 0FC2h");
+[; <" ADCON0 equ 0FC2h ;# ">
+"9981
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9981: __asm("ADRES equ 0FC3h");
+[; <" ADRES equ 0FC3h ;# ">
+"9988
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 9988: __asm("ADRESL equ 0FC3h");
+[; <" ADRESL equ 0FC3h ;# ">
+"10008
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10008: __asm("ADRESH equ 0FC4h");
+[; <" ADRESH equ 0FC4h ;# ">
+"10028
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10028: __asm("SSP1CON2 equ 0FC5h");
+[; <" SSP1CON2 equ 0FC5h ;# ">
+"10033
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10033: __asm("SSPCON2 equ 0FC5h");
+[; <" SSPCON2 equ 0FC5h ;# ">
+"10382
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10382: __asm("SSP1CON1 equ 0FC6h");
+[; <" SSP1CON1 equ 0FC6h ;# ">
+"10387
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10387: __asm("SSPCON1 equ 0FC6h");
+[; <" SSPCON1 equ 0FC6h ;# ">
+"10620
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10620: __asm("SSP1STAT equ 0FC7h");
+[; <" SSP1STAT equ 0FC7h ;# ">
+"10625
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 10625: __asm("SSPSTAT equ 0FC7h");
+[; <" SSPSTAT equ 0FC7h ;# ">
+"11218
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11218: __asm("SSP1ADD equ 0FC8h");
+[; <" SSP1ADD equ 0FC8h ;# ">
+"11223
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11223: __asm("SSPADD equ 0FC8h");
+[; <" SSPADD equ 0FC8h ;# ">
+"11227
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11227: __asm("SSP1MSK equ 0FC8h");
+[; <" SSP1MSK equ 0FC8h ;# ">
+"11572
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11572: __asm("SSP1BUF equ 0FC9h");
+[; <" SSP1BUF equ 0FC9h ;# ">
+"11577
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11577: __asm("SSPBUF equ 0FC9h");
+[; <" SSPBUF equ 0FC9h ;# ">
+"11610
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11610: __asm("T2CON equ 0FCAh");
+[; <" T2CON equ 0FCAh ;# ">
+"11681
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11681: __asm("PR2 equ 0FCBh");
+[; <" PR2 equ 0FCBh ;# ">
+"11686
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11686: __asm("MEMCON equ 0FCBh");
+[; <" MEMCON equ 0FCBh ;# ">
+"11807
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11807: __asm("TMR2 equ 0FCCh");
+[; <" TMR2 equ 0FCCh ;# ">
+"11827
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11827: __asm("T1CON equ 0FCDh");
+[; <" T1CON equ 0FCDh ;# ">
+"11920
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11920: __asm("TMR1 equ 0FCEh");
+[; <" TMR1 equ 0FCEh ;# ">
+"11927
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11927: __asm("TMR1L equ 0FCEh");
+[; <" TMR1L equ 0FCEh ;# ">
+"11947
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11947: __asm("TMR1H equ 0FCFh");
+[; <" TMR1H equ 0FCFh ;# ">
+"11967
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 11967: __asm("RCON equ 0FD0h");
+[; <" RCON equ 0FD0h ;# ">
+"12115
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12115: __asm("CM2CON equ 0FD1h");
+[; <" CM2CON equ 0FD1h ;# ">
+"12120
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12120: __asm("CM2CON1 equ 0FD1h");
+[; <" CM2CON1 equ 0FD1h ;# ">
+"12367
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12367: __asm("CM1CON equ 0FD2h");
+[; <" CM1CON equ 0FD2h ;# ">
+"12372
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12372: __asm("CM1CON1 equ 0FD2h");
+[; <" CM1CON1 equ 0FD2h ;# ">
+"12647
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12647: __asm("OSCCON equ 0FD3h");
+[; <" OSCCON equ 0FD3h ;# ">
+"12719
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12719: __asm("T0CON equ 0FD5h");
+[; <" T0CON equ 0FD5h ;# ">
+"12789
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12789: __asm("TMR0 equ 0FD6h");
+[; <" TMR0 equ 0FD6h ;# ">
+"12796
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12796: __asm("TMR0L equ 0FD6h");
+[; <" TMR0L equ 0FD6h ;# ">
+"12816
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12816: __asm("TMR0H equ 0FD7h");
+[; <" TMR0H equ 0FD7h ;# ">
+"12836
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12836: __asm("STATUS equ 0FD8h");
+[; <" STATUS equ 0FD8h ;# ">
+"12907
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12907: __asm("FSR2 equ 0FD9h");
+[; <" FSR2 equ 0FD9h ;# ">
+"12914
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12914: __asm("FSR2L equ 0FD9h");
+[; <" FSR2L equ 0FD9h ;# ">
+"12934
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12934: __asm("FSR2H equ 0FDAh");
+[; <" FSR2H equ 0FDAh ;# ">
+"12941
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12941: __asm("PLUSW2 equ 0FDBh");
+[; <" PLUSW2 equ 0FDBh ;# ">
+"12961
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12961: __asm("PREINC2 equ 0FDCh");
+[; <" PREINC2 equ 0FDCh ;# ">
+"12981
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 12981: __asm("POSTDEC2 equ 0FDDh");
+[; <" POSTDEC2 equ 0FDDh ;# ">
+"13001
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13001: __asm("POSTINC2 equ 0FDEh");
+[; <" POSTINC2 equ 0FDEh ;# ">
+"13021
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13021: __asm("INDF2 equ 0FDFh");
+[; <" INDF2 equ 0FDFh ;# ">
+"13041
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13041: __asm("BSR equ 0FE0h");
+[; <" BSR equ 0FE0h ;# ">
+"13048
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13048: __asm("FSR1 equ 0FE1h");
+[; <" FSR1 equ 0FE1h ;# ">
+"13055
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13055: __asm("FSR1L equ 0FE1h");
+[; <" FSR1L equ 0FE1h ;# ">
+"13075
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13075: __asm("FSR1H equ 0FE2h");
+[; <" FSR1H equ 0FE2h ;# ">
+"13082
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13082: __asm("PLUSW1 equ 0FE3h");
+[; <" PLUSW1 equ 0FE3h ;# ">
+"13102
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13102: __asm("PREINC1 equ 0FE4h");
+[; <" PREINC1 equ 0FE4h ;# ">
+"13122
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13122: __asm("POSTDEC1 equ 0FE5h");
+[; <" POSTDEC1 equ 0FE5h ;# ">
+"13142
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13142: __asm("POSTINC1 equ 0FE6h");
+[; <" POSTINC1 equ 0FE6h ;# ">
+"13162
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13162: __asm("INDF1 equ 0FE7h");
+[; <" INDF1 equ 0FE7h ;# ">
+"13182
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13182: __asm("WREG equ 0FE8h");
+[; <" WREG equ 0FE8h ;# ">
+"13202
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13202: __asm("FSR0 equ 0FE9h");
+[; <" FSR0 equ 0FE9h ;# ">
+"13209
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13209: __asm("FSR0L equ 0FE9h");
+[; <" FSR0L equ 0FE9h ;# ">
+"13229
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13229: __asm("FSR0H equ 0FEAh");
+[; <" FSR0H equ 0FEAh ;# ">
+"13236
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13236: __asm("PLUSW0 equ 0FEBh");
+[; <" PLUSW0 equ 0FEBh ;# ">
+"13256
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13256: __asm("PREINC0 equ 0FECh");
+[; <" PREINC0 equ 0FECh ;# ">
+"13276
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13276: __asm("POSTDEC0 equ 0FEDh");
+[; <" POSTDEC0 equ 0FEDh ;# ">
+"13296
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13296: __asm("POSTINC0 equ 0FEEh");
+[; <" POSTINC0 equ 0FEEh ;# ">
+"13316
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13316: __asm("INDF0 equ 0FEFh");
+[; <" INDF0 equ 0FEFh ;# ">
+"13336
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13336: __asm("INTCON3 equ 0FF0h");
+[; <" INTCON3 equ 0FF0h ;# ">
+"13448
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13448: __asm("INTCON2 equ 0FF1h");
+[; <" INTCON2 equ 0FF1h ;# ">
+"13541
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13541: __asm("INTCON equ 0FF2h");
+[; <" INTCON equ 0FF2h ;# ">
+"13658
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13658: __asm("PROD equ 0FF3h");
+[; <" PROD equ 0FF3h ;# ">
+"13665
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13665: __asm("PRODL equ 0FF3h");
+[; <" PRODL equ 0FF3h ;# ">
+"13685
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13685: __asm("PRODH equ 0FF4h");
+[; <" PRODH equ 0FF4h ;# ">
+"13705
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13705: __asm("TABLAT equ 0FF5h");
+[; <" TABLAT equ 0FF5h ;# ">
+"13727
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13727: __asm("TBLPTR equ 0FF6h");
+[; <" TBLPTR equ 0FF6h ;# ">
+"13734
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13734: __asm("TBLPTRL equ 0FF6h");
+[; <" TBLPTRL equ 0FF6h ;# ">
+"13754
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13754: __asm("TBLPTRH equ 0FF7h");
+[; <" TBLPTRH equ 0FF7h ;# ">
+"13774
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13774: __asm("TBLPTRU equ 0FF8h");
+[; <" TBLPTRU equ 0FF8h ;# ">
+"13783
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13783: __asm("PCLAT equ 0FF9h");
+[; <" PCLAT equ 0FF9h ;# ">
+"13790
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13790: __asm("PC equ 0FF9h");
+[; <" PC equ 0FF9h ;# ">
+"13797
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13797: __asm("PCL equ 0FF9h");
+[; <" PCL equ 0FF9h ;# ">
+"13817
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13817: __asm("PCLATH equ 0FFAh");
+[; <" PCLATH equ 0FFAh ;# ">
+"13837
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13837: __asm("PCLATU equ 0FFBh");
+[; <" PCLATU equ 0FFBh ;# ">
+"13844
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13844: __asm("STKPTR equ 0FFCh");
+[; <" STKPTR equ 0FFCh ;# ">
+"13918
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13918: __asm("TOS equ 0FFDh");
+[; <" TOS equ 0FFDh ;# ">
+"13925
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13925: __asm("TOSL equ 0FFDh");
+[; <" TOSL equ 0FFDh ;# ">
+"13945
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13945: __asm("TOSH equ 0FFEh");
+[; <" TOSH equ 0FFEh ;# ">
+"13965
+[; ;/Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h: 13965: __asm("TOSU equ 0FFFh");
+[; <" TOSU equ 0FFFh ;# ">
+"13 ../../source/h/npwt_con_over.h
+[; ;../../source/h/npwt_con_over.h: 13: unsigned char oppump_flg;
+[v _oppump_flg `uc ~T0 @X0 1 e ]
+"29 ../../source/h/npwt_dis_ofile_lcd_02.h
+[; ;../../source/h/npwt_dis_ofile_lcd_02.h: 29: }show_lq_times;
+[v _show_lq_times `S684 ~T0 @X0 1 e ]
+"13 ../../source/npwt_dis_ifile_key_00.c
+[; ;../../source/npwt_dis_ifile_key_00.c: 13: unsigned short key_cnt;
+[v _key_cnt `us ~T0 @X0 1 e ]
+"14
+[; ;../../source/npwt_dis_ifile_key_00.c: 14: unsigned char key_key=0;
+[v _key_key `uc ~T0 @X0 1 e ]
+[i _key_key
+-> -> 0 `i `uc
+]
+"15
+[; ;../../source/npwt_dis_ifile_key_00.c: 15: unsigned char set_a00=0;
+[v _set_a00 `uc ~T0 @X0 1 e ]
+[i _set_a00
+-> -> 0 `i `uc
+]
+"16
+[; ;../../source/npwt_dis_ifile_key_00.c: 16: unsigned char key_port,key_port_bak,key_val,key_val_bak,key_flg,key_flg_l;
+[v _key_port `uc ~T0 @X0 1 e ]
+[v _key_port_bak `uc ~T0 @X0 1 e ]
+[v _key_val `uc ~T0 @X0 1 e ]
+[v _key_val_bak `uc ~T0 @X0 1 e ]
+[v _key_flg `uc ~T0 @X0 1 e ]
+[v _key_flg_l `uc ~T0 @X0 1 e ]
+"17
+[; ;../../source/npwt_dis_ifile_key_00.c: 17: unsigned char mod_main_a,mod_main_b,mod_main_baka,mod_jixa;
+[v _mod_main_a `uc ~T0 @X0 1 e ]
+[v _mod_main_b `uc ~T0 @X0 1 e ]
+[v _mod_main_baka `uc ~T0 @X0 1 e ]
+[v _mod_jixa `uc ~T0 @X0 1 e ]
+"20
+[; ;../../source/npwt_dis_ifile_key_00.c: 20: unsigned char remember_mod;
+[v _remember_mod `uc ~T0 @X0 1 e ]
+"21
+[; ;../../source/npwt_dis_ifile_key_00.c: 21: unsigned char mod_seta_cnt,mod_seta_wok;
+[v _mod_seta_cnt `uc ~T0 @X0 1 e ]
+[v _mod_seta_wok `uc ~T0 @X0 1 e ]
+"22
+[; ;../../source/npwt_dis_ifile_key_00.c: 22: unsigned short mod_seta_preh,mod_seta_preh_bak,mod_seta_prel,mod_seta_ont,mod_seta_oft;
+[v _mod_seta_preh `us ~T0 @X0 1 e ]
+[v _mod_seta_preh_bak `us ~T0 @X0 1 e ]
+[v _mod_seta_prel `us ~T0 @X0 1 e ]
+[v _mod_seta_ont `us ~T0 @X0 1 e ]
+[v _mod_seta_oft `us ~T0 @X0 1 e ]
+"23
+[; ;../../source/npwt_dis_ifile_key_00.c: 23: unsigned short mod_tim_cnta,mod_tim_cnta2;
+[v _mod_tim_cnta `us ~T0 @X0 1 e ]
+[v _mod_tim_cnta2 `us ~T0 @X0 1 e ]
+"25
+[; ;../../source/npwt_dis_ifile_key_00.c: 25: unsigned short back_led_cnt,lock_cnt;
+[v _back_led_cnt `us ~T0 @X0 1 e ]
+[v _lock_cnt `us ~T0 @X0 1 e ]
+"26
+[; ;../../source/npwt_dis_ifile_key_00.c: 26: unsigned char lock_flg;
+[v _lock_flg `uc ~T0 @X0 1 e ]
+"30
+[; ;../../source/npwt_dis_ifile_key_00.c: 30: unsigned short set_moda=0;
+[v _set_moda `us ~T0 @X0 1 e ]
+[i _set_moda
+-> -> 0 `i `us
+]
+"31
+[; ;../../source/npwt_dis_ifile_key_00.c: 31: float valueK = 0;
+[v _valueK `f ~T0 @X0 1 e ]
+[i _valueK
+-> -> 0 `i `f
+]
+"32
+[; ;../../source/npwt_dis_ifile_key_00.c: 32: unsigned short dataK1,dataK2,dataK3,dataK4,dataK;
+[v _dataK1 `us ~T0 @X0 1 e ]
+[v _dataK2 `us ~T0 @X0 1 e ]
+[v _dataK3 `us ~T0 @X0 1 e ]
+[v _dataK4 `us ~T0 @X0 1 e ]
+[v _dataK `us ~T0 @X0 1 e ]
+"34
+[; ;../../source/npwt_dis_ifile_key_00.c: 34: void KEY_Scan(void)
+[v _KEY_Scan `(v ~T0 @X0 1 ef ]
+"35
+[; ;../../source/npwt_dis_ifile_key_00.c: 35: {
+{
+[e :U _KEY_Scan ]
+[f ]
+"36
+[; ;../../source/npwt_dis_ifile_key_00.c: 36:  key_port = PORTB&0x3c;
+[e = _key_port -> & -> _PORTB `i -> 60 `i `uc ]
+"37
+[; ;../../source/npwt_dis_ifile_key_00.c: 37:  if (key_port == key_port_bak)
+[e $ ! == -> _key_port `i -> _key_port_bak `i 686  ]
+"38
+[; ;../../source/npwt_dis_ifile_key_00.c: 38:  {
+{
+"39
+[; ;../../source/npwt_dis_ifile_key_00.c: 39:   if (key_cnt++>=5)
+[e $ ! >= -> ++ _key_cnt -> -> 1 `i `us `ui -> -> 5 `i `ui 687  ]
+"40
+[; ;../../source/npwt_dis_ifile_key_00.c: 40:   {
+{
+"41
+[; ;../../source/npwt_dis_ifile_key_00.c: 41:    if (key_port == 0x3c)
+[e $ ! == -> _key_port `i -> 60 `i 688  ]
+"42
+[; ;../../source/npwt_dis_ifile_key_00.c: 42:    {
+{
+"44
+[; ;../../source/npwt_dis_ifile_key_00.c: 44:     key_flg_l=0;
+[e = _key_flg_l -> -> 0 `i `uc ]
+"45
+[; ;../../source/npwt_dis_ifile_key_00.c: 45:     key_key=0;
+[e = _key_key -> -> 0 `i `uc ]
+"46
+[; ;../../source/npwt_dis_ifile_key_00.c: 46:     if (err_codea||err_codeb)
+[e $ ! || != -> _err_codea `i -> 0 `i != -> _err_codeb `i -> 0 `i 689  ]
+"47
+[; ;../../source/npwt_dis_ifile_key_00.c: 47:     {
+{
+"49
+[; ;../../source/npwt_dis_ifile_key_00.c: 49:     }
+}
+[e $U 690  ]
+"50
+[; ;../../source/npwt_dis_ifile_key_00.c: 50:     else if (bat_lev==10)
+[e :U 689 ]
+[e $ ! == -> _bat_lev `i -> 10 `i 691  ]
+"51
+[; ;../../source/npwt_dis_ifile_key_00.c: 51:     {
+{
+"53
+[; ;../../source/npwt_dis_ifile_key_00.c: 53:     }
+}
+[e $U 692  ]
+"54
+[; ;../../source/npwt_dis_ifile_key_00.c: 54:     else if (back_led_cnt++>1500)
+[e :U 691 ]
+[e $ ! > -> ++ _back_led_cnt -> -> 1 `i `us `ui -> -> 1500 `i `ui 693  ]
+"55
+[; ;../../source/npwt_dis_ifile_key_00.c: 55:     {
+{
+"56
+[; ;../../source/npwt_dis_ifile_key_00.c: 56:      {LATC = LATC&0xbf;};
+{
+[e = _LATC -> & -> _LATC `i -> 191 `i `uc ]
+}
+"57
+[; ;../../source/npwt_dis_ifile_key_00.c: 57:     }
+}
+[e :U 693 ]
+[e :U 692 ]
+[e :U 690 ]
+"67
+[; ;../../source/npwt_dis_ifile_key_00.c: 67:     if (lock_cnt++>1500)
+[e $ ! > -> ++ _lock_cnt -> -> 1 `i `us `ui -> -> 1500 `i `ui 694  ]
+"68
+[; ;../../source/npwt_dis_ifile_key_00.c: 68:     {
+{
+"69
+[; ;../../source/npwt_dis_ifile_key_00.c: 69:      lock_flg=1;
+[e = _lock_flg -> -> 1 `i `uc ]
+"70
+[; ;../../source/npwt_dis_ifile_key_00.c: 70:     }
+}
+[e :U 694 ]
+"72
+[; ;../../source/npwt_dis_ifile_key_00.c: 72:     if (key_flg==0)
+[e $ ! == -> _key_flg `i -> 0 `i 695  ]
+"73
+[; ;../../source/npwt_dis_ifile_key_00.c: 73:     {
+{
+"74
+[; ;../../source/npwt_dis_ifile_key_00.c: 74:      if (key_val_bak)
+[e $ ! != -> _key_val_bak `i -> 0 `i 696  ]
+"75
+[; ;../../source/npwt_dis_ifile_key_00.c: 75:      {
+{
+"76
+[; ;../../source/npwt_dis_ifile_key_00.c: 76:       key_val = key_val_bak;
+[e = _key_val _key_val_bak ]
+"77
+[; ;../../source/npwt_dis_ifile_key_00.c: 77:       buz_flg1=0;
+[e = _buz_flg1 -> -> 0 `i `uc ]
+"79
+[; ;../../source/npwt_dis_ifile_key_00.c: 79:       key_val_bak = 0;
+[e = _key_val_bak -> -> 0 `i `uc ]
+"80
+[; ;../../source/npwt_dis_ifile_key_00.c: 80:      }
+}
+[e $U 697  ]
+"81
+[; ;../../source/npwt_dis_ifile_key_00.c: 81:      else
+[e :U 696 ]
+"82
+[; ;../../source/npwt_dis_ifile_key_00.c: 82:      {
+{
+"83
+[; ;../../source/npwt_dis_ifile_key_00.c: 83:       key_val = key_val_bak;
+[e = _key_val _key_val_bak ]
+"84
+[; ;../../source/npwt_dis_ifile_key_00.c: 84:       SPEAK_flg=0;
+[e = _SPEAK_flg -> -> 0 `i `uc ]
+"85
+[; ;../../source/npwt_dis_ifile_key_00.c: 85:      }
+}
+[e :U 697 ]
+"86
+[; ;../../source/npwt_dis_ifile_key_00.c: 86:     }
+}
+[e $U 698  ]
+"87
+[; ;../../source/npwt_dis_ifile_key_00.c: 87:     else
+[e :U 695 ]
+"88
+[; ;../../source/npwt_dis_ifile_key_00.c: 88:     {
+{
+"89
+[; ;../../source/npwt_dis_ifile_key_00.c: 89:      key_flg=0;
+[e = _key_flg -> -> 0 `i `uc ]
+"92
+[; ;../../source/npwt_dis_ifile_key_00.c: 92:      key_val = 0;
+[e = _key_val -> -> 0 `i `uc ]
+"93
+[; ;../../source/npwt_dis_ifile_key_00.c: 93:      key_val_bak=0;
+[e = _key_val_bak -> -> 0 `i `uc ]
+"94
+[; ;../../source/npwt_dis_ifile_key_00.c: 94:     }
+}
+[e :U 698 ]
+"95
+[; ;../../source/npwt_dis_ifile_key_00.c: 95:    }
+}
+[e $U 699  ]
+"96
+[; ;../../source/npwt_dis_ifile_key_00.c: 96:    else
+[e :U 688 ]
+"97
+[; ;../../source/npwt_dis_ifile_key_00.c: 97:    {
+{
+"98
+[; ;../../source/npwt_dis_ifile_key_00.c: 98:     lock_cnt=0;
+[e = _lock_cnt -> -> 0 `i `us ]
+"99
+[; ;../../source/npwt_dis_ifile_key_00.c: 99:     back_led_cnt=0;
+[e = _back_led_cnt -> -> 0 `i `us ]
+"100
+[; ;../../source/npwt_dis_ifile_key_00.c: 100:     SetBlk();
+[e ( _SetBlk ..  ]
+"101
+[; ;../../source/npwt_dis_ifile_key_00.c: 101:     key_val_bak = key_port;
+[e = _key_val_bak _key_port ]
+"102
+[; ;../../source/npwt_dis_ifile_key_00.c: 102:     if (key_val==0x24)
+[e $ ! == -> _key_val `i -> 36 `i 700  ]
+"103
+[; ;../../source/npwt_dis_ifile_key_00.c: 103:     {
+{
+"104
+[; ;../../source/npwt_dis_ifile_key_00.c: 104:      if (key_cnt>=5)
+[e $ ! >= -> _key_cnt `ui -> -> 5 `i `ui 701  ]
+"105
+[; ;../../source/npwt_dis_ifile_key_00.c: 105:      {
+{
+"106
+[; ;../../source/npwt_dis_ifile_key_00.c: 106:       key_cnt = 5;
+[e = _key_cnt -> -> 5 `i `us ]
+"107
+[; ;../../source/npwt_dis_ifile_key_00.c: 107:       key_val = key_val_bak+0x80;
+[e = _key_val -> + -> _key_val_bak `i -> 128 `i `uc ]
+"108
+[; ;../../source/npwt_dis_ifile_key_00.c: 108:       if (key_flg==1)
+[e $ ! == -> _key_flg `i -> 1 `i 702  ]
+"109
+[; ;../../source/npwt_dis_ifile_key_00.c: 109:       {
+{
+"110
+[; ;../../source/npwt_dis_ifile_key_00.c: 110:        return;
+[e $UE 685  ]
+"111
+[; ;../../source/npwt_dis_ifile_key_00.c: 111:       }
+}
+[e :U 702 ]
+"112
+[; ;../../source/npwt_dis_ifile_key_00.c: 112:       key_flg=1;
+[e = _key_flg -> -> 1 `i `uc ]
+"113
+[; ;../../source/npwt_dis_ifile_key_00.c: 113:       buz_flg1=0;
+[e = _buz_flg1 -> -> 0 `i `uc ]
+"114
+[; ;../../source/npwt_dis_ifile_key_00.c: 114:      }
+}
+[e :U 701 ]
+"116
+[; ;../../source/npwt_dis_ifile_key_00.c: 116:     }
+}
+[e $U 703  ]
+"117
+[; ;../../source/npwt_dis_ifile_key_00.c: 117:     else
+[e :U 700 ]
+"118
+[; ;../../source/npwt_dis_ifile_key_00.c: 118:     {
+{
+"119
+[; ;../../source/npwt_dis_ifile_key_00.c: 119:      if (key_cnt>=100)
+[e $ ! >= -> _key_cnt `ui -> -> 100 `i `ui 704  ]
+"120
+[; ;../../source/npwt_dis_ifile_key_00.c: 120:      {
+{
+"121
+[; ;../../source/npwt_dis_ifile_key_00.c: 121:       key_cnt = 100;
+[e = _key_cnt -> -> 100 `i `us ]
+"122
+[; ;../../source/npwt_dis_ifile_key_00.c: 122:       key_val = key_val_bak+0x80;
+[e = _key_val -> + -> _key_val_bak `i -> 128 `i `uc ]
+"123
+[; ;../../source/npwt_dis_ifile_key_00.c: 123:       if (key_flg==1)
+[e $ ! == -> _key_flg `i -> 1 `i 705  ]
+"124
+[; ;../../source/npwt_dis_ifile_key_00.c: 124:       {
+{
+"125
+[; ;../../source/npwt_dis_ifile_key_00.c: 125:        return;
+[e $UE 685  ]
+"126
+[; ;../../source/npwt_dis_ifile_key_00.c: 126:       }
+}
+[e :U 705 ]
+"127
+[; ;../../source/npwt_dis_ifile_key_00.c: 127:       key_flg=1;
+[e = _key_flg -> -> 1 `i `uc ]
+"128
+[; ;../../source/npwt_dis_ifile_key_00.c: 128:       buz_flg1=0;
+[e = _buz_flg1 -> -> 0 `i `uc ]
+"129
+[; ;../../source/npwt_dis_ifile_key_00.c: 129:      }
+}
+[e :U 704 ]
+"130
+[; ;../../source/npwt_dis_ifile_key_00.c: 130:     }
+}
+[e :U 703 ]
+"131
+[; ;../../source/npwt_dis_ifile_key_00.c: 131:    }
+}
+[e :U 699 ]
+"132
+[; ;../../source/npwt_dis_ifile_key_00.c: 132:   }
+}
+[e :U 687 ]
+"133
+[; ;../../source/npwt_dis_ifile_key_00.c: 133:  }
+}
+[e $U 706  ]
+"134
+[; ;../../source/npwt_dis_ifile_key_00.c: 134:  else
+[e :U 686 ]
+"135
+[; ;../../source/npwt_dis_ifile_key_00.c: 135:  {
+{
+"136
+[; ;../../source/npwt_dis_ifile_key_00.c: 136:   key_cnt=0;
+[e = _key_cnt -> -> 0 `i `us ]
+"137
+[; ;../../source/npwt_dis_ifile_key_00.c: 137:   key_val=0;
+[e = _key_val -> -> 0 `i `uc ]
+"138
+[; ;../../source/npwt_dis_ifile_key_00.c: 138:  }
+}
+[e :U 706 ]
+"139
+[; ;../../source/npwt_dis_ifile_key_00.c: 139:  if(key_val>0)
+[e $ ! > -> _key_val `i -> 0 `i 707  ]
+"140
+[; ;../../source/npwt_dis_ifile_key_00.c: 140:  {
+{
+"141
+[; ;../../source/npwt_dis_ifile_key_00.c: 141:         flg2015=0;
+[e = _flg2015 -> -> 0 `i `uc ]
+"142
+[; ;../../source/npwt_dis_ifile_key_00.c: 142:   if(mod_main_a==8)
+[e $ ! == -> _mod_main_a `i -> 8 `i 708  ]
+"143
+[; ;../../source/npwt_dis_ifile_key_00.c: 143:   {
+{
+"144
+[; ;../../source/npwt_dis_ifile_key_00.c: 144:    DISP_ClrZero(0,6,0,125);
+[e ( _DISP_ClrZero (4 , , , -> -> 0 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 125 `i `uc ]
+"145
+[; ;../../source/npwt_dis_ifile_key_00.c: 145:    all_flg=0;
+[e = _all_flg -> -> 0 `i `uc ]
+"146
+[; ;../../source/npwt_dis_ifile_key_00.c: 146:    flg2015=0;
+[e = _flg2015 -> -> 0 `i `uc ]
+"147
+[; ;../../source/npwt_dis_ifile_key_00.c: 147:    flg_disp=0;
+[e = _flg_disp -> -> 0 `i `uc ]
+"148
+[; ;../../source/npwt_dis_ifile_key_00.c: 148:    mod_main_a=remember_mod;
+[e = _mod_main_a _remember_mod ]
+"149
+[; ;../../source/npwt_dis_ifile_key_00.c: 149:    remember_mod=0;
+[e = _remember_mod -> -> 0 `i `uc ]
+"150
+[; ;../../source/npwt_dis_ifile_key_00.c: 150:    key_val=0;
+[e = _key_val -> -> 0 `i `uc ]
+"151
+[; ;../../source/npwt_dis_ifile_key_00.c: 151:    audio_flg=0;
+[e = _audio_flg -> -> 0 `i `uc ]
+"152
+[; ;../../source/npwt_dis_ifile_key_00.c: 152:    SetBlk();
+[e ( _SetBlk ..  ]
+"153
+[; ;../../source/npwt_dis_ifile_key_00.c: 153:   }
+}
+[e :U 708 ]
+"154
+[; ;../../source/npwt_dis_ifile_key_00.c: 154:   TK_TIME=0;
+[e = _TK_TIME -> -> 0 `i `us ]
+"155
+[; ;../../source/npwt_dis_ifile_key_00.c: 155:  }
+}
+[e :U 707 ]
+"156
+[; ;../../source/npwt_dis_ifile_key_00.c: 156:  key_port_bak = key_port;
+[e = _key_port_bak _key_port ]
+"157
+[; ;../../source/npwt_dis_ifile_key_00.c: 157: }
+[e :UE 685 ]
+}
+"159
+[; ;../../source/npwt_dis_ifile_key_00.c: 159: static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2 )
+[v _calc_delta_i `(us ~T0 @X0 1 sf2`us`us ]
+"160
+[; ;../../source/npwt_dis_ifile_key_00.c: 160: {
+{
+[e :U _calc_delta_i ]
+"159
+[; ;../../source/npwt_dis_ifile_key_00.c: 159: static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2 )
+[v _counts1 `us ~T0 @X0 1 r1 ]
+[v _counts2 `us ~T0 @X0 1 r2 ]
+"160
+[; ;../../source/npwt_dis_ifile_key_00.c: 160: {
+[f ]
+"161
+[; ;../../source/npwt_dis_ifile_key_00.c: 161:  unsigned short rst = 0;
+[v _rst `us ~T0 @X0 1 a ]
+[e = _rst -> -> 0 `i `us ]
+"162
+[; ;../../source/npwt_dis_ifile_key_00.c: 162:  if ( counts1 >= counts2 )
+[e $ ! >= -> _counts1 `ui -> _counts2 `ui 710  ]
+"163
+[; ;../../source/npwt_dis_ifile_key_00.c: 163:  {
+{
+"164
+[; ;../../source/npwt_dis_ifile_key_00.c: 164:   rst = (counts1 - counts2);
+[e = _rst -> - -> _counts1 `ui -> _counts2 `ui `us ]
+"165
+[; ;../../source/npwt_dis_ifile_key_00.c: 165:  }
+}
+[e :U 710 ]
+"166
+[; ;../../source/npwt_dis_ifile_key_00.c: 166:  if (rst<10)
+[e $ ! < -> _rst `ui -> -> 10 `i `ui 711  ]
+"167
+[; ;../../source/npwt_dis_ifile_key_00.c: 167:  {
+{
+"168
+[; ;../../source/npwt_dis_ifile_key_00.c: 168:   rst = 10;
+[e = _rst -> -> 10 `i `us ]
+"169
+[; ;../../source/npwt_dis_ifile_key_00.c: 169:  }
+}
+[e :U 711 ]
+"170
+[; ;../../source/npwt_dis_ifile_key_00.c: 170:  return rst;
+[e ) _rst ]
+[e $UE 709  ]
+"171
+[; ;../../source/npwt_dis_ifile_key_00.c: 171: }
+[e :UE 709 ]
+}
+"172
+[; ;../../source/npwt_dis_ifile_key_00.c: 172: unsigned char key_set_tim,key_start_tim;
+[v _key_set_tim `uc ~T0 @X0 1 e ]
+[v _key_start_tim `uc ~T0 @X0 1 e ]
+"174
+[; ;../../source/npwt_dis_ifile_key_00.c: 174: unsigned char tim5_flg=0;
+[v _tim5_flg `uc ~T0 @X0 1 e ]
+[i _tim5_flg
+-> -> 0 `i `uc
+]
+"178
+[; ;../../source/npwt_dis_ifile_key_00.c: 178: unsigned char ddfq=0;
+[v _ddfq `uc ~T0 @X0 1 e ]
+[i _ddfq
+-> -> 0 `i `uc
+]
+"179
+[; ;../../source/npwt_dis_ifile_key_00.c: 179: unsigned short ddfq_delay=0;
+[v _ddfq_delay `us ~T0 @X0 1 e ]
+[i _ddfq_delay
+-> -> 0 `i `us
+]
+"183
+[; ;../../source/npwt_dis_ifile_key_00.c: 183: void get_xx_delta(unsigned short press)
+[v _get_xx_delta `(v ~T0 @X0 1 ef1`us ]
+"184
+[; ;../../source/npwt_dis_ifile_key_00.c: 184: {
+{
+[e :U _get_xx_delta ]
+"183
+[; ;../../source/npwt_dis_ifile_key_00.c: 183: void get_xx_delta(unsigned short press)
+[v _press `us ~T0 @X0 1 r1 ]
+"184
+[; ;../../source/npwt_dis_ifile_key_00.c: 184: {
+[f ]
+"185
+[; ;../../source/npwt_dis_ifile_key_00.c: 185:  unsigned short delta = 8;
+[v _delta `us ~T0 @X0 1 a ]
+[e = _delta -> -> 8 `i `us ]
+"204
+[; ;../../source/npwt_dis_ifile_key_00.c: 204:  delta = press/10;
+[e = _delta -> / -> _press `ui -> -> 10 `i `ui `us ]
+"206
+[; ;../../source/npwt_dis_ifile_key_00.c: 206:  con_lo_delta = delta;
+[e = _con_lo_delta _delta ]
+"207
+[; ;../../source/npwt_dis_ifile_key_00.c: 207:  con_hi_delta = delta;
+[e = _con_hi_delta _delta ]
+"209
+[; ;../../source/npwt_dis_ifile_key_00.c: 209: }
+[e :UE 712 ]
+}
+"211
+[; ;../../source/npwt_dis_ifile_key_00.c: 211: static unsigned short key_mute_press_cnt = 0;
+[v _key_mute_press_cnt `us ~T0 @X0 1 s ]
+[i _key_mute_press_cnt
+-> -> 0 `i `us
+]
+"212
+[; ;../../source/npwt_dis_ifile_key_00.c: 212: void MODE_ProA(void)
+[v _MODE_ProA `(v ~T0 @X0 1 ef ]
+"213
+[; ;../../source/npwt_dis_ifile_key_00.c: 213: {
+{
+[e :U _MODE_ProA ]
+[f ]
+"214
+[; ;../../source/npwt_dis_ifile_key_00.c: 214:  switch (mod_main_a)
+[e $U 715  ]
+"215
+[; ;../../source/npwt_dis_ifile_key_00.c: 215:  {
+{
+"216
+[; ;../../source/npwt_dis_ifile_key_00.c: 216:  case 0:
+[e :U 716 ]
+"217
+[; ;../../source/npwt_dis_ifile_key_00.c: 217:  {
+{
+"218
+[; ;../../source/npwt_dis_ifile_key_00.c: 218:   err_codea=0;
+[e = _err_codea -> -> 0 `i `uc ]
+"219
+[; ;../../source/npwt_dis_ifile_key_00.c: 219:   mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"220
+[; ;../../source/npwt_dis_ifile_key_00.c: 220:   mod_jixa=0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"221
+[; ;../../source/npwt_dis_ifile_key_00.c: 221:   TK_TIME=0;
+[e = _TK_TIME -> -> 0 `i `us ]
+"225
+[; ;../../source/npwt_dis_ifile_key_00.c: 225:   if ((PORTB&0x3c)==0x1c && key_mute_press_cnt++ > 100 && key_mute_press_cnt < 10000)
+[e $ ! && && == & -> _PORTB `i -> 60 `i -> 28 `i > -> ++ _key_mute_press_cnt -> -> 1 `i `us `ui -> -> 100 `i `ui < -> _key_mute_press_cnt `ui -> -> 10000 `i `ui 717  ]
+"226
+[; ;../../source/npwt_dis_ifile_key_00.c: 226:   {
+{
+"227
+[; ;../../source/npwt_dis_ifile_key_00.c: 227:    key_mute_press_cnt = 10000;
+[e = _key_mute_press_cnt -> -> 10000 `i `us ]
+"228
+[; ;../../source/npwt_dis_ifile_key_00.c: 228:    if(key_silent_flag)
+[e $ ! != -> _key_silent_flag `ui -> -> 0 `i `ui 718  ]
+"229
+[; ;../../source/npwt_dis_ifile_key_00.c: 229:    {
+{
+"230
+[; ;../../source/npwt_dis_ifile_key_00.c: 230:     key_silent_flag = 0;
+[e = _key_silent_flag -> -> 0 `i `us ]
+"231
+[; ;../../source/npwt_dis_ifile_key_00.c: 231:    }
+}
+[e $U 719  ]
+"232
+[; ;../../source/npwt_dis_ifile_key_00.c: 232:    else
+[e :U 718 ]
+"233
+[; ;../../source/npwt_dis_ifile_key_00.c: 233:    {
+{
+"234
+[; ;../../source/npwt_dis_ifile_key_00.c: 234:     key_silent_flag = 0x8000;
+[e = _key_silent_flag -> -> 32768 `ui `us ]
+"235
+[; ;../../source/npwt_dis_ifile_key_00.c: 235:    }
+}
+[e :U 719 ]
+"236
+[; ;../../source/npwt_dis_ifile_key_00.c: 236:   }
+}
+[e :U 717 ]
+"237
+[; ;../../source/npwt_dis_ifile_key_00.c: 237:   if (mod_tim_cnta++>=(7000/20))
+[e $ ! >= -> ++ _mod_tim_cnta -> -> 1 `i `us `ui -> / -> 7000 `i -> 20 `i `ui 720  ]
+"238
+[; ;../../source/npwt_dis_ifile_key_00.c: 238:   {
+{
+"239
+[; ;../../source/npwt_dis_ifile_key_00.c: 239:    mod_main_a = 1;
+[e = _mod_main_a -> -> 1 `i `uc ]
+"240
+[; ;../../source/npwt_dis_ifile_key_00.c: 240:    mod_tim_cnta = 0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"241
+[; ;../../source/npwt_dis_ifile_key_00.c: 241:    key_val=key_val_bak=0;
+[e = _key_val = _key_val_bak -> -> 0 `i `uc ]
+"242
+[; ;../../source/npwt_dis_ifile_key_00.c: 242:    BUZ_KeyCls();
+[e ( _BUZ_KeyCls ..  ]
+"243
+[; ;../../source/npwt_dis_ifile_key_00.c: 243:    lock_cnt=0;
+[e = _lock_cnt -> -> 0 `i `us ]
+"244
+[; ;../../source/npwt_dis_ifile_key_00.c: 244:    lock_flg=0;
+[e = _lock_flg -> -> 0 `i `uc ]
+"245
+[; ;../../source/npwt_dis_ifile_key_00.c: 245:    key_flg_l=1;
+[e = _key_flg_l -> -> 1 `i `uc ]
+"246
+[; ;../../source/npwt_dis_ifile_key_00.c: 246:    DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"247
+[; ;../../source/npwt_dis_ifile_key_00.c: 247:    adc_zero=adc_ps0;
+[e = _adc_zero _adc_ps0 ]
+"248
+[; ;../../source/npwt_dis_ifile_key_00.c: 248:    scan_dusai_time = 0;
+[e = _scan_dusai_time -> -> -> 0 `i `l `ul ]
+"249
+[; ;../../source/npwt_dis_ifile_key_00.c: 249:    flager_a &=~0x10;
+[e =& _flager_a -> ~ -> 16 `i `Vuc ]
+"250
+[; ;../../source/npwt_dis_ifile_key_00.c: 250:   }
+}
+[e $U 721  ]
+"251
+[; ;../../source/npwt_dis_ifile_key_00.c: 251:   else if (mod_tim_cnta>=(5000/20))
+[e :U 720 ]
+[e $ ! >= -> _mod_tim_cnta `ui -> / -> 5000 `i -> 20 `i `ui 722  ]
+"252
+[; ;../../source/npwt_dis_ifile_key_00.c: 252:   {
+{
+"253
+[; ;../../source/npwt_dis_ifile_key_00.c: 253:    DISP_Ver();
+[e ( _DISP_Ver ..  ]
+"256
+[; ;../../source/npwt_dis_ifile_key_00.c: 256:   }
+}
+[e $U 723  ]
+"257
+[; ;../../source/npwt_dis_ifile_key_00.c: 257:   else if (mod_tim_cnta>50)
+[e :U 722 ]
+[e $ ! > -> _mod_tim_cnta `ui -> -> 50 `i `ui 724  ]
+"258
+[; ;../../source/npwt_dis_ifile_key_00.c: 258:   {
+{
+"259
+[; ;../../source/npwt_dis_ifile_key_00.c: 259:    if (mod_tim_cnta<52)
+[e $ ! < -> _mod_tim_cnta `ui -> -> 52 `i `ui 725  ]
+"260
+[; ;../../source/npwt_dis_ifile_key_00.c: 260:    {
+{
+"261
+[; ;../../source/npwt_dis_ifile_key_00.c: 261:     if (key_start_tim<30)
+[e $ ! < -> _key_start_tim `i -> 30 `i 726  ]
+"262
+[; ;../../source/npwt_dis_ifile_key_00.c: 262:     {
+{
+"263
+[; ;../../source/npwt_dis_ifile_key_00.c: 263:      mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"264
+[; ;../../source/npwt_dis_ifile_key_00.c: 264:      LATCbits.LATC2=0;
+[e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
+"265
+[; ;../../source/npwt_dis_ifile_key_00.c: 265:      key_start_tim=0;
+[e = _key_start_tim -> -> 0 `i `uc ]
+"266
+[; ;../../source/npwt_dis_ifile_key_00.c: 266:      return;
+[e $UE 713  ]
+"267
+[; ;../../source/npwt_dis_ifile_key_00.c: 267:     }
+}
+[e $U 727  ]
+"268
+[; ;../../source/npwt_dis_ifile_key_00.c: 268:     else
+[e :U 726 ]
+"269
+[; ;../../source/npwt_dis_ifile_key_00.c: 269:     {
+{
+"270
+[; ;../../source/npwt_dis_ifile_key_00.c: 270:      SYS_IniLcd();
+[e ( _SYS_IniLcd ..  ]
+"271
+[; ;../../source/npwt_dis_ifile_key_00.c: 271:      LATCbits.LATC2=1;
+[e = . . _LATCbits 0 2 -> -> 1 `i `uc ]
+"272
+[; ;../../source/npwt_dis_ifile_key_00.c: 272:      LATCbits.LATC3=1;
+[e = . . _LATCbits 0 3 -> -> 1 `i `uc ]
+"273
+[; ;../../source/npwt_dis_ifile_key_00.c: 273:      LATBbits.LATB1 = 1;
+[e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
+"274
+[; ;../../source/npwt_dis_ifile_key_00.c: 274:     }
+}
+[e :U 727 ]
+"275
+[; ;../../source/npwt_dis_ifile_key_00.c: 275:    }
+}
+[e :U 725 ]
+"276
+[; ;../../source/npwt_dis_ifile_key_00.c: 276:    SetBlk();
+[e ( _SetBlk ..  ]
+"277
+[; ;../../source/npwt_dis_ifile_key_00.c: 277:    DISP_Sys100();
+[e ( _DISP_Sys100 ..  ]
+"280
+[; ;../../source/npwt_dis_ifile_key_00.c: 280:    if (mod_tim_cnta>62)
+[e $ ! > -> _mod_tim_cnta `ui -> -> 62 `i `ui 728  ]
+"281
+[; ;../../source/npwt_dis_ifile_key_00.c: 281:    {
+{
+"282
+[; ;../../source/npwt_dis_ifile_key_00.c: 282:     LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"283
+[; ;../../source/npwt_dis_ifile_key_00.c: 283:    }
+}
+[e $U 729  ]
+"284
+[; ;../../source/npwt_dis_ifile_key_00.c: 284:    else
+[e :U 728 ]
+"285
+[; ;../../source/npwt_dis_ifile_key_00.c: 285:    {
+{
+"286
+[; ;../../source/npwt_dis_ifile_key_00.c: 286:     LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"287
+[; ;../../source/npwt_dis_ifile_key_00.c: 287:    }
+}
+[e :U 729 ]
+"288
+[; ;../../source/npwt_dis_ifile_key_00.c: 288:   }
+}
+[e $U 730  ]
+"289
+[; ;../../source/npwt_dis_ifile_key_00.c: 289:   else
+[e :U 724 ]
+"290
+[; ;../../source/npwt_dis_ifile_key_00.c: 290:   {
+{
+"291
+[; ;../../source/npwt_dis_ifile_key_00.c: 291:    if ((PORTB&0x3c)==0x38)
+[e $ ! == & -> _PORTB `i -> 60 `i -> 56 `i 731  ]
+"292
+[; ;../../source/npwt_dis_ifile_key_00.c: 292:    {
+{
+"293
+[; ;../../source/npwt_dis_ifile_key_00.c: 293:     key_start_tim++;
+[e ++ _key_start_tim -> -> 1 `i `uc ]
+"294
+[; ;../../source/npwt_dis_ifile_key_00.c: 294:    }
+}
+[e $U 732  ]
+"295
+[; ;../../source/npwt_dis_ifile_key_00.c: 295:    else
+[e :U 731 ]
+"296
+[; ;../../source/npwt_dis_ifile_key_00.c: 296:    {
+{
+"297
+[; ;../../source/npwt_dis_ifile_key_00.c: 297:     key_start_tim=0;
+[e = _key_start_tim -> -> 0 `i `uc ]
+"298
+[; ;../../source/npwt_dis_ifile_key_00.c: 298:    }
+}
+[e :U 732 ]
+"299
+[; ;../../source/npwt_dis_ifile_key_00.c: 299:   }
+}
+[e :U 730 ]
+[e :U 723 ]
+[e :U 721 ]
+"300
+[; ;../../source/npwt_dis_ifile_key_00.c: 300:   break;
+[e $U 714  ]
+"301
+[; ;../../source/npwt_dis_ifile_key_00.c: 301:  }
+}
+"302
+[; ;../../source/npwt_dis_ifile_key_00.c: 302:  case 1:
+[e :U 733 ]
+"303
+[; ;../../source/npwt_dis_ifile_key_00.c: 303:  {
+{
+"305
+[; ;../../source/npwt_dis_ifile_key_00.c: 305:   record_ds_turn=0;
+[e = _record_ds_turn -> -> 0 `i `uc ]
+"306
+[; ;../../source/npwt_dis_ifile_key_00.c: 306:         twenty_seconds=0;
+[e = _twenty_seconds -> -> 0 `i `us ]
+"308
+[; ;../../source/npwt_dis_ifile_key_00.c: 308:   LATBbits.LATB1 = 0;
+[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
+"309
+[; ;../../source/npwt_dis_ifile_key_00.c: 309:   mod_jixa = 0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"310
+[; ;../../source/npwt_dis_ifile_key_00.c: 310:   scan_dusai_time = 0;
+[e = _scan_dusai_time -> -> -> 0 `i `l `ul ]
+"311
+[; ;../../source/npwt_dis_ifile_key_00.c: 311:   flager_a &=~0x10;
+[e =& _flager_a -> ~ -> 16 `i `Vuc ]
+"313
+[; ;../../source/npwt_dis_ifile_key_00.c: 313:   debug_air=0;
+[e = _debug_air -> -> 0 `i `us ]
+"314
+[; ;../../source/npwt_dis_ifile_key_00.c: 314:   if (err_codea!=0)
+[e $ ! != -> _err_codea `i -> 0 `i 734  ]
+"315
+[; ;../../source/npwt_dis_ifile_key_00.c: 315:   {
+{
+"316
+[; ;../../source/npwt_dis_ifile_key_00.c: 316:    break;
+[e $U 714  ]
+"317
+[; ;../../source/npwt_dis_ifile_key_00.c: 317:   }
+}
+[e :U 734 ]
+"318
+[; ;../../source/npwt_dis_ifile_key_00.c: 318:   if (lock_flg==1)
+[e $ ! == -> _lock_flg `i -> 1 `i 735  ]
+"319
+[; ;../../source/npwt_dis_ifile_key_00.c: 319:   {
+{
+"320
+[; ;../../source/npwt_dis_ifile_key_00.c: 320:    break;
+[e $U 714  ]
+"321
+[; ;../../source/npwt_dis_ifile_key_00.c: 321:   }
+}
+[e :U 735 ]
+"322
+[; ;../../source/npwt_dis_ifile_key_00.c: 322:   if (key_val == 0x38 )
+[e $ ! == -> _key_val `i -> 56 `i 736  ]
+"323
+[; ;../../source/npwt_dis_ifile_key_00.c: 323:   {
+{
+"324
+[; ;../../source/npwt_dis_ifile_key_00.c: 324:    mod_main_a = mod_main_baka;
+[e = _mod_main_a _mod_main_baka ]
+"325
+[; ;../../source/npwt_dis_ifile_key_00.c: 325:   }
+}
+[e $U 737  ]
+"326
+[; ;../../source/npwt_dis_ifile_key_00.c: 326:   else if (key_val == 0x34)
+[e :U 736 ]
+[e $ ! == -> _key_val `i -> 52 `i 738  ]
+"327
+[; ;../../source/npwt_dis_ifile_key_00.c: 327:   {
+{
+"328
+[; ;../../source/npwt_dis_ifile_key_00.c: 328:    mod_main_a = 4;
+[e = _mod_main_a -> -> 4 `i `uc ]
+"329
+[; ;../../source/npwt_dis_ifile_key_00.c: 329:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"330
+[; ;../../source/npwt_dis_ifile_key_00.c: 330:   }
+}
+[e :U 738 ]
+[e :U 737 ]
+"331
+[; ;../../source/npwt_dis_ifile_key_00.c: 331:   break;
+[e $U 714  ]
+"332
+[; ;../../source/npwt_dis_ifile_key_00.c: 332:  }
+}
+"333
+[; ;../../source/npwt_dis_ifile_key_00.c: 333:  case 2:
+[e :U 739 ]
+"334
+[; ;../../source/npwt_dis_ifile_key_00.c: 334:  {
+{
+"337
+[; ;../../source/npwt_dis_ifile_key_00.c: 337:   mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"338
+[; ;../../source/npwt_dis_ifile_key_00.c: 338:   mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"339
+[; ;../../source/npwt_dis_ifile_key_00.c: 339:   mod_jixa=0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"340
+[; ;../../source/npwt_dis_ifile_key_00.c: 340:   mod_main_baka = 2;
+[e = _mod_main_baka -> -> 2 `i `uc ]
+"342
+[; ;../../source/npwt_dis_ifile_key_00.c: 342:   if (lock_flg==1)
+[e $ ! == -> _lock_flg `i -> 1 `i 740  ]
+"343
+[; ;../../source/npwt_dis_ifile_key_00.c: 343:   {
+{
+"344
+[; ;../../source/npwt_dis_ifile_key_00.c: 344:    break;
+[e $U 714  ]
+"345
+[; ;../../source/npwt_dis_ifile_key_00.c: 345:   }
+}
+[e :U 740 ]
+"347
+[; ;../../source/npwt_dis_ifile_key_00.c: 347:   if (key_val == 0x38 )
+[e $ ! == -> _key_val `i -> 56 `i 741  ]
+"348
+[; ;../../source/npwt_dis_ifile_key_00.c: 348:   {
+{
+"349
+[; ;../../source/npwt_dis_ifile_key_00.c: 349:    mod_main_a = 5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"350
+[; ;../../source/npwt_dis_ifile_key_00.c: 350:   }
+}
+[e $U 742  ]
+"351
+[; ;../../source/npwt_dis_ifile_key_00.c: 351:   else if (key_val == 0xb4)
+[e :U 741 ]
+[e $ ! == -> _key_val `i -> 180 `i 743  ]
+"352
+[; ;../../source/npwt_dis_ifile_key_00.c: 352:   {
+{
+"353
+[; ;../../source/npwt_dis_ifile_key_00.c: 353:    mod_main_a = 4;
+[e = _mod_main_a -> -> 4 `i `uc ]
+"354
+[; ;../../source/npwt_dis_ifile_key_00.c: 354:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"355
+[; ;../../source/npwt_dis_ifile_key_00.c: 355:    if (language)
+[e $ ! != -> _language `i -> 0 `i 744  ]
+"356
+[; ;../../source/npwt_dis_ifile_key_00.c: 356:    {
+{
+"358
+[; ;../../source/npwt_dis_ifile_key_00.c: 358:    }
+}
+[e $U 745  ]
+"359
+[; ;../../source/npwt_dis_ifile_key_00.c: 359:    else
+[e :U 744 ]
+"360
+[; ;../../source/npwt_dis_ifile_key_00.c: 360:    {
+{
+"362
+[; ;../../source/npwt_dis_ifile_key_00.c: 362:    }
+}
+[e :U 745 ]
+"363
+[; ;../../source/npwt_dis_ifile_key_00.c: 363:   }
+}
+[e :U 743 ]
+[e :U 742 ]
+"364
+[; ;../../source/npwt_dis_ifile_key_00.c: 364:   break;
+[e $U 714  ]
+"365
+[; ;../../source/npwt_dis_ifile_key_00.c: 365:  }
+}
+"366
+[; ;../../source/npwt_dis_ifile_key_00.c: 366:  case 3:
+[e :U 746 ]
+"367
+[; ;../../source/npwt_dis_ifile_key_00.c: 367:  {
+{
+"368
+[; ;../../source/npwt_dis_ifile_key_00.c: 368:   if (mod_jixa==0)
+[e $ ! == -> _mod_jixa `i -> 0 `i 747  ]
+"369
+[; ;../../source/npwt_dis_ifile_key_00.c: 369:   {
+{
+"370
+[; ;../../source/npwt_dis_ifile_key_00.c: 370:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"371
+[; ;../../source/npwt_dis_ifile_key_00.c: 371:    if (mod_tim_cnta++>=50)
+[e $ ! >= -> ++ _mod_tim_cnta -> -> 1 `i `us `ui -> -> 50 `i `ui 748  ]
+"372
+[; ;../../source/npwt_dis_ifile_key_00.c: 372:    {
+{
+"373
+[; ;../../source/npwt_dis_ifile_key_00.c: 373:     mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"374
+[; ;../../source/npwt_dis_ifile_key_00.c: 374:     mod_tim_cnta2++;
+[e ++ _mod_tim_cnta2 -> -> 1 `i `us ]
+"375
+[; ;../../source/npwt_dis_ifile_key_00.c: 375:     if (mod_tim_cnta2>=mod_seta_ont*60)
+[e $ ! >= -> _mod_tim_cnta2 `ui * -> _mod_seta_ont `ui -> -> 60 `i `ui 749  ]
+"376
+[; ;../../source/npwt_dis_ifile_key_00.c: 376:     {
+{
+"377
+[; ;../../source/npwt_dis_ifile_key_00.c: 377:      record_ds_turn=0;
+[e = _record_ds_turn -> -> 0 `i `uc ]
+"378
+[; ;../../source/npwt_dis_ifile_key_00.c: 378:      twenty_seconds=0;
+[e = _twenty_seconds -> -> 0 `i `us ]
+"383
+[; ;../../source/npwt_dis_ifile_key_00.c: 383:   record_ds_turn=0;
+[e = _record_ds_turn -> -> 0 `i `uc ]
+"384
+[; ;../../source/npwt_dis_ifile_key_00.c: 384:   flager_a &=~0x10;
+[e =& _flager_a -> ~ -> 16 `i `Vuc ]
+"386
+[; ;../../source/npwt_dis_ifile_key_00.c: 386:      bbbbb=0;
+[e = _bbbbb -> -> 0 `i `us ]
+"387
+[; ;../../source/npwt_dis_ifile_key_00.c: 387:      ddfq=1;
+[e = _ddfq -> -> 1 `i `uc ]
+"388
+[; ;../../source/npwt_dis_ifile_key_00.c: 388:      ddfq_delay=0;
+[e = _ddfq_delay -> -> 0 `i `us ]
+"389
+[; ;../../source/npwt_dis_ifile_key_00.c: 389:      mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"390
+[; ;../../source/npwt_dis_ifile_key_00.c: 390:      mod_jixa=1;
+[e = _mod_jixa -> -> 1 `i `uc ]
+"391
+[; ;../../source/npwt_dis_ifile_key_00.c: 391:     }
+}
+[e :U 749 ]
+"392
+[; ;../../source/npwt_dis_ifile_key_00.c: 392:    }
+}
+[e :U 748 ]
+"393
+[; ;../../source/npwt_dis_ifile_key_00.c: 393:   }
+}
+[e $U 750  ]
+"394
+[; ;../../source/npwt_dis_ifile_key_00.c: 394:   else if (mod_jixa==1)
+[e :U 747 ]
+[e $ ! == -> _mod_jixa `i -> 1 `i 751  ]
+"395
+[; ;../../source/npwt_dis_ifile_key_00.c: 395:   {
+{
+"396
+[; ;../../source/npwt_dis_ifile_key_00.c: 396:    mod_seta_preh=mod_seta_prel;
+[e = _mod_seta_preh _mod_seta_prel ]
+"398
+[; ;../../source/npwt_dis_ifile_key_00.c: 398:    if (adc_ps0>adc_zero)
+[e $ ! > -> _adc_ps0 `ui -> _adc_zero `ui 752  ]
+"399
+[; ;../../source/npwt_dis_ifile_key_00.c: 399:     pwm_k1 = (adc_ps0-adc_zero)/valueK;
+[e = _pwm_k1 / -> - -> _adc_ps0 `ui -> _adc_zero `ui `f _valueK ]
+[e $U 753  ]
+"400
+[; ;../../source/npwt_dis_ifile_key_00.c: 400:    else
+[e :U 752 ]
+"401
+[; ;../../source/npwt_dis_ifile_key_00.c: 401:     pwm_k1=0;
+[e = _pwm_k1 -> -> 0 `i `f ]
+[e :U 753 ]
+"403
+[; ;../../source/npwt_dis_ifile_key_00.c: 403:    adc_ps00 = (unsigned int)pwm_k1;
+[e = _adc_ps00 -> -> _pwm_k1 `ui `us ]
+"405
+[; ;../../source/npwt_dis_ifile_key_00.c: 405:    if(ddfq==1)
+[e $ ! == -> _ddfq `i -> 1 `i 754  ]
+"406
+[; ;../../source/npwt_dis_ifile_key_00.c: 406:    {
+{
+"407
+[; ;../../source/npwt_dis_ifile_key_00.c: 407:     if(ddfq_delay++ >= 12)
+[e $ ! >= -> ++ _ddfq_delay -> -> 1 `i `us `ui -> -> 12 `i `ui 755  ]
+"408
+[; ;../../source/npwt_dis_ifile_key_00.c: 408:     {
+{
+"409
+[; ;../../source/npwt_dis_ifile_key_00.c: 409:      LATBbits.LATB1=0;
+[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
+"410
+[; ;../../source/npwt_dis_ifile_key_00.c: 410:      if(ddfq_delay >=75)
+[e $ ! >= -> _ddfq_delay `ui -> -> 75 `i `ui 756  ]
+"411
+[; ;../../source/npwt_dis_ifile_key_00.c: 411:      {
+{
+"412
+[; ;../../source/npwt_dis_ifile_key_00.c: 412:       get_xx_delta(mod_seta_preh);
+[e ( _get_xx_delta (1 _mod_seta_preh ]
+"413
+[; ;../../source/npwt_dis_ifile_key_00.c: 413:       if(adc_ps00 <= (mod_seta_preh+con_hi_delta))
+[e $ ! <= -> _adc_ps00 `ui + -> _mod_seta_preh `ui -> _con_hi_delta `ui 757  ]
+"414
+[; ;../../source/npwt_dis_ifile_key_00.c: 414:       {
+{
+"415
+[; ;../../source/npwt_dis_ifile_key_00.c: 415:        ddfq=2;
+[e = _ddfq -> -> 2 `i `uc ]
+"416
+[; ;../../source/npwt_dis_ifile_key_00.c: 416:        mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"417
+[; ;../../source/npwt_dis_ifile_key_00.c: 417:       }
+}
+[e :U 757 ]
+"418
+[; ;../../source/npwt_dis_ifile_key_00.c: 418:       ddfq_delay=0;
+[e = _ddfq_delay -> -> 0 `i `us ]
+"419
+[; ;../../source/npwt_dis_ifile_key_00.c: 419:      }
+}
+[e :U 756 ]
+"420
+[; ;../../source/npwt_dis_ifile_key_00.c: 420:     }
+}
+[e $U 758  ]
+"421
+[; ;../../source/npwt_dis_ifile_key_00.c: 421:     else
+[e :U 755 ]
+"422
+[; ;../../source/npwt_dis_ifile_key_00.c: 422:      LATBbits.LATB1=1;
+[e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
+[e :U 758 ]
+"426
+[; ;../../source/npwt_dis_ifile_key_00.c: 426:   record_ds_turn=0;
+[e = _record_ds_turn -> -> 0 `i `uc ]
+"427
+[; ;../../source/npwt_dis_ifile_key_00.c: 427:   flager_a &=~0x10;
+[e =& _flager_a -> ~ -> 16 `i `Vuc ]
+"428
+[; ;../../source/npwt_dis_ifile_key_00.c: 428:    }
+}
+[e $U 759  ]
+"429
+[; ;../../source/npwt_dis_ifile_key_00.c: 429:    else
+[e :U 754 ]
+"430
+[; ;../../source/npwt_dis_ifile_key_00.c: 430:    {
+{
+"431
+[; ;../../source/npwt_dis_ifile_key_00.c: 431:     if(ddfq_delay++ >= 499)
+[e $ ! >= -> ++ _ddfq_delay -> -> 1 `i `us `ui -> -> 499 `i `ui 760  ]
+"432
+[; ;../../source/npwt_dis_ifile_key_00.c: 432:     {
+{
+"433
+[; ;../../source/npwt_dis_ifile_key_00.c: 433:      ddfq=0;
+[e = _ddfq -> -> 0 `i `uc ]
+"434
+[; ;../../source/npwt_dis_ifile_key_00.c: 434:      if (mod_tim_cnta++>=50)
+[e $ ! >= -> ++ _mod_tim_cnta -> -> 1 `i `us `ui -> -> 50 `i `ui 761  ]
+"435
+[; ;../../source/npwt_dis_ifile_key_00.c: 435:      {
+{
+"436
+[; ;../../source/npwt_dis_ifile_key_00.c: 436:       mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"437
+[; ;../../source/npwt_dis_ifile_key_00.c: 437:       mod_tim_cnta2++;
+[e ++ _mod_tim_cnta2 -> -> 1 `i `us ]
+"438
+[; ;../../source/npwt_dis_ifile_key_00.c: 438:       if (mod_tim_cnta2>=mod_seta_oft*60)
+[e $ ! >= -> _mod_tim_cnta2 `ui * -> _mod_seta_oft `ui -> -> 60 `i `ui 762  ]
+"439
+[; ;../../source/npwt_dis_ifile_key_00.c: 439:       {
+{
+"440
+[; ;../../source/npwt_dis_ifile_key_00.c: 440:        record_ds_turn=0;
+[e = _record_ds_turn -> -> 0 `i `uc ]
+"441
+[; ;../../source/npwt_dis_ifile_key_00.c: 441:        twenty_seconds=0;
+[e = _twenty_seconds -> -> 0 `i `us ]
+"442
+[; ;../../source/npwt_dis_ifile_key_00.c: 442:        mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"443
+[; ;../../source/npwt_dis_ifile_key_00.c: 443:        mod_jixa=0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"444
+[; ;../../source/npwt_dis_ifile_key_00.c: 444:        mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"445
+[; ;../../source/npwt_dis_ifile_key_00.c: 445:       }
+}
+[e :U 762 ]
+"446
+[; ;../../source/npwt_dis_ifile_key_00.c: 446:      }
+}
+[e :U 761 ]
+"447
+[; ;../../source/npwt_dis_ifile_key_00.c: 447:      ddfq_delay=499;
+[e = _ddfq_delay -> -> 499 `i `us ]
+"448
+[; ;../../source/npwt_dis_ifile_key_00.c: 448:     }
+}
+[e :U 760 ]
+"449
+[; ;../../source/npwt_dis_ifile_key_00.c: 449:    }
+}
+[e :U 759 ]
+"450
+[; ;../../source/npwt_dis_ifile_key_00.c: 450:   }
+}
+[e :U 751 ]
+[e :U 750 ]
+"451
+[; ;../../source/npwt_dis_ifile_key_00.c: 451:   mod_main_baka = 3;
+[e = _mod_main_baka -> -> 3 `i `uc ]
+"453
+[; ;../../source/npwt_dis_ifile_key_00.c: 453:   if (lock_flg==1)
+[e $ ! == -> _lock_flg `i -> 1 `i 763  ]
+"454
+[; ;../../source/npwt_dis_ifile_key_00.c: 454:   {
+{
+"455
+[; ;../../source/npwt_dis_ifile_key_00.c: 455:    break;
+[e $U 714  ]
+"456
+[; ;../../source/npwt_dis_ifile_key_00.c: 456:   }
+}
+[e :U 763 ]
+"458
+[; ;../../source/npwt_dis_ifile_key_00.c: 458:   if (key_val == 0x38 )
+[e $ ! == -> _key_val `i -> 56 `i 764  ]
+"459
+[; ;../../source/npwt_dis_ifile_key_00.c: 459:   {
+{
+"461
+[; ;../../source/npwt_dis_ifile_key_00.c: 461:    mod_jixa=0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"462
+[; ;../../source/npwt_dis_ifile_key_00.c: 462:    mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"463
+[; ;../../source/npwt_dis_ifile_key_00.c: 463:    mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"465
+[; ;../../source/npwt_dis_ifile_key_00.c: 465:    mod_main_a = 5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"466
+[; ;../../source/npwt_dis_ifile_key_00.c: 466:   }
+}
+[e $U 765  ]
+"467
+[; ;../../source/npwt_dis_ifile_key_00.c: 467:   else if (key_val == 0xb4)
+[e :U 764 ]
+[e $ ! == -> _key_val `i -> 180 `i 766  ]
+"468
+[; ;../../source/npwt_dis_ifile_key_00.c: 468:   {
+{
+"469
+[; ;../../source/npwt_dis_ifile_key_00.c: 469:    mod_main_a = 4;
+[e = _mod_main_a -> -> 4 `i `uc ]
+"470
+[; ;../../source/npwt_dis_ifile_key_00.c: 470:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"472
+[; ;../../source/npwt_dis_ifile_key_00.c: 472:    if (language)
+[e $ ! != -> _language `i -> 0 `i 767  ]
+"473
+[; ;../../source/npwt_dis_ifile_key_00.c: 473:    {
+{
+"475
+[; ;../../source/npwt_dis_ifile_key_00.c: 475:    }
+}
+[e $U 768  ]
+"476
+[; ;../../source/npwt_dis_ifile_key_00.c: 476:    else
+[e :U 767 ]
+"477
+[; ;../../source/npwt_dis_ifile_key_00.c: 477:    {
+{
+"479
+[; ;../../source/npwt_dis_ifile_key_00.c: 479:    }
+}
+[e :U 768 ]
+"480
+[; ;../../source/npwt_dis_ifile_key_00.c: 480:   }
+}
+[e :U 766 ]
+[e :U 765 ]
+"481
+[; ;../../source/npwt_dis_ifile_key_00.c: 481:   break;
+[e $U 714  ]
+"482
+[; ;../../source/npwt_dis_ifile_key_00.c: 482:  }
+}
+"483
+[; ;../../source/npwt_dis_ifile_key_00.c: 483:  case 10:
+[e :U 769 ]
+"484
+[; ;../../source/npwt_dis_ifile_key_00.c: 484:  {
+{
+"485
+[; ;../../source/npwt_dis_ifile_key_00.c: 485:   if (mod_jixa==0)
+[e $ ! == -> _mod_jixa `i -> 0 `i 770  ]
+"486
+[; ;../../source/npwt_dis_ifile_key_00.c: 486:   {
+{
+"487
+[; ;../../source/npwt_dis_ifile_key_00.c: 487:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"488
+[; ;../../source/npwt_dis_ifile_key_00.c: 488:    if (mod_tim_cnta++>=50)
+[e $ ! >= -> ++ _mod_tim_cnta -> -> 1 `i `us `ui -> -> 50 `i `ui 771  ]
+"489
+[; ;../../source/npwt_dis_ifile_key_00.c: 489:    {
+{
+"490
+[; ;../../source/npwt_dis_ifile_key_00.c: 490:     mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"491
+[; ;../../source/npwt_dis_ifile_key_00.c: 491:     mod_tim_cnta2++;
+[e ++ _mod_tim_cnta2 -> -> 1 `i `us ]
+"492
+[; ;../../source/npwt_dis_ifile_key_00.c: 492:     if (mod_tim_cnta2>=mod_seta_ont*60)
+[e $ ! >= -> _mod_tim_cnta2 `ui * -> _mod_seta_ont `ui -> -> 60 `i `ui 772  ]
+"493
+[; ;../../source/npwt_dis_ifile_key_00.c: 493:     {
+{
+"494
+[; ;../../source/npwt_dis_ifile_key_00.c: 494:      mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"495
+[; ;../../source/npwt_dis_ifile_key_00.c: 495:      mod_jixa=1;
+[e = _mod_jixa -> -> 1 `i `uc ]
+"496
+[; ;../../source/npwt_dis_ifile_key_00.c: 496:     }
+}
+[e :U 772 ]
+"497
+[; ;../../source/npwt_dis_ifile_key_00.c: 497:    }
+}
+[e :U 771 ]
+"498
+[; ;../../source/npwt_dis_ifile_key_00.c: 498:   }
+}
+[e $U 773  ]
+"499
+[; ;../../source/npwt_dis_ifile_key_00.c: 499:   else if (mod_jixa==1)
+[e :U 770 ]
+[e $ ! == -> _mod_jixa `i -> 1 `i 774  ]
+"500
+[; ;../../source/npwt_dis_ifile_key_00.c: 500:   {
+{
+"502
+[; ;../../source/npwt_dis_ifile_key_00.c: 502:    mod_seta_preh=mod_seta_prel;
+[e = _mod_seta_preh _mod_seta_prel ]
+"504
+[; ;../../source/npwt_dis_ifile_key_00.c: 504:    if (mod_tim_cnta++>=50)
+[e $ ! >= -> ++ _mod_tim_cnta -> -> 1 `i `us `ui -> -> 50 `i `ui 775  ]
+"505
+[; ;../../source/npwt_dis_ifile_key_00.c: 505:    {
+{
+"506
+[; ;../../source/npwt_dis_ifile_key_00.c: 506:     mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"507
+[; ;../../source/npwt_dis_ifile_key_00.c: 507:     mod_tim_cnta2++;
+[e ++ _mod_tim_cnta2 -> -> 1 `i `us ]
+"508
+[; ;../../source/npwt_dis_ifile_key_00.c: 508:     if (mod_tim_cnta2>=mod_seta_oft*60)
+[e $ ! >= -> _mod_tim_cnta2 `ui * -> _mod_seta_oft `ui -> -> 60 `i `ui 776  ]
+"509
+[; ;../../source/npwt_dis_ifile_key_00.c: 509:     {
+{
+"510
+[; ;../../source/npwt_dis_ifile_key_00.c: 510:      mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"511
+[; ;../../source/npwt_dis_ifile_key_00.c: 511:      mod_jixa=0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"512
+[; ;../../source/npwt_dis_ifile_key_00.c: 512:      mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"513
+[; ;../../source/npwt_dis_ifile_key_00.c: 513:     }
+}
+[e :U 776 ]
+"514
+[; ;../../source/npwt_dis_ifile_key_00.c: 514:    }
+}
+[e :U 775 ]
+"515
+[; ;../../source/npwt_dis_ifile_key_00.c: 515:   }
+}
+[e :U 774 ]
+[e :U 773 ]
+"516
+[; ;../../source/npwt_dis_ifile_key_00.c: 516:   mod_main_baka = 10;
+[e = _mod_main_baka -> -> 10 `i `uc ]
+"518
+[; ;../../source/npwt_dis_ifile_key_00.c: 518:   if (lock_flg==1)
+[e $ ! == -> _lock_flg `i -> 1 `i 777  ]
+"519
+[; ;../../source/npwt_dis_ifile_key_00.c: 519:   {
+{
+"520
+[; ;../../source/npwt_dis_ifile_key_00.c: 520:    break;
+[e $U 714  ]
+"521
+[; ;../../source/npwt_dis_ifile_key_00.c: 521:   }
+}
+[e :U 777 ]
+"523
+[; ;../../source/npwt_dis_ifile_key_00.c: 523:   if (mod_main_b==4)
+[e $ ! == -> _mod_main_b `i -> 4 `i 778  ]
+"524
+[; ;../../source/npwt_dis_ifile_key_00.c: 524:   {
+{
+"525
+[; ;../../source/npwt_dis_ifile_key_00.c: 525:    break;
+[e $U 714  ]
+"526
+[; ;../../source/npwt_dis_ifile_key_00.c: 526:   }
+}
+[e :U 778 ]
+"527
+[; ;../../source/npwt_dis_ifile_key_00.c: 527:   if (key_val == 0x38 )
+[e $ ! == -> _key_val `i -> 56 `i 779  ]
+"528
+[; ;../../source/npwt_dis_ifile_key_00.c: 528:   {
+{
+"529
+[; ;../../source/npwt_dis_ifile_key_00.c: 529:    mod_main_a = 5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"530
+[; ;../../source/npwt_dis_ifile_key_00.c: 530:   }
+}
+[e $U 780  ]
+"531
+[; ;../../source/npwt_dis_ifile_key_00.c: 531:   else if (key_val == 0xb4)
+[e :U 779 ]
+[e $ ! == -> _key_val `i -> 180 `i 781  ]
+"532
+[; ;../../source/npwt_dis_ifile_key_00.c: 532:   {
+{
+"533
+[; ;../../source/npwt_dis_ifile_key_00.c: 533:    mod_main_a = 4;
+[e = _mod_main_a -> -> 4 `i `uc ]
+"534
+[; ;../../source/npwt_dis_ifile_key_00.c: 534:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"535
+[; ;../../source/npwt_dis_ifile_key_00.c: 535:   }
+}
+[e :U 781 ]
+[e :U 780 ]
+"536
+[; ;../../source/npwt_dis_ifile_key_00.c: 536:   break;
+[e $U 714  ]
+"537
+[; ;../../source/npwt_dis_ifile_key_00.c: 537:  }
+}
+"538
+[; ;../../source/npwt_dis_ifile_key_00.c: 538:  case 5:
+[e :U 782 ]
+"539
+[; ;../../source/npwt_dis_ifile_key_00.c: 539:  {
+{
+"540
+[; ;../../source/npwt_dis_ifile_key_00.c: 540:   record_ds_turn=0;
+[e = _record_ds_turn -> -> 0 `i `uc ]
+"541
+[; ;../../source/npwt_dis_ifile_key_00.c: 541:         twenty_seconds=0;
+[e = _twenty_seconds -> -> 0 `i `us ]
+"542
+[; ;../../source/npwt_dis_ifile_key_00.c: 542:   LATCbits.LATC7 = 0;
+[e = . . _LATCbits 0 7 -> -> 0 `i `uc ]
+"543
+[; ;../../source/npwt_dis_ifile_key_00.c: 543:   debug_air=0;
+[e = _debug_air -> -> 0 `i `us ]
+"544
+[; ;../../source/npwt_dis_ifile_key_00.c: 544:   mod_jixa = 0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"545
+[; ;../../source/npwt_dis_ifile_key_00.c: 545:   if (lock_flg==1)
+[e $ ! == -> _lock_flg `i -> 1 `i 783  ]
+"546
+[; ;../../source/npwt_dis_ifile_key_00.c: 546:   {
+{
+"547
+[; ;../../source/npwt_dis_ifile_key_00.c: 547:    break;
+[e $U 714  ]
+"548
+[; ;../../source/npwt_dis_ifile_key_00.c: 548:   }
+}
+[e :U 783 ]
+"550
+[; ;../../source/npwt_dis_ifile_key_00.c: 550:   if (key_val == 0x38 )
+[e $ ! == -> _key_val `i -> 56 `i 784  ]
+"551
+[; ;../../source/npwt_dis_ifile_key_00.c: 551:   {
+{
+"552
+[; ;../../source/npwt_dis_ifile_key_00.c: 552:    mod_main_a = mod_main_baka;
+[e = _mod_main_a _mod_main_baka ]
+"553
+[; ;../../source/npwt_dis_ifile_key_00.c: 553:   }
+}
+[e $U 785  ]
+"554
+[; ;../../source/npwt_dis_ifile_key_00.c: 554:   else if (key_val == 0xb4)
+[e :U 784 ]
+[e $ ! == -> _key_val `i -> 180 `i 786  ]
+"555
+[; ;../../source/npwt_dis_ifile_key_00.c: 555:   {
+{
+"556
+[; ;../../source/npwt_dis_ifile_key_00.c: 556:    mod_main_a = 4;
+[e = _mod_main_a -> -> 4 `i `uc ]
+"557
+[; ;../../source/npwt_dis_ifile_key_00.c: 557:    mod_seta_preh = mod_seta_preh_bak;
+[e = _mod_seta_preh _mod_seta_preh_bak ]
+"559
+[; ;../../source/npwt_dis_ifile_key_00.c: 559:    if (language)
+[e $ ! != -> _language `i -> 0 `i 787  ]
+"560
+[; ;../../source/npwt_dis_ifile_key_00.c: 560:    {
+{
+"562
+[; ;../../source/npwt_dis_ifile_key_00.c: 562:    }
+}
+[e $U 788  ]
+"563
+[; ;../../source/npwt_dis_ifile_key_00.c: 563:    else
+[e :U 787 ]
+"564
+[; ;../../source/npwt_dis_ifile_key_00.c: 564:    {
+{
+"566
+[; ;../../source/npwt_dis_ifile_key_00.c: 566:    }
+}
+[e :U 788 ]
+"567
+[; ;../../source/npwt_dis_ifile_key_00.c: 567:   }
+}
+[e $U 789  ]
+"569
+[; ;../../source/npwt_dis_ifile_key_00.c: 569:   else if (key_val == 0x04)
+[e :U 786 ]
+[e $ ! == -> _key_val `i -> 4 `i 790  ]
+"570
+[; ;../../source/npwt_dis_ifile_key_00.c: 570:   {
+{
+"571
+[; ;../../source/npwt_dis_ifile_key_00.c: 571:    tim5_flg = ~tim5_flg;
+[e = _tim5_flg -> ~ -> _tim5_flg `i `uc ]
+"572
+[; ;../../source/npwt_dis_ifile_key_00.c: 572:   }
+}
+[e :U 790 ]
+[e :U 789 ]
+[e :U 785 ]
+"573
+[; ;../../source/npwt_dis_ifile_key_00.c: 573:   scan_dusai_time = 0;
+[e = _scan_dusai_time -> -> -> 0 `i `l `ul ]
+"574
+[; ;../../source/npwt_dis_ifile_key_00.c: 574:   flager_a &=~0x10;
+[e =& _flager_a -> ~ -> 16 `i `Vuc ]
+"575
+[; ;../../source/npwt_dis_ifile_key_00.c: 575:   ddfq=0;
+[e = _ddfq -> -> 0 `i `uc ]
+"576
+[; ;../../source/npwt_dis_ifile_key_00.c: 576:   break;;
+[e $U 714  ]
+"577
+[; ;../../source/npwt_dis_ifile_key_00.c: 577:  }
+}
+"578
+[; ;../../source/npwt_dis_ifile_key_00.c: 578:  case 4:
+[e :U 791 ]
+"579
+[; ;../../source/npwt_dis_ifile_key_00.c: 579:  {
+{
+"580
+[; ;../../source/npwt_dis_ifile_key_00.c: 580:   scan_dusai_time = 0;
+[e = _scan_dusai_time -> -> -> 0 `i `l `ul ]
+"581
+[; ;../../source/npwt_dis_ifile_key_00.c: 581:   flager_a &=~0x10;
+[e =& _flager_a -> ~ -> 16 `i `Vuc ]
+"582
+[; ;../../source/npwt_dis_ifile_key_00.c: 582:   debug_air=0;
+[e = _debug_air -> -> 0 `i `us ]
+"583
+[; ;../../source/npwt_dis_ifile_key_00.c: 583:   if (mod_seta_cnt == UI_WORKMODE_SELECT)
+[e $ ! == -> _mod_seta_cnt `i -> . `E5109 0 `i 792  ]
+"584
+[; ;../../source/npwt_dis_ifile_key_00.c: 584:   {
+{
+"585
+[; ;../../source/npwt_dis_ifile_key_00.c: 585:    if (set_a00==0)
+[e $ ! == -> _set_a00 `i -> 0 `i 793  ]
+"586
+[; ;../../source/npwt_dis_ifile_key_00.c: 586:    {
+{
+"587
+[; ;../../source/npwt_dis_ifile_key_00.c: 587:     mod_seta_wok = 2;
+[e = _mod_seta_wok -> -> 2 `i `uc ]
+"588
+[; ;../../source/npwt_dis_ifile_key_00.c: 588:     if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 794  ]
+"589
+[; ;../../source/npwt_dis_ifile_key_00.c: 589:     {
+{
+"590
+[; ;../../source/npwt_dis_ifile_key_00.c: 590:      set_a00=1;
+[e = _set_a00 -> -> 1 `i `uc ]
+"591
+[; ;../../source/npwt_dis_ifile_key_00.c: 591:      mod_seta_wok = 3;
+[e = _mod_seta_wok -> -> 3 `i `uc ]
+"592
+[; ;../../source/npwt_dis_ifile_key_00.c: 592:     }
+}
+[e $U 795  ]
+"593
+[; ;../../source/npwt_dis_ifile_key_00.c: 593:     else if (key_val == 0x2c)
+[e :U 794 ]
+[e $ ! == -> _key_val `i -> 44 `i 796  ]
+"594
+[; ;../../source/npwt_dis_ifile_key_00.c: 594:     {
+{
+"595
+[; ;../../source/npwt_dis_ifile_key_00.c: 595:      set_a00=1;
+[e = _set_a00 -> -> 1 `i `uc ]
+"596
+[; ;../../source/npwt_dis_ifile_key_00.c: 596:      mod_seta_wok = 3;
+[e = _mod_seta_wok -> -> 3 `i `uc ]
+"597
+[; ;../../source/npwt_dis_ifile_key_00.c: 597:     }
+}
+[e $U 797  ]
+"598
+[; ;../../source/npwt_dis_ifile_key_00.c: 598:     else if (key_val == 0x38)
+[e :U 796 ]
+[e $ ! == -> _key_val `i -> 56 `i 798  ]
+"599
+[; ;../../source/npwt_dis_ifile_key_00.c: 599:     {
+{
+"600
+[; ;../../source/npwt_dis_ifile_key_00.c: 600:      mod_seta_cnt = UI_MODE_SET_HI;
+[e = _mod_seta_cnt -> . `E5109 1 `uc ]
+"601
+[; ;../../source/npwt_dis_ifile_key_00.c: 601:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"602
+[; ;../../source/npwt_dis_ifile_key_00.c: 602:     }
+}
+[e :U 798 ]
+[e :U 797 ]
+[e :U 795 ]
+"603
+[; ;../../source/npwt_dis_ifile_key_00.c: 603:    }
+}
+[e $U 799  ]
+"604
+[; ;../../source/npwt_dis_ifile_key_00.c: 604:    else if (set_a00==1)
+[e :U 793 ]
+[e $ ! == -> _set_a00 `i -> 1 `i 800  ]
+"605
+[; ;../../source/npwt_dis_ifile_key_00.c: 605:    {
+{
+"606
+[; ;../../source/npwt_dis_ifile_key_00.c: 606:     mod_seta_wok = 3;
+[e = _mod_seta_wok -> -> 3 `i `uc ]
+"607
+[; ;../../source/npwt_dis_ifile_key_00.c: 607:     if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 801  ]
+"608
+[; ;../../source/npwt_dis_ifile_key_00.c: 608:     {
+{
+"609
+[; ;../../source/npwt_dis_ifile_key_00.c: 609:      set_a00=0;
+[e = _set_a00 -> -> 0 `i `uc ]
+"610
+[; ;../../source/npwt_dis_ifile_key_00.c: 610:      mod_seta_wok = 2;
+[e = _mod_seta_wok -> -> 2 `i `uc ]
+"611
+[; ;../../source/npwt_dis_ifile_key_00.c: 611:     }
+}
+[e $U 802  ]
+"612
+[; ;../../source/npwt_dis_ifile_key_00.c: 612:     else if (key_val == 0x2c)
+[e :U 801 ]
+[e $ ! == -> _key_val `i -> 44 `i 803  ]
+"613
+[; ;../../source/npwt_dis_ifile_key_00.c: 613:     {
+{
+"614
+[; ;../../source/npwt_dis_ifile_key_00.c: 614:      set_a00=0;
+[e = _set_a00 -> -> 0 `i `uc ]
+"615
+[; ;../../source/npwt_dis_ifile_key_00.c: 615:      mod_seta_wok = 2;
+[e = _mod_seta_wok -> -> 2 `i `uc ]
+"616
+[; ;../../source/npwt_dis_ifile_key_00.c: 616:     }
+}
+[e $U 804  ]
+"617
+[; ;../../source/npwt_dis_ifile_key_00.c: 617:     else if (key_val == 0x38)
+[e :U 803 ]
+[e $ ! == -> _key_val `i -> 56 `i 805  ]
+"618
+[; ;../../source/npwt_dis_ifile_key_00.c: 618:     {
+{
+"619
+[; ;../../source/npwt_dis_ifile_key_00.c: 619:      mod_seta_cnt = UI_MODE_SET_HI;
+[e = _mod_seta_cnt -> . `E5109 1 `uc ]
+"620
+[; ;../../source/npwt_dis_ifile_key_00.c: 620:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"621
+[; ;../../source/npwt_dis_ifile_key_00.c: 621:      if (language)
+[e $ ! != -> _language `i -> 0 `i 806  ]
+"622
+[; ;../../source/npwt_dis_ifile_key_00.c: 622:      {
+{
+"624
+[; ;../../source/npwt_dis_ifile_key_00.c: 624:      }
+}
+[e :U 806 ]
+"625
+[; ;../../source/npwt_dis_ifile_key_00.c: 625:     }
+}
+[e :U 805 ]
+[e :U 804 ]
+[e :U 802 ]
+"626
+[; ;../../source/npwt_dis_ifile_key_00.c: 626:    }
+}
+[e $U 807  ]
+"627
+[; ;../../source/npwt_dis_ifile_key_00.c: 627:    else if (set_a00==2)
+[e :U 800 ]
+[e $ ! == -> _set_a00 `i -> 2 `i 808  ]
+"628
+[; ;../../source/npwt_dis_ifile_key_00.c: 628:    {
+{
+"629
+[; ;../../source/npwt_dis_ifile_key_00.c: 629:     mod_seta_wok = 10;
+[e = _mod_seta_wok -> -> 10 `i `uc ]
+"630
+[; ;../../source/npwt_dis_ifile_key_00.c: 630:     if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 809  ]
+"631
+[; ;../../source/npwt_dis_ifile_key_00.c: 631:     {
+{
+"632
+[; ;../../source/npwt_dis_ifile_key_00.c: 632:      set_a00=0;
+[e = _set_a00 -> -> 0 `i `uc ]
+"633
+[; ;../../source/npwt_dis_ifile_key_00.c: 633:      {DISP_ClrZero(0,2,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 0 `i `uc -> -> 2 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"634
+[; ;../../source/npwt_dis_ifile_key_00.c: 634:      mod_seta_wok = 2;
+[e = _mod_seta_wok -> -> 2 `i `uc ]
+"635
+[; ;../../source/npwt_dis_ifile_key_00.c: 635:     }
+}
+[e $U 810  ]
+"636
+[; ;../../source/npwt_dis_ifile_key_00.c: 636:     else if (key_val == 0x2c)
+[e :U 809 ]
+[e $ ! == -> _key_val `i -> 44 `i 811  ]
+"638
+[; ;../../source/npwt_dis_ifile_key_00.c: 638:     {
+{
+"639
+[; ;../../source/npwt_dis_ifile_key_00.c: 639:      set_a00=1;
+[e = _set_a00 -> -> 1 `i `uc ]
+"640
+[; ;../../source/npwt_dis_ifile_key_00.c: 640:      {DISP_ClrZero(0,2,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 0 `i `uc -> -> 2 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"641
+[; ;../../source/npwt_dis_ifile_key_00.c: 641:      mod_seta_wok = 3;
+[e = _mod_seta_wok -> -> 3 `i `uc ]
+"642
+[; ;../../source/npwt_dis_ifile_key_00.c: 642:     }
+}
+[e $U 812  ]
+"643
+[; ;../../source/npwt_dis_ifile_key_00.c: 643:     else if (key_val == 0x38)
+[e :U 811 ]
+[e $ ! == -> _key_val `i -> 56 `i 813  ]
+"644
+[; ;../../source/npwt_dis_ifile_key_00.c: 644:     {
+{
+"645
+[; ;../../source/npwt_dis_ifile_key_00.c: 645:      mod_seta_cnt = UI_MODE_SET_HI;
+[e = _mod_seta_cnt -> . `E5109 1 `uc ]
+"646
+[; ;../../source/npwt_dis_ifile_key_00.c: 646:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"647
+[; ;../../source/npwt_dis_ifile_key_00.c: 647:     }
+}
+[e :U 813 ]
+[e :U 812 ]
+[e :U 810 ]
+"648
+[; ;../../source/npwt_dis_ifile_key_00.c: 648:    }
+}
+[e :U 808 ]
+[e :U 807 ]
+[e :U 799 ]
+"649
+[; ;../../source/npwt_dis_ifile_key_00.c: 649:   }
+}
+[e $U 814  ]
+"650
+[; ;../../source/npwt_dis_ifile_key_00.c: 650:   else if (mod_seta_cnt==UI_MODE_SET_HI)
+[e :U 792 ]
+[e $ ! == -> _mod_seta_cnt `i -> . `E5109 1 `i 815  ]
+"651
+[; ;../../source/npwt_dis_ifile_key_00.c: 651:   {
+{
+"652
+[; ;../../source/npwt_dis_ifile_key_00.c: 652:    if (mod_seta_wok == 2)
+[e $ ! == -> _mod_seta_wok `i -> 2 `i 816  ]
+"653
+[; ;../../source/npwt_dis_ifile_key_00.c: 653:    {
+{
+"654
+[; ;../../source/npwt_dis_ifile_key_00.c: 654:     if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 817  ]
+"655
+[; ;../../source/npwt_dis_ifile_key_00.c: 655:     {
+{
+"656
+[; ;../../source/npwt_dis_ifile_key_00.c: 656:      mod_seta_preh=mod_seta_preh+10;
+[e = _mod_seta_preh -> + -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"657
+[; ;../../source/npwt_dis_ifile_key_00.c: 657:      if (mod_seta_preh>300)
+[e $ ! > -> _mod_seta_preh `ui -> -> 300 `i `ui 818  ]
+"658
+[; ;../../source/npwt_dis_ifile_key_00.c: 658:      {
+{
+"659
+[; ;../../source/npwt_dis_ifile_key_00.c: 659:       mod_seta_preh=20;
+[e = _mod_seta_preh -> -> 20 `i `us ]
+"660
+[; ;../../source/npwt_dis_ifile_key_00.c: 660:      }
+}
+[e :U 818 ]
+"661
+[; ;../../source/npwt_dis_ifile_key_00.c: 661:      {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"662
+[; ;../../source/npwt_dis_ifile_key_00.c: 662:     }
+}
+[e $U 819  ]
+"663
+[; ;../../source/npwt_dis_ifile_key_00.c: 663:     else if (key_val == 0x2c)
+[e :U 817 ]
+[e $ ! == -> _key_val `i -> 44 `i 820  ]
+"664
+[; ;../../source/npwt_dis_ifile_key_00.c: 664:     {
+{
+"665
+[; ;../../source/npwt_dis_ifile_key_00.c: 665:      mod_seta_preh=mod_seta_preh-10;
+[e = _mod_seta_preh -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"666
+[; ;../../source/npwt_dis_ifile_key_00.c: 666:      if (mod_seta_preh<20)
+[e $ ! < -> _mod_seta_preh `ui -> -> 20 `i `ui 821  ]
+"667
+[; ;../../source/npwt_dis_ifile_key_00.c: 667:      {
+{
+"668
+[; ;../../source/npwt_dis_ifile_key_00.c: 668:       mod_seta_preh=300;
+[e = _mod_seta_preh -> -> 300 `i `us ]
+"669
+[; ;../../source/npwt_dis_ifile_key_00.c: 669:      }
+}
+[e :U 821 ]
+"670
+[; ;../../source/npwt_dis_ifile_key_00.c: 670:      {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"671
+[; ;../../source/npwt_dis_ifile_key_00.c: 671:     }
+}
+[e $U 822  ]
+"672
+[; ;../../source/npwt_dis_ifile_key_00.c: 672:     else if (key_val == 0xac)
+[e :U 820 ]
+[e $ ! == -> _key_val `i -> 172 `i 823  ]
+"673
+[; ;../../source/npwt_dis_ifile_key_00.c: 673:     {
+{
+"674
+[; ;../../source/npwt_dis_ifile_key_00.c: 674:      if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 824  ]
+"675
+[; ;../../source/npwt_dis_ifile_key_00.c: 675:      {
+{
+"676
+[; ;../../source/npwt_dis_ifile_key_00.c: 676:       return;
+[e $UE 713  ]
+"677
+[; ;../../source/npwt_dis_ifile_key_00.c: 677:      }
+}
+[e :U 824 ]
+"678
+[; ;../../source/npwt_dis_ifile_key_00.c: 678:      key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"679
+[; ;../../source/npwt_dis_ifile_key_00.c: 679:      mod_seta_preh = mod_seta_preh-10;
+[e = _mod_seta_preh -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"680
+[; ;../../source/npwt_dis_ifile_key_00.c: 680:      if (mod_seta_preh<20)
+[e $ ! < -> _mod_seta_preh `ui -> -> 20 `i `ui 825  ]
+"681
+[; ;../../source/npwt_dis_ifile_key_00.c: 681:      {
+{
+"682
+[; ;../../source/npwt_dis_ifile_key_00.c: 682:       mod_seta_preh=20;
+[e = _mod_seta_preh -> -> 20 `i `us ]
+"683
+[; ;../../source/npwt_dis_ifile_key_00.c: 683:      }
+}
+[e :U 825 ]
+"684
+[; ;../../source/npwt_dis_ifile_key_00.c: 684:      {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"685
+[; ;../../source/npwt_dis_ifile_key_00.c: 685:     }
+}
+[e $U 826  ]
+"686
+[; ;../../source/npwt_dis_ifile_key_00.c: 686:     else if (key_val == 0xb4)
+[e :U 823 ]
+[e $ ! == -> _key_val `i -> 180 `i 827  ]
+"687
+[; ;../../source/npwt_dis_ifile_key_00.c: 687:     {
+{
+"688
+[; ;../../source/npwt_dis_ifile_key_00.c: 688:      if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 828  ]
+"689
+[; ;../../source/npwt_dis_ifile_key_00.c: 689:      {
+{
+"690
+[; ;../../source/npwt_dis_ifile_key_00.c: 690:       return;
+[e $UE 713  ]
+"691
+[; ;../../source/npwt_dis_ifile_key_00.c: 691:      }
+}
+[e :U 828 ]
+"692
+[; ;../../source/npwt_dis_ifile_key_00.c: 692:      key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"693
+[; ;../../source/npwt_dis_ifile_key_00.c: 693:      mod_seta_preh = mod_seta_preh+10;
+[e = _mod_seta_preh -> + -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"694
+[; ;../../source/npwt_dis_ifile_key_00.c: 694:      if (mod_seta_preh>300)
+[e $ ! > -> _mod_seta_preh `ui -> -> 300 `i `ui 829  ]
+"695
+[; ;../../source/npwt_dis_ifile_key_00.c: 695:      {
+{
+"696
+[; ;../../source/npwt_dis_ifile_key_00.c: 696:       mod_seta_preh=300;
+[e = _mod_seta_preh -> -> 300 `i `us ]
+"697
+[; ;../../source/npwt_dis_ifile_key_00.c: 697:      }
+}
+[e :U 829 ]
+"698
+[; ;../../source/npwt_dis_ifile_key_00.c: 698:      {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"699
+[; ;../../source/npwt_dis_ifile_key_00.c: 699:     }
+}
+[e $U 830  ]
+"700
+[; ;../../source/npwt_dis_ifile_key_00.c: 700:     else if (key_val == 0x38)
+[e :U 827 ]
+[e $ ! == -> _key_val `i -> 56 `i 831  ]
+"701
+[; ;../../source/npwt_dis_ifile_key_00.c: 701:     {
+{
+"702
+[; ;../../source/npwt_dis_ifile_key_00.c: 702:      mod_seta_cnt=UI_WORKMODE_SELECT;
+[e = _mod_seta_cnt -> . `E5109 0 `uc ]
+"703
+[; ;../../source/npwt_dis_ifile_key_00.c: 703:      mod_main_baka=mod_seta_wok;
+[e = _mod_main_baka _mod_seta_wok ]
+"704
+[; ;../../source/npwt_dis_ifile_key_00.c: 704:      mod_main_a=5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"705
+[; ;../../source/npwt_dis_ifile_key_00.c: 705:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"706
+[; ;../../source/npwt_dis_ifile_key_00.c: 706:      if (language)
+[e $ ! != -> _language `i -> 0 `i 832  ]
+"707
+[; ;../../source/npwt_dis_ifile_key_00.c: 707:      {
+{
+"709
+[; ;../../source/npwt_dis_ifile_key_00.c: 709:      }
+}
+[e $U 833  ]
+"710
+[; ;../../source/npwt_dis_ifile_key_00.c: 710:      else
+[e :U 832 ]
+"711
+[; ;../../source/npwt_dis_ifile_key_00.c: 711:      {
+{
+"713
+[; ;../../source/npwt_dis_ifile_key_00.c: 713:      }
+}
+[e :U 833 ]
+"714
+[; ;../../source/npwt_dis_ifile_key_00.c: 714:     }
+}
+[e :U 831 ]
+[e :U 830 ]
+[e :U 826 ]
+[e :U 822 ]
+[e :U 819 ]
+"715
+[; ;../../source/npwt_dis_ifile_key_00.c: 715:    }
+}
+[e $U 834  ]
+"716
+[; ;../../source/npwt_dis_ifile_key_00.c: 716:    else
+[e :U 816 ]
+"717
+[; ;../../source/npwt_dis_ifile_key_00.c: 717:    {
+{
+"718
+[; ;../../source/npwt_dis_ifile_key_00.c: 718:     if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 835  ]
+"719
+[; ;../../source/npwt_dis_ifile_key_00.c: 719:     {
+{
+"720
+[; ;../../source/npwt_dis_ifile_key_00.c: 720:      mod_seta_preh = mod_seta_preh+10;
+[e = _mod_seta_preh -> + -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"721
+[; ;../../source/npwt_dis_ifile_key_00.c: 721:      if (mod_seta_preh>300)
+[e $ ! > -> _mod_seta_preh `ui -> -> 300 `i `ui 836  ]
+"722
+[; ;../../source/npwt_dis_ifile_key_00.c: 722:       mod_seta_preh=20;
+[e = _mod_seta_preh -> -> 20 `i `us ]
+[e :U 836 ]
+"723
+[; ;../../source/npwt_dis_ifile_key_00.c: 723:     }
+}
+[e $U 837  ]
+"724
+[; ;../../source/npwt_dis_ifile_key_00.c: 724:     else if (key_val == 0x2c)
+[e :U 835 ]
+[e $ ! == -> _key_val `i -> 44 `i 838  ]
+"725
+[; ;../../source/npwt_dis_ifile_key_00.c: 725:     {
+{
+"726
+[; ;../../source/npwt_dis_ifile_key_00.c: 726:      mod_seta_preh = mod_seta_preh-10;
+[e = _mod_seta_preh -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"727
+[; ;../../source/npwt_dis_ifile_key_00.c: 727:      if (mod_seta_preh<20)
+[e $ ! < -> _mod_seta_preh `ui -> -> 20 `i `ui 839  ]
+"728
+[; ;../../source/npwt_dis_ifile_key_00.c: 728:      {
+{
+"729
+[; ;../../source/npwt_dis_ifile_key_00.c: 729:       mod_seta_preh=300;
+[e = _mod_seta_preh -> -> 300 `i `us ]
+"730
+[; ;../../source/npwt_dis_ifile_key_00.c: 730:      }
+}
+[e :U 839 ]
+"732
+[; ;../../source/npwt_dis_ifile_key_00.c: 732:     }
+}
+[e $U 840  ]
+"733
+[; ;../../source/npwt_dis_ifile_key_00.c: 733:     else if (key_val == 0xac)
+[e :U 838 ]
+[e $ ! == -> _key_val `i -> 172 `i 841  ]
+"734
+[; ;../../source/npwt_dis_ifile_key_00.c: 734:     {
+{
+"735
+[; ;../../source/npwt_dis_ifile_key_00.c: 735:      if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 842  ]
+"736
+[; ;../../source/npwt_dis_ifile_key_00.c: 736:      {
+{
+"737
+[; ;../../source/npwt_dis_ifile_key_00.c: 737:       return;
+[e $UE 713  ]
+"738
+[; ;../../source/npwt_dis_ifile_key_00.c: 738:      }
+}
+[e :U 842 ]
+"739
+[; ;../../source/npwt_dis_ifile_key_00.c: 739:      key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"740
+[; ;../../source/npwt_dis_ifile_key_00.c: 740:      mod_seta_preh = mod_seta_preh-10;
+[e = _mod_seta_preh -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"741
+[; ;../../source/npwt_dis_ifile_key_00.c: 741:      if (mod_seta_preh<20)
+[e $ ! < -> _mod_seta_preh `ui -> -> 20 `i `ui 843  ]
+"742
+[; ;../../source/npwt_dis_ifile_key_00.c: 742:      {
+{
+"743
+[; ;../../source/npwt_dis_ifile_key_00.c: 743:       mod_seta_preh=20;
+[e = _mod_seta_preh -> -> 20 `i `us ]
+"744
+[; ;../../source/npwt_dis_ifile_key_00.c: 744:      }
+}
+[e :U 843 ]
+"747
+[; ;../../source/npwt_dis_ifile_key_00.c: 747:     }
+}
+[e $U 844  ]
+"748
+[; ;../../source/npwt_dis_ifile_key_00.c: 748:     else if (key_val == 0xb4)
+[e :U 841 ]
+[e $ ! == -> _key_val `i -> 180 `i 845  ]
+"749
+[; ;../../source/npwt_dis_ifile_key_00.c: 749:     {
+{
+"750
+[; ;../../source/npwt_dis_ifile_key_00.c: 750:      if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 846  ]
+"751
+[; ;../../source/npwt_dis_ifile_key_00.c: 751:      {
+{
+"752
+[; ;../../source/npwt_dis_ifile_key_00.c: 752:       return;
+[e $UE 713  ]
+"753
+[; ;../../source/npwt_dis_ifile_key_00.c: 753:      }
+}
+[e :U 846 ]
+"754
+[; ;../../source/npwt_dis_ifile_key_00.c: 754:      key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"755
+[; ;../../source/npwt_dis_ifile_key_00.c: 755:      mod_seta_preh = mod_seta_preh+10;
+[e = _mod_seta_preh -> + -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"756
+[; ;../../source/npwt_dis_ifile_key_00.c: 756:      if (mod_seta_preh>300)
+[e $ ! > -> _mod_seta_preh `ui -> -> 300 `i `ui 847  ]
+"757
+[; ;../../source/npwt_dis_ifile_key_00.c: 757:      {
+{
+"758
+[; ;../../source/npwt_dis_ifile_key_00.c: 758:       mod_seta_preh=300;
+[e = _mod_seta_preh -> -> 300 `i `us ]
+"759
+[; ;../../source/npwt_dis_ifile_key_00.c: 759:      }
+}
+[e :U 847 ]
+"762
+[; ;../../source/npwt_dis_ifile_key_00.c: 762:     }
+}
+[e $U 848  ]
+"763
+[; ;../../source/npwt_dis_ifile_key_00.c: 763:     else if (key_val == 0x38)
+[e :U 845 ]
+[e $ ! == -> _key_val `i -> 56 `i 849  ]
+"764
+[; ;../../source/npwt_dis_ifile_key_00.c: 764:     {
+{
+"767
+[; ;../../source/npwt_dis_ifile_key_00.c: 767:      if (mod_seta_wok == 3)
+[e $ ! == -> _mod_seta_wok `i -> 3 `i 850  ]
+"768
+[; ;../../source/npwt_dis_ifile_key_00.c: 768:      {
+{
+"769
+[; ;../../source/npwt_dis_ifile_key_00.c: 769:       mod_seta_cnt=UI_JIX_MODE_SET_LO;
+[e = _mod_seta_cnt -> . `E5109 2 `uc ]
+"770
+[; ;../../source/npwt_dis_ifile_key_00.c: 770:      }
+}
+[e $U 851  ]
+"771
+[; ;../../source/npwt_dis_ifile_key_00.c: 771:      else
+[e :U 850 ]
+"772
+[; ;../../source/npwt_dis_ifile_key_00.c: 772:      {
+{
+"774
+[; ;../../source/npwt_dis_ifile_key_00.c: 774:       mod_seta_cnt=UI_JIX_SET_HI_TIME;
+[e = _mod_seta_cnt -> . `E5109 3 `uc ]
+"775
+[; ;../../source/npwt_dis_ifile_key_00.c: 775:      }DISP_Clear();
+}
+[e :U 851 ]
+[e ( _DISP_Clear ..  ]
+"776
+[; ;../../source/npwt_dis_ifile_key_00.c: 776:      if (language)
+[e $ ! != -> _language `i -> 0 `i 852  ]
+"777
+[; ;../../source/npwt_dis_ifile_key_00.c: 777:      {
+{
+"779
+[; ;../../source/npwt_dis_ifile_key_00.c: 779:      }
+}
+[e $U 853  ]
+"780
+[; ;../../source/npwt_dis_ifile_key_00.c: 780:      else
+[e :U 852 ]
+"781
+[; ;../../source/npwt_dis_ifile_key_00.c: 781:      {
+{
+"783
+[; ;../../source/npwt_dis_ifile_key_00.c: 783:      }
+}
+[e :U 853 ]
+"784
+[; ;../../source/npwt_dis_ifile_key_00.c: 784:     }
+}
+[e :U 849 ]
+[e :U 848 ]
+[e :U 844 ]
+[e :U 840 ]
+[e :U 837 ]
+"785
+[; ;../../source/npwt_dis_ifile_key_00.c: 785:    }
+}
+[e :U 834 ]
+"787
+[; ;../../source/npwt_dis_ifile_key_00.c: 787:    if (mod_seta_preh < mod_seta_prel+10)
+[e $ ! < -> _mod_seta_preh `ui + -> _mod_seta_prel `ui -> -> 10 `i `ui 854  ]
+"788
+[; ;../../source/npwt_dis_ifile_key_00.c: 788:    {
+{
+"789
+[; ;../../source/npwt_dis_ifile_key_00.c: 789:     mod_seta_prel=mod_seta_preh-10;
+[e = _mod_seta_prel -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+"790
+[; ;../../source/npwt_dis_ifile_key_00.c: 790:    }
+}
+[e :U 854 ]
+"791
+[; ;../../source/npwt_dis_ifile_key_00.c: 791:    mod_seta_preh_bak=mod_seta_preh;
+[e = _mod_seta_preh_bak _mod_seta_preh ]
+"792
+[; ;../../source/npwt_dis_ifile_key_00.c: 792:   }
+}
+[e $U 855  ]
+"793
+[; ;../../source/npwt_dis_ifile_key_00.c: 793:   else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)
+[e :U 815 ]
+[e $ ! == -> _mod_seta_cnt `i -> . `E5109 2 `i 856  ]
+"794
+[; ;../../source/npwt_dis_ifile_key_00.c: 794:   {
+{
+"796
+[; ;../../source/npwt_dis_ifile_key_00.c: 796:    if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 857  ]
+"797
+[; ;../../source/npwt_dis_ifile_key_00.c: 797:    {
+{
+"798
+[; ;../../source/npwt_dis_ifile_key_00.c: 798:     mod_seta_prel = mod_seta_prel+10;
+[e = _mod_seta_prel -> + -> _mod_seta_prel `ui -> -> 10 `i `ui `us ]
+"799
+[; ;../../source/npwt_dis_ifile_key_00.c: 799:                 if(mod_seta_prel > 100 || mod_seta_prel > mod_seta_preh - 10)
+[e $ ! || > -> _mod_seta_prel `ui -> -> 100 `i `ui > -> _mod_seta_prel `ui - -> _mod_seta_preh `ui -> -> 10 `i `ui 858  ]
+"800
+[; ;../../source/npwt_dis_ifile_key_00.c: 800:      mod_seta_prel = 10;
+[e = _mod_seta_prel -> -> 10 `i `us ]
+[e :U 858 ]
+"801
+[; ;../../source/npwt_dis_ifile_key_00.c: 801:     if(mod_seta_prel >= mod_seta_preh - 10 )
+[e $ ! >= -> _mod_seta_prel `ui - -> _mod_seta_preh `ui -> -> 10 `i `ui 859  ]
+"802
+[; ;../../source/npwt_dis_ifile_key_00.c: 802:      mod_seta_prel = mod_seta_preh - 10;
+[e = _mod_seta_prel -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+[e :U 859 ]
+"804
+[; ;../../source/npwt_dis_ifile_key_00.c: 804:    }
+}
+[e $U 860  ]
+"805
+[; ;../../source/npwt_dis_ifile_key_00.c: 805:    else if (key_val == 0x2c)
+[e :U 857 ]
+[e $ ! == -> _key_val `i -> 44 `i 861  ]
+"806
+[; ;../../source/npwt_dis_ifile_key_00.c: 806:    {
+{
+"808
+[; ;../../source/npwt_dis_ifile_key_00.c: 808:     mod_seta_prel = mod_seta_prel-10;
+[e = _mod_seta_prel -> - -> _mod_seta_prel `ui -> -> 10 `i `ui `us ]
+"810
+[; ;../../source/npwt_dis_ifile_key_00.c: 810:     if(mod_seta_prel >= mod_seta_preh - 10 )
+[e $ ! >= -> _mod_seta_prel `ui - -> _mod_seta_preh `ui -> -> 10 `i `ui 862  ]
+"811
+[; ;../../source/npwt_dis_ifile_key_00.c: 811:      mod_seta_prel = mod_seta_preh - 10;
+[e = _mod_seta_prel -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+[e :U 862 ]
+"812
+[; ;../../source/npwt_dis_ifile_key_00.c: 812:                 if(mod_seta_prel < 10 )
+[e $ ! < -> _mod_seta_prel `ui -> -> 10 `i `ui 863  ]
+"813
+[; ;../../source/npwt_dis_ifile_key_00.c: 813:      mod_seta_prel = mod_seta_preh - 10;
+[e = _mod_seta_prel -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+[e :U 863 ]
+"815
+[; ;../../source/npwt_dis_ifile_key_00.c: 815:    }
+}
+[e $U 864  ]
+"816
+[; ;../../source/npwt_dis_ifile_key_00.c: 816:    else if (key_val == 0xac)
+[e :U 861 ]
+[e $ ! == -> _key_val `i -> 172 `i 865  ]
+"817
+[; ;../../source/npwt_dis_ifile_key_00.c: 817:    {
+{
+"819
+[; ;../../source/npwt_dis_ifile_key_00.c: 819:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 866  ]
+"820
+[; ;../../source/npwt_dis_ifile_key_00.c: 820:     {
+{
+"821
+[; ;../../source/npwt_dis_ifile_key_00.c: 821:      return;
+[e $UE 713  ]
+"822
+[; ;../../source/npwt_dis_ifile_key_00.c: 822:     }
+}
+[e :U 866 ]
+"824
+[; ;../../source/npwt_dis_ifile_key_00.c: 824:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"825
+[; ;../../source/npwt_dis_ifile_key_00.c: 825:     mod_seta_prel = mod_seta_prel-10;
+[e = _mod_seta_prel -> - -> _mod_seta_prel `ui -> -> 10 `i `ui `us ]
+"826
+[; ;../../source/npwt_dis_ifile_key_00.c: 826:     if(mod_seta_prel >= mod_seta_preh - 10 )
+[e $ ! >= -> _mod_seta_prel `ui - -> _mod_seta_preh `ui -> -> 10 `i `ui 867  ]
+"827
+[; ;../../source/npwt_dis_ifile_key_00.c: 827:      mod_seta_prel = mod_seta_preh - 10;
+[e = _mod_seta_prel -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+[e :U 867 ]
+"830
+[; ;../../source/npwt_dis_ifile_key_00.c: 830:    }
+}
+[e $U 868  ]
+"831
+[; ;../../source/npwt_dis_ifile_key_00.c: 831:    else if (key_val == 0xb4)
+[e :U 865 ]
+[e $ ! == -> _key_val `i -> 180 `i 869  ]
+"832
+[; ;../../source/npwt_dis_ifile_key_00.c: 832:    {
+{
+"833
+[; ;../../source/npwt_dis_ifile_key_00.c: 833:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 870  ]
+"834
+[; ;../../source/npwt_dis_ifile_key_00.c: 834:     {
+{
+"835
+[; ;../../source/npwt_dis_ifile_key_00.c: 835:      return;
+[e $UE 713  ]
+"836
+[; ;../../source/npwt_dis_ifile_key_00.c: 836:     }
+}
+[e :U 870 ]
+"838
+[; ;../../source/npwt_dis_ifile_key_00.c: 838:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"839
+[; ;../../source/npwt_dis_ifile_key_00.c: 839:     mod_seta_prel = mod_seta_prel+10;
+[e = _mod_seta_prel -> + -> _mod_seta_prel `ui -> -> 10 `i `ui `us ]
+"840
+[; ;../../source/npwt_dis_ifile_key_00.c: 840:     if(mod_seta_prel >= mod_seta_preh - 10 )
+[e $ ! >= -> _mod_seta_prel `ui - -> _mod_seta_preh `ui -> -> 10 `i `ui 871  ]
+"841
+[; ;../../source/npwt_dis_ifile_key_00.c: 841:      mod_seta_prel = mod_seta_preh - 10;
+[e = _mod_seta_prel -> - -> _mod_seta_preh `ui -> -> 10 `i `ui `us ]
+[e :U 871 ]
+"843
+[; ;../../source/npwt_dis_ifile_key_00.c: 843:    }
+}
+[e $U 872  ]
+"844
+[; ;../../source/npwt_dis_ifile_key_00.c: 844:    else if (key_val == 0x38)
+[e :U 869 ]
+[e $ ! == -> _key_val `i -> 56 `i 873  ]
+"845
+[; ;../../source/npwt_dis_ifile_key_00.c: 845:    {
+{
+"846
+[; ;../../source/npwt_dis_ifile_key_00.c: 846:     if (language)
+[e $ ! != -> _language `i -> 0 `i 874  ]
+"847
+[; ;../../source/npwt_dis_ifile_key_00.c: 847:     {
+{
+"849
+[; ;../../source/npwt_dis_ifile_key_00.c: 849:                     DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"850
+[; ;../../source/npwt_dis_ifile_key_00.c: 850:     }
+}
+[e $U 875  ]
+"851
+[; ;../../source/npwt_dis_ifile_key_00.c: 851:     else
+[e :U 874 ]
+"852
+[; ;../../source/npwt_dis_ifile_key_00.c: 852:     {
+{
+"853
+[; ;../../source/npwt_dis_ifile_key_00.c: 853:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"854
+[; ;../../source/npwt_dis_ifile_key_00.c: 854:     }
+}
+[e :U 875 ]
+"855
+[; ;../../source/npwt_dis_ifile_key_00.c: 855:     mod_seta_cnt=UI_JIX_SET_HI_TIME;
+[e = _mod_seta_cnt -> . `E5109 3 `uc ]
+"856
+[; ;../../source/npwt_dis_ifile_key_00.c: 856:    }
+}
+[e :U 873 ]
+[e :U 872 ]
+[e :U 868 ]
+[e :U 864 ]
+[e :U 860 ]
+"857
+[; ;../../source/npwt_dis_ifile_key_00.c: 857:    if (mod_seta_prel>100)
+[e $ ! > -> _mod_seta_prel `ui -> -> 100 `i `ui 876  ]
+"858
+[; ;../../source/npwt_dis_ifile_key_00.c: 858:    {
+{
+"859
+[; ;../../source/npwt_dis_ifile_key_00.c: 859:     mod_seta_prel = 100;
+[e = _mod_seta_prel -> -> 100 `i `us ]
+"860
+[; ;../../source/npwt_dis_ifile_key_00.c: 860:    }
+}
+[e :U 876 ]
+"861
+[; ;../../source/npwt_dis_ifile_key_00.c: 861:    if (mod_seta_prel<10)
+[e $ ! < -> _mod_seta_prel `ui -> -> 10 `i `ui 877  ]
+"862
+[; ;../../source/npwt_dis_ifile_key_00.c: 862:    {
+{
+"863
+[; ;../../source/npwt_dis_ifile_key_00.c: 863:     mod_seta_prel = 10;
+[e = _mod_seta_prel -> -> 10 `i `us ]
+"864
+[; ;../../source/npwt_dis_ifile_key_00.c: 864:    }
+}
+[e :U 877 ]
+"866
+[; ;../../source/npwt_dis_ifile_key_00.c: 866:   }
+}
+[e $U 878  ]
+"867
+[; ;../../source/npwt_dis_ifile_key_00.c: 867:   else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)
+[e :U 856 ]
+[e $ ! == -> _mod_seta_cnt `i -> . `E5109 3 `i 879  ]
+"868
+[; ;../../source/npwt_dis_ifile_key_00.c: 868:   {
+{
+"869
+[; ;../../source/npwt_dis_ifile_key_00.c: 869:    if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 880  ]
+"870
+[; ;../../source/npwt_dis_ifile_key_00.c: 870:    {
+{
+"872
+[; ;../../source/npwt_dis_ifile_key_00.c: 872:     if (mod_seta_ont++>=99)
+[e $ ! >= -> ++ _mod_seta_ont -> -> 1 `i `us `ui -> -> 99 `i `ui 881  ]
+"873
+[; ;../../source/npwt_dis_ifile_key_00.c: 873:     {
+{
+"874
+[; ;../../source/npwt_dis_ifile_key_00.c: 874:      mod_seta_ont=1;
+[e = _mod_seta_ont -> -> 1 `i `us ]
+"875
+[; ;../../source/npwt_dis_ifile_key_00.c: 875:     }
+}
+[e :U 881 ]
+"877
+[; ;../../source/npwt_dis_ifile_key_00.c: 877:    }
+}
+[e $U 882  ]
+"878
+[; ;../../source/npwt_dis_ifile_key_00.c: 878:    else if (key_val == 0x2c)
+[e :U 880 ]
+[e $ ! == -> _key_val `i -> 44 `i 883  ]
+"879
+[; ;../../source/npwt_dis_ifile_key_00.c: 879:    {
+{
+"880
+[; ;../../source/npwt_dis_ifile_key_00.c: 880:     if (mod_seta_ont--<=1)
+[e $ ! <= -> -- _mod_seta_ont -> -> 1 `i `us `ui -> -> 1 `i `ui 884  ]
+"881
+[; ;../../source/npwt_dis_ifile_key_00.c: 881:     {
+{
+"882
+[; ;../../source/npwt_dis_ifile_key_00.c: 882:      mod_seta_ont=99;
+[e = _mod_seta_ont -> -> 99 `i `us ]
+"883
+[; ;../../source/npwt_dis_ifile_key_00.c: 883:     }
+}
+[e :U 884 ]
+"885
+[; ;../../source/npwt_dis_ifile_key_00.c: 885:    }
+}
+[e $U 885  ]
+"886
+[; ;../../source/npwt_dis_ifile_key_00.c: 886:    else if (key_val == 0xac)
+[e :U 883 ]
+[e $ ! == -> _key_val `i -> 172 `i 886  ]
+"887
+[; ;../../source/npwt_dis_ifile_key_00.c: 887:    {
+{
+"888
+[; ;../../source/npwt_dis_ifile_key_00.c: 888:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 887  ]
+"889
+[; ;../../source/npwt_dis_ifile_key_00.c: 889:     {
+{
+"890
+[; ;../../source/npwt_dis_ifile_key_00.c: 890:      return;
+[e $UE 713  ]
+"891
+[; ;../../source/npwt_dis_ifile_key_00.c: 891:     }
+}
+[e :U 887 ]
+"892
+[; ;../../source/npwt_dis_ifile_key_00.c: 892:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"893
+[; ;../../source/npwt_dis_ifile_key_00.c: 893:     mod_seta_ont -= 5;
+[e =- _mod_seta_ont -> -> 5 `i `us ]
+"894
+[; ;../../source/npwt_dis_ifile_key_00.c: 894:     if (mod_seta_ont > 99 || mod_seta_ont < 1)
+[e $ ! || > -> _mod_seta_ont `ui -> -> 99 `i `ui < -> _mod_seta_ont `ui -> -> 1 `i `ui 888  ]
+"895
+[; ;../../source/npwt_dis_ifile_key_00.c: 895:     {
+{
+"896
+[; ;../../source/npwt_dis_ifile_key_00.c: 896:      mod_seta_ont=1;
+[e = _mod_seta_ont -> -> 1 `i `us ]
+"897
+[; ;../../source/npwt_dis_ifile_key_00.c: 897:     }
+}
+[e :U 888 ]
+"900
+[; ;../../source/npwt_dis_ifile_key_00.c: 900:    }
+}
+[e $U 889  ]
+"901
+[; ;../../source/npwt_dis_ifile_key_00.c: 901:    else if (key_val == 0xb4)
+[e :U 886 ]
+[e $ ! == -> _key_val `i -> 180 `i 890  ]
+"902
+[; ;../../source/npwt_dis_ifile_key_00.c: 902:    {
+{
+"903
+[; ;../../source/npwt_dis_ifile_key_00.c: 903:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 891  ]
+"904
+[; ;../../source/npwt_dis_ifile_key_00.c: 904:     {
+{
+"905
+[; ;../../source/npwt_dis_ifile_key_00.c: 905:      return;
+[e $UE 713  ]
+"906
+[; ;../../source/npwt_dis_ifile_key_00.c: 906:     }
+}
+[e :U 891 ]
+"907
+[; ;../../source/npwt_dis_ifile_key_00.c: 907:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"908
+[; ;../../source/npwt_dis_ifile_key_00.c: 908:     mod_seta_ont += 5;
+[e =+ _mod_seta_ont -> -> 5 `i `us ]
+"909
+[; ;../../source/npwt_dis_ifile_key_00.c: 909:     if (mod_seta_ont > 99 || mod_seta_ont < 1)
+[e $ ! || > -> _mod_seta_ont `ui -> -> 99 `i `ui < -> _mod_seta_ont `ui -> -> 1 `i `ui 892  ]
+"910
+[; ;../../source/npwt_dis_ifile_key_00.c: 910:     {
+{
+"911
+[; ;../../source/npwt_dis_ifile_key_00.c: 911:      mod_seta_ont=99;
+[e = _mod_seta_ont -> -> 99 `i `us ]
+"912
+[; ;../../source/npwt_dis_ifile_key_00.c: 912:     }
+}
+[e :U 892 ]
+"914
+[; ;../../source/npwt_dis_ifile_key_00.c: 914:    }
+}
+[e $U 893  ]
+"915
+[; ;../../source/npwt_dis_ifile_key_00.c: 915:    else if (key_val == 0x38)
+[e :U 890 ]
+[e $ ! == -> _key_val `i -> 56 `i 894  ]
+"916
+[; ;../../source/npwt_dis_ifile_key_00.c: 916:    {
+{
+"917
+[; ;../../source/npwt_dis_ifile_key_00.c: 917:     mod_seta_cnt=UI_JIX_SET_LO_TIME;
+[e = _mod_seta_cnt -> . `E5109 4 `uc ]
+"920
+[; ;../../source/npwt_dis_ifile_key_00.c: 920:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"922
+[; ;../../source/npwt_dis_ifile_key_00.c: 922:    }
+}
+[e :U 894 ]
+[e :U 893 ]
+[e :U 889 ]
+[e :U 885 ]
+[e :U 882 ]
+"924
+[; ;../../source/npwt_dis_ifile_key_00.c: 924:   }
+}
+[e $U 895  ]
+"925
+[; ;../../source/npwt_dis_ifile_key_00.c: 925:   else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)
+[e :U 879 ]
+[e $ ! == -> _mod_seta_cnt `i -> . `E5109 4 `i 896  ]
+"926
+[; ;../../source/npwt_dis_ifile_key_00.c: 926:   {
+{
+"927
+[; ;../../source/npwt_dis_ifile_key_00.c: 927:    if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 897  ]
+"928
+[; ;../../source/npwt_dis_ifile_key_00.c: 928:    {
+{
+"929
+[; ;../../source/npwt_dis_ifile_key_00.c: 929:     if (mod_seta_oft++ >= 99)
+[e $ ! >= -> ++ _mod_seta_oft -> -> 1 `i `us `ui -> -> 99 `i `ui 898  ]
+"930
+[; ;../../source/npwt_dis_ifile_key_00.c: 930:     {
+{
+"931
+[; ;../../source/npwt_dis_ifile_key_00.c: 931:      mod_seta_oft=1;
+[e = _mod_seta_oft -> -> 1 `i `us ]
+"932
+[; ;../../source/npwt_dis_ifile_key_00.c: 932:     }
+}
+[e :U 898 ]
+"934
+[; ;../../source/npwt_dis_ifile_key_00.c: 934:    }
+}
+[e $U 899  ]
+"935
+[; ;../../source/npwt_dis_ifile_key_00.c: 935:    else if (key_val == 0x2c)
+[e :U 897 ]
+[e $ ! == -> _key_val `i -> 44 `i 900  ]
+"936
+[; ;../../source/npwt_dis_ifile_key_00.c: 936:    {
+{
+"937
+[; ;../../source/npwt_dis_ifile_key_00.c: 937:     if (mod_seta_oft-- <= 1)
+[e $ ! <= -> -- _mod_seta_oft -> -> 1 `i `us `ui -> -> 1 `i `ui 901  ]
+"938
+[; ;../../source/npwt_dis_ifile_key_00.c: 938:     {
+{
+"939
+[; ;../../source/npwt_dis_ifile_key_00.c: 939:      mod_seta_oft=99;
+[e = _mod_seta_oft -> -> 99 `i `us ]
+"940
+[; ;../../source/npwt_dis_ifile_key_00.c: 940:     }
+}
+[e :U 901 ]
+"942
+[; ;../../source/npwt_dis_ifile_key_00.c: 942:    }
+}
+[e $U 902  ]
+"943
+[; ;../../source/npwt_dis_ifile_key_00.c: 943:    else if (key_val == 0xac)
+[e :U 900 ]
+[e $ ! == -> _key_val `i -> 172 `i 903  ]
+"944
+[; ;../../source/npwt_dis_ifile_key_00.c: 944:    {
+{
+"945
+[; ;../../source/npwt_dis_ifile_key_00.c: 945:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 904  ]
+"946
+[; ;../../source/npwt_dis_ifile_key_00.c: 946:     {
+{
+"947
+[; ;../../source/npwt_dis_ifile_key_00.c: 947:      return;
+[e $UE 713  ]
+"948
+[; ;../../source/npwt_dis_ifile_key_00.c: 948:     }
+}
+[e :U 904 ]
+"949
+[; ;../../source/npwt_dis_ifile_key_00.c: 949:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"950
+[; ;../../source/npwt_dis_ifile_key_00.c: 950:     mod_seta_oft=mod_seta_oft-5;
+[e = _mod_seta_oft -> - -> _mod_seta_oft `ui -> -> 5 `i `ui `us ]
+"951
+[; ;../../source/npwt_dis_ifile_key_00.c: 951:     if (mod_seta_oft < 1 || mod_seta_oft > 99)
+[e $ ! || < -> _mod_seta_oft `ui -> -> 1 `i `ui > -> _mod_seta_oft `ui -> -> 99 `i `ui 905  ]
+"952
+[; ;../../source/npwt_dis_ifile_key_00.c: 952:     {
+{
+"953
+[; ;../../source/npwt_dis_ifile_key_00.c: 953:      mod_seta_oft=1;
+[e = _mod_seta_oft -> -> 1 `i `us ]
+"954
+[; ;../../source/npwt_dis_ifile_key_00.c: 954:     }
+}
+[e :U 905 ]
+"956
+[; ;../../source/npwt_dis_ifile_key_00.c: 956:    }
+}
+[e $U 906  ]
+"957
+[; ;../../source/npwt_dis_ifile_key_00.c: 957:    else if (key_val == 0xb4)
+[e :U 903 ]
+[e $ ! == -> _key_val `i -> 180 `i 907  ]
+"958
+[; ;../../source/npwt_dis_ifile_key_00.c: 958:    {
+{
+"959
+[; ;../../source/npwt_dis_ifile_key_00.c: 959:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 908  ]
+"960
+[; ;../../source/npwt_dis_ifile_key_00.c: 960:     {
+{
+"961
+[; ;../../source/npwt_dis_ifile_key_00.c: 961:      return;
+[e $UE 713  ]
+"962
+[; ;../../source/npwt_dis_ifile_key_00.c: 962:     }
+}
+[e :U 908 ]
+"963
+[; ;../../source/npwt_dis_ifile_key_00.c: 963:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"964
+[; ;../../source/npwt_dis_ifile_key_00.c: 964:     mod_seta_oft=mod_seta_oft+5;
+[e = _mod_seta_oft -> + -> _mod_seta_oft `ui -> -> 5 `i `ui `us ]
+"965
+[; ;../../source/npwt_dis_ifile_key_00.c: 965:     if (mod_seta_oft >= 99)
+[e $ ! >= -> _mod_seta_oft `ui -> -> 99 `i `ui 909  ]
+"966
+[; ;../../source/npwt_dis_ifile_key_00.c: 966:     {
+{
+"967
+[; ;../../source/npwt_dis_ifile_key_00.c: 967:      mod_seta_oft=99;
+[e = _mod_seta_oft -> -> 99 `i `us ]
+"968
+[; ;../../source/npwt_dis_ifile_key_00.c: 968:     }
+}
+[e :U 909 ]
+"970
+[; ;../../source/npwt_dis_ifile_key_00.c: 970:    }
+}
+[e $U 910  ]
+"971
+[; ;../../source/npwt_dis_ifile_key_00.c: 971:    else if (key_val == 0x38)
+[e :U 907 ]
+[e $ ! == -> _key_val `i -> 56 `i 911  ]
+"972
+[; ;../../source/npwt_dis_ifile_key_00.c: 972:    {
+{
+"973
+[; ;../../source/npwt_dis_ifile_key_00.c: 973:     mod_seta_cnt=0;
+[e = _mod_seta_cnt -> -> 0 `i `uc ]
+"974
+[; ;../../source/npwt_dis_ifile_key_00.c: 974:     mod_main_baka=mod_seta_wok;
+[e = _mod_main_baka _mod_seta_wok ]
+"975
+[; ;../../source/npwt_dis_ifile_key_00.c: 975:     mod_main_a=5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"976
+[; ;../../source/npwt_dis_ifile_key_00.c: 976:     mod_tim_cnta=0;
+[e = _mod_tim_cnta -> -> 0 `i `us ]
+"977
+[; ;../../source/npwt_dis_ifile_key_00.c: 977:     cnt_cnta=0;
+[e = _cnt_cnta -> -> 0 `i `us ]
+"978
+[; ;../../source/npwt_dis_ifile_key_00.c: 978:     cnt_cntaa=0;
+[e = _cnt_cntaa -> -> 0 `i `us ]
+"979
+[; ;../../source/npwt_dis_ifile_key_00.c: 979:     mod_tim_cnta2=0;
+[e = _mod_tim_cnta2 -> -> 0 `i `us ]
+"980
+[; ;../../source/npwt_dis_ifile_key_00.c: 980:     mod_jixa=0;
+[e = _mod_jixa -> -> 0 `i `uc ]
+"982
+[; ;../../source/npwt_dis_ifile_key_00.c: 982:    }
+}
+[e :U 911 ]
+[e :U 910 ]
+[e :U 906 ]
+[e :U 902 ]
+[e :U 899 ]
+"983
+[; ;../../source/npwt_dis_ifile_key_00.c: 983:   }
+}
+[e $U 912  ]
+"984
+[; ;../../source/npwt_dis_ifile_key_00.c: 984:   else if (mod_seta_cnt==UI_SET_PRESSURE)
+[e :U 896 ]
+[e $ ! == -> _mod_seta_cnt `i -> . `E5109 5 `i 913  ]
+"985
+[; ;../../source/npwt_dis_ifile_key_00.c: 985:   {
+{
+"987
+[; ;../../source/npwt_dis_ifile_key_00.c: 987:    if (key_val == 0x34)
+[e $ ! == -> _key_val `i -> 52 `i 914  ]
+"988
+[; ;../../source/npwt_dis_ifile_key_00.c: 988:    {
+{
+"989
+[; ;../../source/npwt_dis_ifile_key_00.c: 989:     set_moda=set_moda+1;
+[e = _set_moda -> + -> _set_moda `ui -> -> 1 `i `ui `us ]
+"991
+[; ;../../source/npwt_dis_ifile_key_00.c: 991:     {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"992
+[; ;../../source/npwt_dis_ifile_key_00.c: 992:    }
+}
+[e $U 915  ]
+"993
+[; ;../../source/npwt_dis_ifile_key_00.c: 993:    else if (key_val == 0x2c)
+[e :U 914 ]
+[e $ ! == -> _key_val `i -> 44 `i 916  ]
+"994
+[; ;../../source/npwt_dis_ifile_key_00.c: 994:    {
+{
+"995
+[; ;../../source/npwt_dis_ifile_key_00.c: 995:     set_moda=set_moda-1;
+[e = _set_moda -> - -> _set_moda `ui -> -> 1 `i `ui `us ]
+"996
+[; ;../../source/npwt_dis_ifile_key_00.c: 996:     {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"997
+[; ;../../source/npwt_dis_ifile_key_00.c: 997:    }
+}
+[e $U 917  ]
+"998
+[; ;../../source/npwt_dis_ifile_key_00.c: 998:    else if (key_val == 0xac)
+[e :U 916 ]
+[e $ ! == -> _key_val `i -> 172 `i 918  ]
+"999
+[; ;../../source/npwt_dis_ifile_key_00.c: 999:    {
+{
+"1000
+[; ;../../source/npwt_dis_ifile_key_00.c: 1000:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 919  ]
+"1001
+[; ;../../source/npwt_dis_ifile_key_00.c: 1001:     {
+{
+"1002
+[; ;../../source/npwt_dis_ifile_key_00.c: 1002:      return;
+[e $UE 713  ]
+"1003
+[; ;../../source/npwt_dis_ifile_key_00.c: 1003:     }
+}
+[e :U 919 ]
+"1004
+[; ;../../source/npwt_dis_ifile_key_00.c: 1004:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"1006
+[; ;../../source/npwt_dis_ifile_key_00.c: 1006:     set_moda=set_moda-10;
+[e = _set_moda -> - -> _set_moda `ui -> -> 10 `i `ui `us ]
+"1007
+[; ;../../source/npwt_dis_ifile_key_00.c: 1007:     {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"1008
+[; ;../../source/npwt_dis_ifile_key_00.c: 1008:    }
+}
+[e $U 920  ]
+"1009
+[; ;../../source/npwt_dis_ifile_key_00.c: 1009:    else if (key_val == 0xb4)
+[e :U 918 ]
+[e $ ! == -> _key_val `i -> 180 `i 921  ]
+"1010
+[; ;../../source/npwt_dis_ifile_key_00.c: 1010:    {
+{
+"1011
+[; ;../../source/npwt_dis_ifile_key_00.c: 1011:     if (key_set_tim++<20)
+[e $ ! < -> ++ _key_set_tim -> -> 1 `i `uc `i -> 20 `i 922  ]
+"1012
+[; ;../../source/npwt_dis_ifile_key_00.c: 1012:     {
+{
+"1013
+[; ;../../source/npwt_dis_ifile_key_00.c: 1013:      return;
+[e $UE 713  ]
+"1014
+[; ;../../source/npwt_dis_ifile_key_00.c: 1014:     }
+}
+[e :U 922 ]
+"1015
+[; ;../../source/npwt_dis_ifile_key_00.c: 1015:     key_set_tim=0;
+[e = _key_set_tim -> -> 0 `i `uc ]
+"1016
+[; ;../../source/npwt_dis_ifile_key_00.c: 1016:     set_moda=set_moda+10;
+[e = _set_moda -> + -> _set_moda `ui -> -> 10 `i `ui `us ]
+"1017
+[; ;../../source/npwt_dis_ifile_key_00.c: 1017:     {DISP_ClrZero(4,6,0,128);};
+{
+[e ( _DISP_ClrZero (4 , , , -> -> 4 `i `uc -> -> 6 `i `uc -> -> 0 `i `uc -> -> 128 `i `uc ]
+}
+"1018
+[; ;../../source/npwt_dis_ifile_key_00.c: 1018:    }
+}
+[e $U 923  ]
+"1019
+[; ;../../source/npwt_dis_ifile_key_00.c: 1019:    else if (key_val == 0x38)
+[e :U 921 ]
+[e $ ! == -> _key_val `i -> 56 `i 924  ]
+"1020
+[; ;../../source/npwt_dis_ifile_key_00.c: 1020:    {
+{
+"1021
+[; ;../../source/npwt_dis_ifile_key_00.c: 1021:     mod_seta_cnt=0;
+[e = _mod_seta_cnt -> -> 0 `i `uc ]
+"1022
+[; ;../../source/npwt_dis_ifile_key_00.c: 1022:     valueK = 2.75f;
+[e = _valueK -> .2.75 `f ]
+"1023
+[; ;../../source/npwt_dis_ifile_key_00.c: 1023:     mod_main_a=5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"1025
+[; ;../../source/npwt_dis_ifile_key_00.c: 1025:    }
+}
+[e :U 924 ]
+[e :U 923 ]
+[e :U 920 ]
+[e :U 917 ]
+[e :U 915 ]
+"1026
+[; ;../../source/npwt_dis_ifile_key_00.c: 1026:   }
+}
+[e :U 913 ]
+[e :U 912 ]
+[e :U 895 ]
+[e :U 878 ]
+[e :U 855 ]
+[e :U 814 ]
+"1028
+[; ;../../source/npwt_dis_ifile_key_00.c: 1028:   break;;
+[e $U 714  ]
+"1029
+[; ;../../source/npwt_dis_ifile_key_00.c: 1029:  }
+}
+"1030
+[; ;../../source/npwt_dis_ifile_key_00.c: 1030:  case 9:
+[e :U 925 ]
+"1031
+[; ;../../source/npwt_dis_ifile_key_00.c: 1031:  {
+{
+"1033
+[; ;../../source/npwt_dis_ifile_key_00.c: 1033:   if (key_val == 0x38 )
+[e $ ! == -> _key_val `i -> 56 `i 926  ]
+"1034
+[; ;../../source/npwt_dis_ifile_key_00.c: 1034:   {
+{
+"1035
+[; ;../../source/npwt_dis_ifile_key_00.c: 1035:    mod_main_a = 5;
+[e = _mod_main_a -> -> 5 `i `uc ]
+"1036
+[; ;../../source/npwt_dis_ifile_key_00.c: 1036:   }
+}
+[e $U 927  ]
+"1037
+[; ;../../source/npwt_dis_ifile_key_00.c: 1037:   else if (key_val == 0x34)
+[e :U 926 ]
+[e $ ! == -> _key_val `i -> 52 `i 928  ]
+"1038
+[; ;../../source/npwt_dis_ifile_key_00.c: 1038:   {
+{
+"1039
+[; ;../../source/npwt_dis_ifile_key_00.c: 1039:    language++;
+[e ++ _language -> -> 1 `i `uc ]
+"1040
+[; ;../../source/npwt_dis_ifile_key_00.c: 1040:    if (language>6)
+[e $ ! > -> _language `i -> 6 `i 929  ]
+"1041
+[; ;../../source/npwt_dis_ifile_key_00.c: 1041:    {
+{
+"1042
+[; ;../../source/npwt_dis_ifile_key_00.c: 1042:     language = 6;
+[e = _language -> -> 6 `i `uc ]
+"1043
+[; ;../../source/npwt_dis_ifile_key_00.c: 1043:    }
+}
+[e :U 929 ]
+"1044
+[; ;../../source/npwt_dis_ifile_key_00.c: 1044:   }
+}
+[e $U 930  ]
+"1045
+[; ;../../source/npwt_dis_ifile_key_00.c: 1045:   else if (key_val == 0x2c)
+[e :U 928 ]
+[e $ ! == -> _key_val `i -> 44 `i 931  ]
+"1046
+[; ;../../source/npwt_dis_ifile_key_00.c: 1046:   {
+{
+"1047
+[; ;../../source/npwt_dis_ifile_key_00.c: 1047:     language--;
+[e -- _language -> -> 1 `i `uc ]
+"1048
+[; ;../../source/npwt_dis_ifile_key_00.c: 1048:    if (language<1)
+[e $ ! < -> _language `i -> 1 `i 932  ]
+"1049
+[; ;../../source/npwt_dis_ifile_key_00.c: 1049:    {
+{
+"1050
+[; ;../../source/npwt_dis_ifile_key_00.c: 1050:     language = 0;
+[e = _language -> -> 0 `i `uc ]
+"1051
+[; ;../../source/npwt_dis_ifile_key_00.c: 1051:    }
+}
+[e :U 932 ]
+"1052
+[; ;../../source/npwt_dis_ifile_key_00.c: 1052:   }
+}
+[e $U 933  ]
+"1053
+[; ;../../source/npwt_dis_ifile_key_00.c: 1053:   else if(key_val==0x98)
+[e :U 931 ]
+[e $ ! == -> _key_val `i -> 152 `i 934  ]
+"1054
+[; ;../../source/npwt_dis_ifile_key_00.c: 1054:   {
+{
+"1055
+[; ;../../source/npwt_dis_ifile_key_00.c: 1055:    DISP_LANGUAGE();
+[e ( _DISP_LANGUAGE ..  ]
+"1056
+[; ;../../source/npwt_dis_ifile_key_00.c: 1056:   }
+}
+[e :U 934 ]
+[e :U 933 ]
+[e :U 930 ]
+[e :U 927 ]
+"1057
+[; ;../../source/npwt_dis_ifile_key_00.c: 1057:   switch (language)
+[e $U 936  ]
+"1058
+[; ;../../source/npwt_dis_ifile_key_00.c: 1058:    {
+{
+"1059
+[; ;../../source/npwt_dis_ifile_key_00.c: 1059:    default:
+[e :U 937 ]
+"1060
+[; ;../../source/npwt_dis_ifile_key_00.c: 1060:     break;
+[e $U 935  ]
+"1061
+[; ;../../source/npwt_dis_ifile_key_00.c: 1061:     case 0:
+[e :U 938 ]
+"1062
+[; ;../../source/npwt_dis_ifile_key_00.c: 1062:     {
+{
+"1063
+[; ;../../source/npwt_dis_ifile_key_00.c: 1063:    DISP_set_sanjiao(0,53);
+[e ( _DISP_set_sanjiao (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1064
+[; ;../../source/npwt_dis_ifile_key_00.c: 1064:    DISP_set_sanjiao0(2,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1065
+[; ;../../source/npwt_dis_ifile_key_00.c: 1065:    DISP_set_sanjiao0(4,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1066
+[; ;../../source/npwt_dis_ifile_key_00.c: 1066:    DISP_set_sanjiao0(6,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1067
+[; ;../../source/npwt_dis_ifile_key_00.c: 1067:    DISP_set_sanjiao0(0,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1068
+[; ;../../source/npwt_dis_ifile_key_00.c: 1068:    DISP_set_sanjiao0(2,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1069
+[; ;../../source/npwt_dis_ifile_key_00.c: 1069:    DISP_set_sanjiao0(4,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1070
+[; ;../../source/npwt_dis_ifile_key_00.c: 1070:       break;
+[e $U 935  ]
+"1071
+[; ;../../source/npwt_dis_ifile_key_00.c: 1071:     }
+}
+"1072
+[; ;../../source/npwt_dis_ifile_key_00.c: 1072:     case 1:
+[e :U 939 ]
+"1073
+[; ;../../source/npwt_dis_ifile_key_00.c: 1073:     {
+{
+"1074
+[; ;../../source/npwt_dis_ifile_key_00.c: 1074:    DISP_set_sanjiao0(0,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1075
+[; ;../../source/npwt_dis_ifile_key_00.c: 1075:    DISP_set_sanjiao(2,53);
+[e ( _DISP_set_sanjiao (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1076
+[; ;../../source/npwt_dis_ifile_key_00.c: 1076:    DISP_set_sanjiao0(4,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1077
+[; ;../../source/npwt_dis_ifile_key_00.c: 1077:    DISP_set_sanjiao0(6,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1078
+[; ;../../source/npwt_dis_ifile_key_00.c: 1078:    DISP_set_sanjiao0(0,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1079
+[; ;../../source/npwt_dis_ifile_key_00.c: 1079:    DISP_set_sanjiao0(2,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1080
+[; ;../../source/npwt_dis_ifile_key_00.c: 1080:    DISP_set_sanjiao0(4,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1081
+[; ;../../source/npwt_dis_ifile_key_00.c: 1081:       break;
+[e $U 935  ]
+"1082
+[; ;../../source/npwt_dis_ifile_key_00.c: 1082:     }
+}
+"1083
+[; ;../../source/npwt_dis_ifile_key_00.c: 1083:     case 2:
+[e :U 940 ]
+"1084
+[; ;../../source/npwt_dis_ifile_key_00.c: 1084:     {
+{
+"1085
+[; ;../../source/npwt_dis_ifile_key_00.c: 1085:    DISP_set_sanjiao0(0,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1086
+[; ;../../source/npwt_dis_ifile_key_00.c: 1086:    DISP_set_sanjiao0(2,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1087
+[; ;../../source/npwt_dis_ifile_key_00.c: 1087:    DISP_set_sanjiao(4,53);
+[e ( _DISP_set_sanjiao (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1088
+[; ;../../source/npwt_dis_ifile_key_00.c: 1088:    DISP_set_sanjiao0(6,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1089
+[; ;../../source/npwt_dis_ifile_key_00.c: 1089:    DISP_set_sanjiao0(0,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1090
+[; ;../../source/npwt_dis_ifile_key_00.c: 1090:    DISP_set_sanjiao0(2,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1091
+[; ;../../source/npwt_dis_ifile_key_00.c: 1091:    DISP_set_sanjiao0(4,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1092
+[; ;../../source/npwt_dis_ifile_key_00.c: 1092:       break;
+[e $U 935  ]
+"1093
+[; ;../../source/npwt_dis_ifile_key_00.c: 1093:     }
+}
+"1095
+[; ;../../source/npwt_dis_ifile_key_00.c: 1095:     case 3:
+[e :U 941 ]
+"1096
+[; ;../../source/npwt_dis_ifile_key_00.c: 1096:     {
+{
+"1097
+[; ;../../source/npwt_dis_ifile_key_00.c: 1097:    DISP_set_sanjiao0(0,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1098
+[; ;../../source/npwt_dis_ifile_key_00.c: 1098:    DISP_set_sanjiao0(2,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1099
+[; ;../../source/npwt_dis_ifile_key_00.c: 1099:    DISP_set_sanjiao0(4,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1100
+[; ;../../source/npwt_dis_ifile_key_00.c: 1100:    DISP_set_sanjiao(6,53);
+[e ( _DISP_set_sanjiao (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1101
+[; ;../../source/npwt_dis_ifile_key_00.c: 1101:    DISP_set_sanjiao0(0,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1102
+[; ;../../source/npwt_dis_ifile_key_00.c: 1102:    DISP_set_sanjiao0(2,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1103
+[; ;../../source/npwt_dis_ifile_key_00.c: 1103:    DISP_set_sanjiao0(4,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1104
+[; ;../../source/npwt_dis_ifile_key_00.c: 1104:       break;
+[e $U 935  ]
+"1105
+[; ;../../source/npwt_dis_ifile_key_00.c: 1105:     }
+}
+"1106
+[; ;../../source/npwt_dis_ifile_key_00.c: 1106:     case 4:
+[e :U 942 ]
+"1107
+[; ;../../source/npwt_dis_ifile_key_00.c: 1107:     {
+{
+"1108
+[; ;../../source/npwt_dis_ifile_key_00.c: 1108:    DISP_set_sanjiao0(0,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1109
+[; ;../../source/npwt_dis_ifile_key_00.c: 1109:    DISP_set_sanjiao0(2,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1110
+[; ;../../source/npwt_dis_ifile_key_00.c: 1110:    DISP_set_sanjiao0(4,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1111
+[; ;../../source/npwt_dis_ifile_key_00.c: 1111:    DISP_set_sanjiao0(6,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1112
+[; ;../../source/npwt_dis_ifile_key_00.c: 1112:    DISP_set_sanjiao(0,122);
+[e ( _DISP_set_sanjiao (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1113
+[; ;../../source/npwt_dis_ifile_key_00.c: 1113:    DISP_set_sanjiao0(2,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1114
+[; ;../../source/npwt_dis_ifile_key_00.c: 1114:    DISP_set_sanjiao0(4,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1115
+[; ;../../source/npwt_dis_ifile_key_00.c: 1115:       break;
+[e $U 935  ]
+"1116
+[; ;../../source/npwt_dis_ifile_key_00.c: 1116:     }
+}
+"1117
+[; ;../../source/npwt_dis_ifile_key_00.c: 1117:     case 5:
+[e :U 943 ]
+"1118
+[; ;../../source/npwt_dis_ifile_key_00.c: 1118:     {
+{
+"1119
+[; ;../../source/npwt_dis_ifile_key_00.c: 1119:    DISP_set_sanjiao0(0,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1120
+[; ;../../source/npwt_dis_ifile_key_00.c: 1120:    DISP_set_sanjiao0(2,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1121
+[; ;../../source/npwt_dis_ifile_key_00.c: 1121:    DISP_set_sanjiao0(4,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1122
+[; ;../../source/npwt_dis_ifile_key_00.c: 1122:    DISP_set_sanjiao0(6,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1123
+[; ;../../source/npwt_dis_ifile_key_00.c: 1123:    DISP_set_sanjiao0(0,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1124
+[; ;../../source/npwt_dis_ifile_key_00.c: 1124:    DISP_set_sanjiao(2,122);
+[e ( _DISP_set_sanjiao (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1125
+[; ;../../source/npwt_dis_ifile_key_00.c: 1125:    DISP_set_sanjiao0(4,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1126
+[; ;../../source/npwt_dis_ifile_key_00.c: 1126:       break;
+[e $U 935  ]
+"1127
+[; ;../../source/npwt_dis_ifile_key_00.c: 1127:     }
+}
+"1128
+[; ;../../source/npwt_dis_ifile_key_00.c: 1128:     case 6:
+[e :U 944 ]
+"1129
+[; ;../../source/npwt_dis_ifile_key_00.c: 1129:     {
+{
+"1130
+[; ;../../source/npwt_dis_ifile_key_00.c: 1130:    DISP_set_sanjiao0(0,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 53 `i `ui ]
+"1131
+[; ;../../source/npwt_dis_ifile_key_00.c: 1131:    DISP_set_sanjiao0(2,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 53 `i `ui ]
+"1132
+[; ;../../source/npwt_dis_ifile_key_00.c: 1132:    DISP_set_sanjiao0(4,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 4 `i `uc -> -> 53 `i `ui ]
+"1133
+[; ;../../source/npwt_dis_ifile_key_00.c: 1133:    DISP_set_sanjiao0(6,53);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 6 `i `uc -> -> 53 `i `ui ]
+"1134
+[; ;../../source/npwt_dis_ifile_key_00.c: 1134:    DISP_set_sanjiao0(0,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 0 `i `uc -> -> 122 `i `ui ]
+"1135
+[; ;../../source/npwt_dis_ifile_key_00.c: 1135:    DISP_set_sanjiao0(2,122);
+[e ( _DISP_set_sanjiao0 (2 , -> -> 2 `i `uc -> -> 122 `i `ui ]
+"1136
+[; ;../../source/npwt_dis_ifile_key_00.c: 1136:    DISP_set_sanjiao(4,122);
+[e ( _DISP_set_sanjiao (2 , -> -> 4 `i `uc -> -> 122 `i `ui ]
+"1137
+[; ;../../source/npwt_dis_ifile_key_00.c: 1137:       break;
+[e $U 935  ]
+"1138
+[; ;../../source/npwt_dis_ifile_key_00.c: 1138:     }
+}
+"1139
+[; ;../../source/npwt_dis_ifile_key_00.c: 1139:   }
+}
+[e $U 935  ]
+[e :U 936 ]
+[e [\ _language , $ -> 0 `i 938
+ , $ -> 1 `i 939
+ , $ -> 2 `i 940
+ , $ -> 3 `i 941
+ , $ -> 4 `i 942
+ , $ -> 5 `i 943
+ , $ -> 6 `i 944
+ 937 ]
+[e :U 935 ]
+"1140
+[; ;../../source/npwt_dis_ifile_key_00.c: 1140:   break;
+[e $U 714  ]
+"1141
+[; ;../../source/npwt_dis_ifile_key_00.c: 1141:  }
+}
+"1142
+[; ;../../source/npwt_dis_ifile_key_00.c: 1142:  case 6:
+[e :U 945 ]
+"1143
+[; ;../../source/npwt_dis_ifile_key_00.c: 1143:  {
+{
+"1144
+[; ;../../source/npwt_dis_ifile_key_00.c: 1144:   break;
+[e $U 714  ]
+"1145
+[; ;../../source/npwt_dis_ifile_key_00.c: 1145:  }
+}
+"1146
+[; ;../../source/npwt_dis_ifile_key_00.c: 1146:  case 7:
+[e :U 946 ]
+"1147
+[; ;../../source/npwt_dis_ifile_key_00.c: 1147:  {
+{
+"1149
+[; ;../../source/npwt_dis_ifile_key_00.c: 1149:   break;
+[e $U 714  ]
+"1150
+[; ;../../source/npwt_dis_ifile_key_00.c: 1150:  }
+}
+"1151
+[; ;../../source/npwt_dis_ifile_key_00.c: 1151:  case 8:
+[e :U 947 ]
+"1152
+[; ;../../source/npwt_dis_ifile_key_00.c: 1152:  {
+{
+"1154
+[; ;../../source/npwt_dis_ifile_key_00.c: 1154:   break;
+[e $U 714  ]
+"1155
+[; ;../../source/npwt_dis_ifile_key_00.c: 1155:  }
+}
+"1157
+[; ;../../source/npwt_dis_ifile_key_00.c: 1157:  default:
+[e :U 948 ]
+"1158
+[; ;../../source/npwt_dis_ifile_key_00.c: 1158:  {
+{
+"1159
+[; ;../../source/npwt_dis_ifile_key_00.c: 1159:   break;
+[e $U 714  ]
+"1160
+[; ;../../source/npwt_dis_ifile_key_00.c: 1160:  }
+}
+"1161
+[; ;../../source/npwt_dis_ifile_key_00.c: 1161:  }
+}
+[e $U 714  ]
+[e :U 715 ]
+[e [\ _mod_main_a , $ -> 0 `i 716
+ , $ -> 1 `i 733
+ , $ -> 2 `i 739
+ , $ -> 3 `i 746
+ , $ -> 10 `i 769
+ , $ -> 5 `i 782
+ , $ -> 4 `i 791
+ , $ -> 9 `i 925
+ , $ -> 6 `i 945
+ , $ -> 7 `i 946
+ , $ -> 8 `i 947
+ 948 ]
+[e :U 714 ]
+"1162
+[; ;../../source/npwt_dis_ifile_key_00.c: 1162: }
+[e :UE 713 ]
+}
+"1167
+[; ;../../source/npwt_dis_ifile_key_00.c: 1167: unsigned short close_tim;
+[v _close_tim `us ~T0 @X0 1 e ]
+"1168
+[; ;../../source/npwt_dis_ifile_key_00.c: 1168: unsigned char mod_bak_bak;
+[v _mod_bak_bak `uc ~T0 @X0 1 e ]
+"1169
+[; ;../../source/npwt_dis_ifile_key_00.c: 1169: void MODE_Pro(void)
+[v _MODE_Pro `(v ~T0 @X0 1 ef ]
+"1170
+[; ;../../source/npwt_dis_ifile_key_00.c: 1170: {
+{
+[e :U _MODE_Pro ]
+[f ]
+"1171
+[; ;../../source/npwt_dis_ifile_key_00.c: 1171:  if ( (mod_main_a != 7 )&&(mod_main_a != 0 ))
+[e $ ! && != -> _mod_main_a `i -> 7 `i != -> _mod_main_a `i -> 0 `i 950  ]
+"1172
+[; ;../../source/npwt_dis_ifile_key_00.c: 1172:  {
+{
+"1173
+[; ;../../source/npwt_dis_ifile_key_00.c: 1173:   close_tim=0;
+[e = _close_tim -> -> 0 `i `us ]
+"1174
+[; ;../../source/npwt_dis_ifile_key_00.c: 1174:   if (lock_flg==1)
+[e $ ! == -> _lock_flg `i -> 1 `i 951  ]
+"1175
+[; ;../../source/npwt_dis_ifile_key_00.c: 1175:   {
+{
+"1177
+[; ;../../source/npwt_dis_ifile_key_00.c: 1177:   }
+}
+[e $U 952  ]
+"1178
+[; ;../../source/npwt_dis_ifile_key_00.c: 1178:   else
+[e :U 951 ]
+"1179
+[; ;../../source/npwt_dis_ifile_key_00.c: 1179:   {
+{
+"1180
+[; ;../../source/npwt_dis_ifile_key_00.c: 1180:    if (key_val == 0xb8 )
+[e $ ! == -> _key_val `i -> 184 `i 953  ]
+"1181
+[; ;../../source/npwt_dis_ifile_key_00.c: 1181:    {
+{
+"1182
+[; ;../../source/npwt_dis_ifile_key_00.c: 1182:     if (key_flg_l==1)
+[e $ ! == -> _key_flg_l `i -> 1 `i 954  ]
+"1183
+[; ;../../source/npwt_dis_ifile_key_00.c: 1183:      return;
+[e $UE 949  ]
+[e :U 954 ]
+"1184
+[; ;../../source/npwt_dis_ifile_key_00.c: 1184:     key_flg_l = 1;
+[e = _key_flg_l -> -> 1 `i `uc ]
+"1185
+[; ;../../source/npwt_dis_ifile_key_00.c: 1185:     flg2015=0;
+[e = _flg2015 -> -> 0 `i `uc ]
+"1186
+[; ;../../source/npwt_dis_ifile_key_00.c: 1186:     DISP_Clear() ;
+[e ( _DISP_Clear ..  ]
+"1187
+[; ;../../source/npwt_dis_ifile_key_00.c: 1187:     mod_main_a = 7;
+[e = _mod_main_a -> -> 7 `i `uc ]
+"1188
+[; ;../../source/npwt_dis_ifile_key_00.c: 1188:     mod_main_b = 7;
+[e = _mod_main_b -> -> 7 `i `uc ]
+"1189
+[; ;../../source/npwt_dis_ifile_key_00.c: 1189:    }
+}
+[e :U 953 ]
+"1190
+[; ;../../source/npwt_dis_ifile_key_00.c: 1190:   }
+}
+[e :U 952 ]
+"1191
+[; ;../../source/npwt_dis_ifile_key_00.c: 1191:  }
+}
+[e $U 955  ]
+"1192
+[; ;../../source/npwt_dis_ifile_key_00.c: 1192:  else if ( mod_main_a == 7 )
+[e :U 950 ]
+[e $ ! == -> _mod_main_a `i -> 7 `i 956  ]
+"1193
+[; ;../../source/npwt_dis_ifile_key_00.c: 1193:  {
+{
+"1194
+[; ;../../source/npwt_dis_ifile_key_00.c: 1194:   if ((bat_lev&0x0f)==5)
+[e $ ! == & -> _bat_lev `i -> 15 `i -> 5 `i 957  ]
+"1195
+[; ;../../source/npwt_dis_ifile_key_00.c: 1195:   {
+{
+"1197
+[; ;../../source/npwt_dis_ifile_key_00.c: 1197:   }
+}
+[e $U 958  ]
+"1198
+[; ;../../source/npwt_dis_ifile_key_00.c: 1198:   else
+[e :U 957 ]
+"1199
+[; ;../../source/npwt_dis_ifile_key_00.c: 1199:   {
+{
+"1200
+[; ;../../source/npwt_dis_ifile_key_00.c: 1200:    if (close_tim++>50)
+[e $ ! > -> ++ _close_tim -> -> 1 `i `us `ui -> -> 50 `i `ui 959  ]
+"1201
+[; ;../../source/npwt_dis_ifile_key_00.c: 1201:    {
+{
+"1202
+[; ;../../source/npwt_dis_ifile_key_00.c: 1202:     {LATC = LATC&0xbf;};
+{
+[e = _LATC -> & -> _LATC `i -> 191 `i `uc ]
+}
+"1203
+[; ;../../source/npwt_dis_ifile_key_00.c: 1203:     LATAbits.LATA1=0;
+[e = . . _LATAbits 0 1 -> -> 0 `i `uc ]
+"1204
+[; ;../../source/npwt_dis_ifile_key_00.c: 1204:     Flash_Erase(0xa000);
+[e ( _Flash_Erase (1 -> -> 40960 `ui `ul ]
+"1205
+[; ;../../source/npwt_dis_ifile_key_00.c: 1205:     Write_One_Word(0xa000, mod_seta_preh_bak);
+[e ( _Write_One_Word (2 , -> -> 40960 `ui `ul -> _mod_seta_preh_bak `ui ]
+"1206
+[; ;../../source/npwt_dis_ifile_key_00.c: 1206:     Write_One_Word(0xa000 +2, mod_seta_ont);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 2 `i `ui `ul -> _mod_seta_ont `ui ]
+"1207
+[; ;../../source/npwt_dis_ifile_key_00.c: 1207:     Write_One_Word(0xa000 +4, mod_seta_oft);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 4 `i `ui `ul -> _mod_seta_oft `ui ]
+"1208
+[; ;../../source/npwt_dis_ifile_key_00.c: 1208:     Write_One_Word(0xa000 +6, mod_main_baka);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 6 `i `ui `ul -> _mod_main_baka `ui ]
+"1209
+[; ;../../source/npwt_dis_ifile_key_00.c: 1209:     dataK = (unsigned int)(valueK*1000.0);
+[e = _dataK -> -> * -> _valueK `d .1000.0 `ui `us ]
+"1210
+[; ;../../source/npwt_dis_ifile_key_00.c: 1210:     dataK1 = dataK/1000;
+[e = _dataK1 -> / -> _dataK `ui -> -> 1000 `i `ui `us ]
+"1211
+[; ;../../source/npwt_dis_ifile_key_00.c: 1211:     dataK2 = dataK%1000 /100;
+[e = _dataK2 -> / % -> _dataK `ui -> -> 1000 `i `ui -> -> 100 `i `ui `us ]
+"1212
+[; ;../../source/npwt_dis_ifile_key_00.c: 1212:     dataK3 = ( ( dataK%1000 )%100 ) /10;
+[e = _dataK3 -> / % % -> _dataK `ui -> -> 1000 `i `ui -> -> 100 `i `ui -> -> 10 `i `ui `us ]
+"1213
+[; ;../../source/npwt_dis_ifile_key_00.c: 1213:     dataK4 = ( ( dataK%1000 )%100 )%10;
+[e = _dataK4 -> % % % -> _dataK `ui -> -> 1000 `i `ui -> -> 100 `i `ui -> -> 10 `i `ui `us ]
+"1214
+[; ;../../source/npwt_dis_ifile_key_00.c: 1214:     Write_One_Word(0xa000 +8, dataK1);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 8 `i `ui `ul -> _dataK1 `ui ]
+"1215
+[; ;../../source/npwt_dis_ifile_key_00.c: 1215:     Write_One_Word(0xa000 +10,dataK2);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 10 `i `ui `ul -> _dataK2 `ui ]
+"1216
+[; ;../../source/npwt_dis_ifile_key_00.c: 1216:     Write_One_Word(0xa000 +12,dataK3);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 12 `i `ui `ul -> _dataK3 `ui ]
+"1217
+[; ;../../source/npwt_dis_ifile_key_00.c: 1217:     Write_One_Word(0xa000 +14,dataK4);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 14 `i `ui `ul -> _dataK4 `ui ]
+"1218
+[; ;../../source/npwt_dis_ifile_key_00.c: 1218:     key_silent_flag = (key_silent_flag | language);
+[e = _key_silent_flag -> | -> _key_silent_flag `ui -> _language `ui `us ]
+"1219
+[; ;../../source/npwt_dis_ifile_key_00.c: 1219:     Write_One_Word(0xa000 +16,key_silent_flag);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 16 `i `ui `ul -> _key_silent_flag `ui ]
+"1220
+[; ;../../source/npwt_dis_ifile_key_00.c: 1220:     Write_One_Word(0xa000 +18,mod_seta_prel);
+[e ( _Write_One_Word (2 , -> + -> 40960 `ui -> -> 18 `i `ui `ul -> _mod_seta_prel `ui ]
+"1221
+[; ;../../source/npwt_dis_ifile_key_00.c: 1221:     LATCbits.LATC2=0;
+[e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
+"1222
+[; ;../../source/npwt_dis_ifile_key_00.c: 1222:    }
+}
+[e :U 959 ]
+"1223
+[; ;../../source/npwt_dis_ifile_key_00.c: 1223:   }
+}
+[e :U 958 ]
+"1224
+[; ;../../source/npwt_dis_ifile_key_00.c: 1224:  }
+}
+[e :U 956 ]
+[e :U 955 ]
+"1226
+[; ;../../source/npwt_dis_ifile_key_00.c: 1226:  if (key_val==0xa4)
+[e $ ! == -> _key_val `i -> 164 `i 960  ]
+"1227
+[; ;../../source/npwt_dis_ifile_key_00.c: 1227:  {
+{
+"1228
+[; ;../../source/npwt_dis_ifile_key_00.c: 1228:   lock_flg=0;
+[e = _lock_flg -> -> 0 `i `uc ]
+"1229
+[; ;../../source/npwt_dis_ifile_key_00.c: 1229:   lock_cnt=0;
+[e = _lock_cnt -> -> 0 `i `us ]
+"1230
+[; ;../../source/npwt_dis_ifile_key_00.c: 1230:  }
+}
+[e :U 960 ]
+"1231
+[; ;../../source/npwt_dis_ifile_key_00.c: 1231:  if (key_val==0x24)
+[e $ ! == -> _key_val `i -> 36 `i 961  ]
+"1232
+[; ;../../source/npwt_dis_ifile_key_00.c: 1232:  {
+{
+"1233
+[; ;../../source/npwt_dis_ifile_key_00.c: 1233:   lock_flg=0;
+[e = _lock_flg -> -> 0 `i `uc ]
+"1234
+[; ;../../source/npwt_dis_ifile_key_00.c: 1234:   lock_cnt=0;
+[e = _lock_cnt -> -> 0 `i `us ]
+"1235
+[; ;../../source/npwt_dis_ifile_key_00.c: 1235:  }
+}
+[e :U 961 ]
+"1237
+[; ;../../source/npwt_dis_ifile_key_00.c: 1237:  if (lock_flg==0)
+[e $ ! == -> _lock_flg `i -> 0 `i 962  ]
+"1238
+[; ;../../source/npwt_dis_ifile_key_00.c: 1238:  {
+{
+"1239
+[; ;../../source/npwt_dis_ifile_key_00.c: 1239:   if ( mod_main_a==1)
+[e $ ! == -> _mod_main_a `i -> 1 `i 963  ]
+"1240
+[; ;../../source/npwt_dis_ifile_key_00.c: 1240:   {
+{
+"1241
+[; ;../../source/npwt_dis_ifile_key_00.c: 1241:    if (key_key==0)
+[e $ ! == -> _key_key `i -> 0 `i 964  ]
+"1242
+[; ;../../source/npwt_dis_ifile_key_00.c: 1242:    {
+{
+"1245
+[; ;../../source/npwt_dis_ifile_key_00.c: 1245:     if (key_val==0x98)
+[e $ ! == -> _key_val `i -> 152 `i 965  ]
+"1246
+[; ;../../source/npwt_dis_ifile_key_00.c: 1246:     {
+{
+"1247
+[; ;../../source/npwt_dis_ifile_key_00.c: 1247:      key_key=1;
+[e = _key_key -> -> 1 `i `uc ]
+"1250
+[; ;../../source/npwt_dis_ifile_key_00.c: 1250:      if(0 == language)
+[e $ ! == -> 0 `i -> _language `i 966  ]
+"1251
+[; ;../../source/npwt_dis_ifile_key_00.c: 1251:      {
+{
+"1252
+[; ;../../source/npwt_dis_ifile_key_00.c: 1252:       language = 0xFE;
+[e = _language -> -> 254 `i `uc ]
+"1253
+[; ;../../source/npwt_dis_ifile_key_00.c: 1253:      }
+}
+[e $U 967  ]
+"1254
+[; ;../../source/npwt_dis_ifile_key_00.c: 1254:      else
+[e :U 966 ]
+"1255
+[; ;../../source/npwt_dis_ifile_key_00.c: 1255:      {
+{
+"1256
+[; ;../../source/npwt_dis_ifile_key_00.c: 1256:       language = 0;
+[e = _language -> -> 0 `i `uc ]
+"1257
+[; ;../../source/npwt_dis_ifile_key_00.c: 1257:      }
+}
+[e :U 967 ]
+"1258
+[; ;../../source/npwt_dis_ifile_key_00.c: 1258:                     all_flg = 0;
+[e = _all_flg -> -> 0 `i `uc ]
+"1260
+[; ;../../source/npwt_dis_ifile_key_00.c: 1260:      DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"1262
+[; ;../../source/npwt_dis_ifile_key_00.c: 1262:     }
+}
+[e :U 965 ]
+"1264
+[; ;../../source/npwt_dis_ifile_key_00.c: 1264:    }
+}
+[e :U 964 ]
+"1265
+[; ;../../source/npwt_dis_ifile_key_00.c: 1265:   }
+}
+[e :U 963 ]
+"1267
+[; ;../../source/npwt_dis_ifile_key_00.c: 1267:  }
+}
+[e :U 962 ]
+"1268
+[; ;../../source/npwt_dis_ifile_key_00.c: 1268:  if (mod_main_a!=mod_bak_bak)
+[e $ ! != -> _mod_main_a `i -> _mod_bak_bak `i 968  ]
+"1269
+[; ;../../source/npwt_dis_ifile_key_00.c: 1269:  {
+{
+"1270
+[; ;../../source/npwt_dis_ifile_key_00.c: 1270:   DISP_Clear();
+[e ( _DISP_Clear ..  ]
+"1271
+[; ;../../source/npwt_dis_ifile_key_00.c: 1271:  }
+}
+[e :U 968 ]
+"1272
+[; ;../../source/npwt_dis_ifile_key_00.c: 1272:  mod_bak_bak=mod_main_a;
+[e = _mod_bak_bak _mod_main_a ]
+"1273
+[; ;../../source/npwt_dis_ifile_key_00.c: 1273: }
+[e :UE 949 ]
+}

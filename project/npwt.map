@@ -1,0 +1,2232 @@
+HI-TECH Software C Compiler 
+
+Linker command line:
+
+\
+  --edf=C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\dat\en_msgs.txt \
+  -cs -h+npwt.sym -z -Q18F46J11 -ol.obj -Mnpwt.map -E1 -ACODE=00h-0FFF7h \
+  -ACONST=00h-0FFF7h -ASMALLCONST=0F00h-0FFFhx240,0FF00h-0FFF7h \
+  -AMEDIUMCONST=0F00h-0FFF7h -ARAM=00h-0FFhx14,0E00h-0E5Fh \
+  -ABIGRAM=00h-0E5Fh -ACOMRAM=00h-05Fh -AABS1=00h-0E5Fh -ABANK0=00h-0FFh \
+  -ABANK1=0100h-01FFh -ABANK2=0200h-02FFh -ABANK3=0300h-03FFh \
+  -ABANK4=0400h-04FFh -ABANK5=0500h-05FFh -ABANK6=0600h-06FFh \
+  -ABANK7=0700h-07FFh -ABANK8=0800h-08FFh -ABANK9=0900h-09FFh \
+  -ABANK10=0A00h-0AFFh -ABANK11=0B00h-0BFFh -ABANK12=0C00h-0CFFh \
+  -ABANK13=0D00h-0DFFh -ABANK14=0E00h-0E5Fh -ANVRAM=0E00h-0E5Fh \
+  -preset_vec=00h,intcode=08h,intcodelo,powerup,init,end_init \
+  -pramtop=0F00h -psmallconst=SMALLCONST -pmediumconst=MEDIUMCONST \
+  -pconst=CONST -prparam=COMRAM -AFARRAM=00h-00h -ACONFIG=0FFF8h-010000h \
+  -pconfig=CONFIG -AIDLOC=0200000h-0200007h -pidloc=IDLOC \
+  -pjflash_buffer=0F800h \
+  -prdata=COMRAM,nvrram=COMRAM,nvbit=COMRAM,rbss=COMRAM,rbit=COMRAM \
+  -pfarbss=FARRAM,fardata=FARRAM \
+  -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
+  -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE startup.obj npwt.obj 
+
+Object code version is 3.10
+
+Machine type is 18F46J11
+
+Call graph: (short form)
+
+*_main size 0,0 offset 0
+     _SYS_OSC_Ini size 0,0 offset 0
+     _Flash_Read size 4,0 offset 0
+     _SYS_IO_Ini size 0,0 offset 0
+     _SYS_TMR0_Ini size 0,0 offset 0
+     _SYS_TMR3_Ini size 0,0 offset 0
+     _SYS_DatIni size 0,0 offset 0
+     _adc_init size 0,0 offset 0
+     _UART_Test size 0,0 offset 0
+     _BAT_WarnFir size 0,0 offset 0
+     _clear_lqtimes size 0,0 offset 0
+     _KEY_Scan size 0,0 offset 0
+         _SetBlk size 0,0 offset 2
+         _DISP_ClrZero size 3,3 offset 13
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+     _AUDIO_Key size 0,0 offset 0
+         _BUZ_Cls size 0,0 offset 0
+     _FIND_FREE size 0,0 offset 0
+     _MODE_ProA size 0,2 offset 0
+         _BUZ_KeyCls size 0,0 offset 2
+         _DISP_Clear size 0,0 offset 7
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Ver size 0,4 offset 2
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _SYS_IniLcd size 0,0 offset 2
+             _BIOS_JLX12864_DELAY size 2,3 offset 2
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+         _SetBlk size 0,0 offset 2
+         _DISP_Sys100 size 0,4 offset 2
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_mod_set2015 size 0,4 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         ___wmul size 4,2 offset 21
+         ___lwtoft size 3,3 offset 5
+             ___ftpack size 3,3 offset 18
+         ___ftdiv size 6,7 offset 5
+             ___ftunpack size 4,4 offset 18
+             ___ftpack size 3,3 offset 18
+         ___fttol size 4,6 offset 5
+             ___ftunpack size 4,4 offset 18
+         _get_xx_delta size 2,2 offset 2
+             ___lwdiv size 4,3 offset 15
+             ___wmul size 4,2 offset 21
+         _DISP_press_set2016 size 0,4 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_ClrZero size 3,3 offset 13
+         _DISP_time_set2015 size 0,4 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_LANGUAGE size 0,4 offset 2
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_set_sanjiao size 2,0 offset 2
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_set_sanjiao0 size 2,0 offset 2
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+     _MODE_Pro size 0,0 offset 0
+         _DISP_Clear size 0,0 offset 7
+         _Flash_Erase size 4,0 offset 0
+             _Write_Cycle size 0,0 offset 6
+         _Write_One_Word size 6,0 offset 0
+             _Write_Cycle size 0,0 offset 6
+         ___ftmul size 6,6 offset 0
+             ___ftunpack size 4,4 offset 18
+             ___ftpack size 3,3 offset 18
+         ___fttol size 4,6 offset 5
+         ___lwdiv size 4,3 offset 15
+         ___lwmod size 4,0 offset 15
+*    _DISP_MainA size 0,5 offset 0
+         ___lwtoft size 3,3 offset 5
+         ___ftdiv size 6,7 offset 5
+         ___fttol size 4,6 offset 5
+         ___lwdiv size 4,3 offset 15
+         ___wmul size 4,2 offset 21
+         _DISP_ask size 0,4 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+*        _DISP_key2015 size 1,6 offset 5
+*            _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+*            _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+*        _DISP_8X16ascii size 4,0 offset 7
+*            _DISP_ChaBasic2015 size 2,7 offset 11
+*                _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+*                _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_lx size 1,5 offset 7
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Fu1 size 1,0 offset 7
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Dig12_16 size 3,5 offset 7
+             ___lwdiv size 4,3 offset 15
+             ___lwmod size 4,0 offset 15
+             _DISP_DigBasic size 2,9 offset 15
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_DigBasic0 size 2,5 offset 15
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_ChaBasic size 2,7 offset 7
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_jx size 1,5 offset 7
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Lock size 1,5 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_LockClr size 1,6 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_LixA size 0,2 offset 5
+             _DISP_Clear size 0,0 offset 7
+             _show_lq size 0,0 offset 7
+                 _DISP_Dig12_16 size 3,5 offset 7
+                 _DISP_Clear size 0,0 offset 7
+             _DISP_lx size 1,5 offset 7
+             _DISP_Fu1 size 1,0 offset 7
+             _DISP_Dig12_16 size 3,5 offset 7
+             _DISP_ChaBasic size 2,7 offset 7
+             _disp_filter size 2,2 offset 7
+                 ___lwdiv size 4,3 offset 15
+             ___lwdiv size 4,3 offset 15
+             ___wmul size 4,2 offset 21
+             _DISP_Dig18_40 size 1,5 offset 7
+                 ___lwdiv size 4,3 offset 15
+                 ___lwmod size 4,0 offset 15
+                 _DISP_DigBasic40 size 4,4 offset 13
+                     ___wmul size 4,2 offset 21
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_ClrZero size 3,3 offset 13
+             _DISP_Fu size 1,0 offset 7
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_ChaBasic2 size 2,6 offset 12
+                 ___wmul size 4,2 offset 21
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_run2015 size 1,5 offset 7
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_cha7s size 4,1 offset 7
+                 _DISP_ChaBasic2 size 2,6 offset 12
+             _DISP_Erra size 0,0 offset 7
+                 _DISP_ClrZero size 3,3 offset 13
+                 _DISP_yewm size 1,5 offset 7
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_8X16ascii size 4,0 offset 7
+                 _DISP_louq size 1,5 offset 7
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_block size 1,5 offset 7
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_8X16ascii_block size 4,0 offset 7
+                     _DISP_block_new size 2,7 offset 11
+                         _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                         _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_didl size 1,5 offset 7
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Info size 0,0 offset 5
+             _DISP_ClrZero size 3,3 offset 13
+             _DISP_Buz size 1,5 offset 5
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_Lock size 1,5 offset 5
+             _DISP_LockClr size 1,6 offset 5
+*        _DISP_JixA size 0,2 offset 5
+             _DISP_Clear size 0,0 offset 7
+             _DISP_jx size 1,5 offset 7
+             _DISP_Fu1 size 1,0 offset 7
+             _DISP_Dig12_16 size 3,5 offset 7
+             _DISP_ChaBasic size 2,7 offset 7
+*            _DISP_Dig1 size 3,5 offset 7
+                 ___lwdiv size 4,3 offset 15
+                 ___lwmod size 4,0 offset 15
+*                _DISP_Dig0 size 2,13 offset 15
+*                    _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+*                    _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_DigBasic00 size 2,5 offset 15
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_ChaBasic2 size 2,6 offset 12
+             _disp_filter size 2,2 offset 7
+             ___lwdiv size 4,3 offset 15
+             ___wmul size 4,2 offset 21
+*            _DISP_Dig18_40 size 1,5 offset 7
+             _DISP_Fu size 1,0 offset 7
+             _DISP_run2015 size 1,5 offset 7
+             _DISP_cha7s size 4,1 offset 7
+*            _DISP_Erra size 0,0 offset 7
+         _DISP_stop2015 size 1,5 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_press2015 size 1,5 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+*        _DISP_ChaBasic2015 size 2,7 offset 11
+         _DISP_cha7s size 4,1 offset 7
+*        _DISP_SetA_new size 0,0 offset 5
+*            _DISP_mod_set2015 size 0,4 offset 5
+*            _DISP_key2015 size 1,6 offset 5
+*            _DISP_8X16ascii size 4,0 offset 7
+             _DISP_select size 1,5 offset 5
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_select0 size 1,6 offset 5
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _DISP_Fu size 1,0 offset 7
+             _DISP_Dig15_32 size 1,5 offset 5
+                 ___lwdiv size 4,3 offset 15
+                 ___lwmod size 4,0 offset 15
+                 _DISP_DigBasic32 size 4,4 offset 11
+                     ___wmul size 4,2 offset 21
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_ClrZero size 3,3 offset 13
+             _DISP_pset size 1,5 offset 5
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+*            _DISP_press_set2016 size 0,4 offset 5
+             _DISP_Dig14_16 size 3,5 offset 5
+                 ___lwdiv size 4,3 offset 15
+                 ___lwmod size 4,0 offset 15
+                 _DISP_DigBasics12 size 2,5 offset 13
+                     _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                     _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+                 _DISP_DigBasic00 size 2,5 offset 15
+             _DISP_ChaBasic2 size 2,6 offset 12
+             _DISP_time_set2015 size 0,4 offset 5
+         _DISP_BatWarnE size 0,4 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_BatWarnC size 0,4 offset 5
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Clear size 0,0 offset 7
+*        _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+*        _DISP_Erra size 0,0 offset 7
+     _Warn size 0,0 offset 0
+         _spk_bee_server size 0,0 offset 0
+     _BAT_Warn size 0,0 offset 0
+*    _AUDIO size 0,1 offset 0
+         _DISP_Led size 0,0 offset 1
+*        _AUDIO_Sub size 0,0 offset 1
+             _DISP_BuzClr size 1,6 offset 1
+                 _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+                 _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+             _bee_three size 0,0 offset 1
+     _DISP_Bat size 0,0 offset 0
+         _DISP_Led size 0,0 offset 1
+         _DISP_Bat000 size 1,5 offset 0
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Bat001 size 1,5 offset 0
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Bat002 size 1,5 offset 0
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Bat003 size 1,5 offset 0
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Bat004 size 1,5 offset 0
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+         _DISP_Bat00Clr size 1,6 offset 0
+             _BIOS_JLX12864_TRANS_CMD size 2,0 offset 30
+             _BIOS_JLX12864_TRANS_DAT size 2,0 offset 30
+
+Estimated maximum call depth: 6
+
+*intlevel2 size 0,0 offset 32
+*    _Isr size 0,4 offset 32
+         _ADC_Ps90 size 0,0 offset 36
+             _ADC_DatCal size 0,0 offset 36
+                 _adc_reader_press size 2,2 offset 36
+                     _adc_press_filter size 2,4 offset 40
+                         _adc_read size 2,5 offset 46
+                         ___awdiv size 4,4 offset 46
+                 _adc_reader_power size 2,2 offset 36
+                     _adc_power_filter size 2,4 offset 40
+                         _adc_read size 2,5 offset 46
+                         ___awdiv size 4,4 offset 46
+*        _PRESS_ConA size 0,0 offset 36
+*            _PRESS_ConSubA size 0,2 offset 36
+                 _LEVEL_WarnA size 0,0 offset 38
+                 i2___lwtoft size 3,3 offset 38
+                     i2___ftpack size 3,3 offset 51
+*                i2___ftdiv size 6,7 offset 38
+*                    i2___ftunpack size 4,4 offset 51
+                     i2___ftpack size 3,3 offset 51
+                 i2___fttol size 4,6 offset 38
+                     i2___ftunpack size 4,4 offset 51
+                 ___ftadd size 6,6 offset 38
+                     i2___ftunpack size 4,4 offset 51
+                     i2___ftpack size 3,3 offset 51
+                 i2___ftmul size 6,6 offset 38
+                     i2___ftunpack size 4,4 offset 51
+                     i2___ftpack size 3,3 offset 51
+                 i2___lwdiv size 4,3 offset 48
+                 _STAT_conNewa size 0,6 offset 38
+                     _CLS_PwmA size 0,0 offset 44
+                     _get_press_delta size 2,2 offset 44
+                         i2___lwdiv size 4,3 offset 48
+                         i2___wmul size 4,2 offset 48
+                     _calc_delta_i size 4,2 offset 44
+                     _OPEN_PwmA size 0,0 offset 44
+                     i2___lwdiv size 4,3 offset 48
+                     i2___wmul size 4,2 offset 48
+                     _CONTR_fallaNew size 0,2 offset 44
+             _CLS_PwmA size 0,0 offset 44
+
+Estimated maximum call depth: 6
+
+
+                Name          Link     Load   Length Selector Space Scale
+startup.obj     end_init        44       44       1A       4     0
+                init            18       18       2C       4     0
+                config        FFF8     FFF8        8    FFF8     0
+                reset_vec        0        0        4       0     0
+npwt.obj        intcode          8        8       10       4     0
+                mediumcon     C66A     C66A     398E    6335     0
+                idata           5E       5E       1A       4     0
+                text95        3646     3646      10C       4     0
+                text94        55D4     55D4       9E       4     0
+                text97        5672     5672       9E       4     0
+                text96        3E04     3E04       D2       4     0
+                text93        5536     5536       9E       4     0
+                text90        5F26     5F26       82       4     0
+                text89        255E     255E      21E       4     0
+                text92        69F6     69F6       42       4     0
+                text91        68E0     68E0       48       4     0
+                text104       3538     3538      10E       4     0
+                text103       342A     342A      10E       4     0
+                text106       2E14     2E14      158       4     0
+                text105       3ED6     3ED6       D2       4     0
+                text102       6C56     6C56       2C       4     0
+                text99        6A38     6A38       42       4     0
+                text98        57AE     57AE       9E       4     0
+                text101       684C     684C       4A       4     0
+                text100       6B58     6B58       36       4     0
+                text77        6BC4     6BC4       34       4     0
+                text76        5EA2     5EA2       84       4     0
+                text79        66AC     66AC       56       4     0
+                text78        5BE8     5BE8       90       4     0
+                text75        6578     6578       6E       4     0
+                text72        649A     649A       70       4     0
+                text71        63BA     63BA       70       4     0
+                text74        4074     4074       CC       4     0
+                text73        6C82     6C82       2C       4     0
+                text86        3D20     3D20       E4       4     0
+                text85        3B48     3B48       EC       4     0
+                text88        2F6C     2F6C      13C       4     0
+                text87        4B24     4B24       C0       4     0
+                text84        4456     4456       C2       4     0
+                text81        4CA4     4CA4       BA       4     0
+                text80        385A     385A       FE       4     0
+                text83        2CB6     2CB6      15E       4     0
+                text82        4394     4394       C2       4     0
+                text130       3FA8     3FA8       CC       4     0
+                text129       517C     517C       A2       4     0
+                text132       65E6     65E6       64       4     0
+                text131       650A     650A       6E       4     0
+                text128       521E     521E       A0       4     0
+                text125       6B8E     6B8E       36       4     0
+                text124       6026     6026       7C       4     0
+                text127       6E28     6E28        8       4     0
+                text126       5C78     5C78       8E       4     0
+                pa_nodes       CCE      CCE      B86       4     0
+                text134       6CAE     6CAE       2C       4     0
+                text133       6896     6896       4A       4     0
+                text135       60A2     60A2       78       4     0
+                text112       30A8     30A8      136       4     0
+                text111       6E40     6E40        4       4     0
+                text114       5034     5034       A4       4     0
+                text113       6928     6928       46       4     0
+                text110       58EA     58EA       9C       4     0
+                text108       6DCE     6DCE       12       4     0
+                text107       6DE0     6DE0       12       4     0
+                text109       4BE4     4BE4       C0       4     0
+                text121       6D24     6D24       18       4     0
+                text120       42D0     42D0       C4       4     0
+                text123       6E30     6E30        8       4     0
+                text122       6D3C     6D3C       18       4     0
+                text119       5E1A     5E1A       88       4     0
+                text116       204A     204A      2BE       4     0
+                text115       6B22     6B22       36       4     0
+                text118       31DE     31DE      132       4     0
+                text117       5986     5986       9A       4     0
+                text23        67AC     67AC       54       4     0
+                text22        664A     664A       62       4     0
+                text25        6D04     6D04       20       4     0
+                text24        5ABA     5ABA       9A       4     0
+                text21        61FA     61FA       70       4     0
+                text18        6E12     6E12        C       4     0
+                text17        6E38     6E38        8       4     0
+                text20        6DBC     6DBC       12       4     0
+                text19        6E04     6E04        E       4     0
+                text32        52BE     52BE       9E       4     0
+                text31        1854     1854      496       4     0
+                text34        4140     4140       CA       4     0
+                text33        2B1E     2B1E      198       4     0
+                text30        5710     5710       9E       4     0
+                text27        45DA     45DA       C2       4     0
+                text26        6DF2     6DF2       12       4     0
+                text29        6AB4     6AB4       38       4     0
+                text28        277C     277C      206       4     0
+                text5         6BF8     6BF8       32       4     0
+                text4         3310     3310      11A       4     0
+                text7         2308     2308      256       4     0
+                text6         1CEA     1CEA      360       4     0
+                text3         6800     6800       4C       4     0
+                text0         2982     2982      19C       4     0
+                text2         6758     6758       54       4     0
+                text1           78       78      C56       4     0
+                text14        6CDA     6CDA       2A       4     0
+                text13        4F86     4F86       AE       4     0
+                text16        6D54     6D54       16       4     0
+                text15        6C2A     6C2A       2C       4     0
+                text12        6DA8     6DA8       14       4     0
+                text9         3A56     3A56       F2       4     0
+                text8         420A     420A       C6       4     0
+                text11        696E     696E       46       4     0
+                text10        5FA8     5FA8       7E       4     0
+                text59        3752     3752      108       4     0
+                text58        49A4     49A4       C0       4     0
+                text61        584C     584C       9E       4     0
+                text60        53FA     53FA       9E       4     0
+                text57        3C34     3C34       EC       4     0
+                text54        5D06     5D06       8C       4     0
+                text53        5A20     5A20       9A       4     0
+                text56        535C     535C       9E       4     0
+                text55        69B4     69B4       42       4     0
+                text68        6702     6702       56       4     0
+                text67        4ED2     4ED2       B4       4     0
+                text70        642A     642A       70       4     0
+                text69        5B54     5B54       94       4     0
+                text66        469C     469C       C2       4     0
+                text63        4D5E     4D5E       BA       4     0
+                text62        4A64     4A64       C0       4     0
+                text65        475E     475E       C2       4     0
+                text64        5498     5498       9E       4     0
+                text41        6AEC     6AEC       36       4     0
+                text40        4E18     4E18       BA       4     0
+                text43        6D94     6D94       14       4     0
+                text42        6D6A     6D6A       16       4     0
+                text39        48E2     48E2       C2       4     0
+                text36        634A     634A       70       4     0
+                text35        6A7A     6A7A       3A       4     0
+                text38        4820     4820       C2       4     0
+                text37        618A     618A       70       4     0
+                text50        611A     611A       70       4     0
+                text49        3958     3958       FE       4     0
+                text52        5D92     5D92       88       4     0
+                text51        626A     626A       70       4     0
+                text48        6E1E     6E1E        A       4     0
+                text45        6D80     6D80       14       4     0
+                text44        62DA     62DA       70       4     0
+                text47        4518     4518       C2       4     0
+                text46        50D8     50D8       A4       4     0
+
+COMMON          rparam          21       21       3B      21     1
+
+TOTAL           Name          Link     Load   Length  Space
+        CLASS   CODE           
+                end_init        44       44       1A     0
+                init            18       18       2C     0
+                intcode          8        8       10     0
+                idata           5E       5E       1A     0
+                reset_vec        0        0        4     0
+                text95        3646     3646      10C     0
+                text94        55D4     55D4       9E     0
+                text97        5672     5672       9E     0
+                text96        3E04     3E04       D2     0
+                text93        5536     5536       9E     0
+                text90        5F26     5F26       82     0
+                text89        255E     255E      21E     0
+                text92        69F6     69F6       42     0
+                text91        68E0     68E0       48     0
+                text104       3538     3538      10E     0
+                text103       342A     342A      10E     0
+                text106       2E14     2E14      158     0
+                text105       3ED6     3ED6       D2     0
+                text102       6C56     6C56       2C     0
+                text99        6A38     6A38       42     0
+                text98        57AE     57AE       9E     0
+                text101       684C     684C       4A     0
+                text100       6B58     6B58       36     0
+                text77        6BC4     6BC4       34     0
+                text76        5EA2     5EA2       84     0
+                text79        66AC     66AC       56     0
+                text78        5BE8     5BE8       90     0
+                text75        6578     6578       6E     0
+                text72        649A     649A       70     0
+                text71        63BA     63BA       70     0
+                text74        4074     4074       CC     0
+                text73        6C82     6C82       2C     0
+                text86        3D20     3D20       E4     0
+                text85        3B48     3B48       EC     0
+                text88        2F6C     2F6C      13C     0
+                text87        4B24     4B24       C0     0
+                text84        4456     4456       C2     0
+                text81        4CA4     4CA4       BA     0
+                text80        385A     385A       FE     0
+                text83        2CB6     2CB6      15E     0
+                text82        4394     4394       C2     0
+                text130       3FA8     3FA8       CC     0
+                text129       517C     517C       A2     0
+                text132       65E6     65E6       64     0
+                text131       650A     650A       6E     0
+                text128       521E     521E       A0     0
+                text125       6B8E     6B8E       36     0
+                text124       6026     6026       7C     0
+                text127       6E28     6E28        8     0
+                text126       5C78     5C78       8E     0
+                pa_nodes       CCE      CCE      B86     0
+                text134       6CAE     6CAE       2C     0
+                text133       6896     6896       4A     0
+                text135       60A2     60A2       78     0
+                text112       30A8     30A8      136     0
+                text111       6E40     6E40        4     0
+                text114       5034     5034       A4     0
+                text113       6928     6928       46     0
+                text110       58EA     58EA       9C     0
+                text108       6DCE     6DCE       12     0
+                text107       6DE0     6DE0       12     0
+                text109       4BE4     4BE4       C0     0
+                text121       6D24     6D24       18     0
+                text120       42D0     42D0       C4     0
+                text123       6E30     6E30        8     0
+                text122       6D3C     6D3C       18     0
+                text119       5E1A     5E1A       88     0
+                text116       204A     204A      2BE     0
+                text115       6B22     6B22       36     0
+                text118       31DE     31DE      132     0
+                text117       5986     5986       9A     0
+                text23        67AC     67AC       54     0
+                text22        664A     664A       62     0
+                text25        6D04     6D04       20     0
+                text24        5ABA     5ABA       9A     0
+                text21        61FA     61FA       70     0
+                text18        6E12     6E12        C     0
+                text17        6E38     6E38        8     0
+                text20        6DBC     6DBC       12     0
+                text19        6E04     6E04        E     0
+                text32        52BE     52BE       9E     0
+                text31        1854     1854      496     0
+                text34        4140     4140       CA     0
+                text33        2B1E     2B1E      198     0
+                text30        5710     5710       9E     0
+                text27        45DA     45DA       C2     0
+                text26        6DF2     6DF2       12     0
+                text29        6AB4     6AB4       38     0
+                text28        277C     277C      206     0
+                text5         6BF8     6BF8       32     0
+                text4         3310     3310      11A     0
+                text7         2308     2308      256     0
+                text6         1CEA     1CEA      360     0
+                text3         6800     6800       4C     0
+                text0         2982     2982      19C     0
+                text2         6758     6758       54     0
+                text1           78       78      C56     0
+                text14        6CDA     6CDA       2A     0
+                text13        4F86     4F86       AE     0
+                text16        6D54     6D54       16     0
+                text15        6C2A     6C2A       2C     0
+                text12        6DA8     6DA8       14     0
+                text9         3A56     3A56       F2     0
+                text8         420A     420A       C6     0
+                text11        696E     696E       46     0
+                text10        5FA8     5FA8       7E     0
+                text59        3752     3752      108     0
+                text58        49A4     49A4       C0     0
+                text61        584C     584C       9E     0
+                text60        53FA     53FA       9E     0
+                text57        3C34     3C34       EC     0
+                text54        5D06     5D06       8C     0
+                text53        5A20     5A20       9A     0
+                text56        535C     535C       9E     0
+                text55        69B4     69B4       42     0
+                text68        6702     6702       56     0
+                text67        4ED2     4ED2       B4     0
+                text70        642A     642A       70     0
+                text69        5B54     5B54       94     0
+                text66        469C     469C       C2     0
+                text63        4D5E     4D5E       BA     0
+                text62        4A64     4A64       C0     0
+                text65        475E     475E       C2     0
+                text64        5498     5498       9E     0
+                text41        6AEC     6AEC       36     0
+                text40        4E18     4E18       BA     0
+                text43        6D94     6D94       14     0
+                text42        6D6A     6D6A       16     0
+                text39        48E2     48E2       C2     0
+                text36        634A     634A       70     0
+                text35        6A7A     6A7A       3A     0
+                text38        4820     4820       C2     0
+                text37        618A     618A       70     0
+                text50        611A     611A       70     0
+                text49        3958     3958       FE     0
+                text52        5D92     5D92       88     0
+                text51        626A     626A       70     0
+                text48        6E1E     6E1E        A     0
+                text45        6D80     6D80       14     0
+                text44        62DA     62DA       70     0
+                text47        4518     4518       C2     0
+                text46        50D8     50D8       A4     0
+
+        CLASS   CONST          
+
+        CLASS   SMALLCONST     
+
+        CLASS   MEDIUMCONST    
+                mediumcon     C66A     C66A     398E     0
+
+        CLASS   RAM            
+
+        CLASS   BIGRAM         
+
+        CLASS   COMRAM         
+                rparam          21       21       3B     1
+
+        CLASS   ABS1           
+                abs_s1           0        0       21     1
+                abs_s1          60       60       EA     1
+
+        CLASS   BANK0          
+
+        CLASS   BANK1          
+
+        CLASS   BANK2          
+
+        CLASS   BANK3          
+
+        CLASS   BANK4          
+
+        CLASS   BANK5          
+
+        CLASS   BANK6          
+
+        CLASS   BANK7          
+
+        CLASS   BANK8          
+
+        CLASS   BANK9          
+
+        CLASS   BANK10         
+
+        CLASS   BANK11         
+
+        CLASS   BANK12         
+
+        CLASS   BANK13         
+
+        CLASS   BANK14         
+
+        CLASS   NVRAM          
+
+        CLASS   FARRAM         
+
+        CLASS   CONFIG         
+                config        FFF8     FFF8        8     0
+
+        CLASS   IDLOC          
+
+        CLASS   EEDATA         
+
+
+
+SEGMENTS        Name           Load    Length   Top     Selector    Space Class
+
+                reset_vec       000000  000004  000004         0       0  CODE    
+                intcode         000008  006E3C  006E44         4       0  CODE    
+                rparam          000021  00003B  00005C        21       1  COMRAM  
+                mediumconst     00C66A  00398E  00FFF8      6335       0  MEDIUMCO
+                config          00FFF8  000008  010000      FFF8       0  CONFIG  
+
+
+UNUSED ADDRESS RANGES
+
+        BANK0            00005C-00005F
+        BANK1            00014A-0001FF
+        BANK10           000A00-000AFF
+        BANK11           000B00-000BFF
+        BANK12           000C00-000CFF
+        BANK13           000D00-000DFF
+        BANK14           000E00-000E5F
+        BANK2            000200-0002FF
+        BANK3            000300-0003FF
+        BANK4            000400-0004FF
+        BANK5            000500-0005FF
+        BANK6            000600-0006FF
+        BANK7            000700-0007FF
+        BANK8            000800-0008FF
+        BANK9            000900-0009FF
+        BIGRAM           00005C-00005F
+                         00014A-000E5F
+        CODE             000004-000007
+                         006E44-00C669
+        COMRAM           00005C-00005F
+        CONFIG           010000-010000
+        CONST            000004-000007
+                         006E44-00C669
+        IDLOC            200000-200007
+        MEDIUMCONST      006E44-00C669
+        NVRAM            000E00-000E5F
+        RAM              00005C-00005F
+                         00014A-000E5F
+        SMALLCONST       006E44-00C669
+
+                                  Symbol Table
+
+??_ADC_DatCal                    rparam        000045
+??_ADC_Ps90                      rparam        000045
+??_AUDIO                         rparam        000021
+??_AUDIO_Key                     rparam        000021
+??_AUDIO_Sub                     rparam        000022
+??_BAT_Warn                      rparam        000021
+??_BAT_WarnFir                   rparam        000021
+??_BIOS_JLX12864_DELAY           rparam        000025
+??_BIOS_JLX12864_TRANS_CMD       rparam        000041
+??_BIOS_JLX12864_TRANS_DAT       rparam        000041
+??_BUZ_Cls                       rparam        000021
+??_BUZ_KeyCls                    rparam        000023
+??_CLS_PwmA                      rparam        00004D
+??_CONTR_fallaNew                rparam        00004D
+??_DISP_8X16ascii                rparam        00002C
+??_DISP_8X16ascii_block          rparam        00002C
+??_DISP_Bat                      rparam        000021
+??_DISP_Bat000                   rparam        000022
+??_DISP_Bat001                   rparam        000022
+??_DISP_Bat002                   rparam        000022
+??_DISP_Bat003                   rparam        000022
+??_DISP_Bat004                   rparam        000022
+??_DISP_Bat00Clr                 rparam        000022
+??_DISP_BatWarnC                 rparam        000026
+??_DISP_BatWarnE                 rparam        000026
+??_DISP_Buz                      rparam        000027
+??_DISP_BuzClr                   rparam        000023
+??_DISP_ChaBasic                 rparam        00002A
+??_DISP_ChaBasic2                rparam        00002F
+??_DISP_ChaBasic2015             rparam        00002E
+??_DISP_Clear                    rparam        000028
+??_DISP_ClrZero                  rparam        000031
+??_DISP_Dig0                     rparam        000032
+??_DISP_Dig1                     rparam        00002B
+??_DISP_Dig12_16                 rparam        00002B
+??_DISP_Dig14_16                 rparam        000029
+??_DISP_Dig15_32                 rparam        000027
+??_DISP_Dig18_40                 rparam        000029
+??_DISP_DigBasic                 rparam        000032
+??_DISP_DigBasic0                rparam        000032
+??_DISP_DigBasic00               rparam        000032
+??_DISP_DigBasic32               rparam        000030
+??_DISP_DigBasic40               rparam        000032
+??_DISP_DigBasics12              rparam        000030
+??_DISP_Erra                     rparam        000028
+??_DISP_Fu                       rparam        000029
+??_DISP_Fu1                      rparam        000029
+??_DISP_Info                     rparam        000026
+??_DISP_JixA                     rparam        000026
+??_DISP_LANGUAGE                 rparam        000023
+??_DISP_Led                      rparam        000022
+??_DISP_LixA                     rparam        000026
+??_DISP_Lock                     rparam        000027
+??_DISP_LockClr                  rparam        000027
+??_DISP_MainA                    rparam        000021
+??_DISP_SetA_new                 rparam        000026
+??_DISP_Sys100                   rparam        000023
+??_DISP_Ver                      rparam        000023
+??_DISP_ask                      rparam        000026
+??_DISP_block                    rparam        000029
+??_DISP_block_new                rparam        00002E
+??_DISP_cha7s                    rparam        00002C
+??_DISP_didl                     rparam        000029
+??_DISP_jx                       rparam        000029
+??_DISP_key2015                  rparam        000027
+??_DISP_louq                     rparam        000029
+??_DISP_lx                       rparam        000029
+??_DISP_mod_set2015              rparam        000026
+??_DISP_press2015                rparam        000027
+??_DISP_press_set2016            rparam        000026
+??_DISP_pset                     rparam        000027
+??_DISP_run2015                  rparam        000029
+??_DISP_select                   rparam        000027
+??_DISP_select0                  rparam        000027
+??_DISP_set_sanjiao              rparam        000025
+??_DISP_set_sanjiao0             rparam        000025
+??_DISP_stop2015                 rparam        000027
+??_DISP_time_set2015             rparam        000026
+??_DISP_yewm                     rparam        000029
+??_FIND_FREE                     rparam        000021
+??_Flash_Erase                   rparam        000025
+??_Flash_Read                    rparam        000025
+??_Isr                           rparam        000041
+??_KEY_Scan                      rparam        000021
+??_LEVEL_WarnA                   rparam        000047
+??_MODE_Pro                      rparam        000021
+??_MODE_ProA                     rparam        000021
+??_OPEN_PwmA                     rparam        00004D
+??_PRESS_ConA                    rparam        000045
+??_PRESS_ConSubA                 rparam        000045
+??_STAT_conNewa                  rparam        000047
+??_SYS_DatIni                    rparam        000021
+??_SYS_IO_Ini                    rparam        000021
+??_SYS_IniLcd                    rparam        000023
+??_SYS_OSC_Ini                   rparam        000021
+??_SYS_TMR0_Ini                  rparam        000021
+??_SYS_TMR3_Ini                  rparam        000021
+??_SetBlk                        rparam        000023
+??_UART_Test                     rparam        000021
+??_Warn                          rparam        000021
+??_Write_Cycle                   rparam        000027
+??_Write_One_Word                rparam        000027
+??___awdiv                       rparam        000053
+??___ftadd                       rparam        00004D
+??___ftdiv                       rparam        00002C
+??___ftmul                       rparam        000027
+??___ftpack                      rparam        000036
+??___fttol                       rparam        00002A
+??___ftunpack                    rparam        000037
+??___lwdiv                       rparam        000034
+??___lwmod                       rparam        000034
+??___lwtoft                      rparam        000029
+??___wmul                        rparam        00003A
+??_adc_init                      rparam        000021
+??_adc_power_filter              rparam        00004B
+??_adc_press_filter              rparam        00004B
+??_adc_read                      rparam        000051
+??_adc_reader_power              rparam        000047
+??_adc_reader_press              rparam        000047
+??_bee_three                     rparam        000022
+??_calc_delta_i                  rparam        000051
+??_clear_lqtimes                 rparam        000021
+??_disp_filter                   rparam        00002A
+??_get_press_delta               rparam        00004F
+??_get_xx_delta                  rparam        000025
+??_main                          rparam        000021
+??_show_lq                       rparam        000028
+??_spk_bee_server                rparam        000021
+??i2___ftdiv                     rparam        00004D
+??i2___ftmul                     rparam        00004D
+??i2___ftpack                    rparam        000057
+??i2___fttol                     rparam        00004B
+??i2___ftunpack                  rparam        000058
+??i2___lwdiv                     rparam        000055
+??i2___lwtoft                    rparam        00004A
+??i2___wmul                      rparam        000055
+?_ADC_DatCal                     rparam        000045
+?_ADC_Ps90                       rparam        000045
+?_AUDIO                          rparam        000021
+?_AUDIO_Key                      rparam        000021
+?_AUDIO_Sub                      rparam        000022
+?_BAT_Warn                       rparam        000021
+?_BAT_WarnFir                    rparam        000021
+?_BIOS_JLX12864_DELAY            rparam        000023
+?_BIOS_JLX12864_TRANS_CMD        rparam        00003F
+?_BIOS_JLX12864_TRANS_DAT        rparam        00003F
+?_BUZ_Cls                        rparam        000021
+?_BUZ_KeyCls                     rparam        000023
+?_CLS_PwmA                       rparam        00004D
+?_CONTR_fallaNew                 rparam        00004D
+?_DISP_8X16ascii                 rparam        000028
+?_DISP_8X16ascii_block           rparam        000028
+?_DISP_Bat                       rparam        000021
+?_DISP_Bat000                    rparam        000021
+?_DISP_Bat001                    rparam        000021
+?_DISP_Bat002                    rparam        000021
+?_DISP_Bat003                    rparam        000021
+?_DISP_Bat004                    rparam        000021
+?_DISP_Bat00Clr                  rparam        000021
+?_DISP_BatWarnC                  rparam        000026
+?_DISP_BatWarnE                  rparam        000026
+?_DISP_Buz                       rparam        000026
+?_DISP_BuzClr                    rparam        000022
+?_DISP_ChaBasic                  rparam        000028
+?_DISP_ChaBasic2                 rparam        00002D
+?_DISP_ChaBasic2015              rparam        00002C
+?_DISP_Clear                     rparam        000028
+?_DISP_ClrZero                   rparam        00002E
+?_DISP_Dig0                      rparam        000030
+?_DISP_Dig1                      rparam        000028
+?_DISP_Dig12_16                  rparam        000028
+?_DISP_Dig14_16                  rparam        000026
+?_DISP_Dig15_32                  rparam        000026
+?_DISP_Dig18_40                  rparam        000028
+?_DISP_DigBasic                  rparam        000030
+?_DISP_DigBasic0                 rparam        000030
+?_DISP_DigBasic00                rparam        000030
+?_DISP_DigBasic32                rparam        00002C
+?_DISP_DigBasic40                rparam        00002E
+?_DISP_DigBasics12               rparam        00002E
+?_DISP_Erra                      rparam        000028
+?_DISP_Fu                        rparam        000028
+?_DISP_Fu1                       rparam        000028
+?_DISP_Info                      rparam        000026
+?_DISP_JixA                      rparam        000026
+?_DISP_LANGUAGE                  rparam        000023
+?_DISP_Led                       rparam        000022
+?_DISP_LixA                      rparam        000026
+?_DISP_Lock                      rparam        000026
+?_DISP_LockClr                   rparam        000026
+?_DISP_MainA                     rparam        000021
+?_DISP_SetA_new                  rparam        000026
+?_DISP_Sys100                    rparam        000023
+?_DISP_Ver                       rparam        000023
+?_DISP_ask                       rparam        000026
+?_DISP_block                     rparam        000028
+?_DISP_block_new                 rparam        00002C
+?_DISP_cha7s                     rparam        000028
+?_DISP_didl                      rparam        000028
+?_DISP_jx                        rparam        000028
+?_DISP_key2015                   rparam        000026
+?_DISP_louq                      rparam        000028
+?_DISP_lx                        rparam        000028
+?_DISP_mod_set2015               rparam        000026
+?_DISP_press2015                 rparam        000026
+?_DISP_press_set2016             rparam        000026
+?_DISP_pset                      rparam        000026
+?_DISP_run2015                   rparam        000028
+?_DISP_select                    rparam        000026
+?_DISP_select0                   rparam        000026
+?_DISP_set_sanjiao               rparam        000023
+?_DISP_set_sanjiao0              rparam        000023
+?_DISP_stop2015                  rparam        000026
+?_DISP_time_set2015              rparam        000026
+?_DISP_yewm                      rparam        000028
+?_FIND_FREE                      rparam        000021
+?_Flash_Erase                    rparam        000021
+?_Flash_Read                     rparam        000021
+?_Isr                            rparam        000041
+?_KEY_Scan                       rparam        000021
+?_LEVEL_WarnA                    rparam        000047
+?_MODE_Pro                       rparam        000021
+?_MODE_ProA                      rparam        000021
+?_OPEN_PwmA                      rparam        00004D
+?_PRESS_ConA                     rparam        000045
+?_PRESS_ConSubA                  rparam        000045
+?_STAT_conNewa                   rparam        000047
+?_SYS_DatIni                     rparam        000021
+?_SYS_IO_Ini                     rparam        000021
+?_SYS_IniLcd                     rparam        000023
+?_SYS_OSC_Ini                    rparam        000021
+?_SYS_TMR0_Ini                   rparam        000021
+?_SYS_TMR3_Ini                   rparam        000021
+?_SetBlk                         rparam        000023
+?_UART_Test                      rparam        000021
+?_Warn                           rparam        000021
+?_Write_Cycle                    rparam        000027
+?_Write_One_Word                 rparam        000021
+?___awdiv                        rparam        00004F
+?___ftadd                        rparam        000047
+?___ftdiv                        rparam        000026
+?___ftmul                        rparam        000021
+?___ftpack                       rparam        000033
+?___fttol                        rparam        000026
+?___ftunpack                     rparam        000033
+?___lwdiv                        rparam        000030
+?___lwmod                        rparam        000030
+?___lwtoft                       rparam        000026
+?___wmul                         rparam        000036
+?_adc_init                       rparam        000021
+?_adc_power_filter               rparam        000049
+?_adc_press_filter               rparam        000049
+?_adc_read                       rparam        00004F
+?_adc_reader_power               rparam        000045
+?_adc_reader_press               rparam        000045
+?_bee_three                      rparam        000022
+?_calc_delta_i                   rparam        00004D
+?_clear_lqtimes                  rparam        000021
+?_disp_filter                    rparam        000028
+?_get_press_delta                rparam        00004D
+?_get_xx_delta                   rparam        000023
+?_main                           rparam        000021
+?_show_lq                        rparam        000028
+?_spk_bee_server                 rparam        000021
+?i2___ftdiv                      rparam        000047
+?i2___ftmul                      rparam        000047
+?i2___ftpack                     rparam        000054
+?i2___fttol                      rparam        000047
+?i2___ftunpack                   rparam        000054
+?i2___lwdiv                      rparam        000051
+?i2___lwtoft                     rparam        000047
+?i2___wmul                       rparam        000051
+BIOS_JLX12864_DELAY@i            rparam        000023
+BIOS_JLX12864_DELAY@k            rparam        000025
+BIOS_JLX12864_TRANS_CMD@data     rparam        00003F
+BIOS_JLX12864_TRANS_DAT@data     rparam        00003F
+DISP_8X16ascii@s                 rparam        000028
+DISP_8X16ascii@x                 rparam        00002A
+DISP_8X16ascii@y                 rparam        00002B
+DISP_8X16ascii_block@s           rparam        000028
+DISP_8X16ascii_block@x           rparam        00002A
+DISP_8X16ascii_block@y           rparam        00002B
+DISP_Bat000@j                    rparam        000022
+DISP_Bat000@m                    rparam        000023
+DISP_Bat000@starty               rparam        000021
+DISP_Bat001@j                    rparam        000022
+DISP_Bat001@m                    rparam        000023
+DISP_Bat001@starty               rparam        000021
+DISP_Bat002@j                    rparam        000022
+DISP_Bat002@m                    rparam        000023
+DISP_Bat002@starty               rparam        000021
+DISP_Bat003@j                    rparam        000022
+DISP_Bat003@m                    rparam        000023
+DISP_Bat003@starty               rparam        000021
+DISP_Bat004@j                    rparam        000022
+DISP_Bat004@m                    rparam        000023
+DISP_Bat004@starty               rparam        000021
+DISP_Bat00Clr@l                  rparam        000024
+DISP_Bat00Clr@m                  rparam        000022
+DISP_Bat00Clr@starty             rparam        000021
+DISP_BatWarnC@j                  rparam        000026
+DISP_BatWarnC@l                  rparam        000028
+DISP_BatWarnE@j                  rparam        000026
+DISP_BatWarnE@l                  rparam        000028
+DISP_Buz@j                       rparam        000027
+DISP_Buz@m                       rparam        000028
+DISP_Buz@starty                  rparam        000026
+DISP_BuzClr@l                    rparam        000025
+DISP_BuzClr@m                    rparam        000023
+DISP_BuzClr@starty               rparam        000022
+DISP_ChaBasic2015@j              rparam        00002E
+DISP_ChaBasic2015@k              rparam        00002F
+DISP_ChaBasic2015@l              rparam        000031
+DISP_ChaBasic2015@n              rparam        000030
+DISP_ChaBasic2015@startx         rparam        00002C
+DISP_ChaBasic2015@starty         rparam        00002D
+DISP_ChaBasic2@i                 rparam        00002F
+DISP_ChaBasic2@j                 rparam        000030
+DISP_ChaBasic2@l                 rparam        000031
+DISP_ChaBasic2@startx            rparam        00002D
+DISP_ChaBasic2@starty            rparam        00002E
+DISP_ChaBasic@j                  rparam        00002A
+DISP_ChaBasic@m                  rparam        00002B
+DISP_ChaBasic@startx             rparam        000028
+DISP_ChaBasic@starty             rparam        000029
+DISP_ClrZero@x1                  rparam        00002E
+DISP_ClrZero@y                   rparam        00002F
+DISP_ClrZero@y1                  rparam        000030
+DISP_Dig0@i                      rparam        000032
+DISP_Dig0@j                      rparam        000034
+DISP_Dig0@k                      rparam        000036
+DISP_Dig0@m                      rparam        00003A
+DISP_Dig0@n                      rparam        000038
+DISP_Dig0@startx                 rparam        000030
+DISP_Dig0@starty                 rparam        000031
+DISP_Dig12_16@dig0               rparam        00002C
+DISP_Dig12_16@dig1               rparam        00002D
+DISP_Dig12_16@dig2               rparam        00002B
+DISP_Dig12_16@disp_val           rparam        000029
+DISP_Dig12_16@i                  rparam        00002E
+DISP_Dig12_16@j                  rparam        00002F
+DISP_Dig12_16@starty             rparam        000028
+DISP_Dig14_16@dig0               rparam        00002A
+DISP_Dig14_16@dig1               rparam        00002B
+DISP_Dig14_16@dig2               rparam        000029
+DISP_Dig14_16@disp_val           rparam        000027
+DISP_Dig14_16@i                  rparam        00002C
+DISP_Dig14_16@j                  rparam        00002D
+DISP_Dig14_16@starty             rparam        000026
+DISP_Dig15_32@dig0               rparam        000028
+DISP_Dig15_32@dig1               rparam        000029
+DISP_Dig15_32@dig2               rparam        000027
+DISP_Dig15_32@i                  rparam        00002A
+DISP_Dig15_32@j                  rparam        00002B
+DISP_Dig15_32@starty             rparam        000026
+DISP_Dig18_40@dig0               rparam        00002A
+DISP_Dig18_40@dig1               rparam        00002B
+DISP_Dig18_40@dig2               rparam        000029
+DISP_Dig18_40@i                  rparam        00002C
+DISP_Dig18_40@j                  rparam        00002D
+DISP_Dig18_40@starty             rparam        000028
+DISP_Dig1@dig0                   rparam        00002C
+DISP_Dig1@dig1                   rparam        00002D
+DISP_Dig1@dig2                   rparam        00002B
+DISP_Dig1@disp_val               rparam        000029
+DISP_Dig1@i                      rparam        00002E
+DISP_Dig1@j                      rparam        00002F
+DISP_Dig1@starty                 rparam        000028
+DISP_DigBasic00@startx           rparam        000030
+DISP_DigBasic00@starty           rparam        000031
+DISP_DigBasic0@startx            rparam        000030
+DISP_DigBasic0@starty            rparam        000031
+DISP_DigBasic32@dat              rparam        00002C
+DISP_DigBasic32@m                rparam        000030
+DISP_DigBasic32@startx           rparam        00002E
+DISP_DigBasic32@starty           rparam        00002F
+DISP_DigBasic40@dat              rparam        00002E
+DISP_DigBasic40@m                rparam        000032
+DISP_DigBasic40@startx           rparam        000030
+DISP_DigBasic40@starty           rparam        000031
+DISP_DigBasic@i                  rparam        000032
+DISP_DigBasic@m                  rparam        000033
+DISP_DigBasic@startx             rparam        000030
+DISP_DigBasic@starty             rparam        000031
+DISP_DigBasic@y                  rparam        000034
+DISP_DigBasics12@startx          rparam        00002E
+DISP_DigBasics12@starty          rparam        00002F
+DISP_Fu1@starty                  rparam        000028
+DISP_Fu@starty                   rparam        000028
+DISP_LANGUAGE@j                  rparam        000023
+DISP_LANGUAGE@l                  rparam        000025
+DISP_Lock@j                      rparam        000027
+DISP_Lock@m                      rparam        000028
+DISP_Lock@starty                 rparam        000026
+DISP_LockClr@l                   rparam        000029
+DISP_LockClr@m                   rparam        000027
+DISP_LockClr@starty              rparam        000026
+DISP_MainA@i                     rparam        000021
+DISP_Sys100@j                    rparam        000023
+DISP_Sys100@l                    rparam        000025
+DISP_Ver@j                       rparam        000023
+DISP_Ver@l                       rparam        000025
+DISP_ask@j                       rparam        000026
+DISP_ask@l                       rparam        000028
+DISP_block@i                     rparam        000029
+DISP_block@m                     rparam        00002A
+DISP_block@starty                rparam        000028
+DISP_block_new@j                 rparam        00002E
+DISP_block_new@k                 rparam        00002F
+DISP_block_new@l                 rparam        000031
+DISP_block_new@n                 rparam        000030
+DISP_block_new@startx            rparam        00002C
+DISP_block_new@starty            rparam        00002D
+DISP_cha7s@s                     rparam        000028
+DISP_cha7s@x                     rparam        00002A
+DISP_cha7s@y                     rparam        00002B
+DISP_cha7s@z                     rparam        00002C
+DISP_didl@i                      rparam        000029
+DISP_didl@m                      rparam        00002A
+DISP_didl@starty                 rparam        000028
+DISP_jx@j                        rparam        000029
+DISP_jx@m                        rparam        00002A
+DISP_jx@starty                   rparam        000028
+DISP_key2015@i                   rparam        000027
+DISP_key2015@starty              rparam        000026
+DISP_louq@i                      rparam        000029
+DISP_louq@m                      rparam        00002A
+DISP_louq@starty                 rparam        000028
+DISP_lx@j                        rparam        000029
+DISP_lx@m                        rparam        00002A
+DISP_lx@starty                   rparam        000028
+DISP_mod_set2015@j               rparam        000026
+DISP_mod_set2015@l               rparam        000028
+DISP_press2015@i                 rparam        000027
+DISP_press2015@m                 rparam        000028
+DISP_press2015@starty            rparam        000026
+DISP_press_set2016@j             rparam        000026
+DISP_press_set2016@l             rparam        000028
+DISP_pset@i                      rparam        000027
+DISP_pset@m                      rparam        000028
+DISP_pset@starty                 rparam        000026
+DISP_run2015@i                   rparam        000029
+DISP_run2015@m                   rparam        00002A
+DISP_run2015@starty              rparam        000028
+DISP_select0@i                   rparam        000028
+DISP_select0@l                   rparam        000029
+DISP_select0@startx              rparam        000027
+DISP_select0@starty              rparam        000026
+DISP_select@i                    rparam        000027
+DISP_select@m                    rparam        000028
+DISP_select@starty               rparam        000026
+DISP_set_sanjiao0@y              rparam        000023
+DISP_set_sanjiao@y               rparam        000023
+DISP_stop2015@i                  rparam        000027
+DISP_stop2015@m                  rparam        000028
+DISP_stop2015@starty             rparam        000026
+DISP_time_set2015@j              rparam        000026
+DISP_time_set2015@l              rparam        000028
+DISP_yewm@i                      rparam        000029
+DISP_yewm@m                      rparam        00002A
+DISP_yewm@starty                 rparam        000028
+Flash_Erase@address              rparam        000021
+Flash_Read@address               rparam        000021
+PRESS_ConSubA@i                  rparam        000045
+STAT_conNewa@run_time            rparam        000049
+STAT_conNewa@temp                rparam        000047
+Write_One_Word@address           rparam        000021
+Write_One_Word@data              rparam        000025
+_ADCON0                          (abs)         000FC2
+_ADCON0bits                      (abs)         000FC2
+_ADCON1                          (abs)         000FC1
+_ADC_DatCal                      text113       006928
+_ADC_Ps90                        text111       006E40
+_ADRESH                          (abs)         000FC4
+_ADRESL                          (abs)         000FC3
+_ANCON0                          (abs)         000F48
+_ANCON0bits                      (abs)         000F48
+_ANCON1                          (abs)         000F49
+_ASCII                           mediumconst   00C66A
+_AUDIO                           text8         00420A
+_AUDIO_Key                       text5         006BF8
+_AUDIO_Sub                       text53        005A20
+_BAT_Warn                        text10        005FA8
+_BAT_WarnFir                     text19        006E04
+_BEE_TWO                         (abs)         000124
+_BIOS_JLX12864_DELAY             text77        006BC4
+_BIOS_JLX12864_TRANS_CMD         text107       006DE0
+_BIOS_JLX12864_TRANS_DAT         text108       006DCE
+_BOX_FQ_TURNS                    (abs)         0000FA
+_BUZ_Cls                         text45        006D80
+_BUZ_KeyCls                      text43        006D94
+_CARRY                           (abs)         007EC0
+_CLS_PwmA                        text127       006E28
+_CONTR_fallaNew                  text124       006026
+_DISP_8X16ascii                  text92        0069F6
+_DISP_8X16ascii_block            text99        006A38
+_DISP_Bat                        text9         003A56
+_DISP_Bat000                     text34        004140
+_DISP_Bat001                     text27        0045DA
+_DISP_Bat002                     text47        004518
+_DISP_Bat003                     text38        004820
+_DISP_Bat004                     text39        0048E2
+_DISP_Bat00Clr                   text40        004E18
+_DISP_BatWarnC                   text37        00618A
+_DISP_BatWarnE                   text36        00634A
+_DISP_Buz                        text65        00475E
+_DISP_BuzClr                     text63        004D5E
+_DISP_ChaBasic                   text83        002CB6
+_DISP_ChaBasic2                  text89        00255E
+_DISP_ChaBasic2015               text103       00342A
+_DISP_Clear                      text91        0068E0
+_DISP_ClrZero                    text90        005F26
+_DISP_Dig0                       text95        003646
+_DISP_Dig1                       text62        004A64
+_DISP_Dig12_16                   text87        004B24
+_DISP_Dig14_16                   text58        0049A4
+_DISP_Dig15_32                   text59        003752
+_DISP_Dig18_40                   text80        00385A
+_DISP_DigBasic                   text106       002E14
+_DISP_DigBasic0                  text105       003ED6
+_DISP_DigBasic00                 text96        003E04
+_DISP_DigBasic32                 text85        003B48
+_DISP_DigBasic40                 text88        002F6C
+_DISP_DigBasics12                text86        003D20
+_DISP_Erra                       text57        003C34
+_DISP_Fu                         text79        0066AC
+_DISP_Fu1                        text68        006702
+_DISP_Info                       text29        006AB4
+_DISP_JixA                       text28        00277C
+_DISP_LANGUAGE                   text50        00611A
+_DISP_Led                        text42        006D6A
+_DISP_LixA                       text33        002B1E
+_DISP_Lock                       text84        004456
+_DISP_LockClr                    text81        004CA4
+_DISP_MainA                      text6         001CEA
+_DISP_SetA_new                   text31        001854
+_DISP_Sys100                     text44        0062DA
+_DISP_Ver                        text51        00626A
+_DISP_ask                        text21        0061FA
+_DISP_block                      text98        0057AE
+_DISP_block_new                  text104       003538
+_DISP_cha7s                      text55        0069B4
+_DISP_didl                       text94        0055D4
+_DISP_jx                         text82        004394
+_DISP_key2015                    text67        004ED2
+_DISP_louq                       text97        005672
+_DISP_lx                         text66        00469C
+_DISP_mod_set2015                text70        00642A
+_DISP_press2015                  text32        0052BE
+_DISP_press_set2016              text71        0063BA
+_DISP_pset                       text64        005498
+_DISP_run2015                    text56        00535C
+_DISP_select                     text60        0053FA
+_DISP_select0                    text61        00584C
+_DISP_set_sanjiao                text22        00664A
+_DISP_set_sanjiao0               text23        0067AC
+_DISP_stop2015                   text30        005710
+_DISP_time_set2015               text72        00649A
+_DISP_yewm                       text93        005536
+_EECON2                          (abs)         000FA7
+_FIND_FREE                       text3         006800
+_FLG_SYS_10MS                    (abs)         000122
+_FREE                            (abs)         007D34
+_Flash_Erase                     text26        006DF2
+_Flash_Read                      text14        006CDA
+_GIE                             (abs)         007F97
+_INTCON                          (abs)         000FF2
+_INTCON2                         (abs)         000FF1
+_INTCONbits                      (abs)         000FF2
+_Isr                             text109       004BE4
+_KEY_Scan                        text4         003310
+_LATA                            (abs)         000F89
+_LATAbits                        (abs)         000F89
+_LATB                            (abs)         000F8A
+_LATBbits                        (abs)         000F8A
+_LATC                            (abs)         000F8B
+_LATC6                           (abs)         007C5E
+_LATCbits                        (abs)         000F8B
+_LATD                            (abs)         000F8C
+_LATE                            (abs)         000F8D
+_LATEbits                        (abs)         000F8D
+_LEVEL_WarnA                     text120       0042D0
+_LQ_FIR                          (abs)         0000FC
+_MODE_Pro                        text7         002308
+_MODE_ProA                       text1         000078
+_OPEN_PwmA                       text123       006E30
+_OSCCON                          (abs)         000FD3
+_OSCTUNE                         (abs)         000F9B
+_PEIE                            (abs)         007F96
+_PIE2                            (abs)         000FA0
+_PIR2                            (abs)         000FA1
+_PORTA                           (abs)         000F80
+_PORTB                           (abs)         000F81
+_PORTC                           (abs)         000F82
+_PORTCbits                       (abs)         000F82
+_PORTD                           (abs)         000F83
+_PORTE                           (abs)         000F84
+_PRESS_ConA                      text110       0058EA
+_PRESS_ConSubA                   text112       0030A8
+_PS_i                            (abs)         00010A
+_Pw_i                            (abs)         00010D
+_SPEAK_flg                       (abs)         00010C
+_SPK_STATE                       (abs)         00012D
+_STAT_conNewa                    text116       00204A
+_SYS_DatIni                      text11        00696E
+_SYS_IO_Ini                      text15        006C2A
+_SYS_IniLcd                      text49        003958
+_SYS_OSC_Ini                     text18        006E12
+_SYS_TMR0_Ini                    text16        006D54
+_SYS_TMR3_Ini                    text17        006E38
+_SetBlk                          text48        006E1E
+_T0CON                           (abs)         000FD5
+_T3CON                           (abs)         000F79
+_T3CONbits                       (abs)         000F79
+_TABLAT                          (abs)         000FF5
+_TBLPTRH                         (abs)         000FF7
+_TBLPTRL                         (abs)         000FF6
+_TBLPTRU                         (abs)         000FF8
+_TIMER_FOUR                      (abs)         000118
+_TK_TIME                         (abs)         0000F8
+_TMR0H                           (abs)         000FD7
+_TMR0L                           (abs)         000FD6
+_TMR2                            (abs)         000FCC
+_TMR3H                           (abs)         000F7B
+_TMR3L                           (abs)         000F7A
+_TRISA                           (abs)         000F92
+_TRISB                           (abs)         000F93
+_TRISC                           (abs)         000F94
+_TRISD                           (abs)         000F95
+_TRISE                           (abs)         000F96
+_Timeone_sum                     (abs)         0000A3
+_UART_Test                       text13        004F86
+_WPROG                           (abs)         007D35
+_WR                              (abs)         007D31
+_WREN                            (abs)         007D32
+_Warn                            text2         006758
+_Write_Cycle                     text73        006C82
+_Write_One_Word                  text25        006D04
+__Bnvbit                         nvbit         00005C
+__Brbit                          rbit          00005C
+__HRAM                           (abs)         000000
+__Habsbss0                       (abs)         000021
+__Habsbss1                       (abs)         000130
+__Hbigbss                        bigbss        00014A
+__Hbigdata                       bigdata       00014A
+__Hbss                           bss           0000FE
+__Hclrtext                       clrtext       000078
+__Hconfig                        config        010000
+__Hconst                         const         00005E
+__Hdata                          data          000078
+__Hdata0                         (abs)         00014A
+__Heeprom_data                   eeprom_data   000078
+__Hend_init                      end_init      00005E
+__Hfarbss                        farbss        000000
+__Hfardata                       fardata       000000
+__Hibigdata                      ibigdata      000078
+__Hidata                         idata         000078
+__Hidloc                         idloc         200000
+__Hifardata                      ifardata      000078
+__Hinit                          init          000044
+__Hintcode                       intcode       000018
+__Hintcodelo                     intcodelo     000018
+__Hintentry                      intentry      000078
+__Hintret                        intret        000078
+__Hintsave_regs                  intsave_regs  00014A
+__Hirdata                        irdata        000078
+__Hjflash_buffer                 jflash_buffer 00F800
+__Hmediumconst                   mediumconst   00FFF8
+__Hnvbit                         nvbit         0002E0
+__Hnvram                         nvram         000078
+__Hnvrram                        nvrram        00005C
+__Hpa_nodes                      pa_nodes      000078
+__Hparam                         rparam        00005C
+__Hparam0                        param0        000078
+__Hparam1                        param1        000078
+__Hparam10                       param10       000078
+__Hparam11                       param11       000078
+__Hparam12                       param12       000078
+__Hparam13                       param13       000078
+__Hparam14                       param14       000078
+__Hparam2                        param2        000078
+__Hparam3                        param3        000078
+__Hparam4                        param4        000078
+__Hparam5                        param5        000078
+__Hparam6                        param6        000078
+__Hparam7                        param7        000078
+__Hparam8                        param8        000078
+__Hparam9                        param9        000078
+__Hpowerup                       powerup       000018
+__Hramtop                        ramtop        000F00
+__Hrbit                          rbit          0002E0
+__Hrbss                          rbss          00005C
+__Hrdata                         rdata         00005C
+__Hreset_vec                     reset_vec     000004
+__Hrparam                        rparam        00005C
+__Hsmallconst                    smallconst    000F00
+__Hstruct                        struct        00005C
+__Htemp                          temp          00005C
+__Htext                          text          000078
+__Htext0                         text0         000078
+__Htext1                         text1         000078
+__Htext10                        text10        000078
+__Htext100                       text100       000078
+__Htext101                       text101       000078
+__Htext102                       text102       000078
+__Htext103                       text103       000078
+__Htext104                       text104       000078
+__Htext105                       text105       000078
+__Htext106                       text106       000078
+__Htext107                       text107       000078
+__Htext108                       text108       000078
+__Htext109                       text109       000078
+__Htext11                        text11        000078
+__Htext110                       text110       000078
+__Htext111                       text111       000078
+__Htext112                       text112       000078
+__Htext113                       text113       000078
+__Htext114                       text114       000078
+__Htext115                       text115       000078
+__Htext116                       text116       000078
+__Htext117                       text117       000078
+__Htext118                       text118       000078
+__Htext119                       text119       000078
+__Htext12                        text12        000078
+__Htext120                       text120       000078
+__Htext121                       text121       000078
+__Htext122                       text122       000078
+__Htext123                       text123       000078
+__Htext124                       text124       000078
+__Htext125                       text125       000078
+__Htext126                       text126       000078
+__Htext127                       text127       000078
+__Htext128                       text128       000078
+__Htext129                       text129       000078
+__Htext13                        text13        000078
+__Htext130                       text130       000078
+__Htext131                       text131       000078
+__Htext132                       text132       000078
+__Htext133                       text133       000078
+__Htext134                       text134       000078
+__Htext135                       text135       000078
+__Htext136                       text136       000078
+__Htext14                        text14        000078
+__Htext15                        text15        000078
+__Htext16                        text16        000078
+__Htext17                        text17        000078
+__Htext18                        text18        000078
+__Htext19                        text19        000078
+__Htext2                         text2         000078
+__Htext20                        text20        000078
+__Htext21                        text21        000078
+__Htext22                        text22        000078
+__Htext23                        text23        000078
+__Htext24                        text24        000078
+__Htext25                        text25        000078
+__Htext26                        text26        000078
+__Htext27                        text27        000078
+__Htext28                        text28        000078
+__Htext29                        text29        000078
+__Htext3                         text3         000078
+__Htext30                        text30        000078
+__Htext31                        text31        000078
+__Htext32                        text32        000078
+__Htext33                        text33        000078
+__Htext34                        text34        000078
+__Htext35                        text35        000078
+__Htext36                        text36        000078
+__Htext37                        text37        000078
+__Htext38                        text38        000078
+__Htext39                        text39        000078
+__Htext4                         text4         000078
+__Htext40                        text40        000078
+__Htext41                        text41        000078
+__Htext42                        text42        000078
+__Htext43                        text43        000078
+__Htext44                        text44        000078
+__Htext45                        text45        000078
+__Htext46                        text46        000078
+__Htext47                        text47        000078
+__Htext48                        text48        000078
+__Htext49                        text49        000078
+__Htext5                         text5         000078
+__Htext50                        text50        000078
+__Htext51                        text51        000078
+__Htext52                        text52        000078
+__Htext53                        text53        000078
+__Htext54                        text54        000078
+__Htext55                        text55        000078
+__Htext56                        text56        000078
+__Htext57                        text57        000078
+__Htext58                        text58        000078
+__Htext59                        text59        000078
+__Htext6                         text6         000078
+__Htext60                        text60        000078
+__Htext61                        text61        000078
+__Htext62                        text62        000078
+__Htext63                        text63        000078
+__Htext64                        text64        000078
+__Htext65                        text65        000078
+__Htext66                        text66        000078
+__Htext67                        text67        000078
+__Htext68                        text68        000078
+__Htext69                        text69        000078
+__Htext7                         text7         000078
+__Htext70                        text70        000078
+__Htext71                        text71        000078
+__Htext72                        text72        000078
+__Htext73                        text73        000078
+__Htext74                        text74        000078
+__Htext75                        text75        000078
+__Htext76                        text76        000078
+__Htext77                        text77        000078
+__Htext78                        text78        000078
+__Htext79                        text79        000078
+__Htext8                         text8         000078
+__Htext80                        text80        000078
+__Htext81                        text81        000078
+__Htext82                        text82        000078
+__Htext83                        text83        000078
+__Htext84                        text84        000078
+__Htext85                        text85        000078
+__Htext86                        text86        000078
+__Htext87                        text87        000078
+__Htext88                        text88        000078
+__Htext89                        text89        000078
+__Htext9                         text9         000078
+__Htext90                        text90        000078
+__Htext91                        text91        000078
+__Htext92                        text92        000078
+__Htext93                        text93        000078
+__Htext94                        text94        000078
+__Htext95                        text95        000078
+__Htext96                        text96        000078
+__Htext97                        text97        000078
+__Htext98                        text98        000078
+__Htext99                        text99        000078
+__LRAM                           (abs)         000001
+__Labsbss0                       (abs)         000000
+__Labsbss1                       (abs)         000060
+__Lbigbss                        bigbss        00014A
+__Lbigdata                       bigdata       00014A
+__Lbss                           bss           0000FE
+__Lclrtext                       clrtext       000078
+__Lconfig                        config        00FFF8
+__Lconst                         const         00005E
+__Ldata                          (abs)         000130
+__Ldata0                         (abs)         000130
+__Leeprom_data                   eeprom_data   000078
+__Lend_init                      end_init      000044
+__Lfarbss                        farbss        000000
+__Lfardata                       fardata       000000
+__Libigdata                      ibigdata      000078
+__Lidata                         idata         00005E
+__Lidloc                         idloc         200000
+__Lifardata                      ifardata      000078
+__Linit                          init          000018
+__Lintcode                       intcode       000008
+__Lintcodelo                     intcodelo     000018
+__Lintentry                      intentry      000078
+__Lintret                        intret        000078
+__Lintsave_regs                  intsave_regs  00014A
+__Lirdata                        irdata        000078
+__Ljflash_buffer                 jflash_buffer 00F800
+__Lmediumconst                   mediumconst   00C66A
+__Lnvbit                         nvbit         0002E0
+__Lnvram                         nvram         000078
+__Lnvrram                        nvrram        00005C
+__Lpa_nodes                      pa_nodes      000078
+__Lparam                         rparam        000021
+__Lparam0                        param0        000078
+__Lparam1                        param1        000078
+__Lparam10                       param10       000078
+__Lparam11                       param11       000078
+__Lparam12                       param12       000078
+__Lparam13                       param13       000078
+__Lparam14                       param14       000078
+__Lparam2                        param2        000078
+__Lparam3                        param3        000078
+__Lparam4                        param4        000078
+__Lparam5                        param5        000078
+__Lparam6                        param6        000078
+__Lparam7                        param7        000078
+__Lparam8                        param8        000078
+__Lparam9                        param9        000078
+__Lpowerup                       powerup       000018
+__Lramtop                        ramtop        000F00
+__Lrbit                          rbit          0002E0
+__Lrbss                          rbss          00005C
+__Lrdata                         rdata         00005C
+__Lreset_vec                     reset_vec     000000
+__Lrparam                        rparam        000021
+__Lsmallconst                    smallconst    000F00
+__Lstruct                        struct        00005C
+__Ltemp                          temp          00005C
+__Ltext                          text          000078
+__Ltext0                         text0         000078
+__Ltext1                         text1         000078
+__Ltext10                        text10        000078
+__Ltext100                       text100       000078
+__Ltext101                       text101       000078
+__Ltext102                       text102       000078
+__Ltext103                       text103       000078
+__Ltext104                       text104       000078
+__Ltext105                       text105       000078
+__Ltext106                       text106       000078
+__Ltext107                       text107       000078
+__Ltext108                       text108       000078
+__Ltext109                       text109       000078
+__Ltext11                        text11        000078
+__Ltext110                       text110       000078
+__Ltext111                       text111       000078
+__Ltext112                       text112       000078
+__Ltext113                       text113       000078
+__Ltext114                       text114       000078
+__Ltext115                       text115       000078
+__Ltext116                       text116       000078
+__Ltext117                       text117       000078
+__Ltext118                       text118       000078
+__Ltext119                       text119       000078
+__Ltext12                        text12        000078
+__Ltext120                       text120       000078
+__Ltext121                       text121       000078
+__Ltext122                       text122       000078
+__Ltext123                       text123       000078
+__Ltext124                       text124       000078
+__Ltext125                       text125       000078
+__Ltext126                       text126       000078
+__Ltext127                       text127       000078
+__Ltext128                       text128       000078
+__Ltext129                       text129       000078
+__Ltext13                        text13        000078
+__Ltext130                       text130       000078
+__Ltext131                       text131       000078
+__Ltext132                       text132       000078
+__Ltext133                       text133       000078
+__Ltext134                       text134       000078
+__Ltext135                       text135       000078
+__Ltext136                       text136       000078
+__Ltext14                        text14        000078
+__Ltext15                        text15        000078
+__Ltext16                        text16        000078
+__Ltext17                        text17        000078
+__Ltext18                        text18        000078
+__Ltext19                        text19        000078
+__Ltext2                         text2         000078
+__Ltext20                        text20        000078
+__Ltext21                        text21        000078
+__Ltext22                        text22        000078
+__Ltext23                        text23        000078
+__Ltext24                        text24        000078
+__Ltext25                        text25        000078
+__Ltext26                        text26        000078
+__Ltext27                        text27        000078
+__Ltext28                        text28        000078
+__Ltext29                        text29        000078
+__Ltext3                         text3         000078
+__Ltext30                        text30        000078
+__Ltext31                        text31        000078
+__Ltext32                        text32        000078
+__Ltext33                        text33        000078
+__Ltext34                        text34        000078
+__Ltext35                        text35        000078
+__Ltext36                        text36        000078
+__Ltext37                        text37        000078
+__Ltext38                        text38        000078
+__Ltext39                        text39        000078
+__Ltext4                         text4         000078
+__Ltext40                        text40        000078
+__Ltext41                        text41        000078
+__Ltext42                        text42        000078
+__Ltext43                        text43        000078
+__Ltext44                        text44        000078
+__Ltext45                        text45        000078
+__Ltext46                        text46        000078
+__Ltext47                        text47        000078
+__Ltext48                        text48        000078
+__Ltext49                        text49        000078
+__Ltext5                         text5         000078
+__Ltext50                        text50        000078
+__Ltext51                        text51        000078
+__Ltext52                        text52        000078
+__Ltext53                        text53        000078
+__Ltext54                        text54        000078
+__Ltext55                        text55        000078
+__Ltext56                        text56        000078
+__Ltext57                        text57        000078
+__Ltext58                        text58        000078
+__Ltext59                        text59        000078
+__Ltext6                         text6         000078
+__Ltext60                        text60        000078
+__Ltext61                        text61        000078
+__Ltext62                        text62        000078
+__Ltext63                        text63        000078
+__Ltext64                        text64        000078
+__Ltext65                        text65        000078
+__Ltext66                        text66        000078
+__Ltext67                        text67        000078
+__Ltext68                        text68        000078
+__Ltext69                        text69        000078
+__Ltext7                         text7         000078
+__Ltext70                        text70        000078
+__Ltext71                        text71        000078
+__Ltext72                        text72        000078
+__Ltext73                        text73        000078
+__Ltext74                        text74        000078
+__Ltext75                        text75        000078
+__Ltext76                        text76        000078
+__Ltext77                        text77        000078
+__Ltext78                        text78        000078
+__Ltext79                        text79        000078
+__Ltext8                         text8         000078
+__Ltext80                        text80        000078
+__Ltext81                        text81        000078
+__Ltext82                        text82        000078
+__Ltext83                        text83        000078
+__Ltext84                        text84        000078
+__Ltext85                        text85        000078
+__Ltext86                        text86        000078
+__Ltext87                        text87        000078
+__Ltext88                        text88        000078
+__Ltext89                        text89        000078
+__Ltext9                         text9         000078
+__Ltext90                        text90        000078
+__Ltext91                        text91        000078
+__Ltext92                        text92        000078
+__Ltext93                        text93        000078
+__Ltext94                        text94        000078
+__Ltext95                        text95        000078
+__Ltext96                        text96        000078
+__Ltext97                        text97        000078
+__Ltext98                        text98        000078
+__Ltext99                        text99        000078
+__S0                             (abs)         200000
+__S1                             (abs)         000E00
+___awdiv                         text135       0060A2
+___awdiv@counter                 rparam        000053
+___awdiv@dividend                rparam        00004F
+___awdiv@divisor                 rparam        000051
+___awdiv@quotient                rparam        000055
+___awdiv@sign                    rparam        000054
+___ftadd                         text118       0031DE
+___ftadd@cntr                    rparam        00004E
+___ftadd@exp1                    rparam        000051
+___ftadd@exp2                    rparam        000050
+___ftadd@f1                      rparam        000047
+___ftadd@f2                      rparam        00004A
+___ftadd@sign1                   rparam        00004F
+___ftadd@sign2                   rparam        00004D
+___ftdiv                         text46        0050D8
+___ftdiv@exp1                    rparam        00002E
+___ftdiv@exp2                    rparam        00002C
+___ftdiv@f1                      rparam        000026
+___ftdiv@f2                      rparam        000029
+___ftdiv@f3                      rparam        000030
+___ftdiv@sign1                   rparam        00002D
+___ftdiv@sign2                   rparam        00002F
+___ftmul                         text24        005ABA
+___ftmul@cntr                    rparam        000029
+___ftmul@exp1                    rparam        000028
+___ftmul@f1                      rparam        000021
+___ftmul@f2                      rparam        000024
+___ftmul@f3                      rparam        00002A
+___ftmul@sign1                   rparam        000027
+___ftpack                        text74        004074
+___ftpack@arg                    rparam        000033
+___ftpack@exp                    rparam        000035
+___fttol                         text52        005D92
+___fttol@exp1                    rparam        00002B
+___fttol@f1                      rparam        000026
+___fttol@lval                    rparam        00002C
+___fttol@sign1                   rparam        00002A
+___ftunpack                      text75        006578
+___ftunpack@arg                  rparam        000033
+___ftunpack@exp                  rparam        000035
+___ftunpack@sign                 rparam        000037
+___lwdiv                         text101       00684C
+___lwdiv@counter                 rparam        000034
+___lwdiv@dividend                rparam        000030
+___lwdiv@divisor                 rparam        000032
+___lwdiv@quotient                rparam        000035
+___lwmod                         text100       006B58
+___lwmod@dividend                rparam        000030
+___lwmod@divisor                 rparam        000032
+___lwtoft                        text41        006AEC
+___lwtoft@c                      rparam        000026
+___lwtoft@f1                     rparam        000029
+___wmul                          text102       006C56
+___wmul@multiplicand             rparam        000038
+___wmul@multiplier               rparam        000036
+___wmul@product                  rparam        00003A
+__accesstop                      (abs)         000060
+__activetblptr                   (abs)         000002
+__config1                        (abs)         00FFBF
+__config2                        (abs)         00FFFA
+__config3                        (abs)         00FFF7
+__config4                        (abs)         00FFFF
+__end_of_ADC_DatCal              text113       00696E
+__end_of_ADC_Ps90                text111       006E44
+__end_of_AUDIO                   text8         0042D0
+__end_of_AUDIO_Key               text5         006C2A
+__end_of_AUDIO_Sub               text53        005ABA
+__end_of_BAT_Warn                text10        006026
+__end_of_BAT_WarnFir             text19        006E12
+__end_of_BIOS_JLX12864_DELAY     text77        006BF8
+__end_of_BIOS_JLX12864_TRANS_CMD text107       006DF2
+__end_of_BIOS_JLX12864_TRANS_DAT text108       006DE0
+__end_of_BUZ_Cls                 text45        006D94
+__end_of_BUZ_KeyCls              text43        006DA8
+__end_of_CLS_PwmA                text127       006E30
+__end_of_CONTR_fallaNew          text124       0060A2
+__end_of_DISP_8X16ascii          text92        006A38
+__end_of_DISP_8X16ascii_block    text99        006A7A
+__end_of_DISP_Bat                text9         003B48
+__end_of_DISP_Bat000             text34        00420A
+__end_of_DISP_Bat001             text27        00469C
+__end_of_DISP_Bat002             text47        0045DA
+__end_of_DISP_Bat003             text38        0048E2
+__end_of_DISP_Bat004             text39        0049A4
+__end_of_DISP_Bat00Clr           text40        004ED2
+__end_of_DISP_BatWarnC           text37        0061FA
+__end_of_DISP_BatWarnE           text36        0063BA
+__end_of_DISP_Buz                text65        004820
+__end_of_DISP_BuzClr             text63        004E18
+__end_of_DISP_ChaBasic           text83        002E14
+__end_of_DISP_ChaBasic2          text89        00277C
+__end_of_DISP_ChaBasic2015       text103       003538
+__end_of_DISP_Clear              text91        006928
+__end_of_DISP_ClrZero            text90        005FA8
+__end_of_DISP_Dig0               text95        003752
+__end_of_DISP_Dig1               text62        004B24
+__end_of_DISP_Dig12_16           text87        004BE4
+__end_of_DISP_Dig14_16           text58        004A64
+__end_of_DISP_Dig15_32           text59        00385A
+__end_of_DISP_Dig18_40           text80        003958
+__end_of_DISP_DigBasic           text106       002F6C
+__end_of_DISP_DigBasic0          text105       003FA8
+__end_of_DISP_DigBasic00         text96        003ED6
+__end_of_DISP_DigBasic32         text85        003C34
+__end_of_DISP_DigBasic40         text88        0030A8
+__end_of_DISP_DigBasics12        text86        003E04
+__end_of_DISP_Erra               text57        003D20
+__end_of_DISP_Fu                 text79        006702
+__end_of_DISP_Fu1                text68        006758
+__end_of_DISP_Info               text29        006AEC
+__end_of_DISP_JixA               text28        002982
+__end_of_DISP_LANGUAGE           text50        00618A
+__end_of_DISP_Led                text42        006D80
+__end_of_DISP_LixA               text33        002CB6
+__end_of_DISP_Lock               text84        004518
+__end_of_DISP_LockClr            text81        004D5E
+__end_of_DISP_MainA              text6         00204A
+__end_of_DISP_SetA_new           text31        001CEA
+__end_of_DISP_Sys100             text44        00634A
+__end_of_DISP_Ver                text51        0062DA
+__end_of_DISP_ask                text21        00626A
+__end_of_DISP_block              text98        00584C
+__end_of_DISP_block_new          text104       003646
+__end_of_DISP_cha7s              text55        0069F6
+__end_of_DISP_didl               text94        005672
+__end_of_DISP_jx                 text82        004456
+__end_of_DISP_key2015            text67        004F86
+__end_of_DISP_louq               text97        005710
+__end_of_DISP_lx                 text66        00475E
+__end_of_DISP_mod_set2015        text70        00649A
+__end_of_DISP_press2015          text32        00535C
+__end_of_DISP_press_set2016      text71        00642A
+__end_of_DISP_pset               text64        005536
+__end_of_DISP_run2015            text56        0053FA
+__end_of_DISP_select             text60        005498
+__end_of_DISP_select0            text61        0058EA
+__end_of_DISP_set_sanjiao        text22        0066AC
+__end_of_DISP_set_sanjiao0       text23        006800
+__end_of_DISP_stop2015           text30        0057AE
+__end_of_DISP_time_set2015       text72        00650A
+__end_of_DISP_yewm               text93        0055D4
+__end_of_FIND_FREE               text3         00684C
+__end_of_Flash_Erase             text26        006E04
+__end_of_Flash_Read              text14        006D04
+__end_of_Isr                     text109       004CA4
+__end_of_KEY_Scan                text4         00342A
+__end_of_LEVEL_WarnA             text120       004394
+__end_of_MODE_Pro                text7         00255E
+__end_of_MODE_ProA               text1         000CCE
+__end_of_OPEN_PwmA               text123       006E38
+__end_of_PRESS_ConA              text110       005986
+__end_of_PRESS_ConSubA           text112       0031DE
+__end_of_STAT_conNewa            text116       002308
+__end_of_SYS_DatIni              text11        0069B4
+__end_of_SYS_IO_Ini              text15        006C56
+__end_of_SYS_IniLcd              text49        003A56
+__end_of_SYS_OSC_Ini             text18        006E1E
+__end_of_SYS_TMR0_Ini            text16        006D6A
+__end_of_SYS_TMR3_Ini            text17        006E40
+__end_of_SetBlk                  text48        006E28
+__end_of_UART_Test               text13        005034
+__end_of_Warn                    text2         0067AC
+__end_of_Write_Cycle             text73        006CAE
+__end_of_Write_One_Word          text25        006D24
+__end_of___awdiv                 text135       00611A
+__end_of___ftadd                 text118       003310
+__end_of___ftdiv                 text46        00517C
+__end_of___ftmul                 text24        005B54
+__end_of___ftpack                text74        004140
+__end_of___fttol                 text52        005E1A
+__end_of___ftunpack              text75        0065E6
+__end_of___lwdiv                 text101       006896
+__end_of___lwmod                 text100       006B8E
+__end_of___lwtoft                text41        006B22
+__end_of___wmul                  text102       006C82
+__end_of_adc_init                text12        006DBC
+__end_of_adc_power_filter        text128       0052BE
+__end_of_adc_press_filter        text129       00521E
+__end_of_adc_read                text132       00664A
+__end_of_adc_reader_power        text121       006D3C
+__end_of_adc_reader_press        text122       006D54
+__end_of_bee_three               text69        005BE8
+__end_of_calc_delta_i            text125       006BC4
+__end_of_clear_lqtimes           text20        006DCE
+__end_of_disp_filter             text78        005C78
+__end_of_get_press_delta         text126       005D06
+__end_of_get_xx_delta            text54        005D92
+__end_of_main                    text0         002B1E
+__end_of_show_lq                 text76        005F26
+__end_of_spk_bee_server          text35        006AB4
+__end_ofi2___ftdiv               text114       0050D8
+__end_ofi2___ftmul               text117       005A20
+__end_ofi2___ftpack              text130       004074
+__end_ofi2___fttol               text119       005EA2
+__end_ofi2___ftunpack            text131       006578
+__end_ofi2___lwdiv               text133       0068E0
+__end_ofi2___lwtoft              text115       006B58
+__end_ofi2___wmul                text134       006CDA
+__mediumconst                    mediumconst   00C66A
+__ramtop                         ramtop        000F00
+__smallconst                     smallconst    000F00
+_adc_bat                         (abs)         000144
+_adc_init                        text12        006DA8
+_adc_power_filter                text128       00521E
+_adc_press_filter                text129       00517C
+_adc_ps0                         (abs)         00007F
+_adc_ps00                        (abs)         00007D
+_adc_read                        text132       0065E6
+_adc_reader_power                text121       006D24
+_adc_reader_press                text122       006D3C
+_adc_temp00                      (abs)         000090
+_adc_zero                        (abs)         00008D
+_add91200                        (abs)         00010B
+_add91201                        (abs)         0000BC
+_all_flg                         (abs)         00011B
+_arry_char                       mediumconst   00F7D4
+_arry_char2                      mediumconst   00F4FC
+_arry_char22                     mediumconst   00F668
+_arry_desk                       mediumconst   00CC6A
+_arry_dig                        mediumconst   00F970
+_arry_dig22                      mediumconst   00F33A
+_arry_dig40                      mediumconst   00F06A
+_arry_digs12                     mediumconst   00F8D0
+_arry_ver                        mediumconst   00D06A
+_ask                             mediumconst   00D46A
+_audio_basic                     (abs)         0000F4
+_audio_flg                       (abs)         000099
+_audio_period                    (abs)         0000F6
+_back_led_cnt                    (abs)         000104
+_bat000                          mediumconst   00FD9E
+_bat001                          mediumconst   00FDCE
+_bat002                          mediumconst   00FDFE
+_bat003                          mediumconst   00FE2E
+_bat004                          mediumconst   00FE5E
+_bat_close_tim                   (abs)         000106
+_bat_cnt                         (abs)         0000B1
+_bat_cnt1                        (abs)         000114
+_bat_lev                         (abs)         000094
+_bat_lev_bak                     (abs)         000120
+_bat_sas                         (abs)         0000C9
+_bat_sas_bak                     (abs)         00011C
+_bbbbb                           (abs)         0000C5
+_bee_three                       text69        005B54
+_block                           mediumconst   00FA5C
+_bum_dly                         (abs)         0000D4
+_bum_dly_flg                     (abs)         000116
+_bump_need_out_air_flg           (abs)         00011A
+_buz_cnt                         (abs)         000119
+_buz_flg                         (abs)         0000D3
+_buz_flg1                        (abs)         00012B
+_calc_delta_i                    text125       006B8E
+_ccnt1                           (abs)         000129
+_clear_lqtimes                   text20        006DBC
+_close_flg                       (abs)         00012C
+_close_tim                       (abs)         000102
+_cnt_cnta                        (abs)         0000C3
+_cnt_cntaa                       (abs)         0000FE
+_cntcnt                          (abs)         000100
+_cntx                            (abs)         0000F2
+_con_flg_falla                   (abs)         0000CF
+_con_hi_delta                    (abs)         0000A1
+_con_lo_delta                    (abs)         0000E4
+_dataK                           (abs)         00009E
+_dataK1                          (abs)         0000E6
+_dataK2                          (abs)         0000E2
+_dataK3                          (abs)         0000DE
+_dataK4                          (abs)         0000E0
+_dataREAD0                       (abs)         0000C1
+_dataREAD1                       (abs)         0000EE
+_dataREAD2                       (abs)         0000F0
+_dataREAD3                       (abs)         0000EC
+_ddfq                            (abs)         000097
+_ddfq_delay                      (abs)         0000AD
+_delay_P_adc                     (abs)         000146
+_delay_adc                       (abs)         000148
+_delay_count                     (abs)         0000BF
+_didl                            mediumconst   00FAC8
+_dis_cnta                        (abs)         0000CA
+_disp_filter                     text78        005BE8
+_disp_presa                      (abs)         00009C
+_disp_set_flg                    (abs)         000098
+_disp_ssa                        (abs)         0000CC
+_draw_batwarn                    mediumconst   00D86A
+_draw_batwarnE                   mediumconst   00DC6A
+_draw_buz                        mediumconst   00FE8E
+_draw_jx                         mediumconst   00FD24
+_draw_lx                         mediumconst   00FD62
+_err_codea                       (abs)         00007C
+_err_codeabak                    (abs)         0000D8
+_err_codeb                       (abs)         0000D9
+_exit                            init          000018
+_fall_cnta0                      (abs)         0000C7
+_fall_stata                      (abs)         0000CE
+_flager_a                        (abs)         000092
+_flg2015                         (abs)         0000DA
+_flg_disp                        (abs)         0000D2
+_flgdis                          (abs)         0000B5
+_gao_cnt                         (abs)         0000AB
+_get_press_delta                 text126       005C78
+_get_xx_delta                    text54        005D06
+_good_check                      (abs)         000125
+_i                               (abs)         0000DD
+_key2015                         mediumconst   00FEAE
+_key_cnt                         (abs)         0000AF
+_key_flg                         (abs)         0000D1
+_key_flg_l                       (abs)         000126
+_key_key                         (abs)         000127
+_key_port                        (abs)         0000BE
+_key_port_bak                    (abs)         000121
+_key_set_tim                     (abs)         00008C
+_key_start_tim                   (abs)         000123
+_key_val                         (abs)         00001A
+_key_val_bak                     (abs)         0000B2
+_language                        (abs)         00001D
+_led_cnt                         (abs)         000128
+_load_perioda_up                 (abs)         00009A
+_lock2015                        mediumconst   00FF0D
+_lock_cnt                        (abs)         0000E8
+_lock_flg                        (abs)         000093
+_louq                            mediumconst   00FB34
+_main                            text0         002982
+_mod_bak_bak                     (abs)         00012E
+_mod_jixa                        (abs)         00008F
+_mod_main_a                      (abs)         00001E
+_mod_main_b                      (abs)         00012A
+_mod_main_baka                   (abs)         000088
+_mod_set2015                     mediumconst   00E06A
+_mod_seta_cnt                    (abs)         000081
+_mod_seta_oft                    (abs)         000076
+_mod_seta_ont                    (abs)         000074
+_mod_seta_preh                   (abs)         000010
+_mod_seta_preh_bak               (abs)         00001F
+_mod_seta_prel                   (abs)         00001B
+_mod_seta_wok                    (abs)         0000A0
+_mod_tim_cnta                    (abs)         00007A
+_mod_tim_cnta2                   (abs)         000095
+_mot_sys                         mediumconst   00FEEE
+_mute_flg                        (abs)         0000A7
+_mute_tim                        (abs)         0000EA
+_nggood_check                    (abs)         000115
+_open_bum                        (abs)         0000DC
+_oppump_flg                      (abs)         00012F
+_os_cnt                          (abs)         000117
+_overabc                         (abs)         00011E
+_press2015                       mediumconst   00FC6C
+_press_set2016                   mediumconst   00E46A
+_pset                            mediumconst   00FC0C
+_pwm_cnt1                        (abs)         0000DB
+_pwm_cnt2                        (abs)         00011D
+_pwm_k1                          (abs)         0000A8
+_read_key                        (abs)         0000BA
+_record_ds                       (abs)         000000
+_record_ds_turn                  (abs)         0000D7
+_remember_mod                    (abs)         0000D6
+_run2015                         mediumconst   00FCC8
+_run_tim_a                       (abs)         0000B3
+_sanjiao                         mediumconst   00FF1F
+_scan_dusai_time                 (abs)         0000B6
+_select                          mediumconst   00FECE
+_set_a00                         (abs)         0000D0
+_set_language                    mediumconst   00E86A
+_set_moda                        (abs)         000108
+_show_lq                         text76        005EA2
+_show_lq_times                   (abs)         000012
+_spk_bee_server                  text35        006A7A
+_spk_selay                       (abs)         000112
+_stop2015                        mediumconst   00F9E8
+_tim5_flg                        (abs)         00011F
+_tim_set2015                     mediumconst   00EC6A
+_twenty_seconds                  (abs)         00010E
+_val_cnt                         (abs)         000110
+_val_val                         (abs)         000078
+_valueK                          (abs)         000089
+_value_buf                       (abs)         000060
+_value_power_buf                 (abs)         000130
+_value_press_buf                 (abs)         000082
+_yewm                            mediumconst   00FBA0
+_z1                              (abs)         0000D5
+adc_power_filter@ch              rparam        00004B
+adc_power_filter@count           rparam        00004C
+adc_power_filter@sum             rparam        00004D
+adc_press_filter@ch              rparam        00004B
+adc_press_filter@count           rparam        00004C
+adc_press_filter@sum             rparam        00004D
+adc_read@ADC                     rparam        000052
+adc_read@channel                 rparam        000051
+adc_reader_power@p               rparam        000047
+adc_reader_press@p               rparam        000047
+calc_delta_i@counts1             rparam        00004D
+calc_delta_i@counts2             rparam        00004F
+calc_delta_i@rst                 rparam        000051
+disp_filter@pdata                rparam        000028
+disp_filter@sum                  rparam        00002A
+get_press_delta@delta            rparam        00004F
+get_press_delta@press            rparam        00004D
+get_xx_delta@delta               rparam        000025
+get_xx_delta@press               rparam        000023
+i2___ftdiv                       text114       005034
+i2___ftdiv@exp1                  rparam        00004F
+i2___ftdiv@exp2                  rparam        00004D
+i2___ftdiv@f1                    rparam        000047
+i2___ftdiv@f2                    rparam        00004A
+i2___ftdiv@f3                    rparam        000051
+i2___ftdiv@sign1                 rparam        00004E
+i2___ftdiv@sign2                 rparam        000050
+i2___ftmul                       text117       005986
+i2___ftmul@cntr                  rparam        00004F
+i2___ftmul@exp1                  rparam        00004E
+i2___ftmul@f1                    rparam        000047
+i2___ftmul@f2                    rparam        00004A
+i2___ftmul@f3                    rparam        000050
+i2___ftmul@sign1                 rparam        00004D
+i2___ftpack                      text130       003FA8
+i2___ftpack@arg                  rparam        000054
+i2___ftpack@exp                  rparam        000056
+i2___fttol                       text119       005E1A
+i2___fttol@exp1                  rparam        00004C
+i2___fttol@f1                    rparam        000047
+i2___fttol@lval                  rparam        00004D
+i2___fttol@sign1                 rparam        00004B
+i2___ftunpack                    text131       00650A
+i2___ftunpack@arg                rparam        000054
+i2___ftunpack@exp                rparam        000056
+i2___ftunpack@sign               rparam        000058
+i2___lwdiv                       text133       006896
+i2___lwdiv@counter               rparam        000055
+i2___lwdiv@dividend              rparam        000051
+i2___lwdiv@divisor               rparam        000053
+i2___lwdiv@quotient              rparam        000056
+i2___lwtoft                      text115       006B22
+i2___lwtoft@c                    rparam        000047
+i2___lwtoft@f1                   rparam        00004A
+i2___wmul                        text134       006CAE
+i2___wmul@multiplicand           rparam        000053
+i2___wmul@multiplier             rparam        000051
+i2___wmul@product                rparam        000055
+int_func                         intcode       000008
+intlevel0                        text          006E44
+intlevel1                        text          006E44
+intlevel2                        text          006E44
+intlevel3                        text          006E44
+start                            init          000018

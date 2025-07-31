@@ -1,0 +1,2353 @@
+[p GLOBOPT AUTOSTATIC IEEE_FLT IEEE_DBL LFSROK EMI_WORD ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F46J11 ]
+[d frameptr 4065 ]
+"583 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ifile_key_00.c
+[e E5109 EnumUiSelect `uc
+UI_WORKMODE_SELECT 0
+UI_MODE_SET_HI 1
+UI_JIX_MODE_SET_LO 2
+UI_JIX_SET_HI_TIME 3
+UI_JIX_SET_LO_TIME 4
+UI_SET_PRESSURE 5
+]
+"59 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[e E5506 _on `uc
+BEEGO 0
+BEEONE 1
+BEETWO 2
+BEETHREE 3
+BEEEND 4
+]
+"83
+[e E5109 EnumUiSelect `uc
+UI_WORKMODE_SELECT 0
+UI_MODE_SET_HI 1
+UI_JIX_MODE_SET_LO 2
+UI_JIX_SET_HI_TIME 3
+UI_JIX_SET_LO_TIME 4
+UI_SET_PRESSURE 5
+]
+"110
+[e E5099 EnumErr `uc
+ERR_NONE 0
+ERR_CANISTER_NOT_CON 1
+ERR_CANISTER_REACHED 2
+ERR_AIR_LEAKAGE 3
+ERR_SENSOR_MALFUCTION 4
+ERR_PIPE_BLOCKED 5
+ERR_CANISTER_FULL 6
+ERR_JAMED 7
+ERR_DEV_IDLE 8
+]
+"314 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[e E5099 EnumErr `uc
+ERR_NONE 0
+ERR_CANISTER_NOT_CON 1
+ERR_CANISTER_REACHED 2
+ERR_AIR_LEAKAGE 3
+ERR_SENSOR_MALFUCTION 4
+ERR_PIPE_BLOCKED 5
+ERR_CANISTER_FULL 6
+ERR_JAMED 7
+ERR_DEV_IDLE 8
+]
+"780
+[e E5109 EnumUiSelect `uc
+UI_WORKMODE_SELECT 0
+UI_MODE_SET_HI 1
+UI_JIX_MODE_SET_LO 2
+UI_JIX_SET_HI_TIME 3
+UI_JIX_SET_LO_TIME 4
+UI_SET_PRESSURE 5
+]
+"17 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/adc.c
+[v _adc_init adc_init `(v  1 e 1 0 ]
+"44
+[v _adc_read adc_read `(us  1 s 2 adc_read ]
+"73
+[v _adc_press_filter adc_press_filter `(us  1 s 2 adc_press_filter ]
+"91
+[v _adc_power_filter adc_power_filter `(us  1 s 2 adc_power_filter ]
+"105
+[v _adc_reader_press adc_reader_press `(us  1 e 2 0 ]
+"112
+[v _adc_reader_power adc_reader_power `(us  1 e 2 0 ]
+"8 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _BIOS_JLX12864_TRANS_CMD BIOS_JLX12864_TRANS_CMD `(v  1 e 1 0 ]
+"18
+[v _BIOS_JLX12864_TRANS_DAT BIOS_JLX12864_TRANS_DAT `(v  1 e 1 0 ]
+"26
+[v _BIOS_JLX12864_DELAY BIOS_JLX12864_DELAY `(v  1 e 1 0 ]
+"34
+[v _SYS_IniLcd SYS_IniLcd `(v  1 e 1 0 ]
+"77
+[v _DISP_DigBasic DISP_DigBasic `(v  1 e 1 0 ]
+"119
+[v _DISP_DigBasic32 DISP_DigBasic32 `(v  1 e 1 0 ]
+"145
+[v _DISP_ChaBasic DISP_ChaBasic `(v  1 e 1 0 ]
+"341
+[v _DISP_BatWarnC DISP_BatWarnC `(v  1 e 1 0 ]
+"362
+[v _DISP_BatWarnE DISP_BatWarnE `(v  1 e 1 0 ]
+"386
+[v _DISP_Clear DISP_Clear `(v  1 e 1 0 ]
+"400
+[v _DISP_Clear22 DISP_Clear22 `(v  1 e 1 0 ]
+"414
+[v _DISP_ClrZero DISP_ClrZero `(v  1 e 1 0 ]
+"430
+[v _DISP_Bat00Clr DISP_Bat00Clr `(v  1 e 1 0 ]
+"484
+[v _DISP_Bat000 DISP_Bat000 `(v  1 e 1 0 ]
+"511
+[v _DISP_Bat001 DISP_Bat001 `(v  1 e 1 0 ]
+"538
+[v _DISP_Bat002 DISP_Bat002 `(v  1 e 1 0 ]
+"565
+[v _DISP_Bat003 DISP_Bat003 `(v  1 e 1 0 ]
+"592
+[v _DISP_Bat004 DISP_Bat004 `(v  1 e 1 0 ]
+"621
+[v _DISP_Buz DISP_Buz `(v  1 e 1 0 ]
+"648
+[v _DISP_BuzClr DISP_BuzClr `(v  1 e 1 0 ]
+"677
+[v _DISP_Lock DISP_Lock `(v  1 e 1 0 ]
+"703
+[v _DISP_LockClr DISP_LockClr `(v  1 e 1 0 ]
+"728
+[v _DISP_lx DISP_lx `(v  1 e 1 0 ]
+"758
+[v _DISP_jx DISP_jx `(v  1 e 1 0 ]
+"787
+[v _DISP_Fu DISP_Fu `(v  1 e 1 0 ]
+"803
+[v _DISP_Fu1 DISP_Fu1 `(v  1 e 1 0 ]
+"824
+[v _DISP_Dig15_32 DISP_Dig15_32 `(v  1 e 1 0 ]
+"866
+[v _DISP_DigBasic40 DISP_DigBasic40 `(v  1 e 1 0 ]
+"898
+[v _DISP_Dig18_40 DISP_Dig18_40 `(v  1 e 1 0 ]
+"983
+[v _DISP_DigBasic0 DISP_DigBasic0 `(v  1 e 1 0 ]
+"1016
+[v _DISP_Dig12_16 DISP_Dig12_16 `(v  1 e 1 0 ]
+"1044
+[v _DISP_DigBasics12 DISP_DigBasics12 `(v  1 e 1 0 ]
+"1077
+[v _DISP_DigBasic00 DISP_DigBasic00 `(v  1 e 1 0 ]
+"1108
+[v _DISP_Dig14_16 DISP_Dig14_16 `(v  1 e 1 0 ]
+"1137
+[v _DISP_Sys100 DISP_Sys100 `(v  1 e 1 0 ]
+"1190
+[v _DISP_Ver DISP_Ver `(v  1 e 1 0 ]
+"1227
+[v _DISP_LANGUAGE DISP_LANGUAGE `(v  1 e 1 0 ]
+"1246
+[v _DISP_set_sanjiao DISP_set_sanjiao `(v  1 e 1 0 ]
+"1260
+[v _DISP_set_sanjiao0 DISP_set_sanjiao0 `(v  1 e 1 0 ]
+"1404
+[v _DISP_select DISP_select `(v  1 e 1 0 ]
+"1429
+[v _DISP_select0 DISP_select0 `(v  1 e 1 0 ]
+"1554
+[v _DISP_ChaBasic2 DISP_ChaBasic2 `(v  1 e 1 0 ]
+"1715
+[v _DISP_cha7s DISP_cha7s `(v  1 e 1 0 ]
+"1739
+[v _DISP_block_new DISP_block_new `(v  1 e 1 0 ]
+"1783
+[v _DISP_ChaBasic2015 DISP_ChaBasic2015 `(v  1 e 1 0 ]
+"1888
+[v _DISP_8X16ascii DISP_8X16ascii `(v  1 e 1 0 ]
+"1962
+[v _DISP_8X16ascii_block DISP_8X16ascii_block `(v  1 e 1 0 ]
+"1981
+[v _DISP_key2015 DISP_key2015 `(v  1 e 1 0 ]
+"2008
+[v _DISP_Dig0 DISP_Dig0 `(v  1 e 1 0 ]
+"2041
+[v _DISP_Dig1 DISP_Dig1 `(v  1 e 1 0 ]
+"16 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/Flash.c
+[v _Write_Cycle Write_Cycle `(v  1 e 1 0 ]
+"46
+[v _Flash_Erase Flash_Erase `(v  1 e 1 0 ]
+"57
+[v _Write_One_Word Write_One_Word `(v  1 e 1 0 ]
+"75
+[v _Flash_Read Flash_Read `(ui  1 e 2 0 ]
+"58 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ifile_adc.c
+[v _ADC_DatCal ADC_DatCal `(v  1 e 1 0 ]
+"77
+[v _ADC_Ps90 ADC_Ps90 `(v  1 e 1 0 ]
+"70 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_main.c
+[v _LEVEL_WarnA LEVEL_WarnA `(v  1 e 1 0 ]
+"195
+[v _BAT_WarnFir BAT_WarnFir `(v  1 e 1 0 ]
+"214
+[v _BAT_Warn BAT_Warn `(v  1 e 1 0 ]
+"20 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ofile_load_00.c
+[v _OPEN_PwmA OPEN_PwmA `(v  1 e 1 0 ]
+"25
+[v _CLS_PwmA CLS_PwmA `(v  1 e 1 0 ]
+"89
+[v _PRESS_ConSubA PRESS_ConSubA `(v  1 e 1 0 ]
+"164
+[v _PRESS_ConA PRESS_ConA `(v  1 e 1 0 ]
+"40 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_over.c
+[v _CONTR_fallaNew CONTR_fallaNew `(v  1 e 1 0 ]
+"92
+[v _get_press_delta get_press_delta `(v  1 e 1 0 ]
+"137
+[v _calc_delta_i calc_delta_i `(us  1 s 2 calc_delta_i ]
+"160
+[v _STAT_conNewa STAT_conNewa `(v  1 e 1 0 ]
+"34 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ifile_key_00.c
+[v _KEY_Scan KEY_Scan `(v  1 e 1 0 ]
+"183
+[v _get_xx_delta get_xx_delta `(v  1 e 1 0 ]
+"212
+[v _MODE_ProA MODE_ProA `(v  1 e 1 0 ]
+"1169
+[v _MODE_Pro MODE_Pro `(v  1 e 1 0 ]
+"63 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _spk_bee_server spk_bee_server `(v  1 e 1 0 ]
+"80
+[v _SYS_DatIni SYS_DatIni `(v  1 e 1 0 ]
+"103
+[v _Warn Warn `(v  1 e 1 0 ]
+"158
+[v _bee_three bee_three `(v  1 e 1 0 ]
+"302
+[v _AUDIO_Sub AUDIO_Sub `(v  1 e 1 0 ]
+"392
+[v _AUDIO AUDIO `(v  1 e 1 0 ]
+"475
+[v _BUZ_KeyCls BUZ_KeyCls `(v  1 e 1 0 ]
+"484
+[v _BUZ_Cls BUZ_Cls `(v  1 e 1 0 ]
+"493
+[v _AUDIO_Key AUDIO_Key `(v  1 e 1 0 ]
+"517
+[v _FIND_FREE FIND_FREE `(v  1 e 1 0 ]
+"540
+[v _main main `(v  1 e 1 0 ]
+"70 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_Led DISP_Led `(v  1 e 1 0 ]
+"83
+[v _DISP_Bat DISP_Bat `(v  1 e 1 0 ]
+"189
+[v _DISP_Erra DISP_Erra `(v  1 e 1 0 ]
+"327
+[v _disp_filter disp_filter `(us  1 s 2 disp_filter ]
+"347
+[v _clear_lqtimes clear_lqtimes `(v  1 e 1 0 ]
+"356
+[v _show_lq show_lq `(v  1 e 1 0 ]
+"405
+[v _DISP_LixA DISP_LixA `(v  1 e 1 0 ]
+"591
+[v _DISP_JixA DISP_JixA `(v  1 e 1 0 ]
+"778
+[v _DISP_SetA_new DISP_SetA_new `(v  1 e 1 0 ]
+"1382
+[v _DISP_Info DISP_Info `(v  1 e 1 0 ]
+"1413
+[v _DISP_MainA DISP_MainA `(v  1 e 1 0 ]
+"15 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_ini_00.c
+[v _SYS_OSC_Ini SYS_OSC_Ini `(v  1 e 1 0 ]
+"22
+[v _SYS_IO_Ini SYS_IO_Ini `(v  1 e 1 0 ]
+"43
+[v _SYS_TMR0_Ini SYS_TMR0_Ini `(v  1 e 1 0 ]
+"52
+[v _SYS_TMR3_Ini SYS_TMR3_Ini `(v  1 e 1 0 ]
+"87
+[v _T1_TimeGet T1_TimeGet `(ul  1 e 4 0 ]
+"147
+[v _Isr Isr `IIH(v  1 e 1 0 ]
+"12 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_uart_00.c
+[v _UART_Test UART_Test `(v  1 e 1 0 ]
+"5 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/sys_cpu.c
+[v _SetBlk SetBlk `(v  1 e 1 0 ]
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+"4 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/fleq.c
+[v ___fleq __fleq `(b  1 e 0 0 ]
+"62 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/float.c
+[v ___ftpack __ftpack `(f  1 e 4 0 ]
+"43 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/fltol.c
+[v ___fltol __fltol `(l  1 e 4 0 ]
+[v i2___fltol __fltol `(l  1 e 4 0 ]
+"86 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/ftadd.c
+[v ___ftadd __ftadd `(f  1 e 4 0 ]
+"54 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 4 0 ]
+"62 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/ftmul.c
+[v ___ftmul __ftmul `(f  1 e 4 0 ]
+"19 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/ftsub.c
+[v ___ftsub __ftsub `(f  1 e 4 0 ]
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+[v i2___lwdiv __lwdiv `(ui  1 e 2 0 ]
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+"10 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"245
+[v ___flsub __flsub `(d  1 e 4 0 ]
+"11 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+[v i2___fldiv __fldiv `(d  1 e 4 0 ]
+"8 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+[v i2___flmul __flmul `(d  1 e 4 0 ]
+"15 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+"91 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/Umul64.c
+[v ___omul __omul `(uo  1 e 8 0 ]
+"10 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/xxtofl.c
+[v ___xxtofl __xxtofl `(d  1 e 4 0 ]
+[v i2___xxtofl __xxtofl `(d  1 e 4 0 ]
+"71 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/adc.c
+[v _value_press_buf value_press_buf `[3]s  1 s 6 value_press_buf ]
+"72
+[v _PS_i PS_i `uc  1 s 1 PS_i ]
+"86
+[v _value_power_buf value_power_buf `[10]s  1 s 20 value_power_buf ]
+"90
+[v _Pw_i Pw_i `uc  1 s 1 Pw_i ]
+"117 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _val_val val_val `us  1 e 2 0 ]
+"821
+[v _flgdis flgdis `uc  1 e 1 0 ]
+"13 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/h/npwt_con_over.h
+[v _oppump_flg oppump_flg `uc  1 e 1 0 ]
+[s S899 . 8 `us 1 lq_times 2 0 `uc 1 show_times 1 2 `uc 1 step 1 3 `ul 1 buz_key_pressed_times 4 4 ]
+"29 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/h/npwt_dis_ofile_lcd_02.h
+[v _show_lq_times show_lq_times `S899  1 e 8 0 ]
+"7 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ifile_adc.c
+[v _adc_ps0 adc_ps0 `us  1 e 2 0 ]
+[v _adc_bat adc_bat `us  1 e 2 0 ]
+"8
+[v _adc_zero adc_zero `us  1 e 2 0 ]
+"56
+[v _delay_adc delay_adc `us  1 e 2 0 ]
+"57
+[v _delay_P_adc delay_P_adc `us  1 e 2 0 ]
+"24 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_main.c
+[v _ccnt1 ccnt1 `uc  1 e 1 0 ]
+"64
+[v _LQ_FIR LQ_FIR `us  1 e 2 0 ]
+"66
+[v _cntcnt cntcnt `us  1 e 2 0 ]
+"192
+[v _cntx cntx `us  1 e 2 0 ]
+"193
+[v _bat_sas bat_sas `uc  1 e 1 0 ]
+[v _bat_sas_bak bat_sas_bak `uc  1 e 1 0 ]
+"10 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ofile_load_00.c
+[v _load_perioda_up load_perioda_up `us  1 e 2 0 ]
+"11
+[v _cnt_cnta cnt_cnta `us  1 e 2 0 ]
+[v _cnt_cntaa cnt_cntaa `us  1 e 2 0 ]
+"13
+[v _bump_need_out_air_flg bump_need_out_air_flg `uc  1 e 1 0 ]
+"16
+[v _mod_seta_prehh mod_seta_prehh `us  1 e 2 0 ]
+"17
+[v _pwm_k1 pwm_k1 `f  1 e 4 0 ]
+"31
+[v _mot_sys mot_sys `C[31]uc  1 e 31 0 ]
+"10 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_over.c
+[v _fall_cnta0 fall_cnta0 `us  1 e 2 0 ]
+"12
+[v _fall_stata fall_stata `uc  1 e 1 0 ]
+"14
+[v _con_flg_falla con_flg_falla `uc  1 e 1 0 ]
+"15
+[v _gao_cnt gao_cnt `us  1 e 2 0 ]
+"16
+[v _good_check good_check `uc  1 e 1 0 ]
+"17
+[v _nggood_check nggood_check `uc  1 e 1 0 ]
+"18
+[v _BOX_FQ_TURNS BOX_FQ_TURNS `us  1 e 2 0 ]
+"32
+[v _det00 det00 `uc  1 e 1 0 ]
+"33
+[v _con_hi_delta con_hi_delta `us  1 e 2 0 ]
+"34
+[v _con_lo_delta con_lo_delta `us  1 e 2 0 ]
+"36
+[v _debug_times debug_times `us  1 e 2 0 ]
+"37
+[v _debug_thirtys debug_thirtys `us  1 e 2 0 ]
+"38
+[v _debug_air debug_air `us  1 e 2 0 ]
+"148
+[v _np_good_times np_good_times `us  1 e 2 0 ]
+"149
+[v _overabc overabc `uc  1 e 1 0 ]
+"150
+[v _val_cnt val_cnt `us  1 e 2 0 ]
+"151
+[v _scan_dusai_time scan_dusai_time `ul  1 e 4 0 ]
+"156
+[v _record_ds record_ds `[8]us  1 e 16 0 ]
+"157
+[v _record_ds_turn record_ds_turn `uc  1 e 1 0 ]
+"158
+[v _twenty_seconds twenty_seconds `us  1 e 2 0 ]
+"13 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ifile_key_00.c
+[v _key_cnt key_cnt `us  1 e 2 0 ]
+"14
+[v _key_key key_key `uc  1 e 1 0 ]
+"15
+[v _set_a00 set_a00 `uc  1 e 1 0 ]
+"16
+[v _key_port key_port `uc  1 e 1 0 ]
+[v _key_port_bak key_port_bak `uc  1 e 1 0 ]
+[v _key_val key_val `uc  1 e 1 0 ]
+[v _key_val_bak key_val_bak `uc  1 e 1 0 ]
+[v _key_flg key_flg `uc  1 e 1 0 ]
+[v _key_flg_l key_flg_l `uc  1 e 1 0 ]
+"17
+[v _mod_main_a mod_main_a `uc  1 e 1 0 ]
+[v _mod_jixa mod_jixa `uc  1 e 1 0 ]
+[v _mod_main_b mod_main_b `uc  1 e 1 0 ]
+[v _mod_main_baka mod_main_baka `uc  1 e 1 0 ]
+"20
+[v _remember_mod remember_mod `uc  1 e 1 0 ]
+"21
+[v _mod_seta_cnt mod_seta_cnt `uc  1 e 1 0 ]
+[v _mod_seta_wok mod_seta_wok `uc  1 e 1 0 ]
+"22
+[v _mod_seta_preh mod_seta_preh `us  1 e 2 0 ]
+[v _mod_seta_preh_bak mod_seta_preh_bak `us  1 e 2 0 ]
+[v _mod_seta_prel mod_seta_prel `us  1 e 2 0 ]
+[v _mod_seta_ont mod_seta_ont `us  1 e 2 0 ]
+[v _mod_seta_oft mod_seta_oft `us  1 e 2 0 ]
+"23
+[v _mod_tim_cnta mod_tim_cnta `us  1 e 2 0 ]
+[v _mod_tim_cnta2 mod_tim_cnta2 `us  1 e 2 0 ]
+"25
+[v _back_led_cnt back_led_cnt `us  1 e 2 0 ]
+[v _lock_cnt lock_cnt `us  1 e 2 0 ]
+"26
+[v _lock_flg lock_flg `uc  1 e 1 0 ]
+"30
+[v _set_moda set_moda `us  1 e 2 0 ]
+"31
+[v _valueK valueK `f  1 e 4 0 ]
+"32
+[v _dataK1 dataK1 `us  1 e 2 0 ]
+[v _dataK2 dataK2 `us  1 e 2 0 ]
+[v _dataK3 dataK3 `us  1 e 2 0 ]
+[v _dataK4 dataK4 `us  1 e 2 0 ]
+[v _dataK dataK `us  1 e 2 0 ]
+"172
+[v _key_set_tim key_set_tim `uc  1 e 1 0 ]
+[v _key_start_tim key_start_tim `uc  1 e 1 0 ]
+"174
+[v _tim5_flg tim5_flg `uc  1 e 1 0 ]
+"178
+[v _ddfq ddfq `uc  1 e 1 0 ]
+"179
+[v _ddfq_delay ddfq_delay `us  1 e 2 0 ]
+"211
+[v _key_mute_press_cnt key_mute_press_cnt `us  1 s 2 key_mute_press_cnt ]
+"1167
+[v _close_tim close_tim `us  1 e 2 0 ]
+"1168
+[v _mod_bak_bak mod_bak_bak `uc  1 e 1 0 ]
+"32 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _audio_flg audio_flg `uc  1 e 1 0 ]
+"33
+[v _audio_cnt audio_cnt `us  1 e 2 0 ]
+[v _audio_basic audio_basic `us  1 e 2 0 ]
+"34
+[v _audio_period audio_period `us  1 e 2 0 ]
+"35
+[v _err_codea err_codea `uc  1 e 1 0 ]
+[v _err_codeb err_codeb `uc  1 e 1 0 ]
+"36
+[v _buz_flg1 buz_flg1 `uc  1 e 1 0 ]
+[v _buz_flg buz_flg `uc  1 e 1 0 ]
+[v _buz_cnt buz_cnt `uc  1 e 1 0 ]
+"37
+[v _bat_close_tim bat_close_tim `us  1 e 2 0 ]
+"38
+[v _mute_flg mute_flg `uc  1 e 1 0 ]
+"39
+[v _mute_tim mute_tim `us  1 e 2 0 ]
+"41
+[v _SPEAK_flg SPEAK_flg `uc  1 e 1 0 ]
+"42
+[v _close_flg close_flg `uc  1 e 1 0 ]
+"43
+[v _bat_lev_bak bat_lev_bak `uc  1 e 1 0 ]
+"44
+[v _z1 z1 `uc  1 e 1 0 ]
+"46
+[v _open_bum open_bum `uc  1 e 1 0 ]
+"47
+[v _bum_dly bum_dly `uc  1 e 1 0 ]
+"48
+[v _bum_dly_flg bum_dly_flg `uc  1 e 1 0 ]
+"49
+[v _dataREAD0 dataREAD0 `us  1 e 2 0 ]
+[v _dataREAD1 dataREAD1 `us  1 e 2 0 ]
+[v _dataREAD2 dataREAD2 `us  1 e 2 0 ]
+[v _dataREAD3 dataREAD3 `us  1 e 2 0 ]
+"51
+[v _SPK_STATE SPK_STATE `uc  1 e 1 0 ]
+"52
+[v _TK_TIME TK_TIME `VEus  1 e 2 0 ]
+"53
+[v _key_silent_flag key_silent_flag `us  1 e 2 0 ]
+"59
+[v _BEE_TWO BEE_TWO `E5506  1 e 1 0 ]
+"62
+[v _spk_selay spk_selay `us  1 e 2 0 ]
+"16 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _language language `uc  1 e 1 0 ]
+"18
+[v _bat_cnt bat_cnt `uc  1 e 1 0 ]
+[v _bat_cnt1 bat_cnt1 `uc  1 e 1 0 ]
+"19
+[v _led_cnt led_cnt `uc  1 e 1 0 ]
+"20
+[v _run_tim_a run_tim_a `us  1 e 2 0 ]
+"21
+[v _disp_presa disp_presa `us  1 e 2 0 ]
+"22
+[v _disp_ssa disp_ssa `us  1 e 2 0 ]
+"23
+[v _disp_set_flg disp_set_flg `uc  1 e 1 0 ]
+"24
+[v _dis_cnta dis_cnta `us  1 e 2 0 ]
+"25
+[v _add91200 add91200 `uc  1 e 1 0 ]
+"26
+[v _add91201 add91201 `us  1 e 2 0 ]
+"27
+[v _adc_temp00 adc_temp00 `us  1 e 2 0 ]
+"28
+[v _addhpp addhpp `us  1 e 2 0 ]
+"29
+[v _addhpp2 addhpp2 `us  1 e 2 0 ]
+"32
+[v _rus_model rus_model `C[6]uc  1 e 6 0 ]
+"33
+[v _rus_switch rus_switch `C[6]uc  1 e 6 0 ]
+"34
+[v _rus_continuous rus_continuous `C[11]uc  1 e 11 0 ]
+"35
+[v _rus_intermittent rus_intermittent `C[11]uc  1 e 11 0 ]
+"38
+[v _rus_liquid_full1 rus_liquid_full1 `C[8]uc  1 e 8 0 ]
+"39
+[v _rus_liquid_full2 rus_liquid_full2 `C[10]uc  1 e 10 0 ]
+"42
+[v _rus_leak_Alarm1 rus_leak_Alarm1 `C[7]uc  1 e 7 0 ]
+"43
+[v _rus_leak_Alarm2 rus_leak_Alarm2 `C[8]uc  1 e 8 0 ]
+"45
+[v _rus_battery_low rus_battery_low `C[13]uc  1 e 13 0 ]
+"48
+[v _rus_blockage_Alarm1 rus_blockage_Alarm1 `C[7]uc  1 e 7 0 ]
+"49
+[v _rus_blockage_Alarm2 rus_blockage_Alarm2 `C[7]uc  1 e 7 0 ]
+"50
+[v _rus_pump_idle rus_pump_idle `C[12]uc  1 e 12 0 ]
+"52
+[v _rus_therapy_on rus_therapy_on `C[12]uc  1 e 12 0 ]
+"53
+[v _rus_therapy_off rus_therapy_off `C[13]uc  1 e 13 0 ]
+"54
+[v _rus_psressure rus_psressure `C[9]uc  1 e 9 0 ]
+"55
+[v _rus_time_HP rus_time_HP `C[9]uc  1 e 9 0 ]
+"56
+[v _rus_time_LP rus_time_LP `C[9]uc  1 e 9 0 ]
+"57
+[v _rus_time rus_time `C[6]uc  1 e 6 0 ]
+"59
+[v _rus_Settings rus_Settings `C[10]uc  1 e 10 0 ]
+"60
+[v _rus_Therapy rus_Therapy `C[8]uc  1 e 8 0 ]
+"61
+[v _rus_Therapy2 rus_Therapy2 `C[24]uc  1 e 24 0 ]
+"62
+[v _rus_min rus_min `C[4]uc  1 e 4 0 ]
+"64
+[v _rus_pre_HP rus_pre_HP `C[9]uc  1 e 9 0 ]
+"65
+[v _rus_pre_LP rus_pre_LP `C[9]uc  1 e 9 0 ]
+"324
+[v _value_buf value_buf `[10]us  1 s 20 value_buf ]
+"325
+[v _i i `uc  1 s 1 i ]
+"326
+[v _delay_count delay_count `us  1 s 2 delay_count ]
+"342
+[v _err_codeabak err_codeabak `uc  1 e 1 0 ]
+"354
+[v _read_key read_key `ui  1 e 2 0 ]
+"589
+[v _bbbbb bbbbb `us  1 e 2 0 ]
+"774
+[v _flg_disp flg_disp `uc  1 e 1 0 ]
+"776
+[v _flg2015 flg2015 `uc  1 e 1 0 ]
+"1411
+[v _all_flg all_flg `uc  1 e 1 0 ]
+"8 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_ini_00.c
+[v _FLG_SYS_10MS FLG_SYS_10MS `uc  1 e 1 0 ]
+"9
+[v _os_cnt os_cnt `uc  1 e 1 0 ]
+"10
+[v _pwm_cnt1 pwm_cnt1 `uc  1 e 1 0 ]
+"11
+[v _pwm_cnt2 pwm_cnt2 `uc  1 e 1 0 ]
+"13
+[v _Timeone_sum Timeone_sum `VEul  1 e 4 0 ]
+"14
+[v _TIMER_FOUR TIMER_FOUR `uc  1 e 1 0 ]
+"140
+[v _adc_ps00 adc_ps00 `us  1 e 2 0 ]
+"10 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_uart_00.c
+[v _flager_a flager_a `VEuc  1 e 1 0 ]
+[v _bat_lev bat_lev `VEuc  1 e 1 0 ]
+"5 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/ziku/8X16.c
+[v _ASCII ASCII `C[1536]uc  1 e 1536 0 ]
+"307
+[v _CYRILLIC CYRILLIC `C[1104]uc  1 e 1104 0 ]
+"20 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/ziku/BIOS_ZK_DAW.c
+[v _draw_buz draw_buz `C[32]uc  1 e 32 0 ]
+"30
+[v _draw_batwarn draw_batwarn `C[1024]uc  1 e 1024 0 ]
+"125
+[v _draw_batwarnE draw_batwarnE `C[1024]uc  1 e 1024 0 ]
+"262
+[v _draw_lx draw_lx `C[60]uc  1 e 60 0 ]
+"276
+[v _draw_jx draw_jx `C[62]uc  1 e 62 0 ]
+"684
+[v _arry_desk arry_desk `C[1024]uc  1 e 1024 0 ]
+"755
+[v _arry_ver arry_ver `C[1024]uc  1 e 1024 0 ]
+"1535
+[v _set_language set_language `C[1024]uc  1 e 1024 0 ]
+"1604
+[v _sanjiao sanjiao `C[8]uc  1 e 8 0 ]
+"1732
+[v _select select `C[32]uc  1 e 32 0 ]
+"1806
+[v _lock2015 lock2015 `C[18]uc  1 e 18 0 ]
+"1818
+[v _key2015 key2015 `C[32]uc  1 e 32 0 ]
+"1887
+[v _bat000 bat000 `C[48]uc  1 e 48 0 ]
+"1898
+[v _bat001 bat001 `C[48]uc  1 e 48 0 ]
+"1908
+[v _bat002 bat002 `C[48]uc  1 e 48 0 ]
+"1919
+[v _bat003 bat003 `C[48]uc  1 e 48 0 ]
+"1932
+[v _bat004 bat004 `C[48]uc  1 e 48 0 ]
+"5 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/ziku/BIOS_ZK_X1.c
+[v _arry_dig arry_dig `C[120]uc  1 e 120 0 ]
+"54
+[v _arry_digs12 arry_digs12 `C[160]uc  1 e 160 0 ]
+"101
+[v _arry_dig40 arry_dig40 `C[720]uc  1 e 720 0 ]
+"222
+[v _arry_char arry_char `C[252]uc  1 e 252 0 ]
+"346
+[v _arry_char2 arry_char2 `C[364]uc  1 e 364 0 ]
+"477
+[v _arry_char22 arry_char22 `C[364]uc  1 e 364 0 ]
+"610
+[v _arry_dig22 arry_dig22 `C[450]uc  1 e 450 0 ]
+"691 /Applications/microchip/xc8/v3.00/pic/include/proc/pic18f46j11.h
+[v _ANCON0 ANCON0 `VEuc  1 e 1 @3912 ]
+[s S719 . 1 `uc 1 PCFG0 1 0 :1:0 
+`uc 1 PCFG1 1 0 :1:1 
+`uc 1 PCFG2 1 0 :1:2 
+`uc 1 PCFG3 1 0 :1:3 
+`uc 1 PCFG4 1 0 :1:4 
+`uc 1 PCFG5 1 0 :1:5 
+`uc 1 PCFG6 1 0 :1:6 
+`uc 1 PCFG7 1 0 :1:7 
+]
+"708
+[u S728 . 1 `S719 1 . 1 0 ]
+[v _ANCON0bits ANCON0bits `VES728  1 e 1 @3912 ]
+"753
+[v _ANCON1 ANCON1 `VEuc  1 e 1 @3913 ]
+"2959
+[v _T3CON T3CON `VEuc  1 e 1 @3961 ]
+[s S1615 . 1 `uc 1 TMR3ON 1 0 :1:0 
+`uc 1 RD16 1 0 :1:1 
+`uc 1 T3SYNC 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 T3CKPS 1 0 :2:4 
+`uc 1 TMR3CS 1 0 :2:6 
+]
+"2989
+[s S1622 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 T3CKPS0 1 0 :1:4 
+`uc 1 T3CKPS1 1 0 :1:5 
+`uc 1 TMR3CS0 1 0 :1:6 
+`uc 1 TMR3CS1 1 0 :1:7 
+]
+[s S1628 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 RD163 1 0 :1:7 
+]
+[s S1631 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 T3RD16 1 0 :1:7 
+]
+[u S1634 . 1 `S1615 1 . 1 0 `S1622 1 . 1 0 `S1628 1 . 1 0 `S1631 1 . 1 0 ]
+[v _T3CONbits T3CONbits `VES1634  1 e 1 @3961 ]
+"3056
+[v _TMR3L TMR3L `VEuc  1 e 1 @3962 ]
+"3076
+[v _TMR3H TMR3H `VEuc  1 e 1 @3963 ]
+"3784
+[v _PORTA PORTA `VEuc  1 e 1 @3968 ]
+"4037
+[v _PORTB PORTB `VEuc  1 e 1 @3969 ]
+"4292
+[v _PORTC PORTC `VEuc  1 e 1 @3970 ]
+[s S916 . 1 `uc 1 RC0 1 0 :1:0 
+`uc 1 RC1 1 0 :1:1 
+`uc 1 RC2 1 0 :1:2 
+`uc 1 RC3 1 0 :1:3 
+`uc 1 RC4 1 0 :1:4 
+`uc 1 RC5 1 0 :1:5 
+`uc 1 RC6 1 0 :1:6 
+`uc 1 RC7 1 0 :1:7 
+]
+"4352
+[s S925 . 1 `uc 1 T1OSO 1 0 :1:0 
+`uc 1 T1OSI 1 0 :1:1 
+`uc 1 AN11 1 0 :1:2 
+`uc 1 SCK1 1 0 :1:3 
+`uc 1 . 1 0 :2:4 
+`uc 1 PMA5 1 0 :1:6 
+`uc 1 PMA4 1 0 :1:7 
+]
+[s S933 . 1 `uc 1 T1CKI 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 CTPLS 1 0 :1:2 
+`uc 1 SCL1 1 0 :1:3 
+`uc 1 SDI1 1 0 :1:4 
+`uc 1 SDO1 1 0 :1:5 
+`uc 1 TX1 1 0 :1:6 
+`uc 1 RX1 1 0 :1:7 
+]
+[s S942 . 1 `uc 1 RP11 1 0 :1:0 
+`uc 1 RP12 1 0 :1:1 
+`uc 1 RP13 1 0 :1:2 
+`uc 1 RP14 1 0 :1:3 
+`uc 1 RP15 1 0 :1:4 
+`uc 1 RP16 1 0 :1:5 
+`uc 1 CK1 1 0 :1:6 
+`uc 1 DT1 1 0 :1:7 
+]
+[s S951 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 RP17 1 0 :1:6 
+`uc 1 RP18 1 0 :1:7 
+]
+[s S955 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 CCP2 1 0 :1:1 
+`uc 1 PA1 1 0 :1:2 
+]
+[s S959 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 PA2 1 0 :1:1 
+]
+[u S962 . 1 `S916 1 . 1 0 `S925 1 . 1 0 `S933 1 . 1 0 `S942 1 . 1 0 `S951 1 . 1 0 `S955 1 . 1 0 `S959 1 . 1 0 ]
+[v _PORTCbits PORTCbits `VES962  1 e 1 @3970 ]
+"4527
+[v _PORTD PORTD `VEuc  1 e 1 @3971 ]
+"4698
+[v _PORTE PORTE `VEuc  1 e 1 @3972 ]
+"5079
+[v _LATA LATA `VEuc  1 e 1 @3977 ]
+[s S85 . 1 `uc 1 LATA0 1 0 :1:0 
+`uc 1 LATA1 1 0 :1:1 
+`uc 1 LATA2 1 0 :1:2 
+`uc 1 LATA3 1 0 :1:3 
+`uc 1 . 1 0 :1:4 
+`uc 1 LATA5 1 0 :1:5 
+`uc 1 LATA6 1 0 :1:6 
+`uc 1 LATA7 1 0 :1:7 
+]
+"5106
+[s S94 . 1 `uc 1 LA0 1 0 :1:0 
+`uc 1 LA1 1 0 :1:1 
+`uc 1 LA2 1 0 :1:2 
+`uc 1 LA3 1 0 :1:3 
+`uc 1 . 1 0 :1:4 
+`uc 1 LA5 1 0 :1:5 
+`uc 1 LA6 1 0 :1:6 
+`uc 1 LA7 1 0 :1:7 
+]
+[u S103 . 1 `S85 1 . 1 0 `S94 1 . 1 0 ]
+[v _LATAbits LATAbits `VES103  1 e 1 @3977 ]
+"5181
+[v _LATB LATB `VEuc  1 e 1 @3978 ]
+[s S1054 . 1 `uc 1 LATB0 1 0 :1:0 
+`uc 1 LATB1 1 0 :1:1 
+`uc 1 LATB2 1 0 :1:2 
+`uc 1 LATB3 1 0 :1:3 
+`uc 1 LATB4 1 0 :1:4 
+`uc 1 LATB5 1 0 :1:5 
+`uc 1 LATB6 1 0 :1:6 
+`uc 1 LATB7 1 0 :1:7 
+]
+"5208
+[s S1063 . 1 `uc 1 LB0 1 0 :1:0 
+`uc 1 LB1 1 0 :1:1 
+`uc 1 LB2 1 0 :1:2 
+`uc 1 LB3 1 0 :1:3 
+`uc 1 LB4 1 0 :1:4 
+`uc 1 LB5 1 0 :1:5 
+`uc 1 LB6 1 0 :1:6 
+`uc 1 LB7 1 0 :1:7 
+]
+[u S1072 . 1 `S1054 1 . 1 0 `S1063 1 . 1 0 ]
+[v _LATBbits LATBbits `VES1072  1 e 1 @3978 ]
+"5293
+[v _LATC LATC `VEuc  1 e 1 @3979 ]
+[s S1153 . 1 `uc 1 LATC0 1 0 :1:0 
+`uc 1 LATC1 1 0 :1:1 
+`uc 1 LATC2 1 0 :1:2 
+`uc 1 LATC3 1 0 :1:3 
+`uc 1 LATC4 1 0 :1:4 
+`uc 1 LATC5 1 0 :1:5 
+`uc 1 LATC6 1 0 :1:6 
+`uc 1 LATC7 1 0 :1:7 
+]
+"5320
+[s S1162 . 1 `uc 1 LC0 1 0 :1:0 
+`uc 1 LC1 1 0 :1:1 
+`uc 1 LC2 1 0 :1:2 
+`uc 1 LC3 1 0 :1:3 
+`uc 1 LC4 1 0 :1:4 
+`uc 1 LC5 1 0 :1:5 
+`uc 1 LC6 1 0 :1:6 
+`uc 1 LC7 1 0 :1:7 
+]
+[u S1171 . 1 `S1153 1 . 1 0 `S1162 1 . 1 0 ]
+[v _LATCbits LATCbits `VES1171  1 e 1 @3979 ]
+"5405
+[v _LATD LATD `VEuc  1 e 1 @3980 ]
+"5517
+[v _LATE LATE `VEuc  1 e 1 @3981 ]
+[s S65 . 1 `uc 1 LATE0 1 0 :1:0 
+`uc 1 LATE1 1 0 :1:1 
+`uc 1 LATE2 1 0 :1:2 
+]
+"5534
+[s S69 . 1 `uc 1 LE0 1 0 :1:0 
+`uc 1 LE1 1 0 :1:1 
+`uc 1 LE2 1 0 :1:2 
+]
+[u S73 . 1 `S65 1 . 1 0 `S69 1 . 1 0 ]
+[v _LATEbits LATEbits `VES73  1 e 1 @3981 ]
+"5755
+[v _TRISA TRISA `VEuc  1 e 1 @3986 ]
+"5812
+[v _TRISB TRISB `VEuc  1 e 1 @3987 ]
+"5874
+[v _TRISC TRISC `VEuc  1 e 1 @3988 ]
+"5936
+[v _TRISD TRISD `VEuc  1 e 1 @3989 ]
+"5998
+[v _TRISE TRISE `VEuc  1 e 1 @3990 ]
+"6280
+[v _OSCTUNE OSCTUNE `VEuc  1 e 1 @3995 ]
+"6762
+[v _PIE2 PIE2 `VEuc  1 e 1 @4000 ]
+"6837
+[v _PIR2 PIR2 `VEuc  1 e 1 @4001 ]
+"7298
+[v _EECON2 EECON2 `VEuc  1 e 1 @4007 ]
+"9738
+[v _ADCON1 ADCON1 `VEuc  1 e 1 @4033 ]
+"9835
+[v _ADCON0 ADCON0 `VEuc  1 e 1 @4034 ]
+[s S742 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO_NOT_DONE 1 0 :1:1 
+]
+"9884
+[s S745 . 1 `uc 1 ADON 1 0 :1:0 
+`uc 1 GO_nDONE 1 0 :1:1 
+`uc 1 CHS 1 0 :4:2 
+`uc 1 VCFG 1 0 :2:6 
+]
+[s S750 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO_DONE 1 0 :1:1 
+`uc 1 CHS0 1 0 :1:2 
+`uc 1 CHS1 1 0 :1:3 
+`uc 1 CHS2 1 0 :1:4 
+`uc 1 CHS3 1 0 :1:5 
+`uc 1 VCFG0 1 0 :1:6 
+`uc 1 VCFG1 1 0 :1:7 
+]
+[s S759 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 DONE 1 0 :1:1 
+]
+[s S762 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO 1 0 :1:1 
+]
+[s S765 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 NOT_DONE 1 0 :1:1 
+]
+[s S768 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 nDONE 1 0 :1:1 
+]
+[s S771 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GODONE 1 0 :1:1 
+`uc 1 . 1 0 :5:2 
+`uc 1 ADCAL 1 0 :1:7 
+]
+[u S776 . 1 `S742 1 . 1 0 `S745 1 . 1 0 `S750 1 . 1 0 `S759 1 . 1 0 `S762 1 . 1 0 `S765 1 . 1 0 `S768 1 . 1 0 `S771 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES776  1 e 1 @4034 ]
+"9986
+[v _ADRESL ADRESL `VEuc  1 e 1 @4035 ]
+"10006
+[v _ADRESH ADRESH `VEuc  1 e 1 @4036 ]
+"11805
+[v _TMR2 TMR2 `VEuc  1 e 1 @4044 ]
+"12645
+[v _OSCCON OSCCON `VEuc  1 e 1 @4051 ]
+"12717
+[v _T0CON T0CON `VEuc  1 e 1 @4053 ]
+"12794
+[v _TMR0L TMR0L `VEuc  1 e 1 @4054 ]
+"12814
+[v _TMR0H TMR0H `VEuc  1 e 1 @4055 ]
+"13446
+[v _INTCON2 INTCON2 `VEuc  1 e 1 @4081 ]
+"13539
+[v _INTCON INTCON `VEuc  1 e 1 @4082 ]
+[s S2077 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INT0IF 1 0 :1:1 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INT0IE 1 0 :1:4 
+`uc 1 TMR0IE 1 0 :1:5 
+`uc 1 PEIE_GIEL 1 0 :1:6 
+`uc 1 GIE_GIEH 1 0 :1:7 
+]
+"13571
+[s S2086 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 INT0F 1 0 :1:1 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 INT0E 1 0 :1:4 
+`uc 1 T0IE 1 0 :1:5 
+`uc 1 PEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+[s S2095 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 GIEL 1 0 :1:6 
+`uc 1 GIEH 1 0 :1:7 
+]
+[u S2099 . 1 `S2077 1 . 1 0 `S2086 1 . 1 0 `S2095 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES2099  1 e 1 @4082 ]
+"13703
+[v _TABLAT TABLAT `VEuc  1 e 1 @4085 ]
+"13732
+[v _TBLPTRL TBLPTRL `VEuc  1 e 1 @4086 ]
+"13752
+[v _TBLPTRH TBLPTRH `VEuc  1 e 1 @4087 ]
+"13772
+[v _TBLPTRU TBLPTRU `VEuc  1 e 1 @4088 ]
+"14427
+[v _CARRY CARRY `VEb  1 e 0 @32448 ]
+"14949
+[v _FREE FREE `VEb  1 e 0 @32052 ]
+"14961
+[v _GIE GIE `VEb  1 e 0 @32663 ]
+"15303
+[v _LATC6 LATC6 `VEb  1 e 0 @31838 ]
+"15804
+[v _PEIE PEIE `VEb  1 e 0 @32662 ]
+"17316
+[v _WPROG WPROG `VEb  1 e 0 @32053 ]
+"17319
+[v _WR WR `VEb  1 e 0 @32049 ]
+"17325
+[v _WREN WREN `VEb  1 e 0 @32050 ]
+"540 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"665
+} 0
+"347 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _clear_lqtimes clear_lqtimes `(v  1 e 1 0 ]
+{
+"353
+} 0
+"17 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/adc.c
+[v _adc_init adc_init `(v  1 e 1 0 ]
+{
+"30
+} 0
+"103 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _Warn Warn `(v  1 e 1 0 ]
+{
+"155
+} 0
+"63
+[v _spk_bee_server spk_bee_server `(v  1 e 1 0 ]
+{
+"79
+} 0
+"12 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_uart_00.c
+[v _UART_Test UART_Test `(v  1 e 1 0 ]
+{
+"63
+} 0
+"52 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_ini_00.c
+[v _SYS_TMR3_Ini SYS_TMR3_Ini `(v  1 e 1 0 ]
+{
+"57
+} 0
+"43
+[v _SYS_TMR0_Ini SYS_TMR0_Ini `(v  1 e 1 0 ]
+{
+"50
+} 0
+"15
+[v _SYS_OSC_Ini SYS_OSC_Ini `(v  1 e 1 0 ]
+{
+"20
+} 0
+"22
+[v _SYS_IO_Ini SYS_IO_Ini `(v  1 e 1 0 ]
+{
+"42
+} 0
+"80 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _SYS_DatIni SYS_DatIni `(v  1 e 1 0 ]
+{
+"101
+} 0
+"212 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ifile_key_00.c
+[v _MODE_ProA MODE_ProA `(v  1 e 1 0 ]
+{
+"1162
+} 0
+"183
+[v _get_xx_delta get_xx_delta `(v  1 e 1 0 ]
+{
+"185
+[v get_xx_delta@delta delta `us  1 a 2 14 ]
+"183
+[v get_xx_delta@press press `us  1 p 2 12 ]
+"209
+} 0
+"34 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _SYS_IniLcd SYS_IniLcd `(v  1 e 1 0 ]
+{
+"75
+} 0
+"26
+[v _BIOS_JLX12864_DELAY BIOS_JLX12864_DELAY `(v  1 e 1 0 ]
+{
+"28
+[v BIOS_JLX12864_DELAY@k k `i  1 a 2 5 ]
+[v BIOS_JLX12864_DELAY@j j `i  1 a 2 3 ]
+"26
+[v BIOS_JLX12864_DELAY@i i `i  1 p 2 0 ]
+"31
+} 0
+"1260
+[v _DISP_set_sanjiao0 DISP_set_sanjiao0 `(v  1 e 1 0 ]
+{
+[v DISP_set_sanjiao0@x x `uc  1 p 1 wreg ]
+"1262
+[v DISP_set_sanjiao0@l l `uc  1 a 1 9 ]
+[v DISP_set_sanjiao0@n n `uc  1 a 1 8 ]
+[v DISP_set_sanjiao0@k k `uc  1 a 1 7 ]
+[v DISP_set_sanjiao0@j j `uc  1 a 1 6 ]
+[v DISP_set_sanjiao0@i i `uc  1 a 1 5 ]
+"1260
+[v DISP_set_sanjiao0@x x `uc  1 p 1 wreg ]
+[v DISP_set_sanjiao0@y y `ui  1 p 2 2 ]
+"1264
+[v DISP_set_sanjiao0@x x `uc  1 p 1 4 ]
+"1273
+} 0
+"1246
+[v _DISP_set_sanjiao DISP_set_sanjiao `(v  1 e 1 0 ]
+{
+[v DISP_set_sanjiao@x x `uc  1 p 1 wreg ]
+"1248
+[v DISP_set_sanjiao@l l `uc  1 a 1 9 ]
+[v DISP_set_sanjiao@n n `uc  1 a 1 8 ]
+[v DISP_set_sanjiao@k k `uc  1 a 1 7 ]
+[v DISP_set_sanjiao@j j `uc  1 a 1 6 ]
+[v DISP_set_sanjiao@i i `uc  1 a 1 5 ]
+"1246
+[v DISP_set_sanjiao@x x `uc  1 p 1 wreg ]
+[v DISP_set_sanjiao@y y `ui  1 p 2 2 ]
+"1250
+[v DISP_set_sanjiao@x x `uc  1 p 1 4 ]
+"1259
+} 0
+"1190
+[v _DISP_Ver DISP_Ver `(v  1 e 1 0 ]
+{
+"1192
+[v DISP_Ver@i i `ui  1 a 2 6 ]
+[v DISP_Ver@j j `ui  1 a 2 4 ]
+[v DISP_Ver@l l `ui  1 a 2 2 ]
+"1206
+} 0
+"1137
+[v _DISP_Sys100 DISP_Sys100 `(v  1 e 1 0 ]
+{
+"1139
+[v DISP_Sys100@j j `ui  1 a 2 8 ]
+[v DISP_Sys100@i i `ui  1 a 2 6 ]
+[v DISP_Sys100@l l `ui  1 a 2 4 ]
+"1165
+} 0
+"1227
+[v _DISP_LANGUAGE DISP_LANGUAGE `(v  1 e 1 0 ]
+{
+"1229
+[v DISP_LANGUAGE@i i `ui  1 a 2 6 ]
+[v DISP_LANGUAGE@j j `ui  1 a 2 4 ]
+[v DISP_LANGUAGE@l l `ui  1 a 2 2 ]
+"1243
+} 0
+"475 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _BUZ_KeyCls BUZ_KeyCls `(v  1 e 1 0 ]
+{
+"483
+} 0
+"1169 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ifile_key_00.c
+[v _MODE_Pro MODE_Pro `(v  1 e 1 0 ]
+{
+"1273
+} 0
+"8 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+{
+[s S2489 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+"13
+[s S2494 . 4 `s 1 wordA 2 0 `s 1 wordB 2 2 ]
+[u S2497 . 4 `l 1 i 4 0 `d 1 f 4 0 `S2489 1 fAsBytes 4 0 `S2494 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S2497  1 a 4 19 ]
+"12
+[v ___flmul@grs grs `ul  1 a 4 14 ]
+[s S2565 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+"14
+[u S2568 . 2 `s 1 i 2 0 `us 1 n 2 0 `S2565 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S2568  1 a 2 23 ]
+"10
+[v ___flmul@bexp bexp `uc  1 a 1 18 ]
+"11
+[v ___flmul@aexp aexp `uc  1 a 1 13 ]
+"9
+[v ___flmul@sign sign `uc  1 a 1 12 ]
+"8
+[v ___flmul@b b `d  1 p 4 0 ]
+[v ___flmul@a a `d  1 p 4 4 ]
+"205
+} 0
+"57 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/Flash.c
+[v _Write_One_Word Write_One_Word `(v  1 e 1 0 ]
+{
+[v Write_One_Word@address address `ul  1 p 4 0 ]
+[v Write_One_Word@data data `ui  1 p 2 4 ]
+"72
+} 0
+"46
+[v _Flash_Erase Flash_Erase `(v  1 e 1 0 ]
+{
+[v Flash_Erase@address address `ul  1 p 4 0 ]
+"54
+} 0
+"16
+[v _Write_Cycle Write_Cycle `(v  1 e 1 0 ]
+{
+"41
+} 0
+"34 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ifile_key_00.c
+[v _KEY_Scan KEY_Scan `(v  1 e 1 0 ]
+{
+"157
+} 0
+"5 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/sys_cpu.c
+[v _SetBlk SetBlk `(v  1 e 1 0 ]
+{
+"12
+} 0
+"75 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/Flash.c
+[v _Flash_Read Flash_Read `(ui  1 e 2 0 ]
+{
+"77
+[v Flash_Read@temp temp `ui  1 a 2 7 ]
+"75
+[v Flash_Read@address address `ul  1 p 4 0 ]
+"87
+} 0
+"517 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _FIND_FREE FIND_FREE `(v  1 e 1 0 ]
+{
+"538
+} 0
+"1413 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_MainA DISP_MainA `(v  1 e 1 0 ]
+{
+"1415
+[v DISP_MainA@i i `f  1 a 4 41 ]
+"1750
+} 0
+"10 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/xxtofl.c
+[v ___xxtofl __xxtofl `(d  1 e 4 0 ]
+{
+[v ___xxtofl@sign sign `uc  1 p 1 wreg ]
+"13
+[v ___xxtofl@arg arg `ul  1 a 4 10 ]
+"12
+[v ___xxtofl@exp exp `uc  1 a 1 9 ]
+"10
+[v ___xxtofl@sign sign `uc  1 p 1 wreg ]
+[v ___xxtofl@val val `l  1 p 4 0 ]
+"15
+[v ___xxtofl@sign sign `uc  1 p 1 8 ]
+"44
+} 0
+"43 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/fltol.c
+[v ___fltol __fltol `(l  1 e 4 0 ]
+{
+"45
+[v ___fltol@exp1 exp1 `uc  1 a 1 34 ]
+[v ___fltol@sign1 sign1 `uc  1 a 1 33 ]
+"43
+[v ___fltol@f1 f1 `d  1 p 4 25 ]
+"70
+} 0
+"11 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+{
+"21
+[v ___fldiv@grs grs `ul  1 a 4 33 ]
+"22
+[v ___fldiv@rem rem `ul  1 a 4 26 ]
+"20
+[v ___fldiv@new_exp new_exp `s  1 a 2 31 ]
+"19
+[v ___fldiv@aexp aexp `uc  1 a 1 38 ]
+"18
+[v ___fldiv@bexp bexp `uc  1 a 1 37 ]
+"16
+[v ___fldiv@sign sign `uc  1 a 1 30 ]
+"11
+[v ___fldiv@b b `d  1 p 4 14 ]
+[v ___fldiv@a a `d  1 p 4 18 ]
+"185
+} 0
+"778 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_SetA_new DISP_SetA_new `(v  1 e 1 0 ]
+{
+"1376
+} 0
+"1429 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_select0 DISP_select0 `(v  1 e 1 0 ]
+{
+[v DISP_select0@startx startx `uc  1 p 1 wreg ]
+"1432
+[v DISP_select0@m m `us  1 a 2 12 ]
+[v DISP_select0@l l `us  1 a 2 10 ]
+"1431
+[v DISP_select0@n n `uc  1 a 1 9 ]
+[v DISP_select0@k k `uc  1 a 1 8 ]
+[v DISP_select0@j j `uc  1 a 1 7 ]
+[v DISP_select0@i i `uc  1 a 1 6 ]
+"1429
+[v DISP_select0@startx startx `uc  1 p 1 wreg ]
+[v DISP_select0@starty starty `uc  1 p 1 2 ]
+"1433
+[v DISP_select0@startx startx `uc  1 p 1 5 ]
+"1450
+} 0
+"1404
+[v _DISP_select DISP_select `(v  1 e 1 0 ]
+{
+[v DISP_select@startx startx `uc  1 p 1 wreg ]
+"1407
+[v DISP_select@l l `us  1 a 2 12 ]
+[v DISP_select@m m `us  1 a 2 10 ]
+"1406
+[v DISP_select@n n `uc  1 a 1 9 ]
+[v DISP_select@k k `uc  1 a 1 8 ]
+[v DISP_select@j j `uc  1 a 1 7 ]
+[v DISP_select@i i `uc  1 a 1 6 ]
+"1404
+[v DISP_select@startx startx `uc  1 p 1 wreg ]
+[v DISP_select@starty starty `uc  1 p 1 2 ]
+"1408
+[v DISP_select@startx startx `uc  1 p 1 5 ]
+"1425
+} 0
+"1981
+[v _DISP_key2015 DISP_key2015 `(v  1 e 1 0 ]
+{
+[v DISP_key2015@startx startx `uc  1 p 1 wreg ]
+"1983
+[v DISP_key2015@l l `uc  1 a 1 14 ]
+[v DISP_key2015@m m `uc  1 a 1 13 ]
+[v DISP_key2015@n n `uc  1 a 1 12 ]
+[v DISP_key2015@k k `uc  1 a 1 11 ]
+[v DISP_key2015@j j `uc  1 a 1 10 ]
+[v DISP_key2015@i i `uc  1 a 1 9 ]
+"1981
+[v DISP_key2015@startx startx `uc  1 p 1 wreg ]
+[v DISP_key2015@starty starty `uc  1 p 1 2 ]
+"1983
+[v DISP_key2015@startx startx `uc  1 p 1 8 ]
+"2005
+} 0
+"824
+[v _DISP_Dig15_32 DISP_Dig15_32 `(v  1 e 1 0 ]
+{
+[v DISP_Dig15_32@startx startx `uc  1 p 1 wreg ]
+"826
+[v DISP_Dig15_32@j j `uc  1 a 1 24 ]
+[v DISP_Dig15_32@i i `uc  1 a 1 23 ]
+[v DISP_Dig15_32@dig0 dig0 `uc  1 a 1 22 ]
+[v DISP_Dig15_32@dig1 dig1 `uc  1 a 1 21 ]
+[v DISP_Dig15_32@dig2 dig2 `uc  1 a 1 20 ]
+"824
+[v DISP_Dig15_32@startx startx `uc  1 p 1 wreg ]
+[v DISP_Dig15_32@starty starty `uc  1 p 1 16 ]
+"827
+[v DISP_Dig15_32@startx startx `uc  1 p 1 19 ]
+"862
+} 0
+"119
+[v _DISP_DigBasic32 DISP_DigBasic32 `(v  1 e 1 0 ]
+{
+"122
+[v DISP_DigBasic32@l l `us  1 a 2 14 ]
+[v DISP_DigBasic32@m m `us  1 a 2 12 ]
+"121
+[v DISP_DigBasic32@k k `uc  1 a 1 11 ]
+[v DISP_DigBasic32@j j `uc  1 a 1 10 ]
+[v DISP_DigBasic32@i i `uc  1 a 1 9 ]
+[v DISP_DigBasic32@n n `uc  1 a 1 8 ]
+"119
+[v DISP_DigBasic32@dat dat `us  1 p 2 2 ]
+[v DISP_DigBasic32@startx startx `uc  1 p 1 4 ]
+[v DISP_DigBasic32@starty starty `uc  1 p 1 5 ]
+"143
+} 0
+"1108
+[v _DISP_Dig14_16 DISP_Dig14_16 `(v  1 e 1 0 ]
+{
+[v DISP_Dig14_16@startx startx `uc  1 p 1 wreg ]
+"1110
+[v DISP_Dig14_16@j j `uc  1 a 1 26 ]
+[v DISP_Dig14_16@i i `uc  1 a 1 25 ]
+[v DISP_Dig14_16@dig0 dig0 `uc  1 a 1 24 ]
+[v DISP_Dig14_16@dig1 dig1 `uc  1 a 1 23 ]
+[v DISP_Dig14_16@dig2 dig2 `uc  1 a 1 22 ]
+"1108
+[v DISP_Dig14_16@startx startx `uc  1 p 1 wreg ]
+[v DISP_Dig14_16@starty starty `uc  1 p 1 16 ]
+[v DISP_Dig14_16@disp_val disp_val `us  1 p 2 17 ]
+"1111
+[v DISP_Dig14_16@startx startx `uc  1 p 1 21 ]
+"1134
+} 0
+"1044
+[v _DISP_DigBasics12 DISP_DigBasics12 `(v  1 e 1 0 ]
+{
+[v DISP_DigBasics12@dat dat `uc  1 p 1 wreg ]
+"1046
+[v DISP_DigBasics12@l l `uc  1 a 1 15 ]
+[v DISP_DigBasics12@m m `uc  1 a 1 14 ]
+[v DISP_DigBasics12@n n `uc  1 a 1 13 ]
+[v DISP_DigBasics12@k k `uc  1 a 1 12 ]
+[v DISP_DigBasics12@j j `uc  1 a 1 11 ]
+[v DISP_DigBasics12@i i `uc  1 a 1 10 ]
+"1044
+[v DISP_DigBasics12@dat dat `uc  1 p 1 wreg ]
+[v DISP_DigBasics12@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasics12@starty starty `uc  1 p 1 3 ]
+"1047
+[v DISP_DigBasics12@dat dat `uc  1 p 1 9 ]
+"1073
+} 0
+"405 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_LixA DISP_LixA `(v  1 e 1 0 ]
+{
+"583
+} 0
+"728 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_lx DISP_lx `(v  1 e 1 0 ]
+{
+[v DISP_lx@startx startx `uc  1 p 1 wreg ]
+"731
+[v DISP_lx@l l `us  1 a 2 13 ]
+[v DISP_lx@m m `us  1 a 2 11 ]
+"730
+[v DISP_lx@temp temp `uc  1 a 1 10 ]
+[v DISP_lx@n n `uc  1 a 1 9 ]
+[v DISP_lx@k k `uc  1 a 1 8 ]
+[v DISP_lx@j j `uc  1 a 1 7 ]
+[v DISP_lx@i i `uc  1 a 1 6 ]
+"728
+[v DISP_lx@startx startx `uc  1 p 1 wreg ]
+[v DISP_lx@starty starty `uc  1 p 1 2 ]
+"732
+[v DISP_lx@startx startx `uc  1 p 1 5 ]
+"753
+} 0
+"591 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_JixA DISP_JixA `(v  1 e 1 0 ]
+{
+"769
+} 0
+"356
+[v _show_lq show_lq `(v  1 e 1 0 ]
+{
+"400
+} 0
+"1016 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_Dig12_16 DISP_Dig12_16 `(v  1 e 1 0 ]
+{
+[v DISP_Dig12_16@startx startx `uc  1 p 1 wreg ]
+"1018
+[v DISP_Dig12_16@j j `uc  1 a 1 30 ]
+[v DISP_Dig12_16@i i `uc  1 a 1 29 ]
+[v DISP_Dig12_16@dig0 dig0 `uc  1 a 1 28 ]
+[v DISP_Dig12_16@dig1 dig1 `uc  1 a 1 27 ]
+[v DISP_Dig12_16@dig2 dig2 `uc  1 a 1 26 ]
+"1016
+[v DISP_Dig12_16@startx startx `uc  1 p 1 wreg ]
+[v DISP_Dig12_16@starty starty `uc  1 p 1 20 ]
+[v DISP_Dig12_16@disp_val disp_val `us  1 p 2 21 ]
+"1019
+[v DISP_Dig12_16@startx startx `uc  1 p 1 25 ]
+"1042
+} 0
+"983
+[v _DISP_DigBasic0 DISP_DigBasic0 `(v  1 e 1 0 ]
+{
+[v DISP_DigBasic0@dat dat `uc  1 p 1 wreg ]
+"985
+[v DISP_DigBasic0@m m `uc  1 a 1 15 ]
+[v DISP_DigBasic0@l l `uc  1 a 1 14 ]
+[v DISP_DigBasic0@n n `uc  1 a 1 13 ]
+[v DISP_DigBasic0@k k `uc  1 a 1 12 ]
+[v DISP_DigBasic0@j j `uc  1 a 1 11 ]
+[v DISP_DigBasic0@i i `uc  1 a 1 10 ]
+"983
+[v DISP_DigBasic0@dat dat `uc  1 p 1 wreg ]
+[v DISP_DigBasic0@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasic0@starty starty `uc  1 p 1 3 ]
+"986
+[v DISP_DigBasic0@dat dat `uc  1 p 1 9 ]
+"1012
+} 0
+"77
+[v _DISP_DigBasic DISP_DigBasic `(v  1 e 1 0 ]
+{
+[v DISP_DigBasic@dat dat `uc  1 p 1 wreg ]
+"80
+[v DISP_DigBasic@x x `us  1 a 2 18 ]
+[v DISP_DigBasic@y y `us  1 a 2 9 ]
+"79
+[v DISP_DigBasic@l l `uc  1 a 1 17 ]
+[v DISP_DigBasic@m m `uc  1 a 1 16 ]
+[v DISP_DigBasic@n n `uc  1 a 1 15 ]
+[v DISP_DigBasic@k k `uc  1 a 1 14 ]
+[v DISP_DigBasic@j j `uc  1 a 1 13 ]
+[v DISP_DigBasic@i i `uc  1 a 1 12 ]
+"77
+[v DISP_DigBasic@dat dat `uc  1 p 1 wreg ]
+[v DISP_DigBasic@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasic@starty starty `uc  1 p 1 3 ]
+"81
+[v DISP_DigBasic@dat dat `uc  1 p 1 11 ]
+"115
+} 0
+"386
+[v _DISP_Clear DISP_Clear `(v  1 e 1 0 ]
+{
+"388
+[v DISP_Clear@i i `uc  1 a 1 3 ]
+[v DISP_Clear@j j `uc  1 a 1 2 ]
+"398
+} 0
+"327 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _disp_filter disp_filter `(us  1 s 2 disp_filter ]
+{
+"332
+[v disp_filter@sum sum `us  1 a 2 15 ]
+"331
+[v disp_filter@count count `uc  1 a 1 14 ]
+"327
+[v disp_filter@pdata pdata `us  1 p 2 12 ]
+"339
+} 0
+"758 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_jx DISP_jx `(v  1 e 1 0 ]
+{
+[v DISP_jx@startx startx `uc  1 p 1 wreg ]
+"761
+[v DISP_jx@l l `us  1 a 2 13 ]
+[v DISP_jx@m m `us  1 a 2 11 ]
+"760
+[v DISP_jx@temp temp `uc  1 a 1 10 ]
+[v DISP_jx@n n `uc  1 a 1 9 ]
+[v DISP_jx@k k `uc  1 a 1 8 ]
+[v DISP_jx@j j `uc  1 a 1 7 ]
+[v DISP_jx@i i `uc  1 a 1 6 ]
+"758
+[v DISP_jx@startx startx `uc  1 p 1 wreg ]
+[v DISP_jx@starty starty `uc  1 p 1 2 ]
+"762
+[v DISP_jx@startx startx `uc  1 p 1 5 ]
+"785
+} 0
+"1715
+[v _DISP_cha7s DISP_cha7s `(v  1 e 1 0 ]
+{
+"1717
+[v DISP_cha7s@z z `uc  1 a 1 23 ]
+"1715
+[v DISP_cha7s@s s `*.32uc  1 p 2 19 ]
+[v DISP_cha7s@x x `uc  1 p 1 21 ]
+[v DISP_cha7s@y y `uc  1 p 1 22 ]
+"1734
+} 0
+"1554
+[v _DISP_ChaBasic2 DISP_ChaBasic2 `(v  1 e 1 0 ]
+{
+[v DISP_ChaBasic2@dat dat `uc  1 p 1 wreg ]
+"1557
+[v DISP_ChaBasic2@m m `us  1 a 2 17 ]
+[v DISP_ChaBasic2@l l `us  1 a 2 15 ]
+"1558
+[v DISP_ChaBasic2@font_ptr font_ptr `*.32Cuc  1 a 2 8 ]
+"1556
+[v DISP_ChaBasic2@n n `uc  1 a 1 14 ]
+[v DISP_ChaBasic2@k k `uc  1 a 1 13 ]
+[v DISP_ChaBasic2@j j `uc  1 a 1 12 ]
+[v DISP_ChaBasic2@i i `uc  1 a 1 11 ]
+"1554
+[v DISP_ChaBasic2@dat dat `uc  1 p 1 wreg ]
+[v DISP_ChaBasic2@startx startx `uc  1 p 1 2 ]
+[v DISP_ChaBasic2@starty starty `uc  1 p 1 3 ]
+"1561
+[v DISP_ChaBasic2@dat dat `uc  1 p 1 10 ]
+"1643
+} 0
+"803
+[v _DISP_Fu1 DISP_Fu1 `(v  1 e 1 0 ]
+{
+[v DISP_Fu1@startx startx `uc  1 p 1 wreg ]
+"806
+[v DISP_Fu1@l l `uc  1 a 1 8 ]
+[v DISP_Fu1@n n `uc  1 a 1 7 ]
+[v DISP_Fu1@k k `uc  1 a 1 6 ]
+[v DISP_Fu1@j j `uc  1 a 1 5 ]
+[v DISP_Fu1@i i `uc  1 a 1 4 ]
+"803
+[v DISP_Fu1@startx startx `uc  1 p 1 wreg ]
+[v DISP_Fu1@starty starty `uc  1 p 1 2 ]
+"808
+[v DISP_Fu1@startx startx `uc  1 p 1 3 ]
+"817
+} 0
+"787
+[v _DISP_Fu DISP_Fu `(v  1 e 1 0 ]
+{
+[v DISP_Fu@startx startx `uc  1 p 1 wreg ]
+"790
+[v DISP_Fu@l l `uc  1 a 1 8 ]
+[v DISP_Fu@n n `uc  1 a 1 7 ]
+[v DISP_Fu@k k `uc  1 a 1 6 ]
+[v DISP_Fu@j j `uc  1 a 1 5 ]
+[v DISP_Fu@i i `uc  1 a 1 4 ]
+"787
+[v DISP_Fu@startx startx `uc  1 p 1 wreg ]
+[v DISP_Fu@starty starty `uc  1 p 1 2 ]
+"792
+[v DISP_Fu@startx startx `uc  1 p 1 3 ]
+"801
+} 0
+"189 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_Erra DISP_Erra `(v  1 e 1 0 ]
+{
+"322
+} 0
+"1962 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_8X16ascii_block DISP_8X16ascii_block `(v  1 e 1 0 ]
+{
+"1964
+[v DISP_8X16ascii_block@z z `uc  1 a 1 19 ]
+"1962
+[v DISP_8X16ascii_block@s s `*.32uc  1 p 2 15 ]
+[v DISP_8X16ascii_block@x x `uc  1 p 1 17 ]
+[v DISP_8X16ascii_block@y y `uc  1 p 1 18 ]
+"1979
+} 0
+"1739
+[v _DISP_block_new DISP_block_new `(v  1 e 1 0 ]
+{
+[v DISP_block_new@dat dat `uc  1 p 1 wreg ]
+"1743
+[v DISP_block_new@l l `us  1 a 2 13 ]
+[v DISP_block_new@m m `us  1 a 2 11 ]
+"1742
+[v DISP_block_new@n n `uc  1 a 1 9 ]
+[v DISP_block_new@k k `uc  1 a 1 8 ]
+[v DISP_block_new@j j `uc  1 a 1 7 ]
+[v DISP_block_new@i i `uc  1 a 1 6 ]
+"1739
+[v DISP_block_new@dat dat `uc  1 p 1 wreg ]
+[v DISP_block_new@startx startx `uc  1 p 1 2 ]
+[v DISP_block_new@starty starty `uc  1 p 1 3 ]
+"1744
+[v DISP_block_new@dat dat `uc  1 p 1 10 ]
+"1778
+} 0
+"1888
+[v _DISP_8X16ascii DISP_8X16ascii `(v  1 e 1 0 ]
+{
+"1890
+[v DISP_8X16ascii@z z `uc  1 a 1 21 ]
+"1888
+[v DISP_8X16ascii@s s `*.32uc  1 p 2 17 ]
+[v DISP_8X16ascii@x x `uc  1 p 1 19 ]
+[v DISP_8X16ascii@y y `uc  1 p 1 20 ]
+"1937
+} 0
+"1783
+[v _DISP_ChaBasic2015 DISP_ChaBasic2015 `(v  1 e 1 0 ]
+{
+[v DISP_ChaBasic2015@dat dat `uc  1 p 1 wreg ]
+"1786
+[v DISP_ChaBasic2015@l l `us  1 a 2 15 ]
+[v DISP_ChaBasic2015@m m `us  1 a 2 13 ]
+"1787
+[v DISP_ChaBasic2015@font_ptr font_ptr `*.32Cuc  1 a 2 7 ]
+"1785
+[v DISP_ChaBasic2015@k k `uc  1 a 1 11 ]
+[v DISP_ChaBasic2015@j j `uc  1 a 1 10 ]
+[v DISP_ChaBasic2015@i i `uc  1 a 1 9 ]
+[v DISP_ChaBasic2015@n n `uc  1 a 1 6 ]
+"1783
+[v DISP_ChaBasic2015@dat dat `uc  1 p 1 wreg ]
+[v DISP_ChaBasic2015@startx startx `uc  1 p 1 2 ]
+[v DISP_ChaBasic2015@starty starty `uc  1 p 1 3 ]
+"1790
+[v DISP_ChaBasic2015@dat dat `uc  1 p 1 12 ]
+"1842
+} 0
+"898
+[v _DISP_Dig18_40 DISP_Dig18_40 `(v  1 e 1 0 ]
+{
+[v DISP_Dig18_40@startx startx `uc  1 p 1 wreg ]
+"900
+[v DISP_Dig18_40@j j `uc  1 a 1 24 ]
+[v DISP_Dig18_40@i i `uc  1 a 1 23 ]
+[v DISP_Dig18_40@dig0 dig0 `uc  1 a 1 22 ]
+[v DISP_Dig18_40@dig1 dig1 `uc  1 a 1 21 ]
+[v DISP_Dig18_40@dig2 dig2 `uc  1 a 1 20 ]
+"898
+[v DISP_Dig18_40@startx startx `uc  1 p 1 wreg ]
+[v DISP_Dig18_40@starty starty `uc  1 p 1 16 ]
+"901
+[v DISP_Dig18_40@startx startx `uc  1 p 1 19 ]
+"936
+} 0
+"866
+[v _DISP_DigBasic40 DISP_DigBasic40 `(v  1 e 1 0 ]
+{
+"869
+[v DISP_DigBasic40@l l `us  1 a 2 14 ]
+[v DISP_DigBasic40@m m `us  1 a 2 12 ]
+"868
+[v DISP_DigBasic40@k k `uc  1 a 1 11 ]
+[v DISP_DigBasic40@j j `uc  1 a 1 10 ]
+[v DISP_DigBasic40@i i `uc  1 a 1 9 ]
+[v DISP_DigBasic40@n n `uc  1 a 1 8 ]
+"866
+[v DISP_DigBasic40@dat dat `us  1 p 2 2 ]
+[v DISP_DigBasic40@startx startx `uc  1 p 1 4 ]
+[v DISP_DigBasic40@starty starty `uc  1 p 1 5 ]
+"895
+} 0
+"2041
+[v _DISP_Dig1 DISP_Dig1 `(v  1 e 1 0 ]
+{
+[v DISP_Dig1@startx startx `uc  1 p 1 wreg ]
+"2043
+[v DISP_Dig1@j j `uc  1 a 1 30 ]
+[v DISP_Dig1@i i `uc  1 a 1 29 ]
+[v DISP_Dig1@dig0 dig0 `uc  1 a 1 28 ]
+[v DISP_Dig1@dig1 dig1 `uc  1 a 1 27 ]
+[v DISP_Dig1@dig2 dig2 `uc  1 a 1 26 ]
+"2041
+[v DISP_Dig1@startx startx `uc  1 p 1 wreg ]
+[v DISP_Dig1@starty starty `uc  1 p 1 20 ]
+[v DISP_Dig1@disp_val disp_val `us  1 p 2 21 ]
+"2044
+[v DISP_Dig1@startx startx `uc  1 p 1 25 ]
+"2067
+} 0
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwmod@counter counter `uc  1 a 1 4 ]
+"7
+[v ___lwmod@dividend dividend `ui  1 p 2 0 ]
+[v ___lwmod@divisor divisor `ui  1 p 2 2 ]
+"25
+} 0
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwdiv@quotient quotient `ui  1 a 2 9 ]
+"11
+[v ___lwdiv@counter counter `uc  1 a 1 11 ]
+"7
+[v ___lwdiv@dividend dividend `ui  1 p 2 5 ]
+[v ___lwdiv@divisor divisor `ui  1 p 2 7 ]
+"30
+} 0
+"1077 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_DigBasic00 DISP_DigBasic00 `(v  1 e 1 0 ]
+{
+[v DISP_DigBasic00@dat dat `uc  1 p 1 wreg ]
+"1079
+[v DISP_DigBasic00@m m `uc  1 a 1 15 ]
+[v DISP_DigBasic00@l l `uc  1 a 1 14 ]
+[v DISP_DigBasic00@n n `uc  1 a 1 13 ]
+[v DISP_DigBasic00@k k `uc  1 a 1 12 ]
+[v DISP_DigBasic00@j j `uc  1 a 1 11 ]
+[v DISP_DigBasic00@i i `uc  1 a 1 10 ]
+"1077
+[v DISP_DigBasic00@dat dat `uc  1 p 1 wreg ]
+[v DISP_DigBasic00@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasic00@starty starty `uc  1 p 1 3 ]
+"1080
+[v DISP_DigBasic00@dat dat `uc  1 p 1 9 ]
+"1106
+} 0
+"2008
+[v _DISP_Dig0 DISP_Dig0 `(v  1 e 1 0 ]
+{
+[v DISP_Dig0@dat dat `uc  1 p 1 wreg ]
+"2010
+[v DISP_Dig0@l l `us  1 a 2 18 ]
+"2011
+[v DISP_Dig0@m m `us  1 a 2 16 ]
+"2010
+[v DISP_Dig0@n n `us  1 a 2 14 ]
+[v DISP_Dig0@k k `us  1 a 2 12 ]
+[v DISP_Dig0@j j `us  1 a 2 10 ]
+[v DISP_Dig0@i i `us  1 a 2 8 ]
+"2008
+[v DISP_Dig0@dat dat `uc  1 p 1 wreg ]
+[v DISP_Dig0@startx startx `uc  1 p 1 2 ]
+[v DISP_Dig0@starty starty `uc  1 p 1 3 ]
+"2012
+[v DISP_Dig0@dat dat `uc  1 p 1 7 ]
+"2037
+} 0
+"400
+[v _DISP_Clear22 DISP_Clear22 `(v  1 e 1 0 ]
+{
+"402
+[v DISP_Clear22@i i `uc  1 a 1 3 ]
+[v DISP_Clear22@j j `uc  1 a 1 2 ]
+"412
+} 0
+"145
+[v _DISP_ChaBasic DISP_ChaBasic `(v  1 e 1 0 ]
+{
+[v DISP_ChaBasic@dat dat `uc  1 p 1 wreg ]
+"149
+[v DISP_ChaBasic@x x `us  1 a 2 16 ]
+"148
+[v DISP_ChaBasic@l l `uc  1 a 1 15 ]
+[v DISP_ChaBasic@m m `uc  1 a 1 14 ]
+[v DISP_ChaBasic@n n `uc  1 a 1 13 ]
+[v DISP_ChaBasic@k k `uc  1 a 1 12 ]
+[v DISP_ChaBasic@j j `uc  1 a 1 11 ]
+[v DISP_ChaBasic@i i `uc  1 a 1 10 ]
+"145
+[v DISP_ChaBasic@dat dat `uc  1 p 1 wreg ]
+[v DISP_ChaBasic@startx startx `uc  1 p 1 2 ]
+[v DISP_ChaBasic@starty starty `uc  1 p 1 3 ]
+"150
+[v DISP_ChaBasic@dat dat `uc  1 p 1 9 ]
+"179
+} 0
+"1382 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_Info DISP_Info `(v  1 e 1 0 ]
+{
+"1405
+} 0
+"703 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_LockClr DISP_LockClr `(v  1 e 1 0 ]
+{
+[v DISP_LockClr@startx startx `uc  1 p 1 wreg ]
+"706
+[v DISP_LockClr@m m `us  1 a 2 12 ]
+[v DISP_LockClr@l l `us  1 a 2 10 ]
+"705
+[v DISP_LockClr@n n `uc  1 a 1 9 ]
+[v DISP_LockClr@k k `uc  1 a 1 8 ]
+[v DISP_LockClr@j j `uc  1 a 1 7 ]
+[v DISP_LockClr@i i `uc  1 a 1 6 ]
+"703
+[v DISP_LockClr@startx startx `uc  1 p 1 wreg ]
+[v DISP_LockClr@starty starty `uc  1 p 1 2 ]
+"707
+[v DISP_LockClr@startx startx `uc  1 p 1 5 ]
+"726
+} 0
+"677
+[v _DISP_Lock DISP_Lock `(v  1 e 1 0 ]
+{
+[v DISP_Lock@startx startx `uc  1 p 1 wreg ]
+"680
+[v DISP_Lock@l l `us  1 a 2 13 ]
+[v DISP_Lock@m m `us  1 a 2 11 ]
+"679
+[v DISP_Lock@temp temp `uc  1 a 1 10 ]
+[v DISP_Lock@n n `uc  1 a 1 9 ]
+[v DISP_Lock@k k `uc  1 a 1 8 ]
+[v DISP_Lock@j j `uc  1 a 1 7 ]
+[v DISP_Lock@i i `uc  1 a 1 6 ]
+"677
+[v DISP_Lock@startx startx `uc  1 p 1 wreg ]
+[v DISP_Lock@starty starty `uc  1 p 1 2 ]
+"681
+[v DISP_Lock@startx startx `uc  1 p 1 5 ]
+"702
+} 0
+"414
+[v _DISP_ClrZero DISP_ClrZero `(v  1 e 1 0 ]
+{
+[v DISP_ClrZero@x x `uc  1 p 1 wreg ]
+"416
+[v DISP_ClrZero@m m `uc  1 a 1 11 ]
+[v DISP_ClrZero@l l `uc  1 a 1 9 ]
+[v DISP_ClrZero@i i `uc  1 a 1 8 ]
+"414
+[v DISP_ClrZero@x x `uc  1 p 1 wreg ]
+[v DISP_ClrZero@x1 x1 `uc  1 p 1 2 ]
+[v DISP_ClrZero@y y `uc  1 p 1 3 ]
+[v DISP_ClrZero@y1 y1 `uc  1 p 1 4 ]
+"417
+[v DISP_ClrZero@x x `uc  1 p 1 10 ]
+"428
+} 0
+"621
+[v _DISP_Buz DISP_Buz `(v  1 e 1 0 ]
+{
+[v DISP_Buz@startx startx `uc  1 p 1 wreg ]
+"624
+[v DISP_Buz@l l `us  1 a 2 13 ]
+[v DISP_Buz@m m `us  1 a 2 11 ]
+"623
+[v DISP_Buz@temp temp `uc  1 a 1 10 ]
+[v DISP_Buz@n n `uc  1 a 1 9 ]
+[v DISP_Buz@k k `uc  1 a 1 8 ]
+[v DISP_Buz@j j `uc  1 a 1 7 ]
+[v DISP_Buz@i i `uc  1 a 1 6 ]
+"621
+[v DISP_Buz@startx startx `uc  1 p 1 wreg ]
+[v DISP_Buz@starty starty `uc  1 p 1 2 ]
+"625
+[v DISP_Buz@startx startx `uc  1 p 1 5 ]
+"646
+} 0
+"362
+[v _DISP_BatWarnE DISP_BatWarnE `(v  1 e 1 0 ]
+{
+"364
+[v DISP_BatWarnE@i i `ui  1 a 2 6 ]
+[v DISP_BatWarnE@j j `ui  1 a 2 4 ]
+[v DISP_BatWarnE@l l `ui  1 a 2 2 ]
+"379
+} 0
+"341
+[v _DISP_BatWarnC DISP_BatWarnC `(v  1 e 1 0 ]
+{
+"343
+[v DISP_BatWarnC@i i `ui  1 a 2 10 ]
+[v DISP_BatWarnC@j j `ui  1 a 2 8 ]
+[v DISP_BatWarnC@l l `ui  1 a 2 6 ]
+"358
+} 0
+"83 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_Bat DISP_Bat `(v  1 e 1 0 ]
+{
+"85
+[v DISP_Bat@j j `uc  1 a 1 17 ]
+[v DISP_Bat@i i `uc  1 a 1 16 ]
+"186
+} 0
+"430 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_Bat00Clr DISP_Bat00Clr `(v  1 e 1 0 ]
+{
+[v DISP_Bat00Clr@startx startx `uc  1 p 1 wreg ]
+"433
+[v DISP_Bat00Clr@m m `us  1 a 2 12 ]
+[v DISP_Bat00Clr@l l `us  1 a 2 10 ]
+"432
+[v DISP_Bat00Clr@n n `uc  1 a 1 9 ]
+[v DISP_Bat00Clr@k k `uc  1 a 1 8 ]
+[v DISP_Bat00Clr@j j `uc  1 a 1 7 ]
+[v DISP_Bat00Clr@i i `uc  1 a 1 6 ]
+"430
+[v DISP_Bat00Clr@startx startx `uc  1 p 1 wreg ]
+[v DISP_Bat00Clr@starty starty `uc  1 p 1 2 ]
+"434
+[v DISP_Bat00Clr@startx startx `uc  1 p 1 5 ]
+"454
+} 0
+"592
+[v _DISP_Bat004 DISP_Bat004 `(v  1 e 1 0 ]
+{
+[v DISP_Bat004@startx startx `uc  1 p 1 wreg ]
+"595
+[v DISP_Bat004@l l `us  1 a 2 13 ]
+[v DISP_Bat004@m m `us  1 a 2 11 ]
+"594
+[v DISP_Bat004@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat004@n n `uc  1 a 1 9 ]
+[v DISP_Bat004@k k `uc  1 a 1 8 ]
+[v DISP_Bat004@j j `uc  1 a 1 7 ]
+[v DISP_Bat004@i i `uc  1 a 1 6 ]
+"592
+[v DISP_Bat004@startx startx `uc  1 p 1 wreg ]
+[v DISP_Bat004@starty starty `uc  1 p 1 2 ]
+"596
+[v DISP_Bat004@startx startx `uc  1 p 1 5 ]
+"618
+} 0
+"565
+[v _DISP_Bat003 DISP_Bat003 `(v  1 e 1 0 ]
+{
+[v DISP_Bat003@startx startx `uc  1 p 1 wreg ]
+"568
+[v DISP_Bat003@l l `us  1 a 2 13 ]
+[v DISP_Bat003@m m `us  1 a 2 11 ]
+"567
+[v DISP_Bat003@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat003@n n `uc  1 a 1 9 ]
+[v DISP_Bat003@k k `uc  1 a 1 8 ]
+[v DISP_Bat003@j j `uc  1 a 1 7 ]
+[v DISP_Bat003@i i `uc  1 a 1 6 ]
+"565
+[v DISP_Bat003@startx startx `uc  1 p 1 wreg ]
+[v DISP_Bat003@starty starty `uc  1 p 1 2 ]
+"569
+[v DISP_Bat003@startx startx `uc  1 p 1 5 ]
+"591
+} 0
+"538
+[v _DISP_Bat002 DISP_Bat002 `(v  1 e 1 0 ]
+{
+[v DISP_Bat002@startx startx `uc  1 p 1 wreg ]
+"541
+[v DISP_Bat002@l l `us  1 a 2 13 ]
+[v DISP_Bat002@m m `us  1 a 2 11 ]
+"540
+[v DISP_Bat002@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat002@n n `uc  1 a 1 9 ]
+[v DISP_Bat002@k k `uc  1 a 1 8 ]
+[v DISP_Bat002@j j `uc  1 a 1 7 ]
+[v DISP_Bat002@i i `uc  1 a 1 6 ]
+"538
+[v DISP_Bat002@startx startx `uc  1 p 1 wreg ]
+[v DISP_Bat002@starty starty `uc  1 p 1 2 ]
+"542
+[v DISP_Bat002@startx startx `uc  1 p 1 5 ]
+"564
+} 0
+"511
+[v _DISP_Bat001 DISP_Bat001 `(v  1 e 1 0 ]
+{
+[v DISP_Bat001@startx startx `uc  1 p 1 wreg ]
+"514
+[v DISP_Bat001@l l `us  1 a 2 13 ]
+[v DISP_Bat001@m m `us  1 a 2 11 ]
+"513
+[v DISP_Bat001@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat001@n n `uc  1 a 1 9 ]
+[v DISP_Bat001@k k `uc  1 a 1 8 ]
+[v DISP_Bat001@j j `uc  1 a 1 7 ]
+[v DISP_Bat001@i i `uc  1 a 1 6 ]
+"511
+[v DISP_Bat001@startx startx `uc  1 p 1 wreg ]
+[v DISP_Bat001@starty starty `uc  1 p 1 2 ]
+"515
+[v DISP_Bat001@startx startx `uc  1 p 1 5 ]
+"537
+} 0
+"484
+[v _DISP_Bat000 DISP_Bat000 `(v  1 e 1 0 ]
+{
+[v DISP_Bat000@startx startx `uc  1 p 1 wreg ]
+"487
+[v DISP_Bat000@l l `us  1 a 2 13 ]
+[v DISP_Bat000@m m `us  1 a 2 11 ]
+"486
+[v DISP_Bat000@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat000@n n `uc  1 a 1 9 ]
+[v DISP_Bat000@k k `uc  1 a 1 8 ]
+[v DISP_Bat000@j j `uc  1 a 1 7 ]
+[v DISP_Bat000@i i `uc  1 a 1 6 ]
+"484
+[v DISP_Bat000@startx startx `uc  1 p 1 wreg ]
+[v DISP_Bat000@starty starty `uc  1 p 1 2 ]
+"488
+[v DISP_Bat000@startx startx `uc  1 p 1 5 ]
+"510
+} 0
+"195 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_main.c
+[v _BAT_WarnFir BAT_WarnFir `(v  1 e 1 0 ]
+{
+"212
+} 0
+"214
+[v _BAT_Warn BAT_Warn `(v  1 e 1 0 ]
+{
+"265
+} 0
+"493 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _AUDIO_Key AUDIO_Key `(v  1 e 1 0 ]
+{
+"515
+} 0
+"484
+[v _BUZ_Cls BUZ_Cls `(v  1 e 1 0 ]
+{
+"491
+} 0
+"392
+[v _AUDIO AUDIO `(v  1 e 1 0 ]
+{
+"473
+} 0
+"70 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_ofile_lcd_02.c
+[v _DISP_Led DISP_Led `(v  1 e 1 0 ]
+{
+"80
+} 0
+"302 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_main.c
+[v _AUDIO_Sub AUDIO_Sub `(v  1 e 1 0 ]
+{
+[v AUDIO_Sub@cnt cnt `uc  1 p 1 wreg ]
+[v AUDIO_Sub@cnt cnt `uc  1 p 1 wreg ]
+[v AUDIO_Sub@cnt cnt `uc  1 p 1 16 ]
+"387
+} 0
+"158
+[v _bee_three bee_three `(v  1 e 1 0 ]
+{
+"206
+} 0
+"648 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/BIOS_JLX1864G_139.c
+[v _DISP_BuzClr DISP_BuzClr `(v  1 e 1 0 ]
+{
+[v DISP_BuzClr@startx startx `uc  1 p 1 wreg ]
+"651
+[v DISP_BuzClr@m m `us  1 a 2 12 ]
+[v DISP_BuzClr@l l `us  1 a 2 10 ]
+"650
+[v DISP_BuzClr@n n `uc  1 a 1 9 ]
+[v DISP_BuzClr@k k `uc  1 a 1 8 ]
+[v DISP_BuzClr@j j `uc  1 a 1 7 ]
+[v DISP_BuzClr@i i `uc  1 a 1 6 ]
+"648
+[v DISP_BuzClr@startx startx `uc  1 p 1 wreg ]
+[v DISP_BuzClr@starty starty `uc  1 p 1 2 ]
+"652
+[v DISP_BuzClr@startx startx `uc  1 p 1 5 ]
+"675
+} 0
+"18
+[v _BIOS_JLX12864_TRANS_DAT BIOS_JLX12864_TRANS_DAT `(v  1 e 1 0 ]
+{
+[v BIOS_JLX12864_TRANS_DAT@data data `i  1 p 2 0 ]
+"24
+} 0
+"8
+[v _BIOS_JLX12864_TRANS_CMD BIOS_JLX12864_TRANS_CMD `(v  1 e 1 0 ]
+{
+[v BIOS_JLX12864_TRANS_CMD@data data `i  1 p 2 0 ]
+"15
+} 0
+"147 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_dis_sys_ini_00.c
+[v _Isr Isr `IIH(v  1 e 1 0 ]
+{
+"227
+} 0
+"164 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ofile_load_00.c
+[v _PRESS_ConA PRESS_ConA `(v  1 e 1 0 ]
+{
+"258
+} 0
+"89
+[v _PRESS_ConSubA PRESS_ConSubA `(v  1 e 1 0 ]
+{
+"91
+[v PRESS_ConSubA@i i `us  1 a 2 61 ]
+"161
+} 0
+"10 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/xxtofl.c
+[v i2___xxtofl __xxtofl `(d  1 e 4 0 ]
+{
+[v i2___xxtofl@sign sign `uc  1 p 1 wreg ]
+"13
+[v i2___xxtofl@arg arg `ul  1 a 4 10 ]
+"12
+[v i2___xxtofl@exp exp `uc  1 a 1 9 ]
+"10
+[v i2___xxtofl@sign sign `uc  1 p 1 wreg ]
+[v i2___xxtofl@val val `l  1 p 4 0 ]
+"15
+[v i2___xxtofl@sign sign `uc  1 p 1 8 ]
+"44
+} 0
+"43 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/fltol.c
+[v i2___fltol __fltol `(l  1 e 4 0 ]
+{
+"45
+[v i2___fltol@exp1 exp1 `uc  1 a 1 9 ]
+[v i2___fltol@sign1 sign1 `uc  1 a 1 8 ]
+"43
+[v i2___fltol@f1 f1 `d  1 p 4 0 ]
+"70
+} 0
+"8 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcmul.c
+[v i2___flmul __flmul `(d  1 e 4 0 ]
+{
+[s S2489 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+"13
+[s S2494 . 4 `s 1 wordA 2 0 `s 1 wordB 2 2 ]
+[u S2497 . 4 `l 1 i 4 0 `d 1 f 4 0 `S2489 1 fAsBytes 4 0 `S2494 1 fAsWords 4 0 ]
+[v i2___flmul@prod prod `S2497  1 a 4 49 ]
+"12
+[v i2___flmul@grs grs `ul  1 a 4 44 ]
+[s S2565 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+"14
+[u S2568 . 2 `s 1 i 2 0 `us 1 n 2 0 `S2565 1 nAsBytes 2 0 ]
+[v i2___flmul@temp temp `S2568  1 a 2 53 ]
+"10
+[v i2___flmul@bexp bexp `uc  1 a 1 48 ]
+"11
+[v i2___flmul@aexp aexp `uc  1 a 1 43 ]
+"9
+[v i2___flmul@sign sign `uc  1 a 1 42 ]
+"8
+[v i2___flmul@b b `d  1 p 4 30 ]
+[v i2___flmul@a a `d  1 p 4 34 ]
+"205
+} 0
+"11 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcdiv.c
+[v i2___fldiv __fldiv `(d  1 e 4 0 ]
+{
+"21
+[v i2___fldiv@grs grs `ul  1 a 4 33 ]
+"22
+[v i2___fldiv@rem rem `ul  1 a 4 26 ]
+"20
+[v i2___fldiv@new_exp new_exp `s  1 a 2 31 ]
+"19
+[v i2___fldiv@aexp aexp `uc  1 a 1 38 ]
+"18
+[v i2___fldiv@bexp bexp `uc  1 a 1 37 ]
+"16
+[v i2___fldiv@sign sign `uc  1 a 1 30 ]
+"11
+[v i2___fldiv@b b `d  1 p 4 14 ]
+[v i2___fldiv@a a `d  1 p 4 18 ]
+"185
+} 0
+"10 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+{
+"17
+[v ___fladd@grs grs `uc  1 a 1 29 ]
+"15
+[v ___fladd@bexp bexp `uc  1 a 1 28 ]
+"16
+[v ___fladd@aexp aexp `uc  1 a 1 27 ]
+"13
+[v ___fladd@signs signs `uc  1 a 1 26 ]
+"10
+[v ___fladd@b b `d  1 p 4 14 ]
+[v ___fladd@a a `d  1 p 4 18 ]
+"237
+} 0
+"160 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_over.c
+[v _STAT_conNewa STAT_conNewa `(v  1 e 1 0 ]
+{
+"355
+[v STAT_conNewa@record_pre_compare_interval record_pre_compare_interval `us  1 a 2 15 ]
+"194
+[v STAT_conNewa@target_press target_press `us  1 a 2 17 ]
+"163
+[v STAT_conNewa@run_time run_time `us  1 a 2 19 ]
+"162
+[v STAT_conNewa@temp temp `us  1 a 2 13 ]
+"428
+} 0
+"92
+[v _get_press_delta get_press_delta `(v  1 e 1 0 ]
+{
+[v get_press_delta@press press `us  1 p 2 7 ]
+"131
+} 0
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/lwdiv.c
+[v i2___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"10
+[v i2___lwdiv@quotient quotient `ui  1 a 2 4 ]
+"11
+[v i2___lwdiv@counter counter `uc  1 a 1 6 ]
+"7
+[v i2___lwdiv@dividend dividend `ui  1 p 2 0 ]
+[v i2___lwdiv@divisor divisor `ui  1 p 2 2 ]
+"30
+} 0
+"137 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_over.c
+[v _calc_delta_i calc_delta_i `(us  1 s 2 calc_delta_i ]
+{
+"139
+[v calc_delta_i@rst rst `us  1 a 2 4 ]
+"137
+[v calc_delta_i@counts1 counts1 `us  1 p 2 0 ]
+[v calc_delta_i@counts2 counts2 `us  1 p 2 2 ]
+"146
+} 0
+"20 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ofile_load_00.c
+[v _OPEN_PwmA OPEN_PwmA `(v  1 e 1 0 ]
+{
+"23
+} 0
+"40 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_over.c
+[v _CONTR_fallaNew CONTR_fallaNew `(v  1 e 1 0 ]
+{
+"54
+[v CONTR_fallaNew@fall_cnta0_count fall_cnta0_count `us  1 a 2 2 ]
+"90
+} 0
+"25 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ofile_load_00.c
+[v _CLS_PwmA CLS_PwmA `(v  1 e 1 0 ]
+{
+"28
+} 0
+"70 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_main.c
+[v _LEVEL_WarnA LEVEL_WarnA `(v  1 e 1 0 ]
+{
+"190
+} 0
+"77 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/npwt_con_ifile_adc.c
+[v _ADC_Ps90 ADC_Ps90 `(v  1 e 1 0 ]
+{
+"98
+} 0
+"58
+[v _ADC_DatCal ADC_DatCal `(v  1 e 1 0 ]
+{
+"74
+} 0
+"105 /Users/petrinamigdal/vr_medical/NWPT/current_code/718/v4.6/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/source/adc.c
+[v _adc_reader_press adc_reader_press `(us  1 e 2 0 ]
+{
+"107
+[v adc_reader_press@p p `us  1 a 2 16 ]
+"109
+} 0
+"73
+[v _adc_press_filter adc_press_filter `(us  1 s 2 adc_press_filter ]
+{
+[v adc_press_filter@ch ch `uc  1 p 1 wreg ]
+"76
+[v adc_press_filter@sum sum `s  1 a 2 12 ]
+"75
+[v adc_press_filter@count count `uc  1 a 1 11 ]
+"73
+[v adc_press_filter@ch ch `uc  1 p 1 wreg ]
+"76
+[v adc_press_filter@ch ch `uc  1 p 1 10 ]
+"84
+} 0
+"112
+[v _adc_reader_power adc_reader_power `(us  1 e 2 0 ]
+{
+"114
+[v adc_reader_power@p p `us  1 a 2 16 ]
+"116
+} 0
+"91
+[v _adc_power_filter adc_power_filter `(us  1 s 2 adc_power_filter ]
+{
+[v adc_power_filter@ch ch `uc  1 p 1 wreg ]
+"94
+[v adc_power_filter@sum sum `s  1 a 2 12 ]
+"93
+[v adc_power_filter@count count `uc  1 a 1 11 ]
+"91
+[v adc_power_filter@ch ch `uc  1 p 1 wreg ]
+"94
+[v adc_power_filter@ch ch `uc  1 p 1 10 ]
+"102
+} 0
+"44
+[v _adc_read adc_read `(us  1 s 2 adc_read ]
+{
+[v adc_read@channel channel `uc  1 p 1 wreg ]
+"46
+[v adc_read@ADC ADC `us  1 a 2 5 ]
+"44
+[v adc_read@channel channel `uc  1 p 1 wreg ]
+[v adc_read@channel channel `uc  1 p 1 4 ]
+"57
+} 0
+"7 /Applications/microchip/xc8/v3.00/pic/sources/c99/common/awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+{
+"10
+[v ___awdiv@quotient quotient `i  1 a 2 6 ]
+"11
+[v ___awdiv@sign sign `uc  1 a 1 5 ]
+[v ___awdiv@counter counter `uc  1 a 1 4 ]
+"7
+[v ___awdiv@dividend dividend `i  1 p 2 0 ]
+[v ___awdiv@divisor divisor `i  1 p 2 2 ]
+"41
+} 0

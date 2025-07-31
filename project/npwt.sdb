@@ -1,0 +1,2749 @@
+[p GLOBOPT AUTOSTATIC LFSROK SPACEOPT EMI_WORD ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F46J11 ]
+[s S21 . 1 `Vuc 1 PCFG0 1 0 :1:0 
+`Vuc 1 PCFG1 1 0 :1:1 
+`Vuc 1 PCFG2 1 0 :1:2 
+`Vuc 1 PCFG3 1 0 :1:3 
+`Vuc 1 PCFG4 1 0 :1:4 
+`Vuc 1 PCFG5 1 0 :1:5 
+`Vuc 1 PCFG6 1 0 :1:6 
+`Vuc 1 PCFG7 1 0 :1:7 
+]
+[u S30 . 1 `S21 1 . 1 0 ]
+"3279 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\include\pic18f46j11.h
+[s S35 . 1 `Vuc 1 ADON 1 0 :1:0 
+`Vuc 1 GO_nDONE 1 0 :1:1 
+`Vuc 1 CHS 1 0 :4:2 
+`Vuc 1 VCFG 1 0 :2:6 
+]
+[s S40 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 GO_DONE 1 0 :1:1 
+`Vuc 1 CHS0 1 0 :1:2 
+`Vuc 1 CHS1 1 0 :1:3 
+`Vuc 1 CHS2 1 0 :1:4 
+`Vuc 1 CHS3 1 0 :1:5 
+`Vuc 1 VCFG0 1 0 :1:6 
+`Vuc 1 VCFG1 1 0 :1:7 
+]
+[s S49 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 . 1 0 :1:1 
+`Vuc 1 . 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 . 1 0 :1:6 
+`Vuc 1 . 1 0 :1:7 
+]
+[s S58 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 DONE 1 0 :1:1 
+]
+[s S61 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 GO 1 0 :1:1 
+]
+[s S64 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 nDONE 1 0 :1:1 
+]
+[u S67 . 1 `S35 1 . 1 0 `S40 1 . 1 0 `S49 1 . 1 0 `S58 1 . 1 0 `S61 1 . 1 0 `S64 1 . 1 0 ]
+[s S98 . 1 `Vuc 1 LATE0 1 0 :1:0 
+`Vuc 1 LATE1 1 0 :1:1 
+`Vuc 1 LATE2 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 . 1 0 :1:6 
+`Vuc 1 . 1 0 :1:7 
+]
+[u S107 . 1 `S98 1 . 1 0 ]
+"2116
+[s S110 . 1 `Vuc 1 LATA0 1 0 :1:0 
+`Vuc 1 LATA1 1 0 :1:1 
+`Vuc 1 LATA2 1 0 :1:2 
+`Vuc 1 LATA3 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 LATA5 1 0 :1:5 
+`Vuc 1 LATA6 1 0 :1:6 
+`Vuc 1 LATA7 1 0 :1:7 
+]
+[u S119 . 1 `S110 1 . 1 0 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_over.h
+[s S705 . 8 `us 1 lq_times 2 0 `uc 1 show_times 1 2 `uc 1 step 1 3 `ul 1 buz_key_pressed_times 4 4 ]
+"6 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_ifile_adc.h
+[s S729 . 1 `Vuc 1 RC0 1 0 :1:0 
+`Vuc 1 RC1 1 0 :1:1 
+`Vuc 1 RC2 1 0 :1:2 
+`Vuc 1 RC3 1 0 :1:3 
+`Vuc 1 RC4 1 0 :1:4 
+`Vuc 1 RC5 1 0 :1:5 
+`Vuc 1 RC6 1 0 :1:6 
+`Vuc 1 RC7 1 0 :1:7 
+]
+[s S738 . 1 `Vuc 1 T1OSO 1 0 :1:0 
+`Vuc 1 T1OSI 1 0 :1:1 
+`Vuc 1 AN11 1 0 :1:2 
+`Vuc 1 SCK1 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 PMA5 1 0 :1:6 
+`Vuc 1 PMA4 1 0 :1:7 
+]
+[s S747 . 1 `Vuc 1 T1CKI 1 0 :1:0 
+`Vuc 1 . 1 0 :1:1 
+`Vuc 1 CTPLS 1 0 :1:2 
+`Vuc 1 SCL1 1 0 :1:3 
+`Vuc 1 SDI1 1 0 :1:4 
+`Vuc 1 SDO1 1 0 :1:5 
+`Vuc 1 TX1 1 0 :1:6 
+`Vuc 1 RX1 1 0 :1:7 
+]
+[s S756 . 1 `Vuc 1 RP11 1 0 :1:0 
+`Vuc 1 RP12 1 0 :1:1 
+`Vuc 1 RP13 1 0 :1:2 
+`Vuc 1 RP14 1 0 :1:3 
+`Vuc 1 RP15 1 0 :1:4 
+`Vuc 1 RP16 1 0 :1:5 
+`Vuc 1 CK1 1 0 :1:6 
+`Vuc 1 DT1 1 0 :1:7 
+]
+[s S765 . 1 `Vuc 1 . 1 0 :6:0 
+`Vuc 1 RP17 1 0 :1:6 
+`Vuc 1 RP18 1 0 :1:7 
+]
+[u S769 . 1 `S729 1 . 1 0 `S738 1 . 1 0 `S747 1 . 1 0 `S756 1 . 1 0 `S765 1 . 1 0 ]
+"27 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_over.h
+[s S798 . 1 `Vuc 1 LATB0 1 0 :1:0 
+`Vuc 1 LATB1 1 0 :1:1 
+`Vuc 1 LATB2 1 0 :1:2 
+`Vuc 1 LATB3 1 0 :1:3 
+`Vuc 1 LATB4 1 0 :1:4 
+`Vuc 1 LATB5 1 0 :1:5 
+`Vuc 1 LATB6 1 0 :1:6 
+`Vuc 1 LATB7 1 0 :1:7 
+]
+[u S807 . 1 `S798 1 . 1 0 ]
+"39 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_over.c
+[s S836 . 1 `Vuc 1 LATB0 1 0 :1:0 
+`Vuc 1 LATB1 1 0 :1:1 
+`Vuc 1 LATB2 1 0 :1:2 
+`Vuc 1 LATB3 1 0 :1:3 
+`Vuc 1 LATB4 1 0 :1:4 
+`Vuc 1 LATB5 1 0 :1:5 
+`Vuc 1 LATB6 1 0 :1:6 
+`Vuc 1 LATB7 1 0 :1:7 
+]
+[u S845 . 1 `S798 1 . 1 0 ]
+"28 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_ofile_load_00.h
+[s S866 . 1 `Vuc 1 LATC0 1 0 :1:0 
+`Vuc 1 LATC1 1 0 :1:1 
+`Vuc 1 LATC2 1 0 :1:2 
+`Vuc 1 LATC3 1 0 :1:3 
+`Vuc 1 LATC4 1 0 :1:4 
+`Vuc 1 LATC5 1 0 :1:5 
+`Vuc 1 LATC6 1 0 :1:6 
+`Vuc 1 LATC7 1 0 :1:7 
+]
+[u S875 . 1 `S866 1 . 1 0 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_over.h
+[s S892 . 8 `us 1 lq_times 2 0 `uc 1 show_times 1 2 `uc 1 step 1 3 `ul 1 buz_key_pressed_times 4 4 ]
+"129 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\BIOS_JLX1864G_139.h
+[s S959 . 1 `Vuc 1 LATC0 1 0 :1:0 
+`Vuc 1 LATC1 1 0 :1:1 
+`Vuc 1 LATC2 1 0 :1:2 
+`Vuc 1 LATC3 1 0 :1:3 
+`Vuc 1 LATC4 1 0 :1:4 
+`Vuc 1 LATC5 1 0 :1:5 
+`Vuc 1 LATC6 1 0 :1:6 
+`Vuc 1 LATC7 1 0 :1:7 
+]
+[u S968 . 1 `S866 1 . 1 0 ]
+"55
+[s S972 . 1 `Vuc 1 LATB0 1 0 :1:0 
+`Vuc 1 LATB1 1 0 :1:1 
+`Vuc 1 LATB2 1 0 :1:2 
+`Vuc 1 LATB3 1 0 :1:3 
+`Vuc 1 LATB4 1 0 :1:4 
+`Vuc 1 LATB5 1 0 :1:5 
+`Vuc 1 LATB6 1 0 :1:6 
+`Vuc 1 LATB7 1 0 :1:7 
+]
+[u S981 . 1 `S798 1 . 1 0 ]
+"127
+[s S985 . 1 `Vuc 1 LATA0 1 0 :1:0 
+`Vuc 1 LATA1 1 0 :1:1 
+`Vuc 1 LATA2 1 0 :1:2 
+`Vuc 1 LATA3 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 LATA5 1 0 :1:5 
+`Vuc 1 LATA6 1 0 :1:6 
+`Vuc 1 LATA7 1 0 :1:7 
+]
+[u S994 . 1 `S110 1 . 1 0 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_over.h
+[s S1027 . 8 `us 1 lq_times 2 0 `uc 1 show_times 1 2 `uc 1 step 1 3 `ul 1 buz_key_pressed_times 4 4 ]
+"50 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[e E4484 _on `uc
+BEEGO 0
+BEEONE 1
+BEETWO 2
+BEETHREE 3
+BEEEND 4
+]
+"58
+[s S1066 . 1 `Vuc 1 LATA0 1 0 :1:0 
+`Vuc 1 LATA1 1 0 :1:1 
+`Vuc 1 LATA2 1 0 :1:2 
+`Vuc 1 LATA3 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 LATA5 1 0 :1:5 
+`Vuc 1 LATA6 1 0 :1:6 
+`Vuc 1 LATA7 1 0 :1:7 
+]
+[u S1075 . 1 `S110 1 . 1 0 ]
+"33 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_ofile_lcd_02.h
+[s S1094 . 1 `Vuc 1 LATC0 1 0 :1:0 
+`Vuc 1 LATC1 1 0 :1:1 
+`Vuc 1 LATC2 1 0 :1:2 
+`Vuc 1 LATC3 1 0 :1:3 
+`Vuc 1 LATC4 1 0 :1:4 
+`Vuc 1 LATC5 1 0 :1:5 
+`Vuc 1 LATC6 1 0 :1:6 
+`Vuc 1 LATC7 1 0 :1:7 
+]
+[u S1103 . 1 `S866 1 . 1 0 ]
+"2073 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\include\pic18f46j11.h
+[s S1106 . 1 `Vuc 1 RC0 1 0 :1:0 
+`Vuc 1 RC1 1 0 :1:1 
+`Vuc 1 RC2 1 0 :1:2 
+`Vuc 1 RC3 1 0 :1:3 
+`Vuc 1 RC4 1 0 :1:4 
+`Vuc 1 RC5 1 0 :1:5 
+`Vuc 1 RC6 1 0 :1:6 
+`Vuc 1 RC7 1 0 :1:7 
+]
+[s S1115 . 1 `Vuc 1 T1OSO 1 0 :1:0 
+`Vuc 1 T1OSI 1 0 :1:1 
+`Vuc 1 AN11 1 0 :1:2 
+`Vuc 1 SCK1 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 PMA5 1 0 :1:6 
+`Vuc 1 PMA4 1 0 :1:7 
+]
+[s S1124 . 1 `Vuc 1 T1CKI 1 0 :1:0 
+`Vuc 1 . 1 0 :1:1 
+`Vuc 1 CTPLS 1 0 :1:2 
+`Vuc 1 SCL1 1 0 :1:3 
+`Vuc 1 SDI1 1 0 :1:4 
+`Vuc 1 SDO1 1 0 :1:5 
+`Vuc 1 TX1 1 0 :1:6 
+`Vuc 1 RX1 1 0 :1:7 
+]
+[s S1133 . 1 `Vuc 1 RP11 1 0 :1:0 
+`Vuc 1 RP12 1 0 :1:1 
+`Vuc 1 RP13 1 0 :1:2 
+`Vuc 1 RP14 1 0 :1:3 
+`Vuc 1 RP15 1 0 :1:4 
+`Vuc 1 RP16 1 0 :1:5 
+`Vuc 1 CK1 1 0 :1:6 
+`Vuc 1 DT1 1 0 :1:7 
+]
+[s S1142 . 1 `Vuc 1 . 1 0 :6:0 
+`Vuc 1 RP17 1 0 :1:6 
+`Vuc 1 RP18 1 0 :1:7 
+]
+[u S1146 . 1 `S729 1 . 1 0 `S738 1 . 1 0 `S747 1 . 1 0 `S756 1 . 1 0 `S765 1 . 1 0 ]
+"26 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_main.h
+[s S1172 . 1 `Vuc 1 TMR3ON 1 0 :1:0 
+`Vuc 1 RD16 1 0 :1:1 
+`Vuc 1 T3SYNC 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 T3CKPS 1 0 :2:4 
+`Vuc 1 TMR3CS 1 0 :2:6 
+]
+[s S1179 . 1 `Vuc 1 . 1 0 :4:0 
+`Vuc 1 T3CKPS0 1 0 :1:4 
+`Vuc 1 T3CKPS1 1 0 :1:5 
+`Vuc 1 TMR3CS0 1 0 :1:6 
+`Vuc 1 TMR3CS1 1 0 :1:7 
+]
+[u S1185 . 1 `S1172 1 . 1 0 `S1179 1 . 1 0 ]
+"35 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_ofile_lcd_02.h
+[s S1200 . 1 `Vuc 1 LATB0 1 0 :1:0 
+`Vuc 1 LATB1 1 0 :1:1 
+`Vuc 1 LATB2 1 0 :1:2 
+`Vuc 1 LATB3 1 0 :1:3 
+`Vuc 1 LATB4 1 0 :1:4 
+`Vuc 1 LATB5 1 0 :1:5 
+`Vuc 1 LATB6 1 0 :1:6 
+`Vuc 1 LATB7 1 0 :1:7 
+]
+[u S1209 . 1 `S798 1 . 1 0 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_over.h
+[s S1226 . 8 `us 1 lq_times 2 0 `uc 1 show_times 1 2 `uc 1 step 1 3 `ul 1 buz_key_pressed_times 4 4 ]
+"27 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[s S1244 . 1 `Vuc 1 LATC0 1 0 :1:0 
+`Vuc 1 LATC1 1 0 :1:1 
+`Vuc 1 LATC2 1 0 :1:2 
+`Vuc 1 LATC3 1 0 :1:3 
+`Vuc 1 LATC4 1 0 :1:4 
+`Vuc 1 LATC5 1 0 :1:5 
+`Vuc 1 LATC6 1 0 :1:6 
+`Vuc 1 LATC7 1 0 :1:7 
+]
+[u S1253 . 1 `S866 1 . 1 0 ]
+"3279 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\include\pic18f46j11.h
+[s S1424 _TIMER 9 `ul 1 TimeOutVal 4 0 `ul 1 RecTickVal 4 4 `uc 1 IsTimeOut 1 8 ]
+"9 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_ifile_key_00.h
+[s S1440 . 1 `Vuc 1 LATC0 1 0 :1:0 
+`Vuc 1 LATC1 1 0 :1:1 
+`Vuc 1 LATC2 1 0 :1:2 
+`Vuc 1 LATC3 1 0 :1:3 
+`Vuc 1 LATC4 1 0 :1:4 
+`Vuc 1 LATC5 1 0 :1:5 
+`Vuc 1 LATC6 1 0 :1:6 
+`Vuc 1 LATC7 1 0 :1:7 
+]
+[u S1449 . 1 `S866 1 . 1 0 ]
+"22
+[s S1453 . 1 `Vuc 1 RBIF 1 0 :1:0 
+`Vuc 1 INT0IF 1 0 :1:1 
+`Vuc 1 TMR0IF 1 0 :1:2 
+`Vuc 1 RBIE 1 0 :1:3 
+`Vuc 1 INT0IE 1 0 :1:4 
+`Vuc 1 TMR0IE 1 0 :1:5 
+`Vuc 1 PEIE_GIEL 1 0 :1:6 
+`Vuc 1 GIE_GIEH 1 0 :1:7 
+]
+[s S1462 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 INT0F 1 0 :1:1 
+`Vuc 1 T0IF 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 INT0E 1 0 :1:4 
+`Vuc 1 T0IE 1 0 :1:5 
+`Vuc 1 PEIE 1 0 :1:6 
+`Vuc 1 GIE 1 0 :1:7 
+]
+[s S1471 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 . 1 0 :1:1 
+`Vuc 1 . 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 GIEL 1 0 :1:6 
+`Vuc 1 GIEH 1 0 :1:7 
+]
+[s S1480 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 . 1 0 :1:1 
+`Vuc 1 . 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 . 1 0 :1:6 
+`Vuc 1 . 1 0 :1:7 
+]
+[s S1489 . 1 `Vuc 1 . 1 0 :1:0 
+`Vuc 1 . 1 0 :1:1 
+`Vuc 1 . 1 0 :1:2 
+`Vuc 1 . 1 0 :1:3 
+`Vuc 1 . 1 0 :1:4 
+`Vuc 1 . 1 0 :1:5 
+`Vuc 1 . 1 0 :1:6 
+`Vuc 1 . 1 0 :1:7 
+]
+[u S1498 . 1 `S1453 1 . 1 0 `S1462 1 . 1 0 `S1471 1 . 1 0 `S49 1 . 1 0 `S49 1 . 1 0 ]
+"148 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_ini_00.c
+[v F4247 `(v  1 t 0 ]
+"809 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _dat `uc  1 a 1 fsr2l ]
+"1437
+[v _dat `uc  1 a 1 fsr2l ]
+"1479
+[v _dat `uc  1 a 1 fsr2l ]
+"78
+[v _dat `uc  1 a 1 fsr0l ]
+"1246
+[v _startx `uc  1 a 1 prodl ]
+"1295
+[v _startx `uc  1 a 1 prodl ]
+"1589
+[v _dat `uc  1 a 1 fsr2l ]
+"1271
+[v _startx `uc  1 a 1 prodl ]
+"842
+[v _startx `uc  1 a 1 fsr2l ]
+"1319
+[v _startx `uc  1 a 1 prodl ]
+"1346
+[v _dat `uc  1 a 1 fsr0l ]
+"240
+[v _x `uc  1 a 1 fsr2l ]
+"903
+[v _dat `uc  1 a 1 fsr0l ]
+"870
+[v _dat `uc  1 a 1 fsr2l ]
+"584
+[v _startx `uc  1 a 1 prodl ]
+"503
+[v _startx `uc  1 a 1 prodl ]
+"529
+[v _startx `uc  1 a 1 prodh ]
+"554
+[v _startx `uc  1 a 1 prodl ]
+"1562
+[v _startx `uc  1 a 1 fsr1l ]
+"146
+[v _dat `uc  1 a 1 fsr0l ]
+"474
+[v _startx `uc  1 a 1 prodh ]
+"629
+[v _startx `uc  1 a 1 prodh ]
+"724
+[v _startx `uc  1 a 1 fsr2l ]
+"650
+[v _startx `uc  1 a 1 fsr2l ]
+"447
+[v _startx `uc  1 a 1 prodl ]
+"1196
+[v _startx `uc  1 a 1 prodl ]
+"1622
+[v _startx `uc  1 a 1 fsr2l ]
+"764
+[v _startx `uc  1 a 1 prodl ]
+"934
+[v _startx `uc  1 a 1 fsr2l ]
+"613
+[v _startx `uc  1 a 1 prodh ]
+"1125
+[v _startx `uc  1 a 1 prodl ]
+"1172
+[v _startx `uc  1 a 1 prodl ]
+"1148
+[v _startx `uc  1 a 1 prodl ]
+"364
+[v _startx `uc  1 a 1 prodl ]
+"337
+[v _startx `uc  1 a 1 prodl ]
+"310
+[v _startx `uc  1 a 1 prodl ]
+"256
+[v _startx `uc  1 a 1 prodh ]
+"418
+[v _startx `uc  1 a 1 prodl ]
+"391
+[v _startx `uc  1 a 1 prodl ]
+"1052
+[v _x `uc  1 a 1 prodh ]
+"1038
+[v _x `uc  1 a 1 prodh ]
+[v _x `uc  1 a 1 prodh ]
+"1052
+[v _x `uc  1 a 1 prodh ]
+"337
+[v _startx `uc  1 a 1 prodl ]
+"1172
+[v _startx `uc  1 a 1 prodl ]
+"1148
+[v _startx `uc  1 a 1 prodl ]
+"310
+[v _startx `uc  1 a 1 prodl ]
+"391
+[v _startx `uc  1 a 1 prodl ]
+"418
+[v _startx `uc  1 a 1 prodl ]
+"256
+[v _startx `uc  1 a 1 prodh ]
+"364
+[v _startx `uc  1 a 1 prodl ]
+"1125
+[v _startx `uc  1 a 1 prodl ]
+"934
+[v _startx `uc  1 a 1 fsr2l ]
+"650
+[v _startx `uc  1 a 1 fsr2l ]
+"1196
+[v _startx `uc  1 a 1 prodl ]
+"1622
+[v _startx `uc  1 a 1 fsr2l ]
+"474
+[v _startx `uc  1 a 1 prodh ]
+"764
+[v _startx `uc  1 a 1 prodl ]
+"447
+[v _startx `uc  1 a 1 prodl ]
+"554
+[v _startx `uc  1 a 1 prodl ]
+"1562
+[v _startx `uc  1 a 1 fsr1l ]
+"629
+[v _startx `uc  1 a 1 prodh ]
+"613
+[v _startx `uc  1 a 1 prodh ]
+"724
+[v _startx `uc  1 a 1 fsr2l ]
+"529
+[v _startx `uc  1 a 1 prodh ]
+"584
+[v _startx `uc  1 a 1 prodl ]
+"146
+[v _dat `uc  1 a 1 fsr0l ]
+"503
+[v _startx `uc  1 a 1 prodl ]
+"870
+[v _dat `uc  1 a 1 fsr2l ]
+"842
+[v _startx `uc  1 a 1 fsr2l ]
+"1346
+[v _dat `uc  1 a 1 fsr0l ]
+"240
+[v _x `uc  1 a 1 fsr2l ]
+"1319
+[v _startx `uc  1 a 1 prodl ]
+"1295
+[v _startx `uc  1 a 1 prodl ]
+"1589
+[v _dat `uc  1 a 1 fsr2l ]
+"903
+[v _dat `uc  1 a 1 fsr0l ]
+"1271
+[v _startx `uc  1 a 1 prodl ]
+"1246
+[v _startx `uc  1 a 1 prodl ]
+"1479
+[v _dat `uc  1 a 1 fsr2l ]
+"1437
+[v _dat `uc  1 a 1 fsr2l ]
+"809
+[v _dat `uc  1 a 1 fsr2l ]
+"78
+[v _dat `uc  1 a 1 fsr0l ]
+"1172
+[v _startx `uc  1 a 1 prodl ]
+"310
+[v _startx `uc  1 a 1 prodl ]
+"256
+[v _startx `uc  1 a 1 prodh ]
+[v _startx `uc  1 a 1 prodh ]
+"1196
+[v _startx `uc  1 a 1 prodl ]
+"474
+[v _startx `uc  1 a 1 prodh ]
+"1562
+[v _startx `uc  1 a 1 fsr1l ]
+[v _startx `uc  1 a 1 fsr1l ]
+"724
+[v _startx `uc  1 a 1 fsr2l ]
+"529
+[v _startx `uc  1 a 1 prodh ]
+"584
+[v _startx `uc  1 a 1 prodl ]
+"503
+[v _startx `uc  1 a 1 prodl ]
+"1319
+[v _startx `uc  1 a 1 prodl ]
+"1295
+[v _startx `uc  1 a 1 prodl ]
+"1271
+[v _startx `uc  1 a 1 prodl ]
+"1246
+[v _startx `uc  1 a 1 prodl ]
+"1038
+[v _x `uc  1 a 1 prodh ]
+"1052
+[v _x `uc  1 a 1 prodh ]
+"337
+[v _startx `uc  1 a 1 prodl ]
+"1172
+[v _startx `uc  1 a 1 prodl ]
+"1148
+[v _startx `uc  1 a 1 prodl ]
+"310
+[v _startx `uc  1 a 1 prodl ]
+"391
+[v _startx `uc  1 a 1 prodl ]
+"418
+[v _startx `uc  1 a 1 prodl ]
+"256
+[v _startx `uc  1 a 1 prodh ]
+"364
+[v _startx `uc  1 a 1 prodl ]
+"1125
+[v _startx `uc  1 a 1 prodl ]
+"934
+[v _startx `uc  1 a 1 fsr2l ]
+"650
+[v _startx `uc  1 a 1 fsr2l ]
+"1196
+[v _startx `uc  1 a 1 prodl ]
+"1622
+[v _startx `uc  1 a 1 fsr2l ]
+"474
+[v _startx `uc  1 a 1 prodh ]
+"764
+[v _startx `uc  1 a 1 prodl ]
+"447
+[v _startx `uc  1 a 1 prodl ]
+"554
+[v _startx `uc  1 a 1 prodl ]
+"1562
+[v _startx `uc  1 a 1 fsr1l ]
+"629
+[v _startx `uc  1 a 1 prodh ]
+"613
+[v _startx `uc  1 a 1 prodh ]
+"724
+[v _startx `uc  1 a 1 fsr2l ]
+"529
+[v _startx `uc  1 a 1 prodh ]
+"584
+[v _startx `uc  1 a 1 prodl ]
+"146
+[v _dat `uc  1 a 1 fsr0l ]
+"503
+[v _startx `uc  1 a 1 prodl ]
+"870
+[v _dat `uc  1 a 1 fsr2l ]
+"842
+[v _startx `uc  1 a 1 fsr2l ]
+"1346
+[v _dat `uc  1 a 1 fsr0l ]
+"240
+[v _x `uc  1 a 1 fsr2l ]
+"1319
+[v _startx `uc  1 a 1 prodl ]
+"1295
+[v _startx `uc  1 a 1 prodl ]
+"1589
+[v _dat `uc  1 a 1 fsr2l ]
+"903
+[v _dat `uc  1 a 1 fsr0l ]
+"1271
+[v _startx `uc  1 a 1 prodl ]
+"1246
+[v _startx `uc  1 a 1 prodl ]
+"1479
+[v _dat `uc  1 a 1 fsr2l ]
+"1437
+[v _dat `uc  1 a 1 fsr2l ]
+"809
+[v _dat `uc  1 a 1 fsr2l ]
+"78
+[v _dat `uc  1 a 1 fsr0l ]
+"1038
+[v _x `uc  1 a 1 prodh ]
+"1052
+[v _x `uc  1 a 1 prodh ]
+"337
+[v _startx `uc  1 a 1 prodl ]
+"1172
+[v _startx `uc  1 a 1 prodl ]
+"1148
+[v _startx `uc  1 a 1 prodl ]
+"310
+[v _startx `uc  1 a 1 prodl ]
+"391
+[v _startx `uc  1 a 1 prodl ]
+"418
+[v _startx `uc  1 a 1 prodl ]
+"256
+[v _startx `uc  1 a 1 prodh ]
+"364
+[v _startx `uc  1 a 1 prodl ]
+"1125
+[v _startx `uc  1 a 1 prodl ]
+"934
+[v _startx `uc  1 a 1 fsr2l ]
+"650
+[v _startx `uc  1 a 1 fsr2l ]
+"1196
+[v _startx `uc  1 a 1 prodl ]
+"1622
+[v _startx `uc  1 a 1 fsr2l ]
+"474
+[v _startx `uc  1 a 1 prodh ]
+"764
+[v _startx `uc  1 a 1 prodl ]
+"447
+[v _startx `uc  1 a 1 prodl ]
+"554
+[v _startx `uc  1 a 1 prodl ]
+"1562
+[v _startx `uc  1 a 1 fsr1l ]
+"629
+[v _startx `uc  1 a 1 prodh ]
+"613
+[v _startx `uc  1 a 1 prodh ]
+"724
+[v _startx `uc  1 a 1 fsr2l ]
+"529
+[v _startx `uc  1 a 1 prodh ]
+"584
+[v _startx `uc  1 a 1 prodl ]
+"146
+[v _dat `uc  1 a 1 fsr0l ]
+"503
+[v _startx `uc  1 a 1 prodl ]
+"870
+[v _dat `uc  1 a 1 fsr2l ]
+"842
+[v _startx `uc  1 a 1 fsr2l ]
+"1346
+[v _dat `uc  1 a 1 fsr0l ]
+"240
+[v _x `uc  1 a 1 fsr2l ]
+"1319
+[v _startx `uc  1 a 1 prodl ]
+"1295
+[v _startx `uc  1 a 1 prodl ]
+"1589
+[v _dat `uc  1 a 1 fsr2l ]
+"903
+[v _dat `uc  1 a 1 fsr0l ]
+"1271
+[v _startx `uc  1 a 1 prodl ]
+"1246
+[v _startx `uc  1 a 1 prodl ]
+"1479
+[v _dat `uc  1 a 1 fsr2l ]
+"1437
+[v _dat `uc  1 a 1 fsr2l ]
+"809
+[v _dat `uc  1 a 1 fsr2l ]
+"78
+[v _dat `uc  1 a 1 fsr0l ]
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\awdiv.c
+[v ___awdiv `(i  1 e 2 0 ]
+"13 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\float.c
+[v ___ftunpack `(uc  1 e 1 0 ]
+"33
+[v ___ftpack `(v  1 e 0 0 ]
+"17 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftadd.c
+[v ___ftadd `(f  1 e 3 0 ]
+"19 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftdiv.c
+[v ___ftdiv `(f  1 e 3 0 ]
+"18 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftmul.c
+[v ___ftmul `(f  1 e 3 0 ]
+"16 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\fttol.c
+[v ___fttol `(l  1 e 4 0 ]
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwdiv.c
+[v ___lwdiv `(ui  1 e 2 0 ]
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwmod.c
+[v ___lwmod `(ui  1 e 2 0 ]
+"16 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwtoft.c
+[v ___lwtoft `(f  1 e 3 0 ]
+"3 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\wmul.c
+[v ___wmul `(ui  1 e 2 0 ]
+"18 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\adc.c
+[v _adc_init `(v  1 e 0 0 ]
+"45
+[v _adc_read `(us  1 s 2 _adc_read ]
+"74
+[v _adc_press_filter `(us  1 s 2 _adc_press_filter ]
+"92
+[v _adc_power_filter `(us  1 s 2 _adc_power_filter ]
+"106
+[v _adc_reader_press `(us  1 e 2 0 ]
+"113
+[v _adc_reader_power `(us  1 e 2 0 ]
+"9 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _BIOS_JLX12864_TRANS_CMD `(v  1 e 0 0 ]
+"19
+[v _BIOS_JLX12864_TRANS_DAT `(v  1 e 0 0 ]
+"27
+[v _BIOS_JLX12864_DELAY `(v  1 e 0 0 ]
+"35
+[v _SYS_IniLcd `(v  1 e 0 0 ]
+"78
+[v _DISP_DigBasic `(v  1 e 0 0 ]
+"120
+[v _DISP_DigBasic32 `(v  1 e 0 0 ]
+"146
+[v _DISP_ChaBasic `(v  1 e 0 0 ]
+"184
+[v _DISP_BatWarnC `(v  1 e 0 0 ]
+"204
+[v _DISP_BatWarnE `(v  1 e 0 0 ]
+"226
+[v _DISP_Clear `(v  1 e 0 0 ]
+"240
+[v _DISP_ClrZero `(v  1 e 0 0 ]
+"256
+[v _DISP_Bat00Clr `(v  1 e 0 0 ]
+"310
+[v _DISP_Bat000 `(v  1 e 0 0 ]
+"337
+[v _DISP_Bat001 `(v  1 e 0 0 ]
+"364
+[v _DISP_Bat002 `(v  1 e 0 0 ]
+"391
+[v _DISP_Bat003 `(v  1 e 0 0 ]
+"418
+[v _DISP_Bat004 `(v  1 e 0 0 ]
+"447
+[v _DISP_Buz `(v  1 e 0 0 ]
+"474
+[v _DISP_BuzClr `(v  1 e 0 0 ]
+"503
+[v _DISP_Lock `(v  1 e 0 0 ]
+"529
+[v _DISP_LockClr `(v  1 e 0 0 ]
+"554
+[v _DISP_lx `(v  1 e 0 0 ]
+"584
+[v _DISP_jx `(v  1 e 0 0 ]
+"613
+[v _DISP_Fu `(v  1 e 0 0 ]
+"629
+[v _DISP_Fu1 `(v  1 e 0 0 ]
+"650
+[v _DISP_Dig15_32 `(v  1 e 0 0 ]
+"692
+[v _DISP_DigBasic40 `(v  1 e 0 0 ]
+"724
+[v _DISP_Dig18_40 `(v  1 e 0 0 ]
+"764
+[v _DISP_pset `(v  1 e 0 0 ]
+"809
+[v _DISP_DigBasic0 `(v  1 e 0 0 ]
+"842
+[v _DISP_Dig12_16 `(v  1 e 0 0 ]
+"870
+[v _DISP_DigBasics12 `(v  1 e 0 0 ]
+"903
+[v _DISP_DigBasic00 `(v  1 e 0 0 ]
+"934
+[v _DISP_Dig14_16 `(v  1 e 0 0 ]
+"962
+[v _DISP_Sys100 `(v  1 e 0 0 ]
+"982
+[v _DISP_Ver `(v  1 e 0 0 ]
+"1001
+[v _DISP_ask `(v  1 e 0 0 ]
+"1019
+[v _DISP_LANGUAGE `(v  1 e 0 0 ]
+"1038
+[v _DISP_set_sanjiao `(v  1 e 0 0 ]
+"1052
+[v _DISP_set_sanjiao0 `(v  1 e 0 0 ]
+"1069
+[v _DISP_press_set2016 `(v  1 e 0 0 ]
+"1088
+[v _DISP_mod_set2015 `(v  1 e 0 0 ]
+"1107
+[v _DISP_time_set2015 `(v  1 e 0 0 ]
+"1125
+[v _DISP_run2015 `(v  1 e 0 0 ]
+"1148
+[v _DISP_press2015 `(v  1 e 0 0 ]
+"1172
+[v _DISP_stop2015 `(v  1 e 0 0 ]
+"1196
+[v _DISP_select `(v  1 e 0 0 ]
+"1221
+[v _DISP_select0 `(v  1 e 0 0 ]
+"1246
+[v _DISP_block `(v  1 e 0 0 ]
+"1271
+[v _DISP_louq `(v  1 e 0 0 ]
+"1295
+[v _DISP_didl `(v  1 e 0 0 ]
+"1319
+[v _DISP_yewm `(v  1 e 0 0 ]
+"1346
+[v _DISP_ChaBasic2 `(v  1 e 0 0 ]
+"1413
+[v _DISP_cha7s `(v  1 e 0 0 ]
+"1437
+[v _DISP_block_new `(v  1 e 0 0 ]
+"1479
+[v _DISP_ChaBasic2015 `(v  1 e 0 0 ]
+"1522
+[v _DISP_8X16ascii `(v  1 e 0 0 ]
+"1543
+[v _DISP_8X16ascii_block `(v  1 e 0 0 ]
+"1562
+[v _DISP_key2015 `(v  1 e 0 0 ]
+"1589
+[v _DISP_Dig0 `(v  1 e 0 0 ]
+"1622
+[v _DISP_Dig1 `(v  1 e 0 0 ]
+"17 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\Flash.c
+[v _Write_Cycle `(v  1 e 0 0 ]
+"47
+[v _Flash_Erase `(v  1 e 0 0 ]
+"58
+[v _Write_One_Word `(v  1 e 0 0 ]
+"76
+[v _Flash_Read `(ui  1 e 2 0 ]
+"59 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ifile_adc.c
+[v _ADC_DatCal `(v  1 e 0 0 ]
+"78
+[v _ADC_Ps90 `(v  1 e 0 0 ]
+"71 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_main.c
+[v _LEVEL_WarnA `(v  1 e 0 0 ]
+"175
+[v _BAT_WarnFir `(v  1 e 0 0 ]
+"194
+[v _BAT_Warn `(v  1 e 0 0 ]
+"21 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ofile_load_00.c
+[v _OPEN_PwmA `(v  1 e 0 0 ]
+"25
+[v _CLS_PwmA `(v  1 e 0 0 ]
+"89
+[v _PRESS_ConSubA `(v  1 e 0 0 ]
+"163
+[v _PRESS_ConA `(v  1 e 0 0 ]
+"41 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_over.c
+[v _CONTR_fallaNew `(v  1 e 0 0 ]
+"90
+[v _get_press_delta `(v  1 e 0 0 ]
+"117
+[v _calc_delta_i `(us  1 s 2 _calc_delta_i ]
+"139
+[v _STAT_conNewa `(v  1 e 0 0 ]
+"35 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ifile_key_00.c
+[v _KEY_Scan `(v  1 e 0 0 ]
+"184
+[v _get_xx_delta `(v  1 e 0 0 ]
+"207
+[v _MODE_ProA `(v  1 e 0 0 ]
+"1202
+[v _MODE_Pro `(v  1 e 0 0 ]
+"60 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _spk_bee_server `(v  1 e 0 0 ]
+"76
+[v _SYS_DatIni `(v  1 e 0 0 ]
+"99
+[v _Warn `(v  1 e 0 0 ]
+"152
+[v _bee_three `(v  1 e 0 0 ]
+"203
+[v _AUDIO_Sub `(v  1 e 0 0 ]
+"289
+[v _AUDIO `(v  1 e 0 0 ]
+"371
+[v _BUZ_KeyCls `(v  1 e 0 0 ]
+"380
+[v _BUZ_Cls `(v  1 e 0 0 ]
+"389
+[v _AUDIO_Key `(v  1 e 0 0 ]
+"413
+[v _FIND_FREE `(v  1 e 0 0 ]
+"436
+[v _main `(v  1 e 0 0 ]
+"32 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Led `(v  1 e 0 0 ]
+"45
+[v _DISP_Bat `(v  1 e 0 0 ]
+"151
+[v _DISP_Erra `(v  1 e 0 0 ]
+"249
+[v _disp_filter `(us  1 s 2 _disp_filter ]
+"269
+[v _clear_lqtimes `(v  1 e 0 0 ]
+"278
+[v _show_lq `(v  1 e 0 0 ]
+"326
+[v _DISP_LixA `(v  1 e 0 0 ]
+"412
+[v _DISP_JixA `(v  1 e 0 0 ]
+"531
+[v _DISP_SetA_new `(v  1 e 0 0 ]
+"818
+[v _DISP_Info `(v  1 e 0 0 ]
+"849
+[v _DISP_MainA `(v  1 e 0 0 ]
+"16 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_ini_00.c
+[v _SYS_OSC_Ini `(v  1 e 0 0 ]
+"23
+[v _SYS_IO_Ini `(v  1 e 0 0 ]
+"44
+[v _SYS_TMR0_Ini `(v  1 e 0 0 ]
+"53
+[v _SYS_TMR3_Ini `(v  1 e 0 0 ]
+"148
+[v _Isr `I(v  1 e 0 0 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_uart_00.c
+[v _UART_Test `(v  1 e 0 0 ]
+"6 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\sys_cpu.c
+[v _SetBlk `(v  1 e 0 0 ]
+"850 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\include\pic18f46j11.h
+[v _ANCON0 `Vuc  1 e 1 @3912 ]
+"871
+[v _ANCON0bits `S30  1 e 1 @3912 ]
+"874
+[v _ANCON1 `Vuc  1 e 1 @3913 ]
+"1461
+[v _T3CON `Vuc  1 e 1 @3961 ]
+"1486
+[v _T3CONbits `S1185  1 e 1 @3961 ]
+"1490
+[v _TMR3L `Vuc  1 e 1 @3962 ]
+"1494
+[v _TMR3H `Vuc  1 e 1 @3963 ]
+"1558
+[v _PORTA `Vuc  1 e 1 @3968 ]
+"1646
+[v _PORTB `Vuc  1 e 1 @3969 ]
+"1747
+[v _PORTC `Vuc  1 e 1 @3970 ]
+"1826
+[v _PORTCbits `S769  1 e 1 @3970 ]
+"1829
+[v _PORTD `Vuc  1 e 1 @3971 ]
+"1889
+[v _PORTE `Vuc  1 e 1 @3972 ]
+"2005
+[v _LATA `Vuc  1 e 1 @3977 ]
+"2025
+[v _LATAbits `S30  1 e 1 @3977 ]
+"2028
+[v _LATB `Vuc  1 e 1 @3978 ]
+"2049
+[v _LATBbits `S30  1 e 1 @3978 ]
+"2052
+[v _LATC `Vuc  1 e 1 @3979 ]
+"2060
+[v _LATC6 `Vb  1 e 0 @31838 ]
+"2073
+[v _LATCbits `S30  1 e 1 @3979 ]
+"2076
+[v _LATD `Vuc  1 e 1 @3980 ]
+"2100
+[v _LATE `Vuc  1 e 1 @3981 ]
+"2116
+[v _LATEbits `S30  1 e 1 @3981 ]
+"2179
+[v _TRISA `Vuc  1 e 1 @3986 ]
+"2202
+[v _TRISB `Vuc  1 e 1 @3987 ]
+"2226
+[v _TRISC `Vuc  1 e 1 @3988 ]
+"2250
+[v _TRISD `Vuc  1 e 1 @3989 ]
+"2274
+[v _TRISE `Vuc  1 e 1 @3990 ]
+"2369
+[v _OSCTUNE `Vuc  1 e 1 @3995 ]
+"2537
+[v _PIE2 `Vuc  1 e 1 @4000 ]
+"2565
+[v _PIR2 `Vuc  1 e 1 @4001 ]
+"2695
+[v _WR `Vb  1 e 0 @32049 ]
+"2696
+[v _WREN `Vb  1 e 0 @32050 ]
+"2698
+[v _FREE `Vb  1 e 0 @32052 ]
+"2699
+[v _WPROG `Vb  1 e 0 @32053 ]
+"2712
+[v _EECON2 `Vuc  1 e 1 @4007 ]
+"3279
+[v _ADCON1 `Vuc  1 e 1 @4033 ]
+"3307
+[v _ADCON0 `Vuc  1 e 1 @4034 ]
+"3360
+[v _ADCON0bits `S67  1 e 1 @4034 ]
+"3364
+[v _ADRESL `Vuc  1 e 1 @4035 ]
+"3368
+[v _ADRESH `Vuc  1 e 1 @4036 ]
+"3592
+[v _TMR2 `Vuc  1 e 1 @4044 ]
+"3734
+[v _OSCCON `Vuc  1 e 1 @4051 ]
+"3762
+[v _T0CON `Vuc  1 e 1 @4053 ]
+"3790
+[v _TMR0L `Vuc  1 e 1 @4054 ]
+"3794
+[v _TMR0H `Vuc  1 e 1 @4055 ]
+"3803
+[v _CARRY `Vb  1 e 0 @32448 ]
+"3985
+[v _INTCON2 `Vuc  1 e 1 @4081 ]
+"4019
+[v _INTCON `Vuc  1 e 1 @4082 ]
+"4033
+[v _PEIE `Vb  1 e 0 @32662 ]
+"4034
+[v _GIE `Vb  1 e 0 @32663 ]
+"4088
+[v _INTCONbits `S1498  1 e 1 @4082 ]
+"4103
+[v _TABLAT `Vuc  1 e 1 @4085 ]
+"4108
+[v _TBLPTRL `Vuc  1 e 1 @4086 ]
+"4112
+[v _TBLPTRH `Vuc  1 e 1 @4087 ]
+"4116
+[v _TBLPTRU `Vuc  1 e 1 @4088 ]
+"71 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\adc.c
+[v _value_press_buf `[3]s  1 s 6 @130 ]
+"72
+[v _PS_i `uc  1 s 1 @266 ]
+"86
+[v _value_power_buf `[10]s  1 s 20 @304 ]
+"90
+[v _Pw_i `uc  1 s 1 @269 ]
+"6 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _disp_set_flg `uc  1 e 1 @152 ]
+"117
+[v _val_val `us  1 e 2 @120 ]
+"646
+[v _flgdis `uc  1 e 1 @181 ]
+"1017
+[v _set_language `DC[1024]uc  1 e 1024 0 ]
+"1036
+[v _sanjiao `DC[8]uc  1 e 8 0 ]
+"7 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ifile_adc.c
+[v _adc_ps0 `us  1 e 2 @127 ]
+[v _adc_bat `us  1 e 2 @324 ]
+"8
+[v _adc_zero `us  1 e 2 @141 ]
+"56
+[v _delay_adc `us  1 e 2 @328 ]
+"57
+[v _delay_P_adc `us  1 e 2 @326 ]
+"24 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_main.c
+[v _ccnt1 `uc  1 e 1 @297 ]
+"64
+[v _LQ_FIR `us  1 e 2 @252 ]
+"66
+[v _cntcnt `us  1 e 2 @256 ]
+"67
+[v _overabc `uc  1 e 1 @286 ]
+"172
+[v _cntx `us  1 e 2 @242 ]
+"173
+[v _bat_sas_bak `uc  1 e 1 @284 ]
+[v _bat_sas `uc  1 e 1 @201 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ofile_load_00.c
+[v _bump_need_out_air_flg `uc  1 e 1 @282 ]
+"17
+[v _pwm_k1 `f  1 e 3 @168 ]
+"30
+[v _mot_sys `DC[31]uc  1 e 31 0 ]
+"10 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_over.c
+[v _fall_cnta0 `us  1 e 2 @199 ]
+"12
+[v _fall_stata `uc  1 e 1 @206 ]
+"14
+[v _con_flg_falla `uc  1 e 1 @207 ]
+"15
+[v _gao_cnt `us  1 e 2 @171 ]
+"16
+[v _good_check `uc  1 e 1 @293 ]
+"17
+[v _nggood_check `uc  1 e 1 @277 ]
+"18
+[v _BOX_FQ_TURNS `us  1 e 2 @250 ]
+"33
+[v _con_hi_delta `us  1 e 2 @161 ]
+"34
+[v _con_lo_delta `us  1 e 2 @228 ]
+"129
+[v _val_cnt `us  1 e 2 @272 ]
+"130
+[v _scan_dusai_time `ul  1 e 4 @182 ]
+"135
+[v _record_ds `[8]us  1 e 16 @0 ]
+"137
+[v _twenty_seconds `us  1 e 2 @270 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ifile_key_00.c
+[v _key_cnt `us  1 e 2 @175 ]
+"14
+[v _key_key `uc  1 e 1 @295 ]
+"15
+[v _set_a00 `uc  1 e 1 @208 ]
+"16
+[v _key_port_bak `uc  1 e 1 @289 ]
+[v _key_flg `uc  1 e 1 @209 ]
+[v _key_flg_l `uc  1 e 1 @294 ]
+[v _key_port `uc  1 e 1 @190 ]
+[v _key_val `uc  1 e 1 @26 ]
+[v _key_val_bak `uc  1 e 1 @178 ]
+"17
+[v _mod_main_b `uc  1 e 1 @298 ]
+[v _mod_main_baka `uc  1 e 1 @136 ]
+"20
+[v _remember_mod `uc  1 e 1 @214 ]
+"21
+[v _mod_seta_cnt `uc  1 e 1 @129 ]
+[v _mod_seta_wok `uc  1 e 1 @160 ]
+"22
+[v _mod_seta_preh_bak `us  1 e 2 @31 ]
+[v _mod_seta_prel `us  1 e 2 @27 ]
+[v _mod_seta_ont `us  1 e 2 @116 ]
+[v _mod_seta_oft `us  1 e 2 @118 ]
+"23
+[v _mod_tim_cnta2 `us  1 e 2 @149 ]
+[v _mod_tim_cnta `us  1 e 2 @122 ]
+"25
+[v _lock_cnt `us  1 e 2 @232 ]
+[v _back_led_cnt `us  1 e 2 @260 ]
+"26
+[v _lock_flg `uc  1 e 1 @147 ]
+"30
+[v _set_moda `us  1 e 2 @264 ]
+"32
+[v _dataK1 `us  1 e 2 @230 ]
+[v _dataK `us  1 e 2 @158 ]
+[v _dataK2 `us  1 e 2 @226 ]
+[v _dataK4 `us  1 e 2 @224 ]
+[v _dataK3 `us  1 e 2 @222 ]
+"172
+[v _key_set_tim `uc  1 e 1 @140 ]
+[v _key_start_tim `uc  1 e 1 @291 ]
+"174
+[v _tim5_flg `uc  1 e 1 @287 ]
+"179
+[v _ddfq_delay `us  1 e 2 @173 ]
+"1199
+[v _close_tim `us  1 e 2 @258 ]
+"1200
+[v _mod_bak_bak `uc  1 e 1 @302 ]
+"31 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _audio_basic `us  1 e 2 @244 ]
+"32
+[v _audio_period `us  1 e 2 @246 ]
+"34
+[v _buz_flg `uc  1 e 1 @211 ]
+[v _buz_cnt `uc  1 e 1 @281 ]
+"35
+[v _bat_close_tim `us  1 e 2 @262 ]
+"36
+[v _mute_flg `uc  1 e 1 @167 ]
+"37
+[v _mute_tim `us  1 e 2 @234 ]
+"40
+[v _close_flg `uc  1 e 1 @300 ]
+"41
+[v _bat_lev_bak `uc  1 e 1 @288 ]
+"42
+[v _z1 `uc  1 e 1 @213 ]
+"45
+[v _bum_dly `uc  1 e 1 @212 ]
+"46
+[v _bum_dly_flg `uc  1 e 1 @278 ]
+"47
+[v _dataREAD2 `us  1 e 2 @240 ]
+[v _dataREAD3 `us  1 e 2 @236 ]
+[v _dataREAD0 `us  1 e 2 @193 ]
+[v _dataREAD1 `us  1 e 2 @238 ]
+"49
+[v _SPK_STATE `uc  1 e 1 @301 ]
+"55
+[v _BEE_TWO `E4484  1 e 1 @292 ]
+"58
+[v _spk_selay `us  1 e 2 @274 ]
+"18 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _bat_cnt `uc  1 e 1 @177 ]
+[v _bat_cnt1 `uc  1 e 1 @276 ]
+"19
+[v _led_cnt `uc  1 e 1 @296 ]
+"20
+[v _run_tim_a `us  1 e 2 @179 ]
+"21
+[v _disp_presa `us  1 e 2 @156 ]
+"22
+[v _disp_ssa `us  1 e 2 @204 ]
+"24
+[v _dis_cnta `us  1 e 2 @202 ]
+"25
+[v _add91200 `uc  1 e 1 @267 ]
+"26
+[v _add91201 `us  1 e 2 @188 ]
+"27
+[v _adc_temp00 `us  1 e 2 @144 ]
+"245
+[v _value_buf `[10]us  1 s 20 @96 ]
+"246
+[v _i `uc  1 s 1 @221 ]
+"247
+[v _delay_count `us  1 s 2 @191 ]
+"263
+[v _err_codeabak `uc  1 e 1 @216 ]
+"275
+[v _read_key `ui  1 e 2 @186 ]
+"9 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_ini_00.c
+[v _os_cnt `uc  1 e 1 @279 ]
+"10
+[v _pwm_cnt1 `uc  1 e 1 @219 ]
+"13
+[v _Timeone_sum `Vul  1 e 4 @163 ]
+"14
+[v _TIMER_FOUR `uc  1 e 1 @280 ]
+"4 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\8X16.h
+[v _ASCII `DC[1536]uc  1 e 1536 0 ]
+"5 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\BIOS_ZK_DAW.h
+[v _draw_buz `DC[32]uc  1 e 32 0 ]
+"6
+[v _draw_batwarn `DC[1024]uc  1 e 1024 0 ]
+"7
+[v _draw_batwarnE `DC[1024]uc  1 e 1024 0 ]
+"8
+[v _draw_lx `DC[60]uc  1 e 60 0 ]
+"9
+[v _draw_jx `DC[62]uc  1 e 62 0 ]
+"10
+[v _pset `DC[96]uc  1 e 96 0 ]
+"12
+[v _arry_desk `DC[1024]uc  1 e 1024 0 ]
+"13
+[v _arry_ver `DC[1024]uc  1 e 1024 0 ]
+"14
+[v _ask `DC[1024]uc  1 e 1024 0 ]
+"15
+[v _press_set2016 `DC[1024]uc  1 e 1024 0 ]
+"16
+[v _mod_set2015 `DC[1024]uc  1 e 1024 0 ]
+"18
+[v _tim_set2015 `DC[1024]uc  1 e 1024 0 ]
+"19
+[v _run2015 `DC[92]uc  1 e 92 0 ]
+"20
+[v _press2015 `DC[92]uc  1 e 92 0 ]
+"21
+[v _stop2015 `DC[116]uc  1 e 116 0 ]
+"22
+[v _select `DC[32]uc  1 e 32 0 ]
+"23
+[v _block `DC[108]uc  1 e 108 0 ]
+"24
+[v _louq `DC[108]uc  1 e 108 0 ]
+"25
+[v _didl `DC[108]uc  1 e 108 0 ]
+"26
+[v _yewm `DC[108]uc  1 e 108 0 ]
+"27
+[v _bat004 `DC[48]uc  1 e 48 0 ]
+"28
+[v _lock2015 `DC[18]uc  1 e 18 0 ]
+"29
+[v _key2015 `DC[32]uc  1 e 32 0 ]
+"30
+[v _bat000 `DC[48]uc  1 e 48 0 ]
+"31
+[v _bat001 `DC[48]uc  1 e 48 0 ]
+"32
+[v _bat002 `DC[48]uc  1 e 48 0 ]
+"33
+[v _bat003 `DC[48]uc  1 e 48 0 ]
+"4 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\BIOS_ZK_X1.h
+[v _arry_dig `DC[120]uc  1 e 120 0 ]
+"5
+[v _arry_digs12 `DC[160]uc  1 e 160 0 ]
+"6
+[v _arry_dig40 `DC[720]uc  1 e 720 0 ]
+"7
+[v _arry_char `DC[252]uc  1 e 252 0 ]
+"8
+[v _arry_char2 `DC[364]uc  1 e 364 0 ]
+"9
+[v _arry_char22 `DC[364]uc  1 e 364 0 ]
+"10
+[v _arry_dig22 `DC[450]uc  1 e 450 0 ]
+"18 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_ofile_load_00.h
+[v _load_perioda_up `us  1 e 2 @154 ]
+"19
+[v _cnt_cntaa `us  1 e 2 @254 ]
+[v _cnt_cnta `us  1 e 2 @195 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_con_over.h
+[v _oppump_flg `uc  1 e 1 @303 ]
+"14
+[v _adc_ps00 `us  1 e 2 @125 ]
+"22
+[v _record_ds_turn `uc  1 e 1 @215 ]
+"9 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_ifile_key_00.h
+[v _mod_main_a `uc  1 e 1 @30 ]
+[v _mod_jixa `uc  1 e 1 @143 ]
+"11
+[v _mod_seta_preh `us  1 e 2 @16 ]
+"20
+[v _valueK `f  1 e 3 @137 ]
+"22
+[v _ddfq `uc  1 e 1 @151 ]
+"5 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_main.h
+[v _audio_flg `uc  1 e 1 @153 ]
+"8
+[v _err_codeb `uc  1 e 1 @217 ]
+[v _err_codea `uc  1 e 1 @124 ]
+"9
+[v _buz_flg1 `uc  1 e 1 @299 ]
+"14
+[v _SPEAK_flg `uc  1 e 1 @268 ]
+"19
+[v _open_bum `uc  1 e 1 @220 ]
+"23
+[v _TK_TIME `Vus  1 e 2 @248 ]
+"4 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_ofile_lcd_02.h
+[v _language `uc  1 e 1 @29 ]
+"16
+[v _all_flg `uc  1 e 1 @283 ]
+"17
+[v _flg2015 `uc  1 e 1 @218 ]
+"18
+[v _flg_disp `uc  1 e 1 @210 ]
+"29
+[v _show_lq_times `S705  1 e 8 @18 ]
+"32
+[v _bbbbb `us  1 e 2 @197 ]
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_sys_ini_00.h
+[v _FLG_SYS_10MS `uc  1 e 1 @290 ]
+"16
+[v _pwm_cnt2 `uc  1 e 1 @285 ]
+"4 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\source\h\npwt_dis_sys_uart_00.h
+[v _flager_a `Vuc  1 e 1 @146 ]
+[v _bat_lev `Vuc  1 e 1 @148 ]
+"436 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _main `(v  1 e 0 0 ]
+{
+"544
+} 0
+"207 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ifile_key_00.c
+[v _MODE_ProA `(v  1 e 0 0 ]
+{
+"1194
+} 0
+"99 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _Warn `(v  1 e 0 0 ]
+{
+"149
+} 0
+"413
+[v _FIND_FREE `(v  1 e 0 0 ]
+{
+"433
+} 0
+"35 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ifile_key_00.c
+[v _KEY_Scan `(v  1 e 0 0 ]
+{
+"157
+} 0
+"389 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _AUDIO_Key `(v  1 e 0 0 ]
+{
+"410
+} 0
+"849 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_MainA `(v  1 e 0 0 ]
+{
+"850
+[v _i `f  1 a 3 0 ]
+"1068
+} 3
+"1202 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ifile_key_00.c
+[v _MODE_Pro `(v  1 e 0 0 ]
+{
+"1294
+} 0
+"289 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _AUDIO `(v  1 e 0 0 ]
+{
+"368
+} 0
+"45 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Bat `(v  1 e 0 0 ]
+{
+"147
+} 0
+"194 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_main.c
+[v _BAT_Warn `(v  1 e 0 0 ]
+{
+"244
+} 0
+"76 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _SYS_DatIni `(v  1 e 0 0 ]
+{
+"96
+} 0
+"18 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\adc.c
+[v _adc_init `(v  1 e 0 0 ]
+{
+"30
+} 0
+"13 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_uart_00.c
+[v _UART_Test `(v  1 e 0 0 ]
+{
+"58
+} 0
+"76 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\Flash.c
+[v _Flash_Read `(ui  1 e 2 0 ]
+{
+[v _address `ul  1 p 4 0 ]
+"87
+} 0
+"23 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_ini_00.c
+[v _SYS_IO_Ini `(v  1 e 0 0 ]
+{
+"42
+} 0
+"44
+[v _SYS_TMR0_Ini `(v  1 e 0 0 ]
+{
+"50
+} 0
+"53
+[v _SYS_TMR3_Ini `(v  1 e 0 0 ]
+{
+"57
+} 0
+"16
+[v _SYS_OSC_Ini `(v  1 e 0 0 ]
+{
+"20
+} 0
+"175 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_main.c
+[v _BAT_WarnFir `(v  1 e 0 0 ]
+{
+"191
+} 0
+"269 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _clear_lqtimes `(v  1 e 0 0 ]
+{
+"274
+} 0
+"1001 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_ask `(v  1 e 0 0 ]
+{
+"1002
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"1016
+} 4
+"1038
+[v _DISP_set_sanjiao `(v  1 e 0 0 ]
+{
+[v _x `uc  1 a 1 wreg ]
+[v _y `ui  1 p 2 0 ]
+[v _x `uc  1 a 1 prodh ]
+"1050
+} 0
+"1052
+[v _DISP_set_sanjiao0 `(v  1 e 0 0 ]
+{
+[v _x `uc  1 a 1 wreg ]
+[v _y `ui  1 p 2 0 ]
+[v _x `uc  1 a 1 prodh ]
+"1064
+} 0
+"18 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftmul.c
+[v ___ftmul `(f  1 e 3 0 ]
+{
+"19
+[v _sign1 `uc  1 a 1 0 ]
+[v _exp1 `uc  1 a 1 1 ]
+[v _cntr `uc  1 a 1 2 ]
+"20
+[v _f3 `f  1 a 3 3 ]
+"18
+[v _f1 `f  1 p 3 0 ]
+[v _f2 `f  1 p 3 3 ]
+"46
+} 6
+"58 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\Flash.c
+[v _Write_One_Word `(v  1 e 0 0 ]
+{
+[v _address `ul  1 p 4 0 ]
+[v _data `ui  1 p 2 4 ]
+"72
+} 0
+"47
+[v _Flash_Erase `(v  1 e 0 0 ]
+{
+[v _address `ul  1 p 4 0 ]
+"54
+} 0
+"337 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_Bat001 `(v  1 e 0 0 ]
+{
+"338
+[v _j `uc  1 a 1 0 ]
+"339
+[v _m `us  1 a 2 1 ]
+"337
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"338
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"362
+} 3
+"412 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_JixA `(v  1 e 0 0 ]
+{
+"524
+} 0
+"818
+[v _DISP_Info `(v  1 e 0 0 ]
+{
+"840
+} 0
+"1172 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_stop2015 `(v  1 e 0 0 ]
+{
+"1173
+[v _i `uc  1 a 1 0 ]
+"1174
+[v _m `us  1 a 2 1 ]
+"1172
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1192
+} 3
+"531 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_SetA_new `(v  1 e 0 0 ]
+{
+"811
+} 0
+"1148 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_press2015 `(v  1 e 0 0 ]
+{
+"1149
+[v _i `uc  1 a 1 0 ]
+"1150
+[v _m `us  1 a 2 1 ]
+"1148
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1168
+} 3
+"326 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_LixA `(v  1 e 0 0 ]
+{
+"409
+} 0
+"310 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_Bat000 `(v  1 e 0 0 ]
+{
+"311
+[v _j `uc  1 a 1 0 ]
+"312
+[v _m `us  1 a 2 1 ]
+"310
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"311
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"335
+} 3
+"60 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _spk_bee_server `(v  1 e 0 0 ]
+{
+"74
+} 0
+"204 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_BatWarnE `(v  1 e 0 0 ]
+{
+"205
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"220
+} 4
+"184
+[v _DISP_BatWarnC `(v  1 e 0 0 ]
+{
+"185
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"200
+} 4
+"391
+[v _DISP_Bat003 `(v  1 e 0 0 ]
+{
+"392
+[v _j `uc  1 a 1 0 ]
+"393
+[v _m `us  1 a 2 1 ]
+"391
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"392
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"416
+} 3
+"418
+[v _DISP_Bat004 `(v  1 e 0 0 ]
+{
+"419
+[v _j `uc  1 a 1 0 ]
+"420
+[v _m `us  1 a 2 1 ]
+"418
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"419
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"443
+} 3
+"256
+[v _DISP_Bat00Clr `(v  1 e 0 0 ]
+{
+"258
+[v _m `us  1 a 2 0 ]
+[v _l `us  1 a 2 2 ]
+"256
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodh ]
+"258
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+"279
+} 4
+"16 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwtoft.c
+[v ___lwtoft `(f  1 e 3 0 ]
+{
+"17
+[v _f1 `f  1 a 3 0 ]
+"16
+[v _c `ui  1 p 2 0 ]
+"24
+} 3
+"32 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Led `(v  1 e 0 0 ]
+{
+"41
+} 0
+"371 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _BUZ_KeyCls `(v  1 e 0 0 ]
+{
+"378
+} 0
+"962 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_Sys100 `(v  1 e 0 0 ]
+{
+"963
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"978
+} 4
+"380 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _BUZ_Cls `(v  1 e 0 0 ]
+{
+"386
+} 0
+"19 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftdiv.c
+[v ___ftdiv `(f  1 e 3 0 ]
+{
+"20
+[v _exp2 `uc  1 a 1 0 ]
+[v _sign1 `uc  1 a 1 1 ]
+[v _exp1 `uc  1 a 1 2 ]
+[v _sign2 `uc  1 a 1 3 ]
+"21
+[v _f3 `f  1 a 3 4 ]
+"19
+[v _f1 `f  1 p 3 0 ]
+[v _f2 `f  1 p 3 3 ]
+"45
+} 7
+"364 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_Bat002 `(v  1 e 0 0 ]
+{
+"365
+[v _j `uc  1 a 1 0 ]
+"366
+[v _m `us  1 a 2 1 ]
+"364
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"365
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"389
+} 3
+"6 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\sys_cpu.c
+[v _SetBlk `(v  1 e 0 0 ]
+{
+"12
+} 0
+"35 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _SYS_IniLcd `(v  1 e 0 0 ]
+{
+"75
+} 0
+"1019
+[v _DISP_LANGUAGE `(v  1 e 0 0 ]
+{
+"1020
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"1034
+} 4
+"982
+[v _DISP_Ver `(v  1 e 0 0 ]
+{
+"983
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"997
+} 4
+"16 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\fttol.c
+[v ___fttol `(l  1 e 4 0 ]
+{
+"17
+[v _sign1 `uc  1 a 1 0 ]
+[v _exp1 `uc  1 a 1 1 ]
+"18
+[v _lval `ul  1 a 4 2 ]
+"16
+[v _f1 `f  1 p 3 0 ]
+"40
+} 6
+"203 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _AUDIO_Sub `(v  1 e 0 0 ]
+{
+[v _cnt `uc  1 a 1 wreg ]
+"283
+} 0
+"184 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ifile_key_00.c
+[v _get_xx_delta `(v  1 e 0 0 ]
+{
+"185
+[v _delta `us  1 a 2 0 ]
+"184
+[v _press `us  1 p 2 0 ]
+"185
+[v _delta `us  1 a 2 0 ]
+[v _delta `us  1 a 2 0 ]
+[v _delta `us  1 a 2 0 ]
+[v _delta `us  1 a 2 0 ]
+[v _delta `us  1 a 2 0 ]
+"204
+} 2
+"1413 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_cha7s `(v  1 e 0 0 ]
+{
+"1414
+[v _z `uc  1 a 1 0 ]
+"1413
+[v _s `*.duc  1 p 2 0 ]
+[v _x `uc  1 p 1 2 ]
+[v _y `uc  1 p 1 3 ]
+"1431
+} 1
+"1125
+[v _DISP_run2015 `(v  1 e 0 0 ]
+{
+"1126
+[v _i `uc  1 a 1 0 ]
+"1127
+[v _m `us  1 a 2 1 ]
+"1125
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1143
+} 3
+"151 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Erra `(v  1 e 0 0 ]
+{
+"243
+} 0
+"934 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_Dig14_16 `(v  1 e 0 0 ]
+{
+"935
+[v _dig2 `uc  1 a 1 0 ]
+[v _dig0 `uc  1 a 1 1 ]
+[v _dig1 `uc  1 a 1 2 ]
+[v _i `uc  1 a 1 3 ]
+[v _j `uc  1 a 1 4 ]
+"934
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _disp_val `us  1 p 2 1 ]
+[v _startx `uc  1 a 1 fsr2l ]
+"959
+} 5
+"650
+[v _DISP_Dig15_32 `(v  1 e 0 0 ]
+{
+"651
+[v _dig2 `uc  1 a 1 0 ]
+[v _dig0 `uc  1 a 1 1 ]
+[v _dig1 `uc  1 a 1 2 ]
+[v _i `uc  1 a 1 3 ]
+[v _j `uc  1 a 1 4 ]
+"650
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 fsr2l ]
+"687
+} 5
+"1196
+[v _DISP_select `(v  1 e 0 0 ]
+{
+"1197
+[v _i `uc  1 a 1 0 ]
+"1198
+[v _m `us  1 a 2 1 ]
+"1196
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1216
+} 3
+"1221
+[v _DISP_select0 `(v  1 e 0 0 ]
+{
+[v _startx `uc  1 a 1 wreg ]
+"1222
+[v _i `uc  1 a 1 1 ]
+"1223
+[v _l `us  1 a 2 2 ]
+"1221
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+"1241
+} 4
+"1622
+[v _DISP_Dig1 `(v  1 e 0 0 ]
+{
+"1623
+[v _dig2 `uc  1 a 1 0 ]
+[v _dig0 `uc  1 a 1 1 ]
+[v _dig1 `uc  1 a 1 2 ]
+[v _i `uc  1 a 1 3 ]
+[v _j `uc  1 a 1 4 ]
+"1622
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _disp_val `us  1 p 2 1 ]
+[v _startx `uc  1 a 1 fsr2l ]
+"1647
+} 5
+"474
+[v _DISP_BuzClr `(v  1 e 0 0 ]
+{
+"476
+[v _m `us  1 a 2 0 ]
+[v _l `us  1 a 2 2 ]
+"474
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodh ]
+"476
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+"500
+} 4
+"764
+[v _DISP_pset `(v  1 e 0 0 ]
+{
+"765
+[v _i `uc  1 a 1 0 ]
+"766
+[v _m `us  1 a 2 1 ]
+"764
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"783
+} 3
+"447
+[v _DISP_Buz `(v  1 e 0 0 ]
+{
+"448
+[v _j `uc  1 a 1 0 ]
+"449
+[v _m `us  1 a 2 1 ]
+"447
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"448
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"471
+} 3
+"554
+[v _DISP_lx `(v  1 e 0 0 ]
+{
+"555
+[v _j `uc  1 a 1 0 ]
+"556
+[v _m `us  1 a 2 1 ]
+"554
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"555
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"578
+} 3
+"1562
+[v _DISP_key2015 `(v  1 e 0 0 ]
+{
+"1563
+[v _i `uc  1 a 1 0 ]
+"1562
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 fsr1l ]
+"1563
+[v _l `uc  1 a 1 fsr2l ]
+[v _l `uc  1 a 1 fsr1l ]
+"1585
+} 1
+"629
+[v _DISP_Fu1 `(v  1 e 0 0 ]
+{
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodh ]
+"642
+} 0
+"152 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_main.c
+[v _bee_three `(v  1 e 0 0 ]
+{
+"198
+} 0
+"1088 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_mod_set2015 `(v  1 e 0 0 ]
+{
+"1089
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"1103
+} 4
+"1069
+[v _DISP_press_set2016 `(v  1 e 0 0 ]
+{
+"1070
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"1084
+} 4
+"1107
+[v _DISP_time_set2015 `(v  1 e 0 0 ]
+{
+"1108
+[v _j `ui  1 a 2 0 ]
+[v _l `ui  1 a 2 2 ]
+"1122
+} 4
+"17 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\Flash.c
+[v _Write_Cycle `(v  1 e 0 0 ]
+{
+"41
+} 0
+"33 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\float.c
+[v ___ftpack `(v  1 e 0 0 ]
+{
+[v _arg `*.bum  1 p 2 0 ]
+[v _exp `uc  1 p 1 2 ]
+"55
+} 0
+"13
+[v ___ftunpack `(uc  1 e 1 0 ]
+{
+"14
+[v _sign `uc  1 a 1 0 ]
+"13
+[v _arg `*.bum  1 p 2 0 ]
+[v _exp `*.buc  1 p 2 2 ]
+"27
+} 1
+"278 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _show_lq `(v  1 e 0 0 ]
+{
+"321
+} 0
+"27 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _BIOS_JLX12864_DELAY `(v  1 e 0 0 ]
+{
+"28
+[v _k `i  1 a 2 0 ]
+"27
+[v _i `i  1 p 2 0 ]
+"31
+} 2
+"249 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_ofile_lcd_02.c
+[v _disp_filter `(us  1 s 2 _disp_filter ]
+{
+"253
+[v _sum `us  1 a 2 0 ]
+"249
+[v _pdata `us  1 p 2 0 ]
+"252
+[v _count `uc  1 a 1 fsr1l ]
+[v _count `uc  1 a 1 fsr2l ]
+"260
+} 2
+"613 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_Fu `(v  1 e 0 0 ]
+{
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodh ]
+"626
+} 0
+"724
+[v _DISP_Dig18_40 `(v  1 e 0 0 ]
+{
+"725
+[v _dig2 `uc  1 a 1 0 ]
+[v _dig0 `uc  1 a 1 1 ]
+[v _dig1 `uc  1 a 1 2 ]
+[v _i `uc  1 a 1 3 ]
+[v _j `uc  1 a 1 4 ]
+"724
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 fsr2l ]
+"761
+} 5
+"529
+[v _DISP_LockClr `(v  1 e 0 0 ]
+{
+"531
+[v _m `us  1 a 2 0 ]
+[v _l `us  1 a 2 2 ]
+"529
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodh ]
+"531
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+[v _l `us  1 a 2 2 ]
+"551
+} 4
+"584
+[v _DISP_jx `(v  1 e 0 0 ]
+{
+"585
+[v _j `uc  1 a 1 0 ]
+"586
+[v _m `us  1 a 2 1 ]
+"584
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"585
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"610
+} 3
+"146
+[v _DISP_ChaBasic `(v  1 e 0 0 ]
+{
+"148
+[v _j `uc  1 a 1 0 ]
+[v _m `uc  1 a 1 1 ]
+"146
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr0l ]
+"148
+[v _l `uc  1 a 1 fsr1l ]
+[v _l `uc  1 a 1 fsr2l ]
+"179
+} 2
+"503
+[v _DISP_Lock `(v  1 e 0 0 ]
+{
+"504
+[v _j `uc  1 a 1 0 ]
+"505
+[v _m `us  1 a 2 1 ]
+"503
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"504
+[v _temp `uc  1 a 1 fsr0l ]
+[v _temp `uc  1 a 1 fsr2l ]
+"527
+} 3
+"120
+[v _DISP_DigBasic32 `(v  1 e 0 0 ]
+{
+"122
+[v _m `us  1 a 2 0 ]
+"120
+[v _dat `us  1 p 2 0 ]
+[v _startx `uc  1 p 1 2 ]
+[v _starty `uc  1 p 1 3 ]
+"143
+} 2
+"870
+[v _DISP_DigBasics12 `(v  1 e 0 0 ]
+{
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr2l ]
+"871
+[v _l `uc  1 a 1 fsr2l ]
+[v _l `uc  1 a 1 fsr1l ]
+"898
+} 0
+"842
+[v _DISP_Dig12_16 `(v  1 e 0 0 ]
+{
+"843
+[v _dig2 `uc  1 a 1 0 ]
+[v _dig0 `uc  1 a 1 1 ]
+[v _dig1 `uc  1 a 1 2 ]
+[v _i `uc  1 a 1 3 ]
+[v _j `uc  1 a 1 4 ]
+"842
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _disp_val `us  1 p 2 1 ]
+[v _startx `uc  1 a 1 fsr2l ]
+"867
+} 5
+"692
+[v _DISP_DigBasic40 `(v  1 e 0 0 ]
+{
+"694
+[v _m `us  1 a 2 0 ]
+"692
+[v _dat `us  1 p 2 0 ]
+[v _startx `uc  1 p 1 2 ]
+[v _starty `uc  1 p 1 3 ]
+"720
+} 2
+"1346
+[v _DISP_ChaBasic2 `(v  1 e 0 0 ]
+{
+"1348
+[v _i `uc  1 a 1 0 ]
+[v _j `uc  1 a 1 1 ]
+"1349
+[v _l `us  1 a 2 2 ]
+"1346
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr0l ]
+"1348
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 fsr0l ]
+[v _i `uc  1 a 1 0 ]
+[v _n `uc  1 a 1 fsr1l ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _k `uc  1 a 1 fsr2l ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 fsr1l ]
+[v _i `uc  1 a 1 0 ]
+[v _n `uc  1 a 1 fsr0l ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _i `uc  1 a 1 0 ]
+[v _n `uc  1 a 1 fsr2l ]
+[v _j `uc  1 a 1 1 ]
+[v _k `uc  1 a 1 fsr1l ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+[v _j `uc  1 a 1 1 ]
+"1407
+} 4
+"240
+[v _DISP_ClrZero `(v  1 e 0 0 ]
+{
+[v _x `uc  1 a 1 wreg ]
+[v _x1 `uc  1 p 1 0 ]
+[v _y `uc  1 p 1 1 ]
+[v _y1 `uc  1 p 1 2 ]
+[v _x `uc  1 a 1 fsr2l ]
+"253
+} 0
+"226
+[v _DISP_Clear `(v  1 e 0 0 ]
+{
+"237
+} 0
+"1522
+[v _DISP_8X16ascii `(v  1 e 0 0 ]
+{
+[v _s `*.duc  1 p 2 0 ]
+[v _x `uc  1 p 1 2 ]
+[v _y `uc  1 p 1 3 ]
+"1538
+} 0
+"1319
+[v _DISP_yewm `(v  1 e 0 0 ]
+{
+"1320
+[v _i `uc  1 a 1 0 ]
+"1321
+[v _m `us  1 a 2 1 ]
+"1319
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1339
+} 3
+"1295
+[v _DISP_didl `(v  1 e 0 0 ]
+{
+"1296
+[v _i `uc  1 a 1 0 ]
+"1297
+[v _m `us  1 a 2 1 ]
+"1295
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1315
+} 3
+"1589
+[v _DISP_Dig0 `(v  1 e 0 0 ]
+{
+"1590
+[v _i `us  1 a 2 0 ]
+[v _j `us  1 a 2 2 ]
+[v _k `us  1 a 2 4 ]
+[v _n `us  1 a 2 6 ]
+"1591
+[v _m `us  1 a 2 8 ]
+"1589
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr2l ]
+"1617
+} 10
+"903
+[v _DISP_DigBasic00 `(v  1 e 0 0 ]
+{
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr0l ]
+"904
+[v _l `uc  1 a 1 fsr0l ]
+[v _l `uc  1 a 1 fsr1l ]
+"931
+} 0
+"1271
+[v _DISP_louq `(v  1 e 0 0 ]
+{
+"1272
+[v _i `uc  1 a 1 0 ]
+"1273
+[v _m `us  1 a 2 1 ]
+"1271
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1291
+} 3
+"1246
+[v _DISP_block `(v  1 e 0 0 ]
+{
+"1247
+[v _i `uc  1 a 1 0 ]
+"1248
+[v _m `us  1 a 2 1 ]
+"1246
+[v _startx `uc  1 a 1 wreg ]
+[v _starty `uc  1 p 1 0 ]
+[v _startx `uc  1 a 1 prodl ]
+"1266
+} 3
+"1543
+[v _DISP_8X16ascii_block `(v  1 e 0 0 ]
+{
+[v _s `*.duc  1 p 2 0 ]
+[v _x `uc  1 p 1 2 ]
+[v _y `uc  1 p 1 3 ]
+"1559
+} 0
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwmod.c
+[v ___lwmod `(ui  1 e 2 0 ]
+{
+[v _dividend `ui  1 p 2 0 ]
+[v _divisor `ui  1 p 2 2 ]
+"21
+} 0
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwdiv.c
+[v ___lwdiv `(ui  1 e 2 0 ]
+{
+"7
+[v _counter `uc  1 a 1 0 ]
+"6
+[v _quotient `ui  1 a 2 1 ]
+"5
+[v _dividend `ui  1 p 2 0 ]
+[v _divisor `ui  1 p 2 2 ]
+"26
+} 3
+"3 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\wmul.c
+[v ___wmul `(ui  1 e 2 0 ]
+{
+"4
+[v _product `ui  1 a 2 0 ]
+"3
+[v _multiplier `ui  1 p 2 0 ]
+[v _multiplicand `ui  1 p 2 2 ]
+"13
+} 2
+"1479 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\BIOS_JLX1864G_139.c
+[v _DISP_ChaBasic2015 `(v  1 e 0 0 ]
+{
+"1481
+[v _j `uc  1 a 1 0 ]
+[v _k `uc  1 a 1 1 ]
+[v _n `uc  1 a 1 2 ]
+"1482
+[v _l `us  1 a 2 3 ]
+"1479
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr2l ]
+"1482
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+"1517
+} 5
+"1437
+[v _DISP_block_new `(v  1 e 0 0 ]
+{
+"1439
+[v _j `uc  1 a 1 0 ]
+[v _k `uc  1 a 1 1 ]
+[v _n `uc  1 a 1 2 ]
+"1440
+[v _l `us  1 a 2 3 ]
+"1437
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr2l ]
+"1440
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+[v _l `us  1 a 2 3 ]
+"1475
+} 5
+"809
+[v _DISP_DigBasic0 `(v  1 e 0 0 ]
+{
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr2l ]
+"810
+[v _l `uc  1 a 1 prodh ]
+[v _l `uc  1 a 1 prodl ]
+"837
+} 0
+"78
+[v _DISP_DigBasic `(v  1 e 0 0 ]
+{
+"79
+[v _i `uc  1 a 1 0 ]
+[v _m `uc  1 a 1 1 ]
+"80
+[v _y `us  1 a 2 2 ]
+"78
+[v _dat `uc  1 a 1 wreg ]
+[v _startx `uc  1 p 1 0 ]
+[v _starty `uc  1 p 1 1 ]
+[v _dat `uc  1 a 1 fsr0l ]
+"79
+[v _l `uc  1 a 1 fsr1l ]
+[v _l `uc  1 a 1 fsr2l ]
+"115
+} 4
+"9
+[v _BIOS_JLX12864_TRANS_CMD `(v  1 e 0 0 ]
+{
+[v _data `i  1 p 2 0 ]
+"15
+} 0
+"19
+[v _BIOS_JLX12864_TRANS_DAT `(v  1 e 0 0 ]
+{
+[v _data `i  1 p 2 0 ]
+"24
+} 0
+"148 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_dis_sys_ini_00.c
+[v _Isr `I(v  1 e 0 0 ]
+{
+"226
+} 0
+"163 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ofile_load_00.c
+[v _PRESS_ConA `(v  1 e 0 0 ]
+{
+"256
+} 0
+"78 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ifile_adc.c
+[v _ADC_Ps90 `(v  1 e 0 0 ]
+{
+"98
+} 0
+"89 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ofile_load_00.c
+[v _PRESS_ConSubA `(v  1 e 0 0 ]
+{
+"90
+[v _i `us  1 a 2 0 ]
+"160
+} 2
+"59 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ifile_adc.c
+[v _ADC_DatCal `(v  1 e 0 0 ]
+{
+"74
+} 0
+"19 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftdiv.c
+[v ___ftdiv `(f  1 e 3 0 ]
+{
+"20
+[v _exp2 `uc  1 a 1 0 ]
+[v _sign1 `uc  1 a 1 1 ]
+[v _exp1 `uc  1 a 1 2 ]
+[v _sign2 `uc  1 a 1 3 ]
+"21
+[v _f3 `f  1 a 3 4 ]
+"19
+[v _f1 `f  1 p 3 0 ]
+[v _f2 `f  1 p 3 3 ]
+"45
+} 7
+"16 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwtoft.c
+[v ___lwtoft `(f  1 e 3 0 ]
+{
+"17
+[v _f1 `f  1 a 3 0 ]
+"16
+[v _c `ui  1 p 2 0 ]
+"24
+} 3
+"139 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_over.c
+[v _STAT_conNewa `(v  1 e 0 0 ]
+{
+"140
+[v _temp `us  1 a 2 0 ]
+"141
+[v _run_time `us  1 a 2 2 ]
+"343
+} 4
+"18 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftmul.c
+[v ___ftmul `(f  1 e 3 0 ]
+{
+"19
+[v _sign1 `uc  1 a 1 0 ]
+[v _exp1 `uc  1 a 1 1 ]
+[v _cntr `uc  1 a 1 2 ]
+"20
+[v _f3 `f  1 a 3 3 ]
+"18
+[v _f1 `f  1 p 3 0 ]
+[v _f2 `f  1 p 3 3 ]
+"46
+} 6
+"17 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\ftadd.c
+[v ___ftadd `(f  1 e 3 0 ]
+{
+"18
+[v _sign2 `uc  1 a 1 0 ]
+[v _cntr `uc  1 a 1 1 ]
+[v _sign1 `uc  1 a 1 2 ]
+[v _exp2 `uc  1 a 1 3 ]
+[v _exp1 `uc  1 a 1 4 ]
+"17
+[v _f1 `f  1 p 3 0 ]
+[v _f2 `f  1 p 3 3 ]
+"83
+} 5
+"16 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\fttol.c
+[v ___fttol `(l  1 e 4 0 ]
+{
+"17
+[v _sign1 `uc  1 a 1 0 ]
+[v _exp1 `uc  1 a 1 1 ]
+"18
+[v _lval `ul  1 a 4 2 ]
+"16
+[v _f1 `f  1 p 3 0 ]
+"40
+} 6
+"71 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_main.c
+[v _LEVEL_WarnA `(v  1 e 0 0 ]
+{
+"170
+} 0
+"113 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\adc.c
+[v _adc_reader_power `(us  1 e 2 0 ]
+{
+"114
+[v _p `us  1 a 2 0 ]
+"116
+} 2
+"106
+[v _adc_reader_press `(us  1 e 2 0 ]
+{
+"107
+[v _p `us  1 a 2 0 ]
+"109
+} 2
+"21 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ofile_load_00.c
+[v _OPEN_PwmA `(v  1 e 0 0 ]
+{
+"23
+} 0
+"41 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_over.c
+[v _CONTR_fallaNew `(v  1 e 0 0 ]
+{
+"87
+} 0
+"117
+[v _calc_delta_i `(us  1 s 2 _calc_delta_i ]
+{
+"118
+[v _rst `us  1 a 2 0 ]
+"117
+[v _counts1 `us  1 p 2 0 ]
+[v _counts2 `us  1 p 2 2 ]
+"125
+} 2
+"90
+[v _get_press_delta `(v  1 e 0 0 ]
+{
+"91
+[v _delta `us  1 a 2 0 ]
+"90
+[v _press `us  1 p 2 0 ]
+"110
+} 2
+"25 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\npwt_con_ofile_load_00.c
+[v _CLS_PwmA `(v  1 e 0 0 ]
+{
+"27
+} 0
+"92 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\adc.c
+[v _adc_power_filter `(us  1 s 2 _adc_power_filter ]
+{
+[v _ch `uc  1 a 1 wreg ]
+"93
+[v _count `uc  1 a 1 1 ]
+"94
+[v _sum `s  1 a 2 2 ]
+"92
+[v _ch `uc  1 a 1 wreg ]
+"102
+} 4
+"74
+[v _adc_press_filter `(us  1 s 2 _adc_press_filter ]
+{
+[v _ch `uc  1 a 1 wreg ]
+"75
+[v _count `uc  1 a 1 1 ]
+"76
+[v _sum `s  1 a 2 2 ]
+"74
+[v _ch `uc  1 a 1 wreg ]
+"84
+} 4
+"33 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\float.c
+[v ___ftpack `(v  1 e 0 0 ]
+{
+[v _arg `*.bum  1 p 2 0 ]
+[v _exp `uc  1 p 1 2 ]
+"55
+} 0
+"13
+[v ___ftunpack `(uc  1 e 1 0 ]
+{
+"14
+[v _sign `uc  1 a 1 0 ]
+"13
+[v _arg `*.bum  1 p 2 0 ]
+[v _exp `*.buc  1 p 2 2 ]
+"27
+} 1
+"45 D:\1Software_development_document_20121015\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_droye_end_tom\project\.\..\\source\adc.c
+[v _adc_read `(us  1 s 2 _adc_read ]
+{
+[v _channel `uc  1 a 1 wreg ]
+"46
+[v _ADC `us  1 a 2 1 ]
+"45
+[v _channel `uc  1 a 1 wreg ]
+"57
+} 3
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\lwdiv.c
+[v ___lwdiv `(ui  1 e 2 0 ]
+{
+"7
+[v _counter `uc  1 a 1 0 ]
+"6
+[v _quotient `ui  1 a 2 1 ]
+"5
+[v _dividend `ui  1 p 2 0 ]
+[v _divisor `ui  1 p 2 2 ]
+"26
+} 3
+"3 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\wmul.c
+[v ___wmul `(ui  1 e 2 0 ]
+{
+"4
+[v _product `ui  1 a 2 0 ]
+"3
+[v _multiplier `ui  1 p 2 0 ]
+[v _multiplicand `ui  1 p 2 2 ]
+"13
+} 2
+"5 C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\sources\awdiv.c
+[v ___awdiv `(i  1 e 2 0 ]
+{
+"7
+[v _counter `uc  1 a 1 0 ]
+[v _sign `uc  1 a 1 1 ]
+"6
+[v _quotient `i  1 a 2 2 ]
+"5
+[v _dividend `i  1 p 2 0 ]
+[v _divisor `i  1 p 2 2 ]
+"37
+} 4

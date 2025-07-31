@@ -1,0 +1,2371 @@
+[p LITE_MODE PRO_MODE AUTOSTATIC IEEE_DBL LFSROK SPACEOPT IEEE_FLT ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F46J11 ]
+[d frameptr 4065 ]
+"59 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[e E8113 _on `uc
+BEEGO 0
+BEEONE 1
+BEETWO 2
+BEETHREE 3
+BEEEND 4
+]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\abdiv.c
+[v ___abdiv __abdiv `(c  1 e 1 0 ]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\abmod.c
+[v ___abmod __abmod `(c  1 e 1 0 ]
+"31 C:\Program Files\Microchip\xc8\v1.33\sources\common\abtofl.c
+[v ___abtofl __abtofl `(d  1 e 4 0 ]
+"33 C:\Program Files\Microchip\xc8\v1.33\sources\common\abtoft.c
+[v ___abtoft __abtoft `(f  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\almod.c
+[v ___almod __almod `(l  1 e 4 0 ]
+"36 C:\Program Files\Microchip\xc8\v1.33\sources\common\altofl.c
+[v ___altofl __altofl `(d  1 e 4 0 ]
+"42 C:\Program Files\Microchip\xc8\v1.33\sources\common\altoft.c
+[v ___altoft __altoft `(f  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\atdiv.c
+[v ___atdiv __atdiv `(m  1 e 3 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\atmod.c
+[v ___atmod __atmod `(m  1 e 3 0 ]
+"37 C:\Program Files\Microchip\xc8\v1.33\sources\common\attofl.c
+[v ___attofl __attofl `(d  1 e 4 0 ]
+"37 C:\Program Files\Microchip\xc8\v1.33\sources\common\attoft.c
+[v ___attoft __attoft `(f  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\awmod.c
+[v ___awmod __awmod `(i  1 e 2 0 ]
+"31 C:\Program Files\Microchip\xc8\v1.33\sources\common\awtofl.c
+[v ___awtofl __awtofl `(d  1 e 4 0 ]
+"32 C:\Program Files\Microchip\xc8\v1.33\sources\common\awtoft.c
+[v ___awtoft __awtoft `(f  1 e 4 0 ]
+"63 C:\Program Files\Microchip\xc8\v1.33\sources\common\double.c
+[v ___flpack __flpack `(d  1 e 4 0 ]
+[v i2___flpack __flpack `(d  1 e 4 0 ]
+"88 C:\Program Files\Microchip\xc8\v1.33\sources\common\fladd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"49 C:\Program Files\Microchip\xc8\v1.33\sources\common\fldiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+[v i2___fldiv __fldiv `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\flge.c
+[v ___flge __flge `(b  1 e 0 0 ]
+"62 C:\Program Files\Microchip\xc8\v1.33\sources\common\flmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+[v i2___flmul __flmul `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\flneg.c
+[v ___flneg __flneg `(d  1 e 4 0 ]
+"62 C:\Program Files\Microchip\xc8\v1.33\sources\common\float.c
+[v ___ftpack __ftpack `(f  1 e 4 0 ]
+"20 C:\Program Files\Microchip\xc8\v1.33\sources\common\flsub.c
+[v ___flsub __flsub `(d  1 e 4 0 ]
+"43 C:\Program Files\Microchip\xc8\v1.33\sources\common\fltol.c
+[v ___fltol __fltol `(l  1 e 4 0 ]
+[v i2___fltol __fltol `(l  1 e 4 0 ]
+"86 C:\Program Files\Microchip\xc8\v1.33\sources\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 4 0 ]
+"49 C:\Program Files\Microchip\xc8\v1.33\sources\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\ftge.c
+[v ___ftge __ftge `(b  1 e 0 0 ]
+"62 C:\Program Files\Microchip\xc8\v1.33\sources\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\ftneg.c
+[v ___ftneg __ftneg `(f  1 e 4 0 ]
+"20 C:\Program Files\Microchip\xc8\v1.33\sources\common\ftsub.c
+[v ___ftsub __ftsub `(f  1 e 4 0 ]
+"44 C:\Program Files\Microchip\xc8\v1.33\sources\common\fttol.c
+[v ___fttol __fttol `(l  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\lbdiv.c
+[v ___lbdiv __lbdiv `(uc  1 e 1 0 ]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\lbmod.c
+[v ___lbmod __lbmod `(uc  1 e 1 0 ]
+"27 C:\Program Files\Microchip\xc8\v1.33\sources\common\lbtofl.c
+[v ___lbtofl __lbtofl `(d  1 e 4 0 ]
+"27 C:\Program Files\Microchip\xc8\v1.33\sources\common\lbtoft.c
+[v ___lbtoft __lbtoft `(f  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\lldiv.c
+[v ___lldiv __lldiv `(ul  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\llmod.c
+[v ___llmod __llmod `(ul  1 e 4 0 ]
+"30 C:\Program Files\Microchip\xc8\v1.33\sources\common\lltofl.c
+[v ___lltofl __lltofl `(d  1 e 4 0 ]
+"35 C:\Program Files\Microchip\xc8\v1.33\sources\common\lltoft.c
+[v ___lltoft __lltoft `(f  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\ltdiv.c
+[v ___ltdiv __ltdiv `(um  1 e 3 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\ltmod.c
+[v ___ltmod __ltmod `(um  1 e 3 0 ]
+"30 C:\Program Files\Microchip\xc8\v1.33\sources\common\lttofl.c
+[v ___lttofl __lttofl `(d  1 e 4 0 ]
+"30 C:\Program Files\Microchip\xc8\v1.33\sources\common\lttoft.c
+[v ___lttoft __lttoft `(f  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+[v i2___lwdiv __lwdiv `(ui  1 e 2 0 ]
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+"28 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwtofl.c
+[v ___lwtofl __lwtofl `(d  1 e 4 0 ]
+[v i2___lwtofl __lwtofl `(d  1 e 4 0 ]
+"28 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwtoft.c
+[v ___lwtoft __lwtoft `(f  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+[v i2___wmul __wmul `(ui  1 e 2 0 ]
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\Umul24.c
+[v ___tmul __tmul `(um  1 e 3 0 ]
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v1.33\sources\common\Umul8.c
+[v ___bmul __bmul `(uc  1 e 1 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asfladd.c
+[v ___asfladd __asfladd `(d  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asfldiv.c
+[v ___asfldiv __asfldiv `(d  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asflmul.c
+[v ___asflmul __asflmul `(d  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asflsub.c
+[v ___asflsub __asflsub `(d  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asftadd.c
+[v ___asftadd __asftadd `(f  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asftdiv.c
+[v ___asftdiv __asftdiv `(f  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asftmul.c
+[v ___asftmul __asftmul `(f  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\asftsub.c
+[v ___asftsub __asftsub `(f  1 e 4 0 ]
+"6 C:\Program Files\Microchip\xc8\v1.33\sources\pic18\aslmul.c
+[v ___aslmul __aslmul `(ul  1 e 4 0 ]
+"17 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\adc.c
+[v _adc_init adc_init `(v  1 e 0 0 ]
+"40
+[v _adc_read adc_read `(us  1 s 2 adc_read ]
+"69
+[v _adc_press_filter adc_press_filter `(us  1 s 2 adc_press_filter ]
+"87
+[v _adc_power_filter adc_power_filter `(us  1 s 2 adc_power_filter ]
+"101
+[v _adc_reader_press adc_reader_press `(us  1 e 2 0 ]
+"108
+[v _adc_reader_power adc_reader_power `(us  1 e 2 0 ]
+"8 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _BIOS_JLX12864_TRANS_CMD BIOS_JLX12864_TRANS_CMD `(v  1 e 0 0 ]
+"18
+[v _BIOS_JLX12864_TRANS_DAT BIOS_JLX12864_TRANS_DAT `(v  1 e 0 0 ]
+"26
+[v _BIOS_JLX12864_DELAY BIOS_JLX12864_DELAY `(v  1 e 0 0 ]
+"34
+[v _SYS_IniLcd SYS_IniLcd `(v  1 e 0 0 ]
+"77
+[v _DISP_DigBasic DISP_DigBasic `(v  1 e 0 0 ]
+"119
+[v _DISP_DigBasic32 DISP_DigBasic32 `(v  1 e 0 0 ]
+"145
+[v _DISP_ChaBasic DISP_ChaBasic `(v  1 e 0 0 ]
+"183
+[v _DISP_BatWarnC DISP_BatWarnC `(v  1 e 0 0 ]
+"203
+[v _DISP_BatWarnE DISP_BatWarnE `(v  1 e 0 0 ]
+"225
+[v _DISP_Clear DISP_Clear `(v  1 e 0 0 ]
+"239
+[v _DISP_ClrZero DISP_ClrZero `(v  1 e 0 0 ]
+"255
+[v _DISP_Bat00Clr DISP_Bat00Clr `(v  1 e 0 0 ]
+"281
+[v _QQQQQQQQQQQQQQDISP_Bat01 QQQQQQQQQQQQQQDISP_Bat01 `(v  1 e 0 0 ]
+"309
+[v _DISP_Bat000 DISP_Bat000 `(v  1 e 0 0 ]
+"336
+[v _DISP_Bat001 DISP_Bat001 `(v  1 e 0 0 ]
+"363
+[v _DISP_Bat002 DISP_Bat002 `(v  1 e 0 0 ]
+"390
+[v _DISP_Bat003 DISP_Bat003 `(v  1 e 0 0 ]
+"417
+[v _DISP_Bat004 DISP_Bat004 `(v  1 e 0 0 ]
+"446
+[v _DISP_Buz DISP_Buz `(v  1 e 0 0 ]
+"473
+[v _DISP_BuzClr DISP_BuzClr `(v  1 e 0 0 ]
+"502
+[v _DISP_Lock DISP_Lock `(v  1 e 0 0 ]
+"528
+[v _DISP_LockClr DISP_LockClr `(v  1 e 0 0 ]
+"553
+[v _DISP_lx DISP_lx `(v  1 e 0 0 ]
+"583
+[v _DISP_jx DISP_jx `(v  1 e 0 0 ]
+"612
+[v _DISP_Fu DISP_Fu `(v  1 e 0 0 ]
+"628
+[v _DISP_Fu1 DISP_Fu1 `(v  1 e 0 0 ]
+"649
+[v _DISP_Dig15_32 DISP_Dig15_32 `(v  1 e 0 0 ]
+"691
+[v _DISP_DigBasic40 DISP_DigBasic40 `(v  1 e 0 0 ]
+"723
+[v _DISP_Dig18_40 DISP_Dig18_40 `(v  1 e 0 0 ]
+"763
+[v _DISP_pset DISP_pset `(v  1 e 0 0 ]
+"785
+[v _DISP_pset_low DISP_pset_low `(v  1 e 0 0 ]
+"808
+[v _DISP_DigBasic0 DISP_DigBasic0 `(v  1 e 0 0 ]
+"841
+[v _DISP_Dig12_16 DISP_Dig12_16 `(v  1 e 0 0 ]
+"869
+[v _DISP_DigBasics12 DISP_DigBasics12 `(v  1 e 0 0 ]
+"902
+[v _DISP_DigBasic00 DISP_DigBasic00 `(v  1 e 0 0 ]
+"933
+[v _DISP_Dig14_16 DISP_Dig14_16 `(v  1 e 0 0 ]
+"961
+[v _DISP_Sys100 DISP_Sys100 `(v  1 e 0 0 ]
+"981
+[v _DISP_Ver DISP_Ver `(v  1 e 0 0 ]
+"1000
+[v _DISP_ask DISP_ask `(v  1 e 0 0 ]
+"1020
+[v _DISP_press_set2016 DISP_press_set2016 `(v  1 e 0 0 ]
+"1039
+[v _DISP_mod_set2015 DISP_mod_set2015 `(v  1 e 0 0 ]
+"1058
+[v _DISP_time_set2015 DISP_time_set2015 `(v  1 e 0 0 ]
+"1076
+[v _DISP_run2015 DISP_run2015 `(v  1 e 0 0 ]
+"1099
+[v _DISP_press2015 DISP_press2015 `(v  1 e 0 0 ]
+"1123
+[v _DISP_stop2015 DISP_stop2015 `(v  1 e 0 0 ]
+"1147
+[v _DISP_select DISP_select `(v  1 e 0 0 ]
+"1172
+[v _DISP_select0 DISP_select0 `(v  1 e 0 0 ]
+"1197
+[v _DISP_block DISP_block `(v  1 e 0 0 ]
+"1222
+[v _DISP_louq DISP_louq `(v  1 e 0 0 ]
+"1246
+[v _DISP_didl DISP_didl `(v  1 e 0 0 ]
+"1270
+[v _DISP_yewm DISP_yewm `(v  1 e 0 0 ]
+"1297
+[v _DISP_ChaBasic2 DISP_ChaBasic2 `(v  1 e 0 0 ]
+"1364
+[v _DISP_cha7s DISP_cha7s `(v  1 e 0 0 ]
+"1387
+[v _DISP_ChaBasic2015 DISP_ChaBasic2015 `(v  1 e 0 0 ]
+"1430
+[v _DISP_8X16ascii DISP_8X16ascii `(v  1 e 0 0 ]
+"1451
+[v _DISP_key2015 DISP_key2015 `(v  1 e 0 0 ]
+"1478
+[v _DISP_Dig0 DISP_Dig0 `(v  1 e 0 0 ]
+"1511
+[v _DISP_Dig1 DISP_Dig1 `(v  1 e 0 0 ]
+"16 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\Flash.c
+[v _Write_Cycle Write_Cycle `(v  1 e 0 0 ]
+"46
+[v _Flash_Erase Flash_Erase `(v  1 e 0 0 ]
+"57
+[v _Write_One_Word Write_One_Word `(v  1 e 0 0 ]
+"75
+[v _Flash_Read Flash_Read `(ui  1 e 2 0 ]
+"18 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ifile_adc.c
+[v _ADC_Sort ADC_Sort `(v  1 e 0 0 ]
+"44
+[v _bat_scan_filter bat_scan_filter `(us  1 s 2 bat_scan_filter ]
+"58
+[v _ADC_DatCal ADC_DatCal `(v  1 e 0 0 ]
+"77
+[v _ADC_Ps90 ADC_Ps90 `(v  1 e 0 0 ]
+"60 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_main.c
+[v _LEVEL_WarnA LEVEL_WarnA `(v  1 e 0 0 ]
+"121
+[v _BAT_WarnFir BAT_WarnFir `(v  1 e 0 0 ]
+"140
+[v _BAT_Warn BAT_Warn `(v  1 e 0 0 ]
+"192
+[v _Warn1 Warn1 `(v  1 e 0 0 ]
+"20 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ofile_load_00.c
+[v _OPEN_PwmA OPEN_PwmA `(v  1 e 0 0 ]
+"24
+[v _CLS_PwmA CLS_PwmA `(v  1 e 0 0 ]
+"41
+[v _PRESS_ConSubA PRESS_ConSubA `(v  1 e 0 0 ]
+"113
+[v _PRESS_ConA PRESS_ConA `(v  1 e 0 0 ]
+"24 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_over.c
+[v _CONTR_fallaNew CONTR_fallaNew `(v  1 e 0 0 ]
+"58
+[v _get_press_delta get_press_delta `(v  1 e 0 0 ]
+"79
+[v _calc_delta_i calc_delta_i `(us  1 s 2 calc_delta_i ]
+"95
+[v _STAT_conNewa STAT_conNewa `(v  1 e 0 0 ]
+"30 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ifile_key_00.c
+[v _KEY_Scan KEY_Scan `(v  1 e 0 0 ]
+"131
+[v npwt_dis_ifile_key_00@calc_delta_i calc_delta_i `(us  1 s 2 calc_delta_i ]
+"148
+[v _MODE_ProA MODE_ProA `(v  1 e 0 0 ]
+"943
+[v _MODE_Pro MODE_Pro `(v  1 e 0 0 ]
+"63 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _spk_bee_server spk_bee_server `(v  1 e 0 0 ]
+"74
+[v _SYS_DatIni SYS_DatIni `(v  1 e 0 0 ]
+"97
+[v _Warn Warn `(v  1 e 0 0 ]
+"157
+[v _bee_three bee_three `(v  1 e 0 0 ]
+"208
+[v _AUDIO_Sub AUDIO_Sub `(v  1 e 0 0 ]
+"294
+[v _AUDIO AUDIO `(v  1 e 0 0 ]
+"376
+[v _BUZ_KeyCls BUZ_KeyCls `(v  1 e 0 0 ]
+"385
+[v _BUZ_Cls BUZ_Cls `(v  1 e 0 0 ]
+"394
+[v _AUDIO_Key AUDIO_Key `(v  1 e 0 0 ]
+"420
+[v _main main `(v  1 e 0 0 ]
+"31 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Led DISP_Led `(v  1 e 0 0 ]
+"44
+[v _DISP_Bat DISP_Bat `(v  1 e 0 0 ]
+"150
+[v _DISP_Erra DISP_Erra `(v  1 e 0 0 ]
+"235
+[v _disp_filter disp_filter `(us  1 s 2 disp_filter ]
+"251
+[v _DISP_LixA DISP_LixA `(v  1 e 0 0 ]
+"337
+[v _DISP_JixA DISP_JixA `(v  1 e 0 0 ]
+"436
+[v _DISP_SetA_new DISP_SetA_new `(v  1 e 0 0 ]
+"678
+[v _DISP_SsA DISP_SsA `(v  1 e 0 0 ]
+"708
+[v _DISP_Info DISP_Info `(v  1 e 0 0 ]
+"739
+[v _DISP_MainA DISP_MainA `(v  1 e 0 0 ]
+"13 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_ini_00.c
+[v _SYS_OSC_Ini SYS_OSC_Ini `(v  1 e 0 0 ]
+"20
+[v _SYS_IO_Ini SYS_IO_Ini `(v  1 e 0 0 ]
+"41
+[v _SYS_TMR0_Ini SYS_TMR0_Ini `(v  1 e 0 0 ]
+"50
+[v _SYS_TMR3_Ini SYS_TMR3_Ini `(v  1 e 0 0 ]
+"57
+[v _SYS_ADCini SYS_ADCini `(v  1 e 0 0 ]
+"64
+[v _Isr Isr `II(v  1 e 0 0 ]
+"12 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_uart_00.c
+[v _UART_Test UART_Test `(v  1 e 0 0 ]
+"5 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\sys_cpu.c
+[v _SetBlk SetBlk `(v  1 e 0 0 ]
+"640 C:\Program Files\Microchip\xc8\v1.33\include\pic18f46j11.h
+[v _ANCON0 ANCON0 `VEuc  1 e 1 @3912 ]
+[s S21 . 1 `uc 1 PCFG0 1 0 :1:0 
+`uc 1 PCFG1 1 0 :1:1 
+`uc 1 PCFG2 1 0 :1:2 
+`uc 1 PCFG3 1 0 :1:3 
+`uc 1 PCFG4 1 0 :1:4 
+`uc 1 PCFG5 1 0 :1:5 
+`uc 1 PCFG6 1 0 :1:6 
+`uc 1 PCFG7 1 0 :1:7 
+]
+"657
+[u S30 . 1 `S21 1 . 1 0 ]
+[v _ANCON0bits ANCON0bits `VES30  1 e 1 @3912 ]
+"701
+[v _ANCON1 ANCON1 `VEuc  1 e 1 @3913 ]
+"2818
+[v _T3CON T3CON `VEuc  1 e 1 @3961 ]
+[s S1718 . 1 `uc 1 TMR3ON 1 0 :1:0 
+`uc 1 RD16 1 0 :1:1 
+`uc 1 T3SYNC 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 T3CKPS 1 0 :2:4 
+`uc 1 TMR3CS 1 0 :2:6 
+]
+"2848
+[s S1725 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 T3CKPS0 1 0 :1:4 
+`uc 1 T3CKPS1 1 0 :1:5 
+`uc 1 TMR3CS0 1 0 :1:6 
+`uc 1 TMR3CS1 1 0 :1:7 
+]
+[s S1731 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 RD163 1 0 :1:7 
+]
+[s S1734 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 T3RD16 1 0 :1:7 
+]
+[u S1737 . 1 `S1718 1 . 1 0 `S1725 1 . 1 0 `S1731 1 . 1 0 `S1734 1 . 1 0 ]
+[v _T3CONbits T3CONbits `VES1737  1 e 1 @3961 ]
+"2913
+[v _TMR3L TMR3L `VEuc  1 e 1 @3962 ]
+"2932
+[v _TMR3H TMR3H `VEuc  1 e 1 @3963 ]
+"3745
+[v _PORTA PORTA `VEuc  1 e 1 @3968 ]
+"4010
+[v _PORTB PORTB `VEuc  1 e 1 @3969 ]
+"4264
+[v _PORTC PORTC `VEuc  1 e 1 @3970 ]
+[s S899 . 1 `uc 1 RC0 1 0 :1:0 
+`uc 1 RC1 1 0 :1:1 
+`uc 1 RC2 1 0 :1:2 
+`uc 1 RC3 1 0 :1:3 
+`uc 1 RC4 1 0 :1:4 
+`uc 1 RC5 1 0 :1:5 
+`uc 1 RC6 1 0 :1:6 
+`uc 1 RC7 1 0 :1:7 
+]
+"4327
+[s S908 . 1 `uc 1 T1OSO 1 0 :1:0 
+`uc 1 T1OSI 1 0 :1:1 
+`uc 1 AN11 1 0 :1:2 
+`uc 1 SCK1 1 0 :1:3 
+`uc 1 . 1 0 :2:4 
+`uc 1 PMA5 1 0 :1:6 
+`uc 1 PMA4 1 0 :1:7 
+]
+[s S916 . 1 `uc 1 T1CKI 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 CTPLS 1 0 :1:2 
+`uc 1 SCL1 1 0 :1:3 
+`uc 1 SDI1 1 0 :1:4 
+`uc 1 SDO1 1 0 :1:5 
+`uc 1 TX1 1 0 :1:6 
+`uc 1 RX1 1 0 :1:7 
+]
+[s S925 . 1 `uc 1 RP11 1 0 :1:0 
+`uc 1 RP12 1 0 :1:1 
+`uc 1 RP13 1 0 :1:2 
+`uc 1 RP14 1 0 :1:3 
+`uc 1 RP15 1 0 :1:4 
+`uc 1 RP16 1 0 :1:5 
+`uc 1 CK1 1 0 :1:6 
+`uc 1 DT1 1 0 :1:7 
+]
+[s S934 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 RP17 1 0 :1:6 
+`uc 1 RP18 1 0 :1:7 
+]
+[s S938 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 CCP2 1 0 :1:1 
+]
+[s S941 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 PA1 1 0 :1:2 
+]
+[s S944 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 PA2 1 0 :1:1 
+]
+[u S947 . 1 `S899 1 . 1 0 `S908 1 . 1 0 `S916 1 . 1 0 `S925 1 . 1 0 `S934 1 . 1 0 `S938 1 . 1 0 `S941 1 . 1 0 `S944 1 . 1 0 ]
+[v _PORTCbits PORTCbits `VES947  1 e 1 @3970 ]
+"4501
+[v _PORTD PORTD `VEuc  1 e 1 @3971 ]
+"4671
+[v _PORTE PORTE `VEuc  1 e 1 @3972 ]
+"5156
+[v _LATA LATA `VEuc  1 e 1 @3977 ]
+[s S238 . 1 `uc 1 LATA0 1 0 :1:0 
+`uc 1 LATA1 1 0 :1:1 
+`uc 1 LATA2 1 0 :1:2 
+`uc 1 LATA3 1 0 :1:3 
+`uc 1 . 1 0 :1:4 
+`uc 1 LATA5 1 0 :1:5 
+`uc 1 LATA6 1 0 :1:6 
+`uc 1 LATA7 1 0 :1:7 
+]
+"5204
+[s S247 . 1 `uc 1 LA0 1 0 :1:0 
+]
+[s S249 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 LA1 1 0 :1:1 
+]
+[s S252 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 LA2 1 0 :1:2 
+]
+[s S255 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 LA3 1 0 :1:3 
+]
+[s S258 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 LA4 1 0 :1:4 
+]
+[s S261 . 1 `uc 1 . 1 0 :5:0 
+`uc 1 LA5 1 0 :1:5 
+]
+[s S264 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 LA6 1 0 :1:6 
+]
+[s S267 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 LA7 1 0 :1:7 
+]
+[u S270 . 1 `S238 1 . 1 0 `S247 1 . 1 0 `S249 1 . 1 0 `S252 1 . 1 0 `S255 1 . 1 0 `S258 1 . 1 0 `S261 1 . 1 0 `S264 1 . 1 0 `S267 1 . 1 0 ]
+[v _LATAbits LATAbits `VES270  1 e 1 @3977 ]
+"5283
+[v _LATB LATB `VEuc  1 e 1 @3978 ]
+"5331
+[v _LATBbits LATBbits `VES270  1 e 1 @3978 ]
+"5415
+[v _LATC LATC `VEuc  1 e 1 @3979 ]
+"5463
+[v _LATCbits LATCbits `VES270  1 e 1 @3979 ]
+"5547
+[v _LATD LATD `VEuc  1 e 1 @3980 ]
+"5679
+[v _LATE LATE `VEuc  1 e 1 @3981 ]
+[s S173 . 1 `uc 1 LATE0 1 0 :1:0 
+`uc 1 LATE1 1 0 :1:1 
+`uc 1 LATE2 1 0 :1:2 
+]
+"5722
+[s S177 . 1 `uc 1 LE0 1 0 :1:0 
+]
+[s S179 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 LE1 1 0 :1:1 
+]
+[s S182 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 LE2 1 0 :1:2 
+]
+[s S185 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 LE3 1 0 :1:3 
+]
+[s S188 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 LE4 1 0 :1:4 
+]
+[s S191 . 1 `uc 1 . 1 0 :5:0 
+`uc 1 LE5 1 0 :1:5 
+]
+[s S194 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 LE6 1 0 :1:6 
+]
+[s S197 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 LE7 1 0 :1:7 
+]
+[u S200 . 1 `S173 1 . 1 0 `S177 1 . 1 0 `S179 1 . 1 0 `S182 1 . 1 0 `S185 1 . 1 0 `S188 1 . 1 0 `S191 1 . 1 0 `S194 1 . 1 0 `S197 1 . 1 0 ]
+[v _LATEbits LATEbits `VES200  1 e 1 @3981 ]
+"5963
+[v _TRISA TRISA `VEuc  1 e 1 @3986 ]
+"6019
+[v _TRISB TRISB `VEuc  1 e 1 @3987 ]
+"6080
+[v _TRISC TRISC `VEuc  1 e 1 @3988 ]
+"6141
+[v _TRISD TRISD `VEuc  1 e 1 @3989 ]
+"6202
+[v _TRISE TRISE `VEuc  1 e 1 @3990 ]
+"6500
+[v _OSCTUNE OSCTUNE `VEuc  1 e 1 @3995 ]
+"6979
+[v _PIE2 PIE2 `VEuc  1 e 1 @4000 ]
+"7053
+[v _PIR2 PIR2 `VEuc  1 e 1 @4001 ]
+"7526
+[v _EECON2 EECON2 `VEuc  1 e 1 @4007 ]
+"9969
+[v _ADCON1 ADCON1 `VEuc  1 e 1 @4033 ]
+"10071
+[v _ADCON0 ADCON0 `VEuc  1 e 1 @4034 ]
+[s S44 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO_NOT_DONE 1 0 :1:1 
+]
+"10122
+[s S47 . 1 `uc 1 ADON 1 0 :1:0 
+`uc 1 GO_nDONE 1 0 :1:1 
+`uc 1 CHS 1 0 :4:2 
+`uc 1 VCFG 1 0 :2:6 
+]
+[s S52 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO_DONE 1 0 :1:1 
+`uc 1 CHS0 1 0 :1:2 
+`uc 1 CHS1 1 0 :1:3 
+`uc 1 CHS2 1 0 :1:4 
+`uc 1 CHS3 1 0 :1:5 
+`uc 1 VCFG0 1 0 :1:6 
+`uc 1 VCFG1 1 0 :1:7 
+]
+[s S61 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 DONE 1 0 :1:1 
+]
+[s S64 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO 1 0 :1:1 
+]
+[s S67 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 NOT_DONE 1 0 :1:1 
+]
+[s S70 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 nDONE 1 0 :1:1 
+]
+[s S73 . 1 `uc 1 . 1 0 :7:0 
+`uc 1 ADCAL 1 0 :1:7 
+]
+[s S76 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GODONE 1 0 :1:1 
+]
+[u S79 . 1 `S44 1 . 1 0 `S47 1 . 1 0 `S52 1 . 1 0 `S61 1 . 1 0 `S64 1 . 1 0 `S67 1 . 1 0 `S70 1 . 1 0 `S73 1 . 1 0 `S76 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES79  1 e 1 @4034 ]
+"10222
+[v _ADRESL ADRESL `VEuc  1 e 1 @4035 ]
+"10241
+[v _ADRESH ADRESH `VEuc  1 e 1 @4036 ]
+"12126
+[v _TMR2 TMR2 `VEuc  1 e 1 @4044 ]
+"13050
+[v _OSCCON OSCCON `VEuc  1 e 1 @4051 ]
+"13121
+[v _T0CON T0CON `VEuc  1 e 1 @4053 ]
+"13196
+[v _TMR0L TMR0L `VEuc  1 e 1 @4054 ]
+"13215
+[v _TMR0H TMR0H `VEuc  1 e 1 @4055 ]
+"13826
+[v _INTCON2 INTCON2 `VEuc  1 e 1 @4081 ]
+"13918
+[v _INTCON INTCON `VEuc  1 e 1 @4082 ]
+[s S2174 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INT0IF 1 0 :1:1 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INT0IE 1 0 :1:4 
+`uc 1 TMR0IE 1 0 :1:5 
+`uc 1 PEIE_GIEL 1 0 :1:6 
+`uc 1 GIE_GIEH 1 0 :1:7 
+]
+"13965
+[s S2183 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 INT0F 1 0 :1:1 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 INT0E 1 0 :1:4 
+`uc 1 T0IE 1 0 :1:5 
+`uc 1 PEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+[s S2192 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 GIEL 1 0 :1:6 
+`uc 1 GIEH 1 0 :1:7 
+]
+[u S2209 . 1 `S2174 1 . 1 0 `S2183 1 . 1 0 `S2192 1 . 1 0 `S2183 1 . 1 0 `S2192 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES2209  1 e 1 @4082 ]
+"14093
+[v _TABLAT TABLAT `VEuc  1 e 1 @4085 ]
+"14120
+[v _TBLPTRL TBLPTRL `VEuc  1 e 1 @4086 ]
+"14139
+[v _TBLPTRH TBLPTRH `VEuc  1 e 1 @4087 ]
+"14158
+[v _TBLPTRU TBLPTRU `VEuc  1 e 1 @4088 ]
+"14578
+[v _CARRY CARRY `VEb  1 e 0 @32448 ]
+"14930
+[v _FREE FREE `VEb  1 e 0 @32052 ]
+"14938
+[v _GIE GIE `VEb  1 e 0 @32663 ]
+"15168
+[v _LATC6 LATC6 `VEb  1 e 0 @31838 ]
+"15510
+[v _PEIE PEIE `VEb  1 e 0 @32662 ]
+"16524
+[v _WPROG WPROG `VEb  1 e 0 @32053 ]
+"16526
+[v _WR WR `VEb  1 e 0 @32049 ]
+"16530
+[v _WREN WREN `VEb  1 e 0 @32050 ]
+"67 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\adc.c
+[v _value_press_buf value_press_buf `[3]s  1 s 6 value_press_buf ]
+"68
+[v _PS_i PS_i `uc  1 s 1 PS_i ]
+"82
+[v _value_power_buf value_power_buf `[10]s  1 s 20 value_power_buf ]
+"86
+[v _Pw_i Pw_i `uc  1 s 1 Pw_i ]
+"117 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _val_val val_val `us  1 e 2 0 ]
+"646
+[v _flgdis flgdis `uc  1 e 1 0 ]
+"13 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\h\npwt_con_over.h
+[v _oppump_flg oppump_flg `uc  1 e 1 0 ]
+"7 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ifile_adc.c
+[v _adc_ps0 adc_ps0 `us  1 e 2 0 ]
+[v _adc_bat adc_bat `us  1 e 2 0 ]
+"8
+[v _adc_zero adc_zero `us  1 e 2 0 ]
+"56
+[v _delay_adc delay_adc `us  1 e 2 0 ]
+"57
+[v _delay_P_adc delay_P_adc `us  1 e 2 0 ]
+"24 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_main.c
+[v _ccnt1 ccnt1 `uc  1 e 1 0 ]
+"54
+[v _LQ_FIR LQ_FIR `us  1 e 2 0 ]
+"56
+[v _cntcnt cntcnt `us  1 e 2 0 ]
+"119
+[v _cntx cntx `us  1 e 2 0 ]
+"120
+[v _bat_sas bat_sas `uc  1 e 1 0 ]
+[v _bat_sas_bak bat_sas_bak `uc  1 e 1 0 ]
+"10 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ofile_load_00.c
+[v _load_perioda_up load_perioda_up `us  1 e 2 0 ]
+"11
+[v _cnt_cntaa cnt_cntaa `us  1 e 2 0 ]
+[v _cnt_cnta cnt_cnta `us  1 e 2 0 ]
+"13
+[v _bump_flg bump_flg `uc  1 e 1 0 ]
+"14
+[v _period_flga period_flga `uc  1 e 1 0 ]
+"17
+[v _pwm_k1 pwm_k1 `f  1 e 4 0 ]
+"30
+[v _mot_sys mot_sys `C[31]uc  1 e 31 0 ]
+"9 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_over.c
+[v _fall_cnta0 fall_cnta0 `us  1 e 2 0 ]
+"11
+[v _fall_stata fall_stata `uc  1 e 1 0 ]
+"13
+[v _con_flg_falla con_flg_falla `uc  1 e 1 0 ]
+"14
+[v _gao_cnt gao_cnt `us  1 e 2 0 ]
+"15
+[v _gao_cnt1 gao_cnt1 `us  1 e 2 0 ]
+"17
+[v _tim_tima tim_tima `us  1 e 2 0 ]
+"19
+[v _adc_ps00 adc_ps00 `us  1 e 2 0 ]
+"20
+[v _det300 det300 `uc  1 e 1 0 ]
+"22
+[v _con_hi_delta con_hi_delta `us  1 e 2 0 ]
+"23
+[v _con_lo_delta con_lo_delta `us  1 e 2 0 ]
+"90
+[v _qq1 qq1 `us  1 e 2 0 ]
+"91
+[v _overabc overabc `uc  1 e 1 0 ]
+"92
+[v _val_cnt val_cnt `us  1 e 2 0 ]
+"93
+[v _scan_dusai_time scan_dusai_time `ul  1 e 4 0 ]
+"12 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ifile_key_00.c
+[v _key_cnt key_cnt `us  1 e 2 0 ]
+"13
+[v _key_key key_key `uc  1 e 1 0 ]
+"14
+[v _set_a00 set_a00 `uc  1 e 1 0 ]
+"15
+[v _key_port key_port `uc  1 e 1 0 ]
+[v _key_port_bak key_port_bak `uc  1 e 1 0 ]
+[v _key_val key_val `uc  1 e 1 0 ]
+[v _key_val_bak key_val_bak `uc  1 e 1 0 ]
+[v _key_flg key_flg `uc  1 e 1 0 ]
+[v _key_flg_l key_flg_l `uc  1 e 1 0 ]
+"16
+[v _mod_main_a mod_main_a `uc  1 e 1 0 ]
+[v _mod_main_b mod_main_b `uc  1 e 1 0 ]
+[v _mod_main_baka mod_main_baka `uc  1 e 1 0 ]
+[v _mod_jixa mod_jixa `uc  1 e 1 0 ]
+"17
+[v _mod_seta_cnt mod_seta_cnt `uc  1 e 1 0 ]
+[v _mod_seta_wok mod_seta_wok `uc  1 e 1 0 ]
+"18
+[v _mod_seta_preh mod_seta_preh `us  1 e 2 0 ]
+[v _mod_seta_preh_bak mod_seta_preh_bak `us  1 e 2 0 ]
+[v _mod_seta_prel mod_seta_prel `us  1 e 2 0 ]
+[v _mod_seta_ont mod_seta_ont `us  1 e 2 0 ]
+[v _mod_seta_oft mod_seta_oft `us  1 e 2 0 ]
+"19
+[v _mod_tim_cnta mod_tim_cnta `us  1 e 2 0 ]
+[v _mod_tim_cnta2 mod_tim_cnta2 `us  1 e 2 0 ]
+"21
+[v _back_led_cnt back_led_cnt `us  1 e 2 0 ]
+[v _lock_cnt lock_cnt `us  1 e 2 0 ]
+"22
+[v _lock_flg lock_flg `uc  1 e 1 0 ]
+"26
+[v _set_moda set_moda `us  1 e 2 0 ]
+"27
+[v _valueK valueK `f  1 e 4 0 ]
+"28
+[v _dataK1 dataK1 `us  1 e 2 0 ]
+[v _dataK2 dataK2 `us  1 e 2 0 ]
+[v _dataK3 dataK3 `us  1 e 2 0 ]
+[v _dataK4 dataK4 `us  1 e 2 0 ]
+[v _dataK dataK `us  1 e 2 0 ]
+"144
+[v _key_set_tim key_set_tim `uc  1 e 1 0 ]
+[v _key_start_tim key_start_tim `uc  1 e 1 0 ]
+"146
+[v _tim5_flg tim5_flg `uc  1 e 1 0 ]
+"941
+[v _close_tim close_tim `us  1 e 2 0 ]
+"942
+[v _mod_bak_bak mod_bak_bak `uc  1 e 1 0 ]
+"30 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _audio_flg audio_flg `uc  1 e 1 0 ]
+"31
+[v _audio_basic audio_basic `us  1 e 2 0 ]
+"32
+[v _audio_period audio_period `us  1 e 2 0 ]
+"33
+[v _err_codea err_codea `uc  1 e 1 0 ]
+[v _err_codeb err_codeb `uc  1 e 1 0 ]
+"34
+[v _buz_flg1 buz_flg1 `uc  1 e 1 0 ]
+[v _buz_flg buz_flg `uc  1 e 1 0 ]
+[v _buz_cnt buz_cnt `uc  1 e 1 0 ]
+"35
+[v _bat_close_tim bat_close_tim `us  1 e 2 0 ]
+"36
+[v _mute_flg mute_flg `uc  1 e 1 0 ]
+"37
+[v _mute_tim mute_tim `us  1 e 2 0 ]
+"39
+[v _SPEAK_flg SPEAK_flg `uc  1 e 1 0 ]
+"40
+[v _close_flg close_flg `uc  1 e 1 0 ]
+"41
+[v _bat_lev_bak bat_lev_bak `uc  1 e 1 0 ]
+"42
+[v _z1 z1 `uc  1 e 1 0 ]
+"44
+[v _open_bum open_bum `uc  1 e 1 0 ]
+"45
+[v _bum_dly bum_dly `uc  1 e 1 0 ]
+"46
+[v _bum_dly_flg bum_dly_flg `uc  1 e 1 0 ]
+"47
+[v _dataREAD0 dataREAD0 `us  1 e 2 0 ]
+[v _dataREAD1 dataREAD1 `us  1 e 2 0 ]
+[v _dataREAD2 dataREAD2 `us  1 e 2 0 ]
+[v _dataREAD3 dataREAD3 `us  1 e 2 0 ]
+"54
+[v _SPK_STATE SPK_STATE `uc  1 e 1 0 ]
+"59
+[v _BEE_TWO BEE_TWO `E8113  1 e 1 0 ]
+"62
+[v _spk_selay spk_selay `us  1 e 2 0 ]
+"16 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _language language `uc  1 e 1 0 ]
+"18
+[v _bat_cnt bat_cnt `uc  1 e 1 0 ]
+[v _bat_cnt1 bat_cnt1 `uc  1 e 1 0 ]
+"19
+[v _led_cnt led_cnt `uc  1 e 1 0 ]
+"20
+[v _run_tim_a run_tim_a `us  1 e 2 0 ]
+"21
+[v _disp_presa disp_presa `us  1 e 2 0 ]
+"22
+[v _disp_ssa disp_ssa `us  1 e 2 0 ]
+"23
+[v _disp_set_flg disp_set_flg `uc  1 e 1 0 ]
+"24
+[v _dis_cnta dis_cnta `us  1 e 2 0 ]
+"25
+[v _add91200 add91200 `uc  1 e 1 0 ]
+"26
+[v _add91201 add91201 `us  1 e 2 0 ]
+"27
+[v _adc_temp00 adc_temp00 `us  1 e 2 0 ]
+"232
+[v _value_buf value_buf `[10]us  1 s 20 value_buf ]
+"233
+[v _i i `uc  1 s 1 i ]
+"234
+[v _delay_count delay_count `us  1 s 2 delay_count ]
+"250
+[v _err_codeabak err_codeabak `uc  1 e 1 0 ]
+"434
+[v _flg2015 flg2015 `uc  1 e 1 0 ]
+"737
+[v _all_flg all_flg `uc  1 e 1 0 ]
+"8 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_ini_00.c
+[v _FLG_SYS_10MS FLG_SYS_10MS `uc  1 e 1 0 ]
+"9
+[v _os_cnt os_cnt `uc  1 e 1 0 ]
+"10
+[v _pwm_cnt1 pwm_cnt1 `uc  1 e 1 0 ]
+"11
+[v _pwm_cnt2 pwm_cnt2 `uc  1 e 1 0 ]
+"10 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_uart_00.c
+[v _flager_a flager_a `uc  1 e 1 0 ]
+[v _bat_lev bat_lev `uc  1 e 1 0 ]
+"5 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\ziku\8X16.c
+[v _ASCII ASCII `C[1536]uc  1 e 1536 0 ]
+"18 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\ziku\BIOS_ZK_DAW.c
+[v _draw_buz draw_buz `C[32]uc  1 e 32 0 ]
+"28
+[v _draw_batwarn draw_batwarn `C[1024]uc  1 e 1024 0 ]
+"104
+[v _draw_batwarnE draw_batwarnE `C[1024]uc  1 e 1024 0 ]
+"175
+[v _draw_lx draw_lx `C[60]uc  1 e 60 0 ]
+"189
+[v _draw_jx draw_jx `C[62]uc  1 e 62 0 ]
+"209
+[v _pset pset `C[96]uc  1 e 96 0 ]
+"230
+[v _arry_desk arry_desk `C[1024]uc  1 e 1024 0 ]
+"373
+[v _arry_ver arry_ver `C[1024]uc  1 e 1024 0 ]
+"509
+[v _ask ask `C[1024]uc  1 e 1024 0 ]
+"583
+[v _mod_set2015 mod_set2015 `C[1024]uc  1 e 1024 0 ]
+"653
+[v _press_set2016 press_set2016 `C[1024]uc  1 e 1024 0 ]
+"724
+[v _tim_set2015 tim_set2015 `C[1024]uc  1 e 1024 0 ]
+"796
+[v _run2015 run2015 `C[92]uc  1 e 92 0 ]
+"811
+[v _press2015 press2015 `C[92]uc  1 e 92 0 ]
+"826
+[v _stop2015 stop2015 `C[116]uc  1 e 116 0 ]
+"847
+[v _select select `C[32]uc  1 e 32 0 ]
+"857
+[v _block block `C[108]uc  1 e 108 0 ]
+"870
+[v _louq louq `C[108]uc  1 e 108 0 ]
+"885
+[v _didl didl `C[108]uc  1 e 108 0 ]
+"902
+[v _yewm yewm `C[108]uc  1 e 108 0 ]
+"921
+[v _lock2015 lock2015 `C[18]uc  1 e 18 0 ]
+"933
+[v _key2015 key2015 `C[32]uc  1 e 32 0 ]
+"1002
+[v _bat000 bat000 `C[48]uc  1 e 48 0 ]
+"1013
+[v _bat001 bat001 `C[48]uc  1 e 48 0 ]
+"1023
+[v _bat002 bat002 `C[48]uc  1 e 48 0 ]
+"1034
+[v _bat003 bat003 `C[48]uc  1 e 48 0 ]
+"1047
+[v _bat004 bat004 `C[48]uc  1 e 48 0 ]
+"5 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\ziku\BIOS_ZK_X1.c
+[v _arry_dig arry_dig `C[120]uc  1 e 120 0 ]
+"54
+[v _arry_digs12 arry_digs12 `C[160]uc  1 e 160 0 ]
+"101
+[v _arry_dig40 arry_dig40 `C[720]uc  1 e 720 0 ]
+"222
+[v _arry_char arry_char `C[252]uc  1 e 252 0 ]
+"350
+[v _arry_char2 arry_char2 `C[364]uc  1 e 364 0 ]
+"486
+[v _arry_char22 arry_char22 `C[364]uc  1 e 364 0 ]
+"619
+[v _arry_dig22 arry_dig22 `C[450]uc  1 e 450 0 ]
+"420 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _main main `(v  1 e 0 0 ]
+{
+"518
+} 0
+"17 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\adc.c
+[v _adc_init adc_init `(v  1 e 0 0 ]
+{
+"26
+} 0
+"97 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _Warn Warn `(v  1 e 0 0 ]
+{
+"155
+} 0
+"63
+[v _spk_bee_server spk_bee_server `(v  1 e 0 0 ]
+{
+"73
+} 0
+"12 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_uart_00.c
+[v _UART_Test UART_Test `(v  1 e 0 0 ]
+{
+"58
+} 0
+"50 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_ini_00.c
+[v _SYS_TMR3_Ini SYS_TMR3_Ini `(v  1 e 0 0 ]
+{
+"55
+} 0
+"41
+[v _SYS_TMR0_Ini SYS_TMR0_Ini `(v  1 e 0 0 ]
+{
+"48
+} 0
+"13
+[v _SYS_OSC_Ini SYS_OSC_Ini `(v  1 e 0 0 ]
+{
+"18
+} 0
+"20
+[v _SYS_IO_Ini SYS_IO_Ini `(v  1 e 0 0 ]
+{
+"40
+} 0
+"74 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _SYS_DatIni SYS_DatIni `(v  1 e 0 0 ]
+{
+"95
+} 0
+"148 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ifile_key_00.c
+[v _MODE_ProA MODE_ProA `(v  1 e 0 0 ]
+{
+"936
+} 0
+"34 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _SYS_IniLcd SYS_IniLcd `(v  1 e 0 0 ]
+{
+"75
+} 0
+"26
+[v _BIOS_JLX12864_DELAY BIOS_JLX12864_DELAY `(v  1 e 0 0 ]
+{
+"28
+[v BIOS_JLX12864_DELAY@k k `i  1 a 2 5 ]
+[v BIOS_JLX12864_DELAY@j j `i  1 a 2 3 ]
+"26
+[v BIOS_JLX12864_DELAY@i i `i  1 p 2 0 ]
+"31
+} 0
+"1058
+[v _DISP_time_set2015 DISP_time_set2015 `(v  1 e 0 0 ]
+{
+"1060
+[v DISP_time_set2015@i i `ui  1 a 2 6 ]
+[v DISP_time_set2015@j j `ui  1 a 2 4 ]
+[v DISP_time_set2015@l l `ui  1 a 2 2 ]
+"1074
+} 0
+"1020
+[v _DISP_press_set2016 DISP_press_set2016 `(v  1 e 0 0 ]
+{
+"1022
+[v DISP_press_set2016@i i `ui  1 a 2 6 ]
+[v DISP_press_set2016@j j `ui  1 a 2 4 ]
+[v DISP_press_set2016@l l `ui  1 a 2 2 ]
+"1036
+} 0
+"981
+[v _DISP_Ver DISP_Ver `(v  1 e 0 0 ]
+{
+"983
+[v DISP_Ver@i i `ui  1 a 2 6 ]
+[v DISP_Ver@j j `ui  1 a 2 4 ]
+[v DISP_Ver@l l `ui  1 a 2 2 ]
+"997
+} 0
+"961
+[v _DISP_Sys100 DISP_Sys100 `(v  1 e 0 0 ]
+{
+"963
+[v DISP_Sys100@i i `ui  1 a 2 6 ]
+[v DISP_Sys100@j j `ui  1 a 2 4 ]
+[v DISP_Sys100@l l `ui  1 a 2 2 ]
+"978
+} 0
+"376 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _BUZ_KeyCls BUZ_KeyCls `(v  1 e 0 0 ]
+{
+"384
+} 0
+"943 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ifile_key_00.c
+[v _MODE_Pro MODE_Pro `(v  1 e 0 0 ]
+{
+"1032
+} 0
+"62 C:\Program Files\Microchip\xc8\v1.33\sources\common\flmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+{
+"65
+[v ___flmul@f3_as_product f3_as_product `ul  1 a 4 23 ]
+"64
+[v ___flmul@sign sign `uc  1 a 1 28 ]
+[v ___flmul@cntr cntr `uc  1 a 1 27 ]
+[v ___flmul@exp exp `uc  1 a 1 22 ]
+"62
+[v ___flmul@f1 f1 `d  1 p 4 10 ]
+[v ___flmul@f2 f2 `d  1 p 4 14 ]
+"220
+} 0
+"57 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\Flash.c
+[v _Write_One_Word Write_One_Word `(v  1 e 0 0 ]
+{
+[v Write_One_Word@address address `ul  1 p 4 0 ]
+[v Write_One_Word@data data `ui  1 p 2 4 ]
+"72
+} 0
+"46
+[v _Flash_Erase Flash_Erase `(v  1 e 0 0 ]
+{
+[v Flash_Erase@address address `ul  1 p 4 0 ]
+"54
+} 0
+"16
+[v _Write_Cycle Write_Cycle `(v  1 e 0 0 ]
+{
+"41
+} 0
+"30 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ifile_key_00.c
+[v _KEY_Scan KEY_Scan `(v  1 e 0 0 ]
+{
+"129
+} 0
+"5 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\sys_cpu.c
+[v _SetBlk SetBlk `(v  1 e 0 0 ]
+{
+"12
+} 0
+"75 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\Flash.c
+[v _Flash_Read Flash_Read `(ui  1 e 2 0 ]
+{
+"77
+[v Flash_Read@temp temp `ui  1 a 2 4 ]
+"75
+[v Flash_Read@address address `ul  1 p 4 0 ]
+"87
+} 0
+"739 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_MainA DISP_MainA `(v  1 e 0 0 ]
+{
+"740
+[v DISP_MainA@i i `f  1 a 4 47 ]
+"936
+} 0
+"28 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwtofl.c
+[v ___lwtofl __lwtofl `(d  1 e 4 0 ]
+{
+[v ___lwtofl@c c `ui  1 p 2 10 ]
+"31
+} 0
+"43 C:\Program Files\Microchip\xc8\v1.33\sources\common\fltol.c
+[v ___fltol __fltol `(l  1 e 4 0 ]
+{
+"45
+[v ___fltol@exp1 exp1 `uc  1 a 1 38 ]
+[v ___fltol@sign1 sign1 `uc  1 a 1 37 ]
+"43
+[v ___fltol@f1 f1 `d  1 p 4 29 ]
+"70
+} 0
+"49 C:\Program Files\Microchip\xc8\v1.33\sources\common\fldiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+{
+"52
+[v ___fldiv@f3 f3 `d  1 a 4 26 ]
+"51
+[v ___fldiv@sign sign `uc  1 a 1 32 ]
+[v ___fldiv@exp exp `uc  1 a 1 31 ]
+[v ___fldiv@cntr cntr `uc  1 a 1 30 ]
+"49
+[v ___fldiv@f1 f1 `d  1 p 4 14 ]
+[v ___fldiv@f2 f2 `d  1 p 4 18 ]
+"77
+} 0
+"63 C:\Program Files\Microchip\xc8\v1.33\sources\common\double.c
+[v ___flpack __flpack `(d  1 e 4 0 ]
+{
+[v ___flpack@arg arg `ul  1 p 4 0 ]
+[v ___flpack@exp exp `uc  1 p 1 4 ]
+[v ___flpack@sign sign `uc  1 p 1 5 ]
+"87
+} 0
+"1123 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_stop2015 DISP_stop2015 `(v  1 e 0 0 ]
+{
+[v DISP_stop2015@startx startx `uc  1 a 1 wreg ]
+"1126
+[v DISP_stop2015@l l `us  1 a 2 12 ]
+[v DISP_stop2015@m m `us  1 a 2 10 ]
+"1125
+[v DISP_stop2015@n n `uc  1 a 1 9 ]
+[v DISP_stop2015@k k `uc  1 a 1 8 ]
+[v DISP_stop2015@j j `uc  1 a 1 7 ]
+[v DISP_stop2015@i i `uc  1 a 1 6 ]
+"1123
+[v DISP_stop2015@startx startx `uc  1 a 1 wreg ]
+[v DISP_stop2015@starty starty `uc  1 p 1 2 ]
+"1127
+[v DISP_stop2015@startx startx `uc  1 a 1 5 ]
+"1144
+} 0
+"1099
+[v _DISP_press2015 DISP_press2015 `(v  1 e 0 0 ]
+{
+[v DISP_press2015@startx startx `uc  1 a 1 wreg ]
+"1102
+[v DISP_press2015@l l `us  1 a 2 12 ]
+[v DISP_press2015@m m `us  1 a 2 10 ]
+"1101
+[v DISP_press2015@n n `uc  1 a 1 9 ]
+[v DISP_press2015@k k `uc  1 a 1 8 ]
+[v DISP_press2015@j j `uc  1 a 1 7 ]
+[v DISP_press2015@i i `uc  1 a 1 6 ]
+"1099
+[v DISP_press2015@startx startx `uc  1 a 1 wreg ]
+[v DISP_press2015@starty starty `uc  1 p 1 2 ]
+"1103
+[v DISP_press2015@startx startx `uc  1 a 1 5 ]
+"1120
+} 0
+"1000
+[v _DISP_ask DISP_ask `(v  1 e 0 0 ]
+{
+"1002
+[v DISP_ask@i i `ui  1 a 2 6 ]
+[v DISP_ask@j j `ui  1 a 2 4 ]
+[v DISP_ask@l l `ui  1 a 2 2 ]
+"1016
+} 0
+"436 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_SetA_new DISP_SetA_new `(v  1 e 0 0 ]
+{
+"675
+} 0
+"1172 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_select0 DISP_select0 `(v  1 e 0 0 ]
+{
+[v DISP_select0@startx startx `uc  1 a 1 wreg ]
+"1175
+[v DISP_select0@m m `us  1 a 2 12 ]
+[v DISP_select0@l l `us  1 a 2 10 ]
+"1174
+[v DISP_select0@n n `uc  1 a 1 9 ]
+[v DISP_select0@k k `uc  1 a 1 8 ]
+[v DISP_select0@j j `uc  1 a 1 7 ]
+[v DISP_select0@i i `uc  1 a 1 6 ]
+"1172
+[v DISP_select0@startx startx `uc  1 a 1 wreg ]
+[v DISP_select0@starty starty `uc  1 p 1 2 ]
+"1176
+[v DISP_select0@startx startx `uc  1 a 1 5 ]
+"1193
+} 0
+"1147
+[v _DISP_select DISP_select `(v  1 e 0 0 ]
+{
+[v DISP_select@startx startx `uc  1 a 1 wreg ]
+"1150
+[v DISP_select@l l `us  1 a 2 12 ]
+[v DISP_select@m m `us  1 a 2 10 ]
+"1149
+[v DISP_select@n n `uc  1 a 1 9 ]
+[v DISP_select@k k `uc  1 a 1 8 ]
+[v DISP_select@j j `uc  1 a 1 7 ]
+[v DISP_select@i i `uc  1 a 1 6 ]
+"1147
+[v DISP_select@startx startx `uc  1 a 1 wreg ]
+[v DISP_select@starty starty `uc  1 p 1 2 ]
+"1151
+[v DISP_select@startx startx `uc  1 a 1 5 ]
+"1168
+} 0
+"763
+[v _DISP_pset DISP_pset `(v  1 e 0 0 ]
+{
+[v DISP_pset@startx startx `uc  1 a 1 wreg ]
+"766
+[v DISP_pset@l l `us  1 a 2 12 ]
+[v DISP_pset@m m `us  1 a 2 10 ]
+"765
+[v DISP_pset@n n `uc  1 a 1 9 ]
+[v DISP_pset@k k `uc  1 a 1 8 ]
+[v DISP_pset@j j `uc  1 a 1 7 ]
+[v DISP_pset@i i `uc  1 a 1 6 ]
+"763
+[v DISP_pset@startx startx `uc  1 a 1 wreg ]
+[v DISP_pset@starty starty `uc  1 p 1 2 ]
+"767
+[v DISP_pset@startx startx `uc  1 a 1 5 ]
+"783
+} 0
+"1039
+[v _DISP_mod_set2015 DISP_mod_set2015 `(v  1 e 0 0 ]
+{
+"1041
+[v DISP_mod_set2015@i i `ui  1 a 2 6 ]
+[v DISP_mod_set2015@j j `ui  1 a 2 4 ]
+[v DISP_mod_set2015@l l `ui  1 a 2 2 ]
+"1055
+} 0
+"1451
+[v _DISP_key2015 DISP_key2015 `(v  1 e 0 0 ]
+{
+[v DISP_key2015@startx startx `uc  1 a 1 wreg ]
+"1453
+[v DISP_key2015@l l `uc  1 a 1 14 ]
+[v DISP_key2015@m m `uc  1 a 1 13 ]
+[v DISP_key2015@n n `uc  1 a 1 12 ]
+[v DISP_key2015@k k `uc  1 a 1 11 ]
+[v DISP_key2015@j j `uc  1 a 1 10 ]
+[v DISP_key2015@i i `uc  1 a 1 9 ]
+"1451
+[v DISP_key2015@startx startx `uc  1 a 1 wreg ]
+[v DISP_key2015@starty starty `uc  1 p 1 2 ]
+"1453
+[v DISP_key2015@startx startx `uc  1 a 1 8 ]
+"1475
+} 0
+"649
+[v _DISP_Dig15_32 DISP_Dig15_32 `(v  1 e 0 0 ]
+{
+[v DISP_Dig15_32@startx startx `uc  1 a 1 wreg ]
+"651
+[v DISP_Dig15_32@j j `uc  1 a 1 40 ]
+[v DISP_Dig15_32@i i `uc  1 a 1 39 ]
+[v DISP_Dig15_32@dig0 dig0 `uc  1 a 1 38 ]
+[v DISP_Dig15_32@dig1 dig1 `uc  1 a 1 37 ]
+[v DISP_Dig15_32@dig2 dig2 `uc  1 a 1 36 ]
+"649
+[v DISP_Dig15_32@startx startx `uc  1 a 1 wreg ]
+[v DISP_Dig15_32@starty starty `uc  1 p 1 32 ]
+"652
+[v DISP_Dig15_32@startx startx `uc  1 a 1 35 ]
+"687
+} 0
+"119
+[v _DISP_DigBasic32 DISP_DigBasic32 `(v  1 e 0 0 ]
+{
+"122
+[v DISP_DigBasic32@l l `us  1 a 2 30 ]
+[v DISP_DigBasic32@m m `us  1 a 2 28 ]
+"121
+[v DISP_DigBasic32@k k `uc  1 a 1 27 ]
+[v DISP_DigBasic32@j j `uc  1 a 1 26 ]
+[v DISP_DigBasic32@i i `uc  1 a 1 25 ]
+[v DISP_DigBasic32@n n `uc  1 a 1 24 ]
+"119
+[v DISP_DigBasic32@dat dat `us  1 p 2 18 ]
+[v DISP_DigBasic32@startx startx `uc  1 p 1 20 ]
+[v DISP_DigBasic32@starty starty `uc  1 p 1 21 ]
+"143
+} 0
+"933
+[v _DISP_Dig14_16 DISP_Dig14_16 `(v  1 e 0 0 ]
+{
+[v DISP_Dig14_16@startx startx `uc  1 a 1 wreg ]
+"935
+[v DISP_Dig14_16@j j `uc  1 a 1 26 ]
+[v DISP_Dig14_16@i i `uc  1 a 1 25 ]
+[v DISP_Dig14_16@dig0 dig0 `uc  1 a 1 24 ]
+[v DISP_Dig14_16@dig1 dig1 `uc  1 a 1 23 ]
+[v DISP_Dig14_16@dig2 dig2 `uc  1 a 1 22 ]
+"933
+[v DISP_Dig14_16@startx startx `uc  1 a 1 wreg ]
+[v DISP_Dig14_16@starty starty `uc  1 p 1 16 ]
+[v DISP_Dig14_16@disp_val disp_val `us  1 p 2 17 ]
+"936
+[v DISP_Dig14_16@startx startx `uc  1 a 1 21 ]
+"959
+} 0
+"869
+[v _DISP_DigBasics12 DISP_DigBasics12 `(v  1 e 0 0 ]
+{
+[v DISP_DigBasics12@dat dat `uc  1 a 1 wreg ]
+"871
+[v DISP_DigBasics12@l l `uc  1 a 1 15 ]
+[v DISP_DigBasics12@m m `uc  1 a 1 14 ]
+[v DISP_DigBasics12@n n `uc  1 a 1 13 ]
+[v DISP_DigBasics12@k k `uc  1 a 1 12 ]
+[v DISP_DigBasics12@j j `uc  1 a 1 11 ]
+[v DISP_DigBasics12@i i `uc  1 a 1 10 ]
+"869
+[v DISP_DigBasics12@dat dat `uc  1 a 1 wreg ]
+[v DISP_DigBasics12@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasics12@starty starty `uc  1 p 1 3 ]
+"872
+[v DISP_DigBasics12@dat dat `uc  1 a 1 9 ]
+"898
+} 0
+"251 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_LixA DISP_LixA `(v  1 e 0 0 ]
+{
+"335
+} 0
+"553 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_lx DISP_lx `(v  1 e 0 0 ]
+{
+[v DISP_lx@startx startx `uc  1 a 1 wreg ]
+"556
+[v DISP_lx@l l `us  1 a 2 13 ]
+[v DISP_lx@m m `us  1 a 2 11 ]
+"555
+[v DISP_lx@temp temp `uc  1 a 1 10 ]
+[v DISP_lx@n n `uc  1 a 1 9 ]
+[v DISP_lx@k k `uc  1 a 1 8 ]
+[v DISP_lx@j j `uc  1 a 1 7 ]
+[v DISP_lx@i i `uc  1 a 1 6 ]
+"553
+[v DISP_lx@startx startx `uc  1 a 1 wreg ]
+[v DISP_lx@starty starty `uc  1 p 1 2 ]
+"557
+[v DISP_lx@startx startx `uc  1 a 1 5 ]
+"578
+} 0
+"337 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_JixA DISP_JixA `(v  1 e 0 0 ]
+{
+"430
+} 0
+"235
+[v _disp_filter disp_filter `(us  1 s 2 disp_filter ]
+{
+"240
+[v disp_filter@sum sum `us  1 a 2 15 ]
+"239
+[v disp_filter@count count `uc  1 a 1 14 ]
+"235
+[v disp_filter@pdata pdata `us  1 p 2 12 ]
+"247
+} 0
+"1076 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_run2015 DISP_run2015 `(v  1 e 0 0 ]
+{
+[v DISP_run2015@startx startx `uc  1 a 1 wreg ]
+"1079
+[v DISP_run2015@l l `us  1 a 2 12 ]
+[v DISP_run2015@m m `us  1 a 2 10 ]
+"1078
+[v DISP_run2015@n n `uc  1 a 1 9 ]
+[v DISP_run2015@k k `uc  1 a 1 8 ]
+[v DISP_run2015@j j `uc  1 a 1 7 ]
+[v DISP_run2015@i i `uc  1 a 1 6 ]
+"1076
+[v DISP_run2015@startx startx `uc  1 a 1 wreg ]
+[v DISP_run2015@starty starty `uc  1 p 1 2 ]
+"1080
+[v DISP_run2015@startx startx `uc  1 a 1 5 ]
+"1095
+} 0
+"583
+[v _DISP_jx DISP_jx `(v  1 e 0 0 ]
+{
+[v DISP_jx@startx startx `uc  1 a 1 wreg ]
+"586
+[v DISP_jx@l l `us  1 a 2 13 ]
+[v DISP_jx@m m `us  1 a 2 11 ]
+"585
+[v DISP_jx@temp temp `uc  1 a 1 10 ]
+[v DISP_jx@n n `uc  1 a 1 9 ]
+[v DISP_jx@k k `uc  1 a 1 8 ]
+[v DISP_jx@j j `uc  1 a 1 7 ]
+[v DISP_jx@i i `uc  1 a 1 6 ]
+"583
+[v DISP_jx@startx startx `uc  1 a 1 wreg ]
+[v DISP_jx@starty starty `uc  1 p 1 2 ]
+"587
+[v DISP_jx@startx startx `uc  1 a 1 5 ]
+"610
+} 0
+"1364
+[v _DISP_cha7s DISP_cha7s `(v  1 e 0 0 ]
+{
+"1366
+[v DISP_cha7s@z z `uc  1 a 1 35 ]
+"1364
+[v DISP_cha7s@s s `*.25uc  1 p 2 31 ]
+[v DISP_cha7s@x x `uc  1 p 1 33 ]
+[v DISP_cha7s@y y `uc  1 p 1 34 ]
+"1383
+} 0
+"1297
+[v _DISP_ChaBasic2 DISP_ChaBasic2 `(v  1 e 0 0 ]
+{
+[v DISP_ChaBasic2@dat dat `uc  1 a 1 wreg ]
+"1301
+[v DISP_ChaBasic2@m m `us  1 a 2 29 ]
+[v DISP_ChaBasic2@l l `us  1 a 2 27 ]
+"1300
+[v DISP_ChaBasic2@n n `uc  1 a 1 26 ]
+[v DISP_ChaBasic2@k k `uc  1 a 1 25 ]
+[v DISP_ChaBasic2@j j `uc  1 a 1 24 ]
+[v DISP_ChaBasic2@i i `uc  1 a 1 23 ]
+"1297
+[v DISP_ChaBasic2@dat dat `uc  1 a 1 wreg ]
+[v DISP_ChaBasic2@startx startx `uc  1 p 1 18 ]
+[v DISP_ChaBasic2@starty starty `uc  1 p 1 19 ]
+"1302
+[v DISP_ChaBasic2@dat dat `uc  1 a 1 22 ]
+"1359
+} 0
+"628
+[v _DISP_Fu1 DISP_Fu1 `(v  1 e 0 0 ]
+{
+[v DISP_Fu1@startx startx `uc  1 a 1 wreg ]
+"631
+[v DISP_Fu1@l l `uc  1 a 1 8 ]
+[v DISP_Fu1@n n `uc  1 a 1 7 ]
+[v DISP_Fu1@k k `uc  1 a 1 6 ]
+[v DISP_Fu1@j j `uc  1 a 1 5 ]
+[v DISP_Fu1@i i `uc  1 a 1 4 ]
+"628
+[v DISP_Fu1@startx startx `uc  1 a 1 wreg ]
+[v DISP_Fu1@starty starty `uc  1 p 1 2 ]
+"633
+[v DISP_Fu1@startx startx `uc  1 a 1 3 ]
+"642
+} 0
+"612
+[v _DISP_Fu DISP_Fu `(v  1 e 0 0 ]
+{
+[v DISP_Fu@startx startx `uc  1 a 1 wreg ]
+"615
+[v DISP_Fu@l l `uc  1 a 1 8 ]
+[v DISP_Fu@n n `uc  1 a 1 7 ]
+[v DISP_Fu@k k `uc  1 a 1 6 ]
+[v DISP_Fu@j j `uc  1 a 1 5 ]
+[v DISP_Fu@i i `uc  1 a 1 4 ]
+"612
+[v DISP_Fu@startx startx `uc  1 a 1 wreg ]
+[v DISP_Fu@starty starty `uc  1 p 1 2 ]
+"617
+[v DISP_Fu@startx startx `uc  1 a 1 3 ]
+"626
+} 0
+"150 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Erra DISP_Erra `(v  1 e 0 0 ]
+{
+"230
+} 0
+"1270 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_yewm DISP_yewm `(v  1 e 0 0 ]
+{
+[v DISP_yewm@startx startx `uc  1 a 1 wreg ]
+"1273
+[v DISP_yewm@l l `us  1 a 2 12 ]
+[v DISP_yewm@m m `us  1 a 2 10 ]
+"1272
+[v DISP_yewm@n n `uc  1 a 1 9 ]
+[v DISP_yewm@k k `uc  1 a 1 8 ]
+[v DISP_yewm@j j `uc  1 a 1 7 ]
+[v DISP_yewm@i i `uc  1 a 1 6 ]
+"1270
+[v DISP_yewm@startx startx `uc  1 a 1 wreg ]
+[v DISP_yewm@starty starty `uc  1 p 1 2 ]
+"1274
+[v DISP_yewm@startx startx `uc  1 a 1 5 ]
+"1291
+} 0
+"1222
+[v _DISP_louq DISP_louq `(v  1 e 0 0 ]
+{
+[v DISP_louq@startx startx `uc  1 a 1 wreg ]
+"1225
+[v DISP_louq@l l `us  1 a 2 12 ]
+[v DISP_louq@m m `us  1 a 2 10 ]
+"1224
+[v DISP_louq@n n `uc  1 a 1 9 ]
+[v DISP_louq@k k `uc  1 a 1 8 ]
+[v DISP_louq@j j `uc  1 a 1 7 ]
+[v DISP_louq@i i `uc  1 a 1 6 ]
+"1222
+[v DISP_louq@startx startx `uc  1 a 1 wreg ]
+[v DISP_louq@starty starty `uc  1 p 1 2 ]
+"1226
+[v DISP_louq@startx startx `uc  1 a 1 5 ]
+"1243
+} 0
+"1246
+[v _DISP_didl DISP_didl `(v  1 e 0 0 ]
+{
+[v DISP_didl@startx startx `uc  1 a 1 wreg ]
+"1249
+[v DISP_didl@l l `us  1 a 2 12 ]
+[v DISP_didl@m m `us  1 a 2 10 ]
+"1248
+[v DISP_didl@n n `uc  1 a 1 9 ]
+[v DISP_didl@k k `uc  1 a 1 8 ]
+[v DISP_didl@j j `uc  1 a 1 7 ]
+[v DISP_didl@i i `uc  1 a 1 6 ]
+"1246
+[v DISP_didl@startx startx `uc  1 a 1 wreg ]
+[v DISP_didl@starty starty `uc  1 p 1 2 ]
+"1250
+[v DISP_didl@startx startx `uc  1 a 1 5 ]
+"1267
+} 0
+"1197
+[v _DISP_block DISP_block `(v  1 e 0 0 ]
+{
+[v DISP_block@startx startx `uc  1 a 1 wreg ]
+"1200
+[v DISP_block@l l `us  1 a 2 12 ]
+[v DISP_block@m m `us  1 a 2 10 ]
+"1199
+[v DISP_block@n n `uc  1 a 1 9 ]
+[v DISP_block@k k `uc  1 a 1 8 ]
+[v DISP_block@j j `uc  1 a 1 7 ]
+[v DISP_block@i i `uc  1 a 1 6 ]
+"1197
+[v DISP_block@startx startx `uc  1 a 1 wreg ]
+[v DISP_block@starty starty `uc  1 p 1 2 ]
+"1201
+[v DISP_block@startx startx `uc  1 a 1 5 ]
+"1218
+} 0
+"1430
+[v _DISP_8X16ascii DISP_8X16ascii `(v  1 e 0 0 ]
+{
+"1432
+[v DISP_8X16ascii@z z `uc  1 a 1 21 ]
+"1430
+[v DISP_8X16ascii@s s `*.25uc  1 p 2 17 ]
+[v DISP_8X16ascii@x x `uc  1 p 1 19 ]
+[v DISP_8X16ascii@y y `uc  1 p 1 20 ]
+"1449
+} 0
+"1387
+[v _DISP_ChaBasic2015 DISP_ChaBasic2015 `(v  1 e 0 0 ]
+{
+[v DISP_ChaBasic2015@dat dat `uc  1 a 1 wreg ]
+"1391
+[v DISP_ChaBasic2015@l l `us  1 a 2 15 ]
+[v DISP_ChaBasic2015@m m `us  1 a 2 13 ]
+"1390
+[v DISP_ChaBasic2015@n n `uc  1 a 1 11 ]
+[v DISP_ChaBasic2015@k k `uc  1 a 1 10 ]
+[v DISP_ChaBasic2015@j j `uc  1 a 1 9 ]
+[v DISP_ChaBasic2015@i i `uc  1 a 1 8 ]
+"1387
+[v DISP_ChaBasic2015@dat dat `uc  1 a 1 wreg ]
+[v DISP_ChaBasic2015@startx startx `uc  1 p 1 2 ]
+[v DISP_ChaBasic2015@starty starty `uc  1 p 1 3 ]
+"1392
+[v DISP_ChaBasic2015@dat dat `uc  1 a 1 12 ]
+"1426
+} 0
+"723
+[v _DISP_Dig18_40 DISP_Dig18_40 `(v  1 e 0 0 ]
+{
+[v DISP_Dig18_40@startx startx `uc  1 a 1 wreg ]
+"725
+[v DISP_Dig18_40@j j `uc  1 a 1 40 ]
+[v DISP_Dig18_40@i i `uc  1 a 1 39 ]
+[v DISP_Dig18_40@dig0 dig0 `uc  1 a 1 38 ]
+[v DISP_Dig18_40@dig1 dig1 `uc  1 a 1 37 ]
+[v DISP_Dig18_40@dig2 dig2 `uc  1 a 1 36 ]
+"723
+[v DISP_Dig18_40@startx startx `uc  1 a 1 wreg ]
+[v DISP_Dig18_40@starty starty `uc  1 p 1 32 ]
+"726
+[v DISP_Dig18_40@startx startx `uc  1 a 1 35 ]
+"761
+} 0
+"691
+[v _DISP_DigBasic40 DISP_DigBasic40 `(v  1 e 0 0 ]
+{
+"694
+[v DISP_DigBasic40@l l `us  1 a 2 30 ]
+[v DISP_DigBasic40@m m `us  1 a 2 28 ]
+"693
+[v DISP_DigBasic40@k k `uc  1 a 1 27 ]
+[v DISP_DigBasic40@j j `uc  1 a 1 26 ]
+[v DISP_DigBasic40@i i `uc  1 a 1 25 ]
+[v DISP_DigBasic40@n n `uc  1 a 1 24 ]
+"691
+[v DISP_DigBasic40@dat dat `us  1 p 2 18 ]
+[v DISP_DigBasic40@startx startx `uc  1 p 1 20 ]
+[v DISP_DigBasic40@starty starty `uc  1 p 1 21 ]
+"720
+} 0
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+{
+"17
+[v ___wmul@product product `ui  1 a 2 16 ]
+"15
+[v ___wmul@multiplier multiplier `ui  1 p 2 12 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 14 ]
+"53
+} 0
+"841 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_Dig12_16 DISP_Dig12_16 `(v  1 e 0 0 ]
+{
+[v DISP_Dig12_16@startx startx `uc  1 a 1 wreg ]
+"843
+[v DISP_Dig12_16@j j `uc  1 a 1 30 ]
+[v DISP_Dig12_16@i i `uc  1 a 1 29 ]
+[v DISP_Dig12_16@dig0 dig0 `uc  1 a 1 28 ]
+[v DISP_Dig12_16@dig1 dig1 `uc  1 a 1 27 ]
+[v DISP_Dig12_16@dig2 dig2 `uc  1 a 1 26 ]
+"841
+[v DISP_Dig12_16@startx startx `uc  1 a 1 wreg ]
+[v DISP_Dig12_16@starty starty `uc  1 p 1 20 ]
+[v DISP_Dig12_16@disp_val disp_val `us  1 p 2 21 ]
+"844
+[v DISP_Dig12_16@startx startx `uc  1 a 1 25 ]
+"867
+} 0
+"808
+[v _DISP_DigBasic0 DISP_DigBasic0 `(v  1 e 0 0 ]
+{
+[v DISP_DigBasic0@dat dat `uc  1 a 1 wreg ]
+"810
+[v DISP_DigBasic0@m m `uc  1 a 1 15 ]
+[v DISP_DigBasic0@l l `uc  1 a 1 14 ]
+[v DISP_DigBasic0@n n `uc  1 a 1 13 ]
+[v DISP_DigBasic0@k k `uc  1 a 1 12 ]
+[v DISP_DigBasic0@j j `uc  1 a 1 11 ]
+[v DISP_DigBasic0@i i `uc  1 a 1 10 ]
+"808
+[v DISP_DigBasic0@dat dat `uc  1 a 1 wreg ]
+[v DISP_DigBasic0@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasic0@starty starty `uc  1 p 1 3 ]
+"811
+[v DISP_DigBasic0@dat dat `uc  1 a 1 9 ]
+"837
+} 0
+"77
+[v _DISP_DigBasic DISP_DigBasic `(v  1 e 0 0 ]
+{
+[v DISP_DigBasic@dat dat `uc  1 a 1 wreg ]
+"80
+[v DISP_DigBasic@x x `us  1 a 2 18 ]
+[v DISP_DigBasic@y y `us  1 a 2 9 ]
+"79
+[v DISP_DigBasic@l l `uc  1 a 1 17 ]
+[v DISP_DigBasic@m m `uc  1 a 1 16 ]
+[v DISP_DigBasic@n n `uc  1 a 1 15 ]
+[v DISP_DigBasic@k k `uc  1 a 1 14 ]
+[v DISP_DigBasic@j j `uc  1 a 1 13 ]
+[v DISP_DigBasic@i i `uc  1 a 1 12 ]
+"77
+[v DISP_DigBasic@dat dat `uc  1 a 1 wreg ]
+[v DISP_DigBasic@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasic@starty starty `uc  1 p 1 3 ]
+"81
+[v DISP_DigBasic@dat dat `uc  1 a 1 11 ]
+"115
+} 0
+"1511
+[v _DISP_Dig1 DISP_Dig1 `(v  1 e 0 0 ]
+{
+[v DISP_Dig1@startx startx `uc  1 a 1 wreg ]
+"1513
+[v DISP_Dig1@j j `uc  1 a 1 31 ]
+[v DISP_Dig1@i i `uc  1 a 1 30 ]
+[v DISP_Dig1@dig0 dig0 `uc  1 a 1 29 ]
+[v DISP_Dig1@dig1 dig1 `uc  1 a 1 28 ]
+[v DISP_Dig1@dig2 dig2 `uc  1 a 1 27 ]
+"1511
+[v DISP_Dig1@startx startx `uc  1 a 1 wreg ]
+[v DISP_Dig1@starty starty `uc  1 p 1 21 ]
+[v DISP_Dig1@disp_val disp_val `us  1 p 2 22 ]
+"1514
+[v DISP_Dig1@startx startx `uc  1 a 1 26 ]
+"1537
+} 0
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+{
+"11
+[v ___lwmod@counter counter `uc  1 a 1 4 ]
+"8
+[v ___lwmod@dividend dividend `ui  1 p 2 0 ]
+[v ___lwmod@divisor divisor `ui  1 p 2 2 ]
+"26
+} 0
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"11
+[v ___lwdiv@quotient quotient `ui  1 a 2 9 ]
+"12
+[v ___lwdiv@counter counter `uc  1 a 1 11 ]
+"8
+[v ___lwdiv@dividend dividend `ui  1 p 2 5 ]
+[v ___lwdiv@divisor divisor `ui  1 p 2 7 ]
+"31
+} 0
+"902 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_DigBasic00 DISP_DigBasic00 `(v  1 e 0 0 ]
+{
+[v DISP_DigBasic00@dat dat `uc  1 a 1 wreg ]
+"904
+[v DISP_DigBasic00@m m `uc  1 a 1 15 ]
+[v DISP_DigBasic00@l l `uc  1 a 1 14 ]
+[v DISP_DigBasic00@n n `uc  1 a 1 13 ]
+[v DISP_DigBasic00@k k `uc  1 a 1 12 ]
+[v DISP_DigBasic00@j j `uc  1 a 1 11 ]
+[v DISP_DigBasic00@i i `uc  1 a 1 10 ]
+"902
+[v DISP_DigBasic00@dat dat `uc  1 a 1 wreg ]
+[v DISP_DigBasic00@startx startx `uc  1 p 1 2 ]
+[v DISP_DigBasic00@starty starty `uc  1 p 1 3 ]
+"905
+[v DISP_DigBasic00@dat dat `uc  1 a 1 9 ]
+"931
+} 0
+"1478
+[v _DISP_Dig0 DISP_Dig0 `(v  1 e 0 0 ]
+{
+[v DISP_Dig0@dat dat `uc  1 a 1 wreg ]
+"1480
+[v DISP_Dig0@l l `us  1 a 2 19 ]
+"1481
+[v DISP_Dig0@m m `us  1 a 2 17 ]
+"1480
+[v DISP_Dig0@n n `us  1 a 2 15 ]
+[v DISP_Dig0@k k `us  1 a 2 13 ]
+[v DISP_Dig0@j j `us  1 a 2 11 ]
+[v DISP_Dig0@i i `us  1 a 2 9 ]
+"1478
+[v DISP_Dig0@dat dat `uc  1 a 1 wreg ]
+[v DISP_Dig0@startx startx `uc  1 p 1 2 ]
+[v DISP_Dig0@starty starty `uc  1 p 1 3 ]
+"1482
+[v DISP_Dig0@dat dat `uc  1 a 1 8 ]
+"1507
+} 0
+"225
+[v _DISP_Clear DISP_Clear `(v  1 e 0 0 ]
+{
+"227
+[v DISP_Clear@i i `uc  1 a 1 3 ]
+[v DISP_Clear@j j `uc  1 a 1 2 ]
+"237
+} 0
+"145
+[v _DISP_ChaBasic DISP_ChaBasic `(v  1 e 0 0 ]
+{
+[v DISP_ChaBasic@dat dat `uc  1 a 1 wreg ]
+"149
+[v DISP_ChaBasic@x x `us  1 a 2 16 ]
+"148
+[v DISP_ChaBasic@l l `uc  1 a 1 15 ]
+[v DISP_ChaBasic@m m `uc  1 a 1 14 ]
+[v DISP_ChaBasic@n n `uc  1 a 1 13 ]
+[v DISP_ChaBasic@k k `uc  1 a 1 12 ]
+[v DISP_ChaBasic@j j `uc  1 a 1 11 ]
+[v DISP_ChaBasic@i i `uc  1 a 1 10 ]
+"145
+[v DISP_ChaBasic@dat dat `uc  1 a 1 wreg ]
+[v DISP_ChaBasic@startx startx `uc  1 p 1 2 ]
+[v DISP_ChaBasic@starty starty `uc  1 p 1 3 ]
+"150
+[v DISP_ChaBasic@dat dat `uc  1 a 1 9 ]
+"179
+} 0
+"708 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Info DISP_Info `(v  1 e 0 0 ]
+{
+"731
+} 0
+"528 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_LockClr DISP_LockClr `(v  1 e 0 0 ]
+{
+[v DISP_LockClr@startx startx `uc  1 a 1 wreg ]
+"531
+[v DISP_LockClr@m m `us  1 a 2 12 ]
+[v DISP_LockClr@l l `us  1 a 2 10 ]
+"530
+[v DISP_LockClr@n n `uc  1 a 1 9 ]
+[v DISP_LockClr@k k `uc  1 a 1 8 ]
+[v DISP_LockClr@j j `uc  1 a 1 7 ]
+[v DISP_LockClr@i i `uc  1 a 1 6 ]
+"528
+[v DISP_LockClr@startx startx `uc  1 a 1 wreg ]
+[v DISP_LockClr@starty starty `uc  1 p 1 2 ]
+"532
+[v DISP_LockClr@startx startx `uc  1 a 1 5 ]
+"551
+} 0
+"502
+[v _DISP_Lock DISP_Lock `(v  1 e 0 0 ]
+{
+[v DISP_Lock@startx startx `uc  1 a 1 wreg ]
+"505
+[v DISP_Lock@l l `us  1 a 2 13 ]
+[v DISP_Lock@m m `us  1 a 2 11 ]
+"504
+[v DISP_Lock@temp temp `uc  1 a 1 10 ]
+[v DISP_Lock@n n `uc  1 a 1 9 ]
+[v DISP_Lock@k k `uc  1 a 1 8 ]
+[v DISP_Lock@j j `uc  1 a 1 7 ]
+[v DISP_Lock@i i `uc  1 a 1 6 ]
+"502
+[v DISP_Lock@startx startx `uc  1 a 1 wreg ]
+[v DISP_Lock@starty starty `uc  1 p 1 2 ]
+"506
+[v DISP_Lock@startx startx `uc  1 a 1 5 ]
+"527
+} 0
+"239
+[v _DISP_ClrZero DISP_ClrZero `(v  1 e 0 0 ]
+{
+[v DISP_ClrZero@x x `uc  1 a 1 wreg ]
+"241
+[v DISP_ClrZero@m m `uc  1 a 1 11 ]
+[v DISP_ClrZero@l l `uc  1 a 1 9 ]
+[v DISP_ClrZero@i i `uc  1 a 1 8 ]
+"239
+[v DISP_ClrZero@x x `uc  1 a 1 wreg ]
+[v DISP_ClrZero@x1 x1 `uc  1 p 1 2 ]
+[v DISP_ClrZero@y y `uc  1 p 1 3 ]
+[v DISP_ClrZero@y1 y1 `uc  1 p 1 4 ]
+"242
+[v DISP_ClrZero@x x `uc  1 a 1 10 ]
+"253
+} 0
+"446
+[v _DISP_Buz DISP_Buz `(v  1 e 0 0 ]
+{
+[v DISP_Buz@startx startx `uc  1 a 1 wreg ]
+"449
+[v DISP_Buz@l l `us  1 a 2 13 ]
+[v DISP_Buz@m m `us  1 a 2 11 ]
+"448
+[v DISP_Buz@temp temp `uc  1 a 1 10 ]
+[v DISP_Buz@n n `uc  1 a 1 9 ]
+[v DISP_Buz@k k `uc  1 a 1 8 ]
+[v DISP_Buz@j j `uc  1 a 1 7 ]
+[v DISP_Buz@i i `uc  1 a 1 6 ]
+"446
+[v DISP_Buz@startx startx `uc  1 a 1 wreg ]
+[v DISP_Buz@starty starty `uc  1 p 1 2 ]
+"450
+[v DISP_Buz@startx startx `uc  1 a 1 5 ]
+"471
+} 0
+"203
+[v _DISP_BatWarnE DISP_BatWarnE `(v  1 e 0 0 ]
+{
+"205
+[v DISP_BatWarnE@i i `ui  1 a 2 6 ]
+[v DISP_BatWarnE@j j `ui  1 a 2 4 ]
+[v DISP_BatWarnE@l l `ui  1 a 2 2 ]
+"220
+} 0
+"183
+[v _DISP_BatWarnC DISP_BatWarnC `(v  1 e 0 0 ]
+{
+"185
+[v DISP_BatWarnC@i i `ui  1 a 2 6 ]
+[v DISP_BatWarnC@j j `ui  1 a 2 4 ]
+[v DISP_BatWarnC@l l `ui  1 a 2 2 ]
+"200
+} 0
+"44 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Bat DISP_Bat `(v  1 e 0 0 ]
+{
+"46
+[v DISP_Bat@j j `uc  1 a 1 16 ]
+[v DISP_Bat@i i `uc  1 a 1 15 ]
+"147
+} 0
+"255 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_Bat00Clr DISP_Bat00Clr `(v  1 e 0 0 ]
+{
+[v DISP_Bat00Clr@startx startx `uc  1 a 1 wreg ]
+"258
+[v DISP_Bat00Clr@m m `us  1 a 2 12 ]
+[v DISP_Bat00Clr@l l `us  1 a 2 10 ]
+"257
+[v DISP_Bat00Clr@n n `uc  1 a 1 9 ]
+[v DISP_Bat00Clr@k k `uc  1 a 1 8 ]
+[v DISP_Bat00Clr@j j `uc  1 a 1 7 ]
+[v DISP_Bat00Clr@i i `uc  1 a 1 6 ]
+"255
+[v DISP_Bat00Clr@startx startx `uc  1 a 1 wreg ]
+[v DISP_Bat00Clr@starty starty `uc  1 p 1 2 ]
+"259
+[v DISP_Bat00Clr@startx startx `uc  1 a 1 5 ]
+"279
+} 0
+"417
+[v _DISP_Bat004 DISP_Bat004 `(v  1 e 0 0 ]
+{
+[v DISP_Bat004@startx startx `uc  1 a 1 wreg ]
+"420
+[v DISP_Bat004@l l `us  1 a 2 13 ]
+[v DISP_Bat004@m m `us  1 a 2 11 ]
+"419
+[v DISP_Bat004@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat004@n n `uc  1 a 1 9 ]
+[v DISP_Bat004@k k `uc  1 a 1 8 ]
+[v DISP_Bat004@j j `uc  1 a 1 7 ]
+[v DISP_Bat004@i i `uc  1 a 1 6 ]
+"417
+[v DISP_Bat004@startx startx `uc  1 a 1 wreg ]
+[v DISP_Bat004@starty starty `uc  1 p 1 2 ]
+"421
+[v DISP_Bat004@startx startx `uc  1 a 1 5 ]
+"443
+} 0
+"390
+[v _DISP_Bat003 DISP_Bat003 `(v  1 e 0 0 ]
+{
+[v DISP_Bat003@startx startx `uc  1 a 1 wreg ]
+"393
+[v DISP_Bat003@l l `us  1 a 2 13 ]
+[v DISP_Bat003@m m `us  1 a 2 11 ]
+"392
+[v DISP_Bat003@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat003@n n `uc  1 a 1 9 ]
+[v DISP_Bat003@k k `uc  1 a 1 8 ]
+[v DISP_Bat003@j j `uc  1 a 1 7 ]
+[v DISP_Bat003@i i `uc  1 a 1 6 ]
+"390
+[v DISP_Bat003@startx startx `uc  1 a 1 wreg ]
+[v DISP_Bat003@starty starty `uc  1 p 1 2 ]
+"394
+[v DISP_Bat003@startx startx `uc  1 a 1 5 ]
+"416
+} 0
+"363
+[v _DISP_Bat002 DISP_Bat002 `(v  1 e 0 0 ]
+{
+[v DISP_Bat002@startx startx `uc  1 a 1 wreg ]
+"366
+[v DISP_Bat002@l l `us  1 a 2 13 ]
+[v DISP_Bat002@m m `us  1 a 2 11 ]
+"365
+[v DISP_Bat002@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat002@n n `uc  1 a 1 9 ]
+[v DISP_Bat002@k k `uc  1 a 1 8 ]
+[v DISP_Bat002@j j `uc  1 a 1 7 ]
+[v DISP_Bat002@i i `uc  1 a 1 6 ]
+"363
+[v DISP_Bat002@startx startx `uc  1 a 1 wreg ]
+[v DISP_Bat002@starty starty `uc  1 p 1 2 ]
+"367
+[v DISP_Bat002@startx startx `uc  1 a 1 5 ]
+"389
+} 0
+"336
+[v _DISP_Bat001 DISP_Bat001 `(v  1 e 0 0 ]
+{
+[v DISP_Bat001@startx startx `uc  1 a 1 wreg ]
+"339
+[v DISP_Bat001@l l `us  1 a 2 13 ]
+[v DISP_Bat001@m m `us  1 a 2 11 ]
+"338
+[v DISP_Bat001@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat001@n n `uc  1 a 1 9 ]
+[v DISP_Bat001@k k `uc  1 a 1 8 ]
+[v DISP_Bat001@j j `uc  1 a 1 7 ]
+[v DISP_Bat001@i i `uc  1 a 1 6 ]
+"336
+[v DISP_Bat001@startx startx `uc  1 a 1 wreg ]
+[v DISP_Bat001@starty starty `uc  1 p 1 2 ]
+"340
+[v DISP_Bat001@startx startx `uc  1 a 1 5 ]
+"362
+} 0
+"309
+[v _DISP_Bat000 DISP_Bat000 `(v  1 e 0 0 ]
+{
+[v DISP_Bat000@startx startx `uc  1 a 1 wreg ]
+"312
+[v DISP_Bat000@l l `us  1 a 2 13 ]
+[v DISP_Bat000@m m `us  1 a 2 11 ]
+"311
+[v DISP_Bat000@temp temp `uc  1 a 1 10 ]
+[v DISP_Bat000@n n `uc  1 a 1 9 ]
+[v DISP_Bat000@k k `uc  1 a 1 8 ]
+[v DISP_Bat000@j j `uc  1 a 1 7 ]
+[v DISP_Bat000@i i `uc  1 a 1 6 ]
+"309
+[v DISP_Bat000@startx startx `uc  1 a 1 wreg ]
+[v DISP_Bat000@starty starty `uc  1 p 1 2 ]
+"313
+[v DISP_Bat000@startx startx `uc  1 a 1 5 ]
+"335
+} 0
+"121 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_main.c
+[v _BAT_WarnFir BAT_WarnFir `(v  1 e 0 0 ]
+{
+"138
+} 0
+"140
+[v _BAT_Warn BAT_Warn `(v  1 e 0 0 ]
+{
+"189
+} 0
+"394 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _AUDIO_Key AUDIO_Key `(v  1 e 0 0 ]
+{
+"416
+} 0
+"385
+[v _BUZ_Cls BUZ_Cls `(v  1 e 0 0 ]
+{
+"392
+} 0
+"294
+[v _AUDIO AUDIO `(v  1 e 0 0 ]
+{
+"374
+} 0
+"31 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_ofile_lcd_02.c
+[v _DISP_Led DISP_Led `(v  1 e 0 0 ]
+{
+"41
+} 0
+"208 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_main.c
+[v _AUDIO_Sub AUDIO_Sub `(v  1 e 0 0 ]
+{
+[v AUDIO_Sub@cnt cnt `uc  1 a 1 wreg ]
+[v AUDIO_Sub@cnt cnt `uc  1 a 1 wreg ]
+"289
+} 0
+"157
+[v _bee_three bee_three `(v  1 e 0 0 ]
+{
+"204
+} 0
+"473 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\BIOS_JLX1864G_139.c
+[v _DISP_BuzClr DISP_BuzClr `(v  1 e 0 0 ]
+{
+[v DISP_BuzClr@startx startx `uc  1 a 1 wreg ]
+"476
+[v DISP_BuzClr@m m `us  1 a 2 12 ]
+[v DISP_BuzClr@l l `us  1 a 2 10 ]
+"475
+[v DISP_BuzClr@n n `uc  1 a 1 9 ]
+[v DISP_BuzClr@k k `uc  1 a 1 8 ]
+[v DISP_BuzClr@j j `uc  1 a 1 7 ]
+[v DISP_BuzClr@i i `uc  1 a 1 6 ]
+"473
+[v DISP_BuzClr@startx startx `uc  1 a 1 wreg ]
+[v DISP_BuzClr@starty starty `uc  1 p 1 2 ]
+"477
+[v DISP_BuzClr@startx startx `uc  1 a 1 5 ]
+"500
+} 0
+"18
+[v _BIOS_JLX12864_TRANS_DAT BIOS_JLX12864_TRANS_DAT `(v  1 e 0 0 ]
+{
+[v BIOS_JLX12864_TRANS_DAT@data data `i  1 p 2 0 ]
+"24
+} 0
+"8
+[v _BIOS_JLX12864_TRANS_CMD BIOS_JLX12864_TRANS_CMD `(v  1 e 0 0 ]
+{
+[v BIOS_JLX12864_TRANS_CMD@data data `i  1 p 2 0 ]
+"15
+} 0
+"64 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_dis_sys_ini_00.c
+[v _Isr Isr `II(v  1 e 0 0 ]
+{
+"114
+} 0
+"113 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ofile_load_00.c
+[v _PRESS_ConA PRESS_ConA `(v  1 e 0 0 ]
+{
+"182
+} 0
+"41
+[v _PRESS_ConSubA PRESS_ConSubA `(v  1 e 0 0 ]
+{
+"109
+} 0
+"28 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwtofl.c
+[v i2___lwtofl __lwtofl `(d  1 e 4 0 ]
+{
+[v i2___lwtofl@c c `ui  1 p 2 10 ]
+"31
+} 0
+"43 C:\Program Files\Microchip\xc8\v1.33\sources\common\fltol.c
+[v i2___fltol __fltol `(l  1 e 4 0 ]
+{
+[v i2___fltol@exp1 __fltol `uc  1 a 1 9 ]
+[v i2___fltol@sign1 __fltol `uc  1 a 1 8 ]
+[v i2___fltol@f1 f1 `d  1 p 4 0 ]
+"70
+} 0
+"62 C:\Program Files\Microchip\xc8\v1.33\sources\common\flmul.c
+[v i2___flmul __flmul `(d  1 e 4 0 ]
+{
+[v i2___flmul@f3_as_product __flmul `ul  1 a 4 42 ]
+[v i2___flmul@sign __flmul `uc  1 a 1 47 ]
+[v i2___flmul@cntr __flmul `uc  1 a 1 46 ]
+[v i2___flmul@exp __flmul `uc  1 a 1 41 ]
+[v i2___flmul@f1 f1 `d  1 p 4 29 ]
+[v i2___flmul@f2 f2 `d  1 p 4 33 ]
+"220
+} 0
+"49 C:\Program Files\Microchip\xc8\v1.33\sources\common\fldiv.c
+[v i2___fldiv __fldiv `(d  1 e 4 0 ]
+{
+[v i2___fldiv@f3 __fldiv `d  1 a 4 26 ]
+[v i2___fldiv@sign __fldiv `uc  1 a 1 32 ]
+[v i2___fldiv@exp __fldiv `uc  1 a 1 31 ]
+[v i2___fldiv@cntr __fldiv `uc  1 a 1 30 ]
+[v i2___fldiv@f1 f1 `d  1 p 4 14 ]
+[v i2___fldiv@f2 f2 `d  1 p 4 18 ]
+"77
+} 0
+"88 C:\Program Files\Microchip\xc8\v1.33\sources\common\fladd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+{
+"90
+[v ___fladd@exp1 exp1 `uc  1 a 1 28 ]
+[v ___fladd@exp2 exp2 `uc  1 a 1 27 ]
+[v ___fladd@sign sign `uc  1 a 1 26 ]
+"88
+[v ___fladd@f1 f1 `d  1 p 4 14 ]
+[v ___fladd@f2 f2 `d  1 p 4 18 ]
+"149
+} 0
+"63 C:\Program Files\Microchip\xc8\v1.33\sources\common\double.c
+[v i2___flpack __flpack `(d  1 e 4 0 ]
+{
+[v i2___flpack@arg arg `ul  1 p 4 0 ]
+[v i2___flpack@exp exp `uc  1 p 1 4 ]
+[v i2___flpack@sign sign `uc  1 p 1 5 ]
+"87
+} 0
+"95 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_over.c
+[v _STAT_conNewa STAT_conNewa `(v  1 e 0 0 ]
+{
+"97
+[v STAT_conNewa@temp temp `us  1 a 2 21 ]
+"247
+} 0
+"58
+[v _get_press_delta get_press_delta `(v  1 e 0 0 ]
+{
+"60
+[v get_press_delta@delta delta `us  1 a 2 15 ]
+"58
+[v get_press_delta@press press `us  1 p 2 13 ]
+"77
+} 0
+"15 C:\Program Files\Microchip\xc8\v1.33\sources\common\Umul16.c
+[v i2___wmul __wmul `(ui  1 e 2 0 ]
+{
+[v i2___wmul@product __wmul `ui  1 a 2 4 ]
+[v i2___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v i2___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+"53
+} 0
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\lwdiv.c
+[v i2___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+[v i2___lwdiv@quotient __lwdiv `ui  1 a 2 10 ]
+[v i2___lwdiv@counter __lwdiv `uc  1 a 1 12 ]
+[v i2___lwdiv@dividend dividend `ui  1 p 2 6 ]
+[v i2___lwdiv@divisor divisor `ui  1 p 2 8 ]
+"31
+} 0
+"79 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_over.c
+[v _calc_delta_i calc_delta_i `(us  1 s 2 calc_delta_i ]
+{
+"81
+[v calc_delta_i@rst rst `us  1 a 2 4 ]
+"79
+[v calc_delta_i@counts1 counts1 `us  1 p 2 0 ]
+[v calc_delta_i@counts2 counts2 `us  1 p 2 2 ]
+"88
+} 0
+"20 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ofile_load_00.c
+[v _OPEN_PwmA OPEN_PwmA `(v  1 e 0 0 ]
+{
+"23
+} 0
+"24 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_over.c
+[v _CONTR_fallaNew CONTR_fallaNew `(v  1 e 0 0 ]
+{
+"56
+} 0
+"24 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ofile_load_00.c
+[v _CLS_PwmA CLS_PwmA `(v  1 e 0 0 ]
+{
+"27
+} 0
+"60 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_main.c
+[v _LEVEL_WarnA LEVEL_WarnA `(v  1 e 0 0 ]
+{
+"117
+} 0
+"77 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\npwt_con_ifile_adc.c
+[v _ADC_Ps90 ADC_Ps90 `(v  1 e 0 0 ]
+{
+"98
+} 0
+"58
+[v _ADC_DatCal ADC_DatCal `(v  1 e 0 0 ]
+{
+"74
+} 0
+"101 D:\2016\npwt_iii_source_code\relese\vr-npwt_s_dis_big_new13_rui_for_eu _false_sin\source\adc.c
+[v _adc_reader_press adc_reader_press `(us  1 e 2 0 ]
+{
+"103
+[v adc_reader_press@p p `us  1 a 2 17 ]
+"105
+} 0
+"69
+[v _adc_press_filter adc_press_filter `(us  1 s 2 adc_press_filter ]
+{
+[v adc_press_filter@ch ch `uc  1 a 1 wreg ]
+"72
+[v adc_press_filter@sum sum `s  1 a 2 13 ]
+"71
+[v adc_press_filter@count count `uc  1 a 1 12 ]
+"69
+[v adc_press_filter@ch ch `uc  1 a 1 wreg ]
+"72
+[v adc_press_filter@ch ch `uc  1 a 1 11 ]
+"80
+} 0
+"108
+[v _adc_reader_power adc_reader_power `(us  1 e 2 0 ]
+{
+"110
+[v adc_reader_power@p p `us  1 a 2 17 ]
+"112
+} 0
+"87
+[v _adc_power_filter adc_power_filter `(us  1 s 2 adc_power_filter ]
+{
+[v adc_power_filter@ch ch `uc  1 a 1 wreg ]
+"90
+[v adc_power_filter@sum sum `s  1 a 2 13 ]
+"89
+[v adc_power_filter@count count `uc  1 a 1 12 ]
+"87
+[v adc_power_filter@ch ch `uc  1 a 1 wreg ]
+"90
+[v adc_power_filter@ch ch `uc  1 a 1 11 ]
+"98
+} 0
+"40
+[v _adc_read adc_read `(us  1 s 2 adc_read ]
+{
+[v adc_read@channel channel `uc  1 a 1 wreg ]
+"42
+[v adc_read@ADC ADC `us  1 a 2 7 ]
+"40
+[v adc_read@channel channel `uc  1 a 1 wreg ]
+[v adc_read@channel channel `uc  1 a 1 6 ]
+"53
+} 0
+"8 C:\Program Files\Microchip\xc8\v1.33\sources\common\awdiv.c
+[v ___awdiv __awdiv `(i  1 e 2 0 ]
+{
+"11
+[v ___awdiv@quotient quotient `i  1 a 2 6 ]
+"12
+[v ___awdiv@sign sign `uc  1 a 1 5 ]
+[v ___awdiv@counter counter `uc  1 a 1 4 ]
+"8
+[v ___awdiv@dividend dividend `i  1 p 2 0 ]
+[v ___awdiv@divisor divisor `i  1 p 2 2 ]
+"42
+} 0
