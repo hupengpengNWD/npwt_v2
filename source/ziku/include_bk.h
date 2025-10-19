@@ -77,15 +77,15 @@
 #define    ZUO      1032
 
 #define    MAIN_CLK  20
-#define    MOD_SYS   0 /*初始化*/
-#define    MOD_WAT   1 /*等待指令*/ 
-#define    MOD_LIX   2 /*连续运行*/
-#define    MOD_JIX   3 /*间歇运行*/
-#define    MOD_ZXB   10/*无*/
-#define    MOD_SET   4 /*设定*/
-#define    MOD_ZHT   5 /*暂停*/
-#define    MOD_ERR   6 /*错误*/
-#define    MOD_OFF   7 /*关机*/
+#define    MOD_SYS   0 /*鲁玫脢录禄炉*/
+#define    MOD_WAT   1 /*碌脠麓媒脰赂脕卯*/ 
+#define    MOD_LIX   2 /*脕卢脨酶脭脣脨脨*/
+#define    MOD_JIX   3 /*录盲脨陋脭脣脨脨*/
+#define    MOD_ZXB   10/*脦脼*/
+#define    MOD_SET   4 /*脡猫露篓*/
+#define    MOD_ZHT   5 /*脭脻脥拢*/
+#define    MOD_ERR   6 /*麓铆脦贸*/
+#define    MOD_OFF   7 /*鹿脴禄煤*/
 #define    KEY_C     0x38  
 #define    KEY_OK    0x38  ///////0x38  
 #define    KEY_UP    0x34  ///////0x0b
@@ -98,14 +98,14 @@
 #define    KEY_MUTL  0x9c 
 
 /*****************************************
-	   位定义区
+	   脦禄露篓脪氓脟酶
 ******************************************/
 
-#define    ERRA_LQ     0x01  ////////漏气
-#define    ERRA_V      0x02  ////////未接液盒
-#define    ERRA_YW     0x04  ////////液位到
-#define    ERRA_S      0x08  ////////传感器
-#define    ERRB_DS     0x10  //管路堵塞
+#define    ERRA_LQ     0x01  ////////脗漏脝酶
+#define    ERRA_V      0x02  ////////脦麓陆脫脪潞潞脨
+#define    ERRA_YW     0x04  ////////脪潞脦禄碌陆
+#define    ERRA_S      0x08  ////////麓芦赂脨脝梅
+#define    ERRB_DS     0x10  //鹿脺脗路露脗脠没
 #define    ERRB_V      0x20  
 #define    ERRB_YW     0x40  
 #define    ERRB_S      0x80 
@@ -115,8 +115,8 @@
 #define    GRE         LATCbits.LATC4
 #define    YEL         LATCbits.LATC5
 #define    DRV_EN      LATCbits.LATC3
-#define    VAL1        LATBbits.LATB0    /////////start  协助泵启动的泄气阀
-#define    VAL2        LATBbits.LATB1    /////////open   高压放气的泄气阀
+#define    VAL1        LATBbits.LATB0    /////////start  脨颅脰煤卤脙脝么露炉碌脛脨鹿脝酶路搂
+#define    VAL2        LATBbits.LATB1    /////////open   赂脽脩鹿路脜脝酶碌脛脨鹿脝酶路搂
 #define    SPEAK       LATAbits.LATA3
 #define    PUMP        LATCbits.LATC7
 #define    POWER_ON    LATCbits.LATC2
@@ -126,9 +126,9 @@
 #define  AUDIO_G2  LATAbits.LATA2
 #define  AUDIO_G1  LATAbits.LATA3
 #define  AUDIO_G0  LATAbits.LATA5
-#define  AUDIO_CNT     3      ///////////////鸣叫次数
-#define  AUDIO_TIM     10     ///////////////周期20*50--1秒
-#define  AUDIO_PERIOD  1000   ////////////////20秒
+#define  AUDIO_CNT     3      ///////////////脙霉陆脨麓脦脢媒
+#define  AUDIO_TIM     10     ///////////////脰脺脝脷20*50--1脙毛
+#define  AUDIO_PERIOD  1000   ////////////////20脙毛
 
 #define    T3ON        T3CONbits.TMR3ON
 #define    TX2IF       PIR3bits.4
@@ -143,11 +143,11 @@
 #define    PWM_PERO         10   // 20MS--50HZ;100MS---10Hz
 
 /***************************************************************************************/
-#define ADC_CNT  3                ////////////////////////////////////////////adc转换次数
-#define ADC_CHN  3                  ////////////////////////////////////////////adc通道数
+#define ADC_CNT  3                ////////////////////////////////////////////adc脳陋禄禄麓脦脢媒
+#define ADC_CHN  3                  ////////////////////////////////////////////adc脥篓碌脌脢媒
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define addr 0xa000	    //定义要写入的起始地址  db00
+#define addr 0xa000	    //露篓脪氓脪陋脨麓脠毛碌脛脝冒脢录碌脴脰路  db00
 
 #endif
 

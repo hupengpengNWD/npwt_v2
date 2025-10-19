@@ -3,13 +3,13 @@
 
 extern void Write_Cycle(void)/*used*/;
 
-//²Á³ıº¯Êı,Ã¿´Î²Á³ı1024¸ö×Ö½Ú
+//Â²ÃÂ³Ã½ÂºÂ¯ÃŠÃ½,ÃƒÂ¿Â´ÃÂ²ÃÂ³Ã½1024Â¸Ã¶Ã—Ã–Â½Ãš
 extern void Flash_Erase(unsigned long address)/*used*/;
 
-//Ğ´º¯Êı,Ã¿´ÎĞ´ÈëFLASH 1¸ö×Ö
+//ÃÂ´ÂºÂ¯ÃŠÃ½,ÃƒÂ¿Â´ÃÃÂ´ÃˆÃ«FLASH 1Â¸Ã¶Ã—Ã–
 extern void Write_One_Word(unsigned long address,unsigned int data)/*used*/;
 
-//¶Áº¯Êı£¬Ã¿´Î¶ÁÒ»¸ö×Ö
+//Â¶ÃÂºÂ¯ÃŠÃ½Â£Â¬ÃƒÂ¿Â´ÃÂ¶ÃÃ’Â»Â¸Ã¶Ã—Ã–
 extern unsigned int Flash_Read(unsigned long address)/*used*/;
 
 #endif

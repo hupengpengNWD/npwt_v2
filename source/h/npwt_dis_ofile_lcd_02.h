@@ -22,10 +22,10 @@ extern unsigned char  flg_disp;
 ///20160510 add////////////////////////////////////////////////////////////
 struct 
 {
-	unsigned short lq_times;// lwz 放气次数
+	unsigned short lq_times;// lwz 路脜脝酶麓脦脢媒
 	unsigned char show_times;
 	unsigned char step;
-	unsigned long buz_key_pressed_times;// lwz 按下BUZ键的时间
+	unsigned long buz_key_pressed_times;// lwz 掳麓脧脗BUZ录眉碌脛脢卤录盲
 }show_lq_times;
 
 

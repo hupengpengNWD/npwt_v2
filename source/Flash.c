@@ -6,13 +6,13 @@
 **Target        : PIC18F46J11
 **OSC           : 8MHZ
 **HardWare      : 
-**Function      : Flash¶ÁÐ´²Á³ýº¯Êý
-**Notice	: ¿ÉÊ¹ÓÃMPLAB SIM½øÐÐ·ÂÕæ,²é¿´ÔËÐÐÐ§¹û
+**Function      : FlashÂ¶ÃÃÂ´Â²ÃÂ³Ã½ÂºÂ¯ÃŠÃ½
+**Notice	: Â¿Ã‰ÃŠÂ¹Ã“ÃƒMPLAB SIMÂ½Ã¸ÃÃÂ·Ã‚Ã•Ã¦,Â²Ã©Â¿Â´Ã”Ã‹ÃÃÃÂ§Â¹Ã»
 **************************************************************************************************/
 #include   "include.h"
 
 
-//Ð´ÖÜÆÚ
+//ÃÂ´Ã–ÃœÃ†Ãš
 void Write_Cycle(void)/*used*/
 {
 
@@ -26,14 +26,14 @@ void Write_Cycle(void)/*used*/
 	EECON2 = 0X55;
 	EECON2 = 0XAA;
 
-	WR = 1; 		//1 Æô¶¯¶Á/Ð´ÖÜÆÚ;0 Ð´ÖÜÆÚÍê³É
+	WR = 1; 		//1 Ã†Ã´Â¶Â¯Â¶Ã/ÃÂ´Ã–ÃœÃ†Ãš;0 ÃÂ´Ã–ÃœÃ†ÃšÃÃªÂ³Ã‰
 	NOP();
 	NOP();
 	NOP();
 	NOP();
 	NOP();
 	NOP();
-	while(WR) ;		//µÈ´ýÐ´ÖÜÆÚÍê³É
+	while(WR) ;		//ÂµÃˆÂ´Ã½ÃÂ´Ã–ÃœÃ†ÃšÃÃªÂ³Ã‰
 	WREN = 0;		
 
 	if(CARRY) 
@@ -42,28 +42,28 @@ void Write_Cycle(void)/*used*/
 
 
 
-//²Á³ýº¯Êý,Ã¿´Î²Á³ý1024¸ö×Ö½Ú
+//Â²ÃÂ³Ã½ÂºÂ¯ÃŠÃ½,ÃƒÂ¿Â´ÃŽÂ²ÃÂ³Ã½1024Â¸Ã¶Ã—Ã–Â½Ãš
 void Flash_Erase(unsigned long address)/*used*/
 {
-    TBLPTRL = ((address) & 0xFF);
-    TBLPTRH = (((address) >> 8) & 0xFF);
-    TBLPTRU = (((address) >> 8) >> 8);
+	TBLPTRL = ((address) & 0xFF);
+	TBLPTRH = (((address) >> 8) & 0xFF);
+	TBLPTRU = (((address) >> 8) >> 8);
 
 	FREE = 1;  		
 	Write_Cycle();
 }
 
-//Ð´º¯Êý,Ã¿´ÎÐ´ÈëFLASH 1¸ö×Ö
+//ÃÂ´ÂºÂ¯ÃŠÃ½,ÃƒÂ¿Â´ÃŽÃÂ´ÃˆÃ«FLASH 1Â¸Ã¶Ã—Ã–
 void Write_One_Word(unsigned long address,unsigned int data)/*used*/
 {
 
 	TBLPTRL = ((address) & 0xFF);
-        TBLPTRH = (((address) >> 8) & 0xFF);
-        TBLPTRU = (((address) >> 8) >> 8);
+		TBLPTRH = (((address) >> 8) & 0xFF);
+		TBLPTRU = (((address) >> 8) >> 8);
 
-	TABLAT = data>>8;//¸ßÎ»
+	TABLAT = data>>8;//Â¸ÃŸÃŽÂ»
   	asm("\tTBLWT*+");
-	TABLAT = data;   //µÍÎ»
+	TABLAT = data;   //ÂµÃÃŽÂ»
   	asm("\tTBLWT*");  	
 
 	FREE = 0;  		
@@ -71,19 +71,19 @@ void Write_One_Word(unsigned long address,unsigned int data)/*used*/
 	Write_Cycle();
 }
 
-//¶Áº¯Êý£¬Ã¿´Î¶ÁÒ»¸ö×Ö
+//Â¶ÃÂºÂ¯ÃŠÃ½Â£Â¬ÃƒÂ¿Â´ÃŽÂ¶ÃÃ’Â»Â¸Ã¶Ã—Ã–
 unsigned int Flash_Read(unsigned long address)/*used*/
 {
 	unsigned int temp;
-    	TBLPTRL = ((address) & 0xFF);
-    	TBLPTRH = (((address) >> 8) & 0xFF);
-    	TBLPTRU = (((address) >> 8) >> 8);
+		TBLPTRL = ((address) & 0xFF);
+		TBLPTRH = (((address) >> 8) & 0xFF);
+		TBLPTRU = (((address) >> 8) >> 8);
 	asm("\tTBLRD*+");
-	temp=TABLAT;//¸ßÎ»
+	temp=TABLAT;//Â¸ÃŸÃŽÂ»
 	temp<<=8;
 	asm("\tTBLRD*+");
-	temp|=TABLAT;//µÍÎ»		
-        return temp;
+	temp|=TABLAT;//ÂµÃÃŽÂ»		
+		return temp;
 }
 
 

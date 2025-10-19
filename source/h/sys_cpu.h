@@ -11,7 +11,7 @@ typedef  signed   short INT16S;                   /* Signed   16 bit quantity   
 typedef  float          FP32;                     /* Single precision floating point                    */
 ///typedef  double         FP32;                     /* Double precision floating point                    */
 
-#define DISP_TRUE_DATA    0   /*显示实际数据*/
+#define DISP_TRUE_DATA    0   /*脧脭脢戮脢碌录脢脢媒戮脻*/
 
 #define SetLedRed()	{LATB  =  LATB&0xef; LATB  =  LATB|0x20;}
 

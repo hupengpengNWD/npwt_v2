@@ -12,154 +12,154 @@
 extern "C" {
 #endif
 
-////////////////// 执行周期数说明 ////////////////////////////////////////////////////////////
-///    执行周期数是指代码执行此语句的执行次数，每个周期的实际执行时间是不定的，依据当时状况///
-///，执行时间有些许差异。后期如果可能的话，可以改为系统时间的计算方式。                                  					   ///
+////////////////// 脰麓脨脨脰脺脝脷脢媒脣碌脙梅 ////////////////////////////////////////////////////////////
+///    脰麓脨脨脰脺脝脷脢媒脢脟脰赂麓煤脗毛脰麓脨脨麓脣脫茂戮盲碌脛脰麓脨脨麓脦脢媒拢卢脙驴赂枚脰脺脝脷碌脛脢碌录脢脰麓脨脨脢卤录盲脢脟虏禄露篓碌脛拢卢脪脌戮脻碌卤脢卤脳麓驴枚///
+///拢卢脰麓脨脨脢卤录盲脫脨脨漏脨铆虏卯脪矛隆拢潞贸脝脷脠莽鹿没驴脡脛脺碌脛禄掳拢卢驴脡脪脭赂脛脦陋脧碌脥鲁脢卤录盲碌脛录脝脣茫路陆脢陆隆拢                                  					   ///
 //////////////////////////////////////////////////////////////////////////////////////////////
-#define CANCEL_LEAKAGE_FLAG_CYCLE 200 // 取消漏气标志的时间，单位：执行周期数
-#define JUDGE_LEAKAGE_TIMEOUT 10800   // 判断漏气的超时时间，单位：执行周期数
+#define CANCEL_LEAKAGE_FLAG_CYCLE 200 // 脠隆脧没脗漏脝酶卤锚脰戮碌脛脢卤录盲拢卢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
+#define JUDGE_LEAKAGE_TIMEOUT 10800   // 脜脨露脧脗漏脝酶碌脛鲁卢脢卤脢卤录盲拢卢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
 #define JX_MODE_TIME_FACTOR_BY_LX 2
-#define LEAKAGE_TIMEOUT_FOR_LIX 2200 // 连续模式下的漏气判定超时时间
-#define LEAKAGE_TIMEOUT_FOR_JIX 4400 // 间歇模式下的漏气判定超时时间
-#define SET_LEAKAGE_FLAG_CYCLE 2200   // 设置漏气标志的时间，单位：执行周期数
-#define JUDGE_CANISTER_FULL_COUNT 4   // 判断液位满的次数
-#define JUDGE_CANISTER_FULL_TIME 8000 // 判断液位满的判断时间，在此时间内，完成4次震荡。单位：执行周期数
-#define MAX_BEE_TIME 10               // 蜂鸣器持续响的时间，单位：执行周期数
-#define BELOW_3_5V_CYCLE 500          // 如果电压小于3.5V，且运行超过BELOW_3_5V_CYCLE个循环，则进行软关机，单位：执行周期数
-#define LOWER_THAN_3_5V 5             // 自动关机值，低于3.5V
-#define LOWER_BAT_WARN_3_6V 10        // 低电量报警值，低于3.6V
-#define LOWER_THAN_3_7V 1             // 低于3.7V
-#define LOWER_THAN_3_8V 2             // 低于3.8V
-#define LOWER_THAN_4V 3               // 低于3.8V
-#define BAT_FULL 4                    // 电池电量满
-#define BAT_CHARGING 0                // 电池正在充电状态下
-#define NO_KEY_PRESSED 0x3c           // 没有按键被按下时的键值
-#define BACK_LED_OFF_TIMEOUT 1500     // 背光灭的超时时间
-#define BUZZER_TIME_CYCLE 5           // 蜂鸣器响的时间，单位：执行周期数
-#define TK_TIMEOUT_CYCLE 14999        // 空闲超时时间，计算：5*60*1000/20=15000
-#define CANCEL_MUTEFLAG_TIMEOUT 15000 // 取消静音模式的倒计时
-#define LED_LOW_THAN_3_5V_OR_ERR 10   // 当电量低于3.5V或者发生任何错误时，LED的显示方式：绿屏
-#define LED_LOW_THAN_3_6V 1           // 低电量时，LED的显示方式：绿屏，并且界面显示低电量
-#define LED_BAT_NORMAL 0              // 电量正常时，LED的显示方式：充电时黄屏，未充电时绿屏
-#define UNLOCK_NPWT_KEYVAL 0x24       // 按下解锁键时的键值，即同时按下左右键
-#define UNLOCK_NPWT_L_KEYVAL 0xa4     // 长时间按下解锁键时的键值，即同时按下左右键
-#define LONG_PRESS_SWITCH_LANG 0x98   // 长时间按下上下键，用以切换语言
-#define JUDGE_LONG_PRESS_TIME 100     // 判断按键被长时间按下的时间
-#define GET_KEY_VAL PORTB&0x3c        // 获取按键的值，推测：这个寄存器存有按键的当前状态，未被按下时，按键处于高电平；按下后，按键处于低电平；
-#define SILENT_FLAG_BITMASK 0x8000    // 静默标志的标志位掩码
-#define SILENT_FLAG_SET_TIMEOUT 10000 // 静默标志设置的延时时间
-#define JIX_CYCLES_PER_SECOND 50      // 间歇模式下，每秒对应的循环次数
-#define LONGPRESS_MINITE_PER_STEP 5   // 长按时，设置时间的步距
-#define LONG_PRESS_SET_PRESS_INTERVAL 20   // 设置压力时，长按按钮，连续更改压力的时间间隔
-#define MAX_JIX_HIGHMODE_TIME 99      // 间歇高压下设置的高压最多工作时间
-#define MAX_JIX_LOWMODE_TIME 99       // 间歇下设置的低压最多工作时间
-#define MIN_JIX_HIGHMODE_TIME 1       // 间歇高压下设置的高压最少工作时间
-#define MIN_JIX_LOWMODE_TIME 1        // 间歇下设置的低压最少工作时间
-#define JUDGE_DS_TIME 180000ul        // 判断堵塞的超时时间
-#define RECORDE_PRESSURE_INTERVAL 3000// 记录压力的间隔时间，此时间乘以7就是检测堵塞气压变化的时间
-#define JUDGE_YWM_AFTER_PUMP_STOP 499 // 高压状态下停泵后，再经过多少时间，仍旧保持高压，则认为是液位满的一次震荡
-#define UPDATE_UI_PRESSURE_TIME_1 50  // 更新界面显示的压力时间因素1，即，多久采集一次数据
-#define UPDATE_UI_PRESSURE_TIME_2 8   // 更新界面显示的压力时间因素2，即，多久显示一次采集的数据
-#define PRESS_KEY_BUZ_SHOWLQ_TIME 299 // 按下BUZ键，显示漏气的时间
-#define MIN_PRESS_REPORT_DS 70        // 报告管路堵塞时，压力大于MIN_PRESS_REPORT_DS，则直接报告；
-#define NO_REPORE_PRESS_FOR_DS 57     // 压力小于NO_REPORE_PRESS_FOR_DS时，不报管路堵塞。
-#define DS_REPORT_STEADY_COUNTS 7     // 低压状态下，报告管路堵塞时，连续判定DS_REPORT_STEADY_COUNTS次，才会认为是管路堵塞
-#define RECORDE_PRESSURE_INTERVAL_LOW 5000    // 低压条件下的堵塞压力记录时间
+#define LEAKAGE_TIMEOUT_FOR_LIX 2200 // 脕卢脨酶脛拢脢陆脧脗碌脛脗漏脝酶脜脨露篓鲁卢脢卤脢卤录盲
+#define LEAKAGE_TIMEOUT_FOR_JIX 4400 // 录盲脨陋脛拢脢陆脧脗碌脛脗漏脝酶脜脨露篓鲁卢脢卤脢卤录盲
+#define SET_LEAKAGE_FLAG_CYCLE 2200   // 脡猫脰脙脗漏脝酶卤锚脰戮碌脛脢卤录盲拢卢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
+#define JUDGE_CANISTER_FULL_COUNT 4   // 脜脨露脧脪潞脦禄脗煤碌脛麓脦脢媒
+#define JUDGE_CANISTER_FULL_TIME 8000 // 脜脨露脧脪潞脦禄脗煤碌脛脜脨露脧脢卤录盲拢卢脭脷麓脣脢卤录盲脛脷拢卢脥锚鲁脡4麓脦脮冒碌麓隆拢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
+#define MAX_BEE_TIME 10               // 路盲脙霉脝梅鲁脰脨酶脧矛碌脛脢卤录盲拢卢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
+#define BELOW_3_5V_CYCLE 500          // 脠莽鹿没碌莽脩鹿脨隆脫脷3.5V拢卢脟脪脭脣脨脨鲁卢鹿媒BELOW_3_5V_CYCLE赂枚脩颅禄路拢卢脭貌陆酶脨脨脠铆鹿脴禄煤拢卢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
+#define LOWER_THAN_3_5V 5             // 脳脭露炉鹿脴禄煤脰碌拢卢碌脥脫脷3.5V
+#define LOWER_BAT_WARN_3_6V 10        // 碌脥碌莽脕驴卤篓戮炉脰碌拢卢碌脥脫脷3.6V
+#define LOWER_THAN_3_7V 1             // 碌脥脫脷3.7V
+#define LOWER_THAN_3_8V 2             // 碌脥脫脷3.8V
+#define LOWER_THAN_4V 3               // 碌脥脫脷3.8V
+#define BAT_FULL 4                    // 碌莽鲁脴碌莽脕驴脗煤
+#define BAT_CHARGING 0                // 碌莽鲁脴脮媒脭脷鲁盲碌莽脳麓脤卢脧脗
+#define NO_KEY_PRESSED 0x3c           // 脙禄脫脨掳麓录眉卤禄掳麓脧脗脢卤碌脛录眉脰碌
+#define BACK_LED_OFF_TIMEOUT 1500     // 卤鲁鹿芒脙冒碌脛鲁卢脢卤脢卤录盲
+#define BUZZER_TIME_CYCLE 5           // 路盲脙霉脝梅脧矛碌脛脢卤录盲拢卢碌楼脦禄拢潞脰麓脨脨脰脺脝脷脢媒
+#define TK_TIMEOUT_CYCLE 14999        // 驴脮脧脨鲁卢脢卤脢卤录盲拢卢录脝脣茫拢潞5*60*1000/20=15000
+#define CANCEL_MUTEFLAG_TIMEOUT 15000 // 脠隆脧没戮虏脪么脛拢脢陆碌脛碌鹿录脝脢卤
+#define LED_LOW_THAN_3_5V_OR_ERR 10   // 碌卤碌莽脕驴碌脥脫脷3.5V禄貌脮脽路垄脡煤脠脦潞脦麓铆脦贸脢卤拢卢LED碌脛脧脭脢戮路陆脢陆拢潞脗脤脝脕
+#define LED_LOW_THAN_3_6V 1           // 碌脥碌莽脕驴脢卤拢卢LED碌脛脧脭脢戮路陆脢陆拢潞脗脤脝脕拢卢虏垄脟脪陆莽脙忙脧脭脢戮碌脥碌莽脕驴
+#define LED_BAT_NORMAL 0              // 碌莽脕驴脮媒鲁拢脢卤拢卢LED碌脛脧脭脢戮路陆脢陆拢潞鲁盲碌莽脢卤禄脝脝脕拢卢脦麓鲁盲碌莽脢卤脗脤脝脕
+#define UNLOCK_NPWT_KEYVAL 0x24       // 掳麓脧脗陆芒脣酶录眉脢卤碌脛录眉脰碌拢卢录麓脥卢脢卤掳麓脧脗脳贸脫脪录眉
+#define UNLOCK_NPWT_L_KEYVAL 0xa4     // 鲁陇脢卤录盲掳麓脧脗陆芒脣酶录眉脢卤碌脛录眉脰碌拢卢录麓脥卢脢卤掳麓脧脗脳贸脫脪录眉
+#define LONG_PRESS_SWITCH_LANG 0x98   // 鲁陇脢卤录盲掳麓脧脗脡脧脧脗录眉拢卢脫脙脪脭脟脨禄禄脫茂脩脭
+#define JUDGE_LONG_PRESS_TIME 100     // 脜脨露脧掳麓录眉卤禄鲁陇脢卤录盲掳麓脧脗碌脛脢卤录盲
+#define GET_KEY_VAL PORTB&0x3c        // 禄帽脠隆掳麓录眉碌脛脰碌拢卢脥脝虏芒拢潞脮芒赂枚录脛麓忙脝梅麓忙脫脨掳麓录眉碌脛碌卤脟掳脳麓脤卢拢卢脦麓卤禄掳麓脧脗脢卤拢卢掳麓录眉麓娄脫脷赂脽碌莽脝陆拢禄掳麓脧脗潞贸拢卢掳麓录眉麓娄脫脷碌脥碌莽脝陆拢禄
+#define SILENT_FLAG_BITMASK 0x8000    // 戮虏脛卢卤锚脰戮碌脛卤锚脰戮脦禄脩脷脗毛
+#define SILENT_FLAG_SET_TIMEOUT 10000 // 戮虏脛卢卤锚脰戮脡猫脰脙碌脛脩脫脢卤脢卤录盲
+#define JIX_CYCLES_PER_SECOND 50      // 录盲脨陋脛拢脢陆脧脗拢卢脙驴脙毛露脭脫娄碌脛脩颅禄路麓脦脢媒
+#define LONGPRESS_MINITE_PER_STEP 5   // 鲁陇掳麓脢卤拢卢脡猫脰脙脢卤录盲碌脛虏陆戮脿
+#define LONG_PRESS_SET_PRESS_INTERVAL 20   // 脡猫脰脙脩鹿脕娄脢卤拢卢鲁陇掳麓掳麓脜楼拢卢脕卢脨酶赂眉赂脛脩鹿脕娄碌脛脢卤录盲录盲赂么
+#define MAX_JIX_HIGHMODE_TIME 99      // 录盲脨陋赂脽脩鹿脧脗脡猫脰脙碌脛赂脽脩鹿脳卯露脿鹿陇脳梅脢卤录盲
+#define MAX_JIX_LOWMODE_TIME 99       // 录盲脨陋脧脗脡猫脰脙碌脛碌脥脩鹿脳卯露脿鹿陇脳梅脢卤录盲
+#define MIN_JIX_HIGHMODE_TIME 1       // 录盲脨陋赂脽脩鹿脧脗脡猫脰脙碌脛赂脽脩鹿脳卯脡脵鹿陇脳梅脢卤录盲
+#define MIN_JIX_LOWMODE_TIME 1        // 录盲脨陋脧脗脡猫脰脙碌脛碌脥脩鹿脳卯脡脵鹿陇脳梅脢卤录盲
+#define JUDGE_DS_TIME 180000ul        // 脜脨露脧露脗脠没碌脛鲁卢脢卤脢卤录盲
+#define RECORDE_PRESSURE_INTERVAL 3000// 录脟脗录脩鹿脕娄碌脛录盲赂么脢卤录盲拢卢麓脣脢卤录盲鲁脣脪脭7戮脥脢脟录矛虏芒露脗脠没脝酶脩鹿卤盲禄炉碌脛脢卤录盲
+#define JUDGE_YWM_AFTER_PUMP_STOP 499 // 赂脽脩鹿脳麓脤卢脧脗脥拢卤脙潞贸拢卢脭脵戮颅鹿媒露脿脡脵脢卤录盲拢卢脠脭戮脡卤拢鲁脰赂脽脩鹿拢卢脭貌脠脧脦陋脢脟脪潞脦禄脗煤碌脛脪禄麓脦脮冒碌麓
+#define UPDATE_UI_PRESSURE_TIME_1 50  // 赂眉脨脗陆莽脙忙脧脭脢戮碌脛脩鹿脕娄脢卤录盲脪貌脣脴1拢卢录麓拢卢露脿戮脙虏脡录炉脪禄麓脦脢媒戮脻
+#define UPDATE_UI_PRESSURE_TIME_2 8   // 赂眉脨脗陆莽脙忙脧脭脢戮碌脛脩鹿脕娄脢卤录盲脪貌脣脴2拢卢录麓拢卢露脿戮脙脧脭脢戮脪禄麓脦虏脡录炉碌脛脢媒戮脻
+#define PRESS_KEY_BUZ_SHOWLQ_TIME 299 // 掳麓脧脗BUZ录眉拢卢脧脭脢戮脗漏脝酶碌脛脢卤录盲
+#define MIN_PRESS_REPORT_DS 70        // 卤篓赂忙鹿脺脗路露脗脠没脢卤拢卢脩鹿脕娄麓贸脫脷MIN_PRESS_REPORT_DS拢卢脭貌脰卤陆脫卤篓赂忙拢禄
+#define NO_REPORE_PRESS_FOR_DS 57     // 脩鹿脕娄脨隆脫脷NO_REPORE_PRESS_FOR_DS脢卤拢卢虏禄卤篓鹿脺脗路露脗脠没隆拢
+#define DS_REPORT_STEADY_COUNTS 7     // 碌脥脩鹿脳麓脤卢脧脗拢卢卤篓赂忙鹿脺脗路露脗脠没脢卤拢卢脕卢脨酶脜脨露篓DS_REPORT_STEADY_COUNTS麓脦拢卢虏脜禄谩脠脧脦陋脢脟鹿脺脗路露脗脠没
+#define RECORDE_PRESSURE_INTERVAL_LOW 5000    // 碌脥脩鹿脤玫录镁脧脗碌脛露脗脠没脩鹿脕娄录脟脗录脢卤录盲
 #define TOP_PRESSURE_MAX 320
 
 enum EnumErr{
-	ERR_NONE = 0,// 无错误
-	ERR_CANISTER_NOT_CON,// 未接盒子
-	ERR_CANISTER_REACHED,// 液位到
-	ERR_AIR_LEAKAGE,// 漏气
-	ERR_SENSOR_MALFUCTION,// 传感器故障
-	ERR_PIPE_BLOCKED,// 管路堵塞
-	ERR_CANISTER_FULL,// 液位满
-	ERR_JAMED,// 堵塞。todo：两者之间有何区别
-	ERR_DEV_IDLE,// 长时间空闲
+	ERR_NONE = 0,// 脦脼麓铆脦贸
+	ERR_CANISTER_NOT_CON,// 脦麓陆脫潞脨脳脫
+	ERR_CANISTER_REACHED,// 脪潞脦禄碌陆
+	ERR_AIR_LEAKAGE,// 脗漏脝酶
+	ERR_SENSOR_MALFUCTION,// 麓芦赂脨脝梅鹿脢脮脧
+	ERR_PIPE_BLOCKED,// 鹿脺脗路露脗脠没
+	ERR_CANISTER_FULL,// 脪潞脦禄脗煤
+	ERR_JAMED,// 露脗脠没隆拢todo拢潞脕陆脮脽脰庐录盲脫脨潞脦脟酶卤冒
+	ERR_DEV_IDLE,// 鲁陇脢卤录盲驴脮脧脨
 };
 
 enum EnumUiSelect{
-	UI_WORKMODE_SELECT = 0,// 选择工作模式
-	UI_MODE_SET_HI,// 间隙模式下，设置高压；或者连续模式下设置压力
-	UI_JIX_MODE_SET_LO,// 间歇模式下设置低压
-	UI_JIX_SET_HI_TIME,// 间歇模式下，设置高压时间
-	UI_JIX_SET_LO_TIME,// 间歇模式下，设置低压时间
-	UI_SET_PRESSURE,// 显示设置压力界面
+	UI_WORKMODE_SELECT = 0,// 脩隆脭帽鹿陇脳梅脛拢脢陆
+	UI_MODE_SET_HI,// 录盲脧露脛拢脢陆脧脗拢卢脡猫脰脙赂脽脩鹿拢禄禄貌脮脽脕卢脨酶脛拢脢陆脧脗脡猫脰脙脩鹿脕娄
+	UI_JIX_MODE_SET_LO,// 录盲脨陋脛拢脢陆脧脗脡猫脰脙碌脥脩鹿
+	UI_JIX_SET_HI_TIME,// 录盲脨陋脛拢脢陆脧脗拢卢脡猫脰脙赂脽脩鹿脢卤录盲
+	UI_JIX_SET_LO_TIME,// 录盲脨陋脛拢脢陆脧脗拢卢脡猫脰脙碌脥脩鹿脢卤录盲
+	UI_SET_PRESSURE,// 脧脭脢戮脡猫脰脙脩鹿脕娄陆莽脙忙
 };
 
-// lwz 更改此值，可更换logo
+// lwz 赂眉赂脛麓脣脰碌拢卢驴脡赂眉禄禄logo
 //#define LOGO_TYPE_DEROYAL
 // #define LOGO_TYPE_VR_CHINA
 //#define LOGO_TYPE_VR_FORIEGN
 //#define LOGO_TYPE_VR_MEDWIN
 
-#define LANGUAGE_RUSSIA_ENGILISH 1 //英俄语言支持
+#define LANGUAGE_RUSSIA_ENGILISH 1 //脫垄露铆脫茂脩脭脰搂鲁脰
 
 
-// china版本的单独设置
+// china掳忙卤戮碌脛碌楼露脌脡猫脰脙
 #ifdef LANGUAGE_RUSSIA_ENGILISH
-#define LOCK_FLAG_TIMEOUT 1500        // 锁屏的超时时间
-#define DEFAULT_TARGET_PRESSURE 120   // 开机默认的目标压力
-#define    CFG_HI           300       // 连续模式或间歇模式的高压工作的高压上限
-#define    CFG_LOW          20        // 连续模式或间歇模式的高压工作的低压下限
-#define JIX_LOW_MODE_HIGHPRESS 100    // 间歇模式的低压模式下的最高设置压力
-#define JIX_LOW_MODE_LOWPRESS 10      // 间歇模式的低压模式下的最低设置压力
-#define MMHG_PER_STEP 10  // 长按时，设置时间的步距
-#define PUMP_IDLE_FLAG                // 若是定义了此标志，则显示pump idle
-#define IS_NO_LIQUID_ALARM_STOP    0   /*置位表示漏气不停泵*/
+#define LOCK_FLAG_TIMEOUT 1500        // 脣酶脝脕碌脛鲁卢脢卤脢卤录盲
+#define DEFAULT_TARGET_PRESSURE 120   // 驴陋禄煤脛卢脠脧碌脛脛驴卤锚脩鹿脕娄
+#define    CFG_HI           300       // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛赂脽脩鹿脡脧脧脼
+#define    CFG_LOW          20        // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛碌脥脩鹿脧脗脧脼
+#define JIX_LOW_MODE_HIGHPRESS 100    // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯赂脽脡猫脰脙脩鹿脕娄
+#define JIX_LOW_MODE_LOWPRESS 10      // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯碌脥脡猫脰脙脩鹿脕娄
+#define MMHG_PER_STEP 10  // 鲁陇掳麓脢卤拢卢脡猫脰脙脢卤录盲碌脛虏陆戮脿
+#define PUMP_IDLE_FLAG                // 脠么脢脟露篓脪氓脕脣麓脣卤锚脰戮拢卢脭貌脧脭脢戮pump idle
+#define IS_NO_LIQUID_ALARM_STOP    0   /*脰脙脦禄卤铆脢戮脗漏脝酶虏禄脥拢卤脙*/
 #endif
 
-// droyal版本的单独设置
+// droyal掳忙卤戮碌脛碌楼露脌脡猫脰脙
 #ifdef LOGO_TYPE_DEROYAL
-#define LOCK_FLAG_TIMEOUT 45000       // 锁屏的超时时间
-#define DEFAULT_TARGET_PRESSURE 125   // 开机默认的目标压力
-#define    CFG_HI           200       // 连续模式或间歇模式的高压工作的高压上限
-#define    CFG_LOW          20        // 连续模式或间歇模式的高压工作的低压下限
-#define JIX_LOW_MODE_HIGHPRESS 100    // 间歇模式的低压模式下的最高设置压力
-#define JIX_LOW_MODE_LOWPRESS 10      // 间歇模式的低压模式下的最低设置压力
-#define MMHG_PER_STEP 5   // 长按时，设置时间的步距
-#define PUMP_IDLE_FLAG                // 若是定义了此标志，则显示pump idle
-#define IS_NO_LIQUID_ALARM_STOP    0   /*置位表示漏气不停泵*/
+#define LOCK_FLAG_TIMEOUT 45000       // 脣酶脝脕碌脛鲁卢脢卤脢卤录盲
+#define DEFAULT_TARGET_PRESSURE 125   // 驴陋禄煤脛卢脠脧碌脛脛驴卤锚脩鹿脕娄
+#define    CFG_HI           200       // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛赂脽脩鹿脡脧脧脼
+#define    CFG_LOW          20        // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛碌脥脩鹿脧脗脧脼
+#define JIX_LOW_MODE_HIGHPRESS 100    // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯赂脽脡猫脰脙脩鹿脕娄
+#define JIX_LOW_MODE_LOWPRESS 10      // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯碌脥脡猫脰脙脩鹿脕娄
+#define MMHG_PER_STEP 5   // 鲁陇掳麓脢卤拢卢脡猫脰脙脢卤录盲碌脛虏陆戮脿
+#define PUMP_IDLE_FLAG                // 脠么脢脟露篓脪氓脕脣麓脣卤锚脰戮拢卢脭貌脧脭脢戮pump idle
+#define IS_NO_LIQUID_ALARM_STOP    0   /*脰脙脦禄卤铆脢戮脗漏脝酶虏禄脥拢卤脙*/
 #endif
 
-// china版本的单独设置
+// china掳忙卤戮碌脛碌楼露脌脡猫脰脙
 #ifdef LOGO_TYPE_VR_CHINA
-#define LOCK_FLAG_TIMEOUT 1500        // 锁屏的超时时间
-#define DEFAULT_TARGET_PRESSURE 120   // 开机默认的目标压力
-#define    CFG_HI           300       // 连续模式或间歇模式的高压工作的高压上限
-#define    CFG_LOW          20        // 连续模式或间歇模式的高压工作的低压下限
-#define JIX_LOW_MODE_HIGHPRESS 100    // 间歇模式的低压模式下的最高设置压力
-#define JIX_LOW_MODE_LOWPRESS 10      // 间歇模式的低压模式下的最低设置压力
-#define MMHG_PER_STEP 10  // 长按时，设置时间的步距
-#define PUMP_IDLE_FLAG                // 若是定义了此标志，则显示pump idle
-#define IS_NO_LIQUID_ALARM_STOP    0   /*置位表示漏气不停泵*/
+#define LOCK_FLAG_TIMEOUT 1500        // 脣酶脝脕碌脛鲁卢脢卤脢卤录盲
+#define DEFAULT_TARGET_PRESSURE 120   // 驴陋禄煤脛卢脠脧碌脛脛驴卤锚脩鹿脕娄
+#define    CFG_HI           300       // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛赂脽脩鹿脡脧脧脼
+#define    CFG_LOW          20        // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛碌脥脩鹿脧脗脧脼
+#define JIX_LOW_MODE_HIGHPRESS 100    // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯赂脽脡猫脰脙脩鹿脕娄
+#define JIX_LOW_MODE_LOWPRESS 10      // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯碌脥脡猫脰脙脩鹿脕娄
+#define MMHG_PER_STEP 10  // 鲁陇掳麓脢卤拢卢脡猫脰脙脢卤录盲碌脛虏陆戮脿
+#define PUMP_IDLE_FLAG                // 脠么脢脟露篓脪氓脕脣麓脣卤锚脰戮拢卢脭貌脧脭脢戮pump idle
+#define IS_NO_LIQUID_ALARM_STOP    0   /*脰脙脦禄卤铆脢戮脗漏脝酶虏禄脥拢卤脙*/
 #endif
 
-// 国外版的单独设置
+// 鹿煤脥芒掳忙碌脛碌楼露脌脡猫脰脙
 #ifdef LOGO_TYPE_VR_FORIEGN
-#define LOCK_FLAG_TIMEOUT 1500        // 锁屏的超时时间
-#define DEFAULT_TARGET_PRESSURE 125   // 开机默认的目标压力
-#define    CFG_HI           200       // 连续模式或间歇模式的高压工作的高压上限
-#define    CFG_LOW          20        // 连续模式或间歇模式的高压工作的低压下限
-#define JIX_LOW_MODE_HIGHPRESS 100    // 间歇模式的低压模式下的最高设置压力
-#define JIX_LOW_MODE_LOWPRESS 10      // 间歇模式的低压模式下的最低设置压力
-#define MMHG_PER_STEP 5   // 长按时，设置时间的步距
-#define PUMP_IDLE_FLAG                // 若是定义了此标志，则显示pump idle
-#define IS_NO_LIQUID_ALARM_STOP    0   /*置位表示漏气不停泵*/
+#define LOCK_FLAG_TIMEOUT 1500        // 脣酶脝脕碌脛鲁卢脢卤脢卤录盲
+#define DEFAULT_TARGET_PRESSURE 125   // 驴陋禄煤脛卢脠脧碌脛脛驴卤锚脩鹿脕娄
+#define    CFG_HI           200       // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛赂脽脩鹿脡脧脧脼
+#define    CFG_LOW          20        // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛碌脥脩鹿脧脗脧脼
+#define JIX_LOW_MODE_HIGHPRESS 100    // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯赂脽脡猫脰脙脩鹿脕娄
+#define JIX_LOW_MODE_LOWPRESS 10      // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯碌脥脡猫脰脙脩鹿脕娄
+#define MMHG_PER_STEP 5   // 鲁陇掳麓脢卤拢卢脡猫脰脙脢卤录盲碌脛虏陆戮脿
+#define PUMP_IDLE_FLAG                // 脠么脢脟露篓脪氓脕脣麓脣卤锚脰戮拢卢脭貌脧脭脢戮pump idle
+#define IS_NO_LIQUID_ALARM_STOP    0   /*脰脙脦禄卤铆脢戮脗漏脝酶虏禄脥拢卤脙*/
 #endif
 
-// medway版的单独设置
+// medway掳忙碌脛碌楼露脌脡猫脰脙
 #ifdef LOGO_TYPE_VR_MEDWIN
-#define LOCK_FLAG_TIMEOUT 1500        // 锁屏的超时时间
-#define DEFAULT_TARGET_PRESSURE 120   // 开机默认的目标压力
-#define    CFG_HI           300       // 连续模式或间歇模式的高压工作的高压上限
-#define    CFG_LOW          20        // 连续模式或间歇模式的高压工作的低压下限
-#define JIX_LOW_MODE_HIGHPRESS 100    // 间歇模式的低压模式下的最高设置压力
-#define JIX_LOW_MODE_LOWPRESS 20      // 间歇模式的低压模式下的最低设置压力
-#define MMHG_PER_STEP 5   // 长按时，设置时间的步距
-#define PUMP_IDLE_FLAG                // 若是定义了此标志，则显示pump idle
-#define IS_NO_LIQUID_ALARM_STOP    0   /*置位表示漏气不停泵*/
+#define LOCK_FLAG_TIMEOUT 1500        // 脣酶脝脕碌脛鲁卢脢卤脢卤录盲
+#define DEFAULT_TARGET_PRESSURE 120   // 驴陋禄煤脛卢脠脧碌脛脛驴卤锚脩鹿脕娄
+#define    CFG_HI           300       // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛赂脽脩鹿脡脧脧脼
+#define    CFG_LOW          20        // 脕卢脨酶脛拢脢陆禄貌录盲脨陋脛拢脢陆碌脛赂脽脩鹿鹿陇脳梅碌脛碌脥脩鹿脧脗脧脼
+#define JIX_LOW_MODE_HIGHPRESS 100    // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯赂脽脡猫脰脙脩鹿脕娄
+#define JIX_LOW_MODE_LOWPRESS 20      // 录盲脨陋脛拢脢陆碌脛碌脥脩鹿脛拢脢陆脧脗碌脛脳卯碌脥脡猫脰脙脩鹿脕娄
+#define MMHG_PER_STEP 5   // 鲁陇掳麓脢卤拢卢脡猫脰脙脢卤录盲碌脛虏陆戮脿
+#define PUMP_IDLE_FLAG                // 脠么脢脟露篓脪氓脕脣麓脣卤锚脰戮拢卢脭貌脧脭脢戮pump idle
+#define IS_NO_LIQUID_ALARM_STOP    0   /*脰脙脦禄卤铆脢戮脗漏脝酶虏禄脥拢卤脙*/
 #endif
 
 

@@ -13,13 +13,13 @@
 unsigned short  key_cnt;
 unsigned char   key_key=0;
 unsigned char   set_a00=0;
-unsigned char key_port,key_port_bak,key_val,key_val_bak,key_flg,key_flg_l;// lwz key_flg表示是否处于长按状态
-unsigned char mod_main_a,mod_main_b,mod_main_baka,mod_jixa;// mod_jixa为间歇模式下的高低压状态，0为高压，1为低压；mod_main_baka为flash中的备份工作模式；
+unsigned char key_port,key_port_bak,key_val,key_val_bak,key_flg,key_flg_l;// lwz key_flg卤铆脢戮脢脟路帽麓娄脫脷鲁陇掳麓脳麓脤卢
+unsigned char mod_main_a,mod_main_b,mod_main_baka,mod_jixa;// mod_jixa脦陋录盲脨陋脛拢脢陆脧脗碌脛赂脽碌脥脩鹿脳麓脤卢拢卢0脦陋赂脽脩鹿拢卢1脦陋碌脥脩鹿拢禄mod_main_baka脦陋flash脰脨碌脛卤赂路脻鹿陇脳梅脛拢脢陆拢禄
 
 
 unsigned char remember_mod;
-unsigned char mod_seta_cnt,mod_seta_wok;// lwz mod_seta_cnt为1代表间歇模式高压力设置或者连续模式压力设置，为2代表间歇模式低压力设置
-unsigned short mod_seta_preh,mod_seta_preh_bak,mod_seta_prel,mod_seta_ont,mod_seta_oft;// lwz 间歇模式下：mod_seta_ont高压的分钟；mod_seta_oft低压的分钟
+unsigned char mod_seta_cnt,mod_seta_wok;// lwz mod_seta_cnt脦陋1麓煤卤铆录盲脨陋脛拢脢陆赂脽脩鹿脕娄脡猫脰脙禄貌脮脽脕卢脨酶脛拢脢陆脩鹿脕娄脡猫脰脙拢卢脦陋2麓煤卤铆录盲脨陋脛拢脢陆碌脥脩鹿脕娄脡猫脰脙
+unsigned short mod_seta_preh,mod_seta_preh_bak,mod_seta_prel,mod_seta_ont,mod_seta_oft;// lwz 录盲脨陋脛拢脢陆脧脗拢潞mod_seta_ont赂脽脩鹿碌脛路脰脰脫拢禄mod_seta_oft碌脥脩鹿碌脛路脰脰脫
 unsigned short mod_tim_cnta,mod_tim_cnta2;
 
 unsigned short back_led_cnt,lock_cnt;
@@ -30,53 +30,53 @@ unsigned char  lock_flg;
 unsigned short  set_moda=0;
 float   valueK  =  0;
 unsigned short  dataK1,dataK2,dataK3,dataK4,dataK;
-// lwz 扫描按键的状态，判断按键是否属于长按，按键按下就开背光，无按键则关背光，判断按键锁
+// lwz 脡篓脙猫掳麓录眉碌脛脳麓脤卢拢卢脜脨露脧掳麓录眉脢脟路帽脢么脫脷鲁陇掳麓拢卢掳麓录眉掳麓脧脗戮脥驴陋卤鲁鹿芒拢卢脦脼掳麓录眉脭貌鹿脴卤鲁鹿芒拢卢脜脨露脧掳麓录眉脣酶
 void KEY_Scan(void)/*used*/
 {
 	key_port = GET_KEY_VAL;
-	if (key_port == key_port_bak)// lwz 如果前后两次的按键状态一致
+	if (key_port == key_port_bak)// lwz 脠莽鹿没脟掳潞贸脕陆麓脦碌脛掳麓录眉脳麓脤卢脪禄脰脗
 	{
-		if (key_cnt++>=5)// lwz 累计计数大于5次，则进一步判断
+		if (key_cnt++>=5)// lwz 脌脹录脝录脝脢媒麓贸脫脷5麓脦拢卢脭貌陆酶脪禄虏陆脜脨露脧
 		{
 			if (key_port == NO_KEY_PRESSED)////////////////////////////////no key
 			{
-				//key_flg  =  0;/////////////////////////////按键标识清零
+				//key_flg  =  0;/////////////////////////////掳麓录眉卤锚脢露脟氓脕茫
 				key_flg_l=0;
 				key_key=0;
-				if (err_codea||err_codeb)// lwz 如果发生任何错误，不做处理
+				if (err_codea||err_codeb)// lwz 脠莽鹿没路垄脡煤脠脦潞脦麓铆脦贸拢卢虏禄脳枚麓娄脌铆
 				{
 					//SetBlk();
 				}
-				else if (bat_lev==LOWER_BAT_WARN_3_6V)// lwz 如果当前电池电压3.6V，即处于低压状态，不做处理
+				else if (bat_lev==LOWER_BAT_WARN_3_6V)// lwz 脠莽鹿没碌卤脟掳碌莽鲁脴碌莽脩鹿3.6V拢卢录麓麓娄脫脷碌脥脩鹿脳麓脤卢拢卢虏禄脳枚麓娄脌铆
 				{
 					//SetBlk();
 				}
 				else if (back_led_cnt++>BACK_LED_OFF_TIMEOUT)
 				{
-					ClrBlk();    /////////////////////////30秒背光灭
+					ClrBlk();    /////////////////////////30脙毛卤鲁鹿芒脙冒
 				}
 
-				/////////////自动上锁////////////////////////////////////////////////////////
+				/////////////脳脭露炉脡脧脣酶////////////////////////////////////////////////////////
 				// if (lock_cnt++>1500)
 				// {
-					// lock_flg=1;  //////////////没有按键30秒后关背光锁按键
+					// lock_flg=1;  //////////////脙禄脫脨掳麓录眉30脙毛潞贸鹿脴卤鲁鹿芒脣酶掳麓录眉
 				// }
 				
 				
 				//20160719 EDIT BY MA
 				if (lock_cnt++>LOCK_FLAG_TIMEOUT)
 				{
-					lock_flg=1;  //////////////没有按键30秒后关背光锁按键
+					lock_flg=1;  //////////////脙禄脫脨掳麓录眉30脙毛潞贸鹿脴卤鲁鹿芒脣酶掳麓录眉
 				}
 				////////////////////////////////////////////////////////////////////////////
 				if (key_flg==0)
-				{///////////////////////////////////////////无长按按键 
+				{///////////////////////////////////////////脦脼鲁陇掳麓掳麓录眉 
 					if (key_val_bak)
 					{
 						key_val = key_val_bak;
-						buz_flg1=0;             ///////////////短按键BUZ开启
-						///////////////键值获取
-						key_val_bak = 0;        ///////////////清除备份值
+						buz_flg1=0;             ///////////////露脤掳麓录眉BUZ驴陋脝么
+						///////////////录眉脰碌禄帽脠隆
+						key_val_bak = 0;        ///////////////脟氓鲁媒卤赂路脻脰碌
 					}
 					else
 					{
@@ -85,21 +85,21 @@ void KEY_Scan(void)/*used*/
 					}
 				}
 				else
-				{// lwz 如果是刚刚切入无长按按键状态
+				{// lwz 脠莽鹿没脢脟赂脮赂脮脟脨脠毛脦脼鲁陇掳麓掳麓录眉脳麓脤卢
 					key_flg=0;
 					//if(key_val&0x80)
-					//{BUZ_KeyCls();}/////////////执行过常按键关闭BUZ
-					key_val = 0;////////////////////////未执行过继续BUZ
-					key_val_bak=0;//////////////////////清除键值
+					//{BUZ_KeyCls();}/////////////脰麓脨脨鹿媒鲁拢掳麓录眉鹿脴卤脮BUZ
+					key_val = 0;////////////////////////脦麓脰麓脨脨鹿媒录脤脨酶BUZ
+					key_val_bak=0;//////////////////////脟氓鲁媒录眉脰碌
 				}
 			}
-			else// lwz 任何按键被按下
+			else// lwz 脠脦潞脦掳麓录眉卤禄掳麓脧脗
 			{
-				lock_cnt=0;// lwz 锁计数清零
-				back_led_cnt=0;// lwz LED计数清零
-				SetBlk();// lwz 开启背光
-				key_val_bak  =  key_port;// lwz 备份当前的键值
-				if (key_val==UNLOCK_NPWT_KEYVAL)// lwz 0x24这个按键默认为长时间按下（很容易达到）
+				lock_cnt=0;// lwz 脣酶录脝脢媒脟氓脕茫
+				back_led_cnt=0;// lwz LED录脝脢媒脟氓脕茫
+				SetBlk();// lwz 驴陋脝么卤鲁鹿芒
+				key_val_bak  =  key_port;// lwz 卤赂路脻碌卤脟掳碌脛录眉脰碌
+				if (key_val==UNLOCK_NPWT_KEYVAL)// lwz 0x24脮芒赂枚掳麓录眉脛卢脠脧脦陋鲁陇脢卤录盲掳麓脧脗拢篓潞脺脠脻脪脳麓茂碌陆拢漏
 				{
 					if (key_cnt>=5)
 					{
@@ -110,35 +110,35 @@ void KEY_Scan(void)/*used*/
 							return;    /////////////////////////////
 						}
 						key_flg=1;
-						buz_flg1=0;///////////////////////////长按键BUZ开启
+						buz_flg1=0;///////////////////////////鲁陇掳麓录眉BUZ驴陋脝么
 					}
 
 				}
 				else
 				{
-					if (key_cnt>=JUDGE_LONG_PRESS_TIME)// lwz 其他按键，如果计数大于100，才认为长时间按下此键
+					if (key_cnt>=JUDGE_LONG_PRESS_TIME)// lwz 脝盲脣没掳麓录眉拢卢脠莽鹿没录脝脢媒麓贸脫脷100拢卢虏脜脠脧脦陋鲁陇脢卤录盲掳麓脧脗麓脣录眉
 					{
 						key_cnt = JUDGE_LONG_PRESS_TIME;
-						key_val = key_val_bak+0x80;// lwz 设置为长时间按下
+						key_val = key_val_bak+0x80;// lwz 脡猫脰脙脦陋鲁陇脢卤录盲掳麓脧脗
 						if (key_flg==1)
 						{
 							return;    /////////////////////////////
 						}
 						key_flg=1;
-						buz_flg1=0;///////////////////////////长按键BUZ开启
+						buz_flg1=0;///////////////////////////鲁陇掳麓录眉BUZ驴陋脝么
 					}
 				}
 			}
 		}
 	}
 	else
-	{// lwz 按键锁计数清零
+	{// lwz 掳麓录眉脣酶录脝脢媒脟氓脕茫
 		key_cnt=0;    ///////////////////////////////////////////////clear plus
 		key_val=0;
 	}
 	if(key_val>0)
 	{
-        flg2015=0;
+		flg2015=0;
 		if(mod_main_a==MOD_TK)
 		{
 			DISP_ClrZero(0,6,0,125);
@@ -155,7 +155,7 @@ void KEY_Scan(void)/*used*/
 	}		
 	key_port_bak  =  key_port;
 }
-/*----------------16位有符号数计算差值-----------------------------------------*/
+/*----------------16脦禄脫脨路没潞脜脢媒录脝脣茫虏卯脰碌-----------------------------------------*/
 static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2 )
 {
 	unsigned short rst = 0;
@@ -169,21 +169,21 @@ static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2
 	}
 	return rst;
 }
-unsigned char   key_set_tim,key_start_tim;// lwz 开始设备倒计时
+unsigned char   key_set_tim,key_start_tim;// lwz 驴陋脢录脡猫卤赂碌鹿录脝脢卤
 
 unsigned char   tim5_flg=0;
 
 
 
-unsigned char   ddfq=0;// lwz 间歇模式下的当前的放气状态：0不放气；1放气；2是低压工作模式下放气已经完成，不再继续放气
-unsigned short   ddfq_delay=0;// lwz 放气的延迟时间
+unsigned char   ddfq=0;// lwz 录盲脨陋脛拢脢陆脧脗碌脛碌卤脟掳碌脛路脜脝酶脳麓脤卢拢潞0虏禄路脜脝酶拢禄1路脜脝酶拢禄2脢脟碌脥脩鹿鹿陇脳梅脛拢脢陆脧脗路脜脝酶脪脩戮颅脥锚鲁脡拢卢虏禄脭脵录脤脨酶路脜脝酶
+unsigned short   ddfq_delay=0;// lwz 路脜脝酶碌脛脩脫鲁脵脢卤录盲
 
 
-// lwz 根据当前的压力，决定当前的高步距和低步距
+// lwz 赂霉戮脻碌卤脟掳碌脛脩鹿脕娄拢卢戮枚露篓碌卤脟掳碌脛赂脽虏陆戮脿潞脥碌脥虏陆戮脿
 void get_xx_delta(unsigned short press)
 {
 	unsigned short delta = 8;
-	//// lwz 更改：除了Deroyal版意外，其他的版本将浮动阈值扩大，尽量减少泵的启动次数
+	//// lwz 赂眉赂脛拢潞鲁媒脕脣Deroyal掳忙脪芒脥芒拢卢脝盲脣没碌脛掳忙卤戮陆芦赂隆露炉茫脨脰碌脌漏麓贸拢卢戮隆脕驴录玫脡脵卤脙碌脛脝么露炉麓脦脢媒
 #ifdef LOGO_TYPE_DEROYAL
 	if (press<20)
 	{
@@ -219,9 +219,9 @@ void  MODE_ProA(void)/*used*/
 		mod_tim_cnta2=0;
 		mod_jixa=0;
 		TK_TIME=0;
-		// lwz 添加此代码，如果在系统初始化阶段点了静音按钮，则切换静音标志。
-		// lwz key_mute_press_cnt的目的是确保静默标志只切换一次
-		// lwz PORTB地址的值，应该就是当前被按下的按键值
+		// lwz 脤铆录脫麓脣麓煤脗毛拢卢脠莽鹿没脭脷脧碌脥鲁鲁玫脢录禄炉陆脳露脦碌茫脕脣戮虏脪么掳麓脜楼拢卢脭貌脟脨禄禄戮虏脪么卤锚脰戮隆拢
+		// lwz key_mute_press_cnt碌脛脛驴碌脛脢脟脠路卤拢戮虏脛卢卤锚脰戮脰禄脟脨禄禄脪禄麓脦
+		// lwz PORTB碌脴脰路碌脛脰碌拢卢脫娄赂脙戮脥脢脟碌卤脟掳卤禄掳麓脧脗碌脛掳麓录眉脰碌
 		if ((GET_KEY_VAL)==KEY_MUT && key_mute_press_cnt++ > 100 && key_mute_press_cnt < SILENT_FLAG_SET_TIMEOUT)
 		{
 			key_mute_press_cnt = SILENT_FLAG_SET_TIMEOUT;
@@ -234,7 +234,7 @@ void  MODE_ProA(void)/*used*/
 				key_silent_flag = SILENT_FLAG_BITMASK;
 			}
 		}
-		if (mod_tim_cnta++>=(7000/MAIN_CLK))// lwz 显示主界面
+		if (mod_tim_cnta++>=(7000/MAIN_CLK))// lwz 脧脭脢戮脰梅陆莽脙忙
 		{
 			mod_main_a = MOD_WAT;
 			mod_tim_cnta = 0;
@@ -244,21 +244,21 @@ void  MODE_ProA(void)/*used*/
 			lock_flg=0;
 			key_flg_l=1;
 			DISP_Clear();
-			adc_zero=adc_ps0;// lwz 采集当前大气压，因为这个时候阀2在放气，所以应该是大气压
+			adc_zero=adc_ps0;// lwz 虏脡录炉碌卤脟掳麓贸脝酶脩鹿拢卢脪貌脦陋脮芒赂枚脢卤潞貌路搂2脭脷路脜脝酶拢卢脣霉脪脭脫娄赂脙脢脟麓贸脝酶脩鹿
 			scan_dusai_time = 0;
 			flager_a &=~ERRB_DS;
 		}
-		else if (mod_tim_cnta>=(5000/MAIN_CLK))// lwz 显示版本号
+		else if (mod_tim_cnta>=(5000/MAIN_CLK))// lwz 脧脭脢戮掳忙卤戮潞脜
 		{
 			DISP_Ver();
 			// DISP_8X16ascii("Intermittent",1,13);
 			// mod_tim_cnta--;
 		}
-		else if (mod_tim_cnta>50)// lwz 开机，显示开机logo
+		else if (mod_tim_cnta>50)// lwz 驴陋禄煤拢卢脧脭脢戮驴陋禄煤logo
 		{
 			if (mod_tim_cnta<52)
 			{
-				if (key_start_tim<30)// lwz 如果按下开机键的时间过于短，取消开机
+				if (key_start_tim<30)// lwz 脠莽鹿没掳麓脧脗驴陋禄煤录眉碌脛脢卤录盲鹿媒脫脷露脤拢卢脠隆脧没驴陋禄煤
 				{
 					mod_tim_cnta=0;
 					POWER_ON=0;
@@ -270,14 +270,14 @@ void  MODE_ProA(void)/*used*/
 					SYS_IniLcd();
 					POWER_ON=1;
 					DRV_EN=1;
-					VAL2 = 1;// lwz 打开阀2进行放气
+					VAL2 = 1;// lwz 麓貌驴陋路搂2陆酶脨脨路脜脝酶
 				}
 			}
 			SetBlk();
 			DISP_Sys100();
 			// DISP_Clear();
 			// DISP_BatWarnE() ;
-			if (mod_tim_cnta>62)// lwz 开机短暂的响一声
+			if (mod_tim_cnta>62)// lwz 驴陋禄煤露脤脭脻碌脛脧矛脪禄脡霉
 			{
 				SPEAK  =  0;
 			}
@@ -288,7 +288,7 @@ void  MODE_ProA(void)/*used*/
 		}
 		else
 		{
-			if ((GET_KEY_VAL)==KEY_C)// lwz 按下KEY_C
+			if ((GET_KEY_VAL)==KEY_C)// lwz 掳麓脧脗KEY_C
 			{
 				key_start_tim++;
 			}
@@ -303,7 +303,7 @@ void  MODE_ProA(void)/*used*/
 	{
 		
 		record_ds_turn=0;
-        twenty_seconds=0;
+		twenty_seconds=0;
 		
 		VAL2 = 0;
 		mod_jixa = 0;
@@ -311,7 +311,7 @@ void  MODE_ProA(void)/*used*/
 		flager_a &=~ERRB_DS;
 		
 		debug_air=0;
-		if (err_codea!=0)//////////////此状态下的故障需要重新开机
+		if (err_codea!=0)//////////////麓脣脳麓脤卢脧脗碌脛鹿脢脮脧脨猫脪陋脰脴脨脗驴陋禄煤
 		{
 			break;
 		}
@@ -344,11 +344,11 @@ void  MODE_ProA(void)/*used*/
 			break;
 		}
 
-		if (key_val == KEY_OK )// lwz 在连续模式下按下OK，则进入暂停模式
+		if (key_val == KEY_OK )// lwz 脭脷脕卢脨酶脛拢脢陆脧脗掳麓脧脗OK拢卢脭貌陆酶脠毛脭脻脥拢脛拢脢陆
 		{
 			mod_main_a = MOD_ZHT;
 		}
-		else if (key_val == KEY_UPL)// lwz 在连续模式下长按左箭头，则进入设置模式
+		else if (key_val == KEY_UPL)// lwz 脭脷脕卢脨酶脛拢脢陆脧脗鲁陇掳麓脳贸录媒脥路拢卢脭貌陆酶脠毛脡猫脰脙脛拢脢陆
 		{
 			mod_main_a = MOD_SET;
 			mod_seta_preh = mod_seta_preh_bak;
@@ -365,35 +365,35 @@ void  MODE_ProA(void)/*used*/
 	}
 	case MOD_JIX:
 	{
-		if (mod_jixa==0)// lwz 间歇模式下的高压状态
+		if (mod_jixa==0)// lwz 录盲脨陋脛拢脢陆脧脗碌脛赂脽脩鹿脳麓脤卢
 		{
 			mod_seta_preh = mod_seta_preh_bak;
-			if (mod_tim_cnta++>=JIX_CYCLES_PER_SECOND)// lwz 每50个循环进入一次该分支，即50循环等于1秒钟
+			if (mod_tim_cnta++>=JIX_CYCLES_PER_SECOND)// lwz 脙驴50赂枚脩颅禄路陆酶脠毛脪禄麓脦赂脙路脰脰搂拢卢录麓50脩颅禄路碌脠脫脷1脙毛脰脫
 			{
 				mod_tim_cnta=0;
 				mod_tim_cnta2++;
-				if (mod_tim_cnta2>=mod_seta_ont*60)// 间歇模式下的高压工作时间是否达到
+				if (mod_tim_cnta2>=mod_seta_ont*60)// 录盲脨陋脛拢脢陆脧脗碌脛赂脽脩鹿鹿陇脳梅脢卤录盲脢脟路帽麓茂碌陆
 				{
 					record_ds_turn=0;
 					twenty_seconds=0;
 					
 
 
-		//20160725 修改在间隙模式下，报管路堵塞后，进入低压模式不消除报警
+		//20160725 脨脼赂脛脭脷录盲脧露脛拢脢陆脧脗拢卢卤篓鹿脺脗路露脗脠没潞贸拢卢陆酶脠毛碌脥脩鹿脛拢脢陆虏禄脧没鲁媒卤篓戮炉
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；
+		flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄
 
 					bbbbb=0;
 					ddfq=1;
 					ddfq_delay=0;
 					mod_tim_cnta2=0;
-					mod_jixa=1;// lwz 切换到低压工作状态
+					mod_jixa=1;// lwz 脟脨禄禄碌陆碌脥脩鹿鹿陇脳梅脳麓脤卢
 				}
 			}
 		}
-		else if (mod_jixa==1)// lwz 间歇模式下的低压状态
+		else if (mod_jixa==1)// lwz 录盲脨陋脛拢脢陆脧脗碌脛碌脥脩鹿脳麓脤卢
 		{
-			mod_seta_preh=mod_seta_prel;// lwz 设置气压的目标值未低压
+			mod_seta_preh=mod_seta_prel;// lwz 脡猫脰脙脝酶脩鹿碌脛脛驴卤锚脰碌脦麓碌脥脩鹿
 			
 			if (adc_ps0>adc_zero)
 				pwm_k1    =    (adc_ps0-adc_zero)/valueK;
@@ -402,9 +402,9 @@ void  MODE_ProA(void)/*used*/
 			
 			adc_ps00  =    (unsigned int)pwm_k1;
 			
-			if(ddfq==1)// 如果需要在低压状态下放气
+			if(ddfq==1)// 脠莽鹿没脨猫脪陋脭脷碌脥脩鹿脳麓脤卢脧脗路脜脝酶
 			{
-				if(ddfq_delay++ >= 12)// lwz 在12到75之间属于放气阶段
+				if(ddfq_delay++ >= 12)// lwz 脭脷12碌陆75脰庐录盲脢么脫脷路脜脝酶陆脳露脦
 				{
 					VAL2=0;
 					if(ddfq_delay >=75)
@@ -412,7 +412,7 @@ void  MODE_ProA(void)/*used*/
 						get_xx_delta(mod_seta_preh);
 						if(adc_ps00 <= (mod_seta_preh+con_hi_delta))//if(adc_ps00 <= (mod_seta_preh+con_hi_delta+2))
 						{
-							ddfq=2;// lwz 低压工作模式下放气已经完成，不再继续放气，关闭VAL2
+							ddfq=2;// lwz 碌脥脩鹿鹿陇脳梅脛拢脢陆脧脗路脜脝酶脪脩戮颅脥锚鲁脡拢卢虏禄脭脵录脤脨酶路脜脝酶拢卢鹿脴卤脮VAL2
 							mod_tim_cnta=0;
 						}
 						ddfq_delay=0;
@@ -422,9 +422,9 @@ void  MODE_ProA(void)/*used*/
 					VAL2=1;	
 
 
-		//20160725 修改在间隙模式下，报管路堵塞后，进入低压模式不消除报警
+		//20160725 脨脼赂脛脭脷录盲脧露脛拢脢陆脧脗拢卢卤篓鹿脺脗路露脗脠没潞贸拢卢陆酶脠毛碌脥脩鹿脛拢脢陆虏禄脧没鲁媒卤篓戮炉
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；			
+		flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄			
 			}
 			else
 			{
@@ -435,7 +435,7 @@ void  MODE_ProA(void)/*used*/
 					{
 						mod_tim_cnta=0;
 						mod_tim_cnta2++;
-						if (mod_tim_cnta2>=mod_seta_oft*60)// 间歇模式下的低压工作时间是否达到
+						if (mod_tim_cnta2>=mod_seta_oft*60)// 录盲脨陋脛拢脢陆脧脗碌脛碌脥脩鹿鹿陇脳梅脢卤录盲脢脟路帽麓茂碌陆
 						{
 							record_ds_turn=0;
 							twenty_seconds=0;
@@ -455,16 +455,16 @@ void  MODE_ProA(void)/*used*/
 			break;
 		}
 
-		if (key_val == KEY_OK )// lwz 间歇模式下，按下OK，则进入暂停模式
+		if (key_val == KEY_OK )// lwz 录盲脨陋脛拢脢陆脧脗拢卢掳麓脧脗OK拢卢脭貌陆酶脠毛脭脻脥拢脛拢脢陆
 		{
-			////20160420日修改，间隙进入暂停模式，从高的开始进来
+			////20160420脠脮脨脼赂脛拢卢录盲脧露陆酶脠毛脭脻脥拢脛拢脢陆拢卢麓脫赂脽碌脛驴陋脢录陆酶脌麓
 			mod_jixa=0;
 			mod_tim_cnta=0;
 			mod_tim_cnta2=0;
 			/////////////////////////////////////////////////////
 			mod_main_a = MOD_ZHT;
 		}
-		else if (key_val == KEY_UPL)// lwz 间歇模式下，长按左箭头，则进入设置模式
+		else if (key_val == KEY_UPL)// lwz 录盲脨陋脛拢脢陆脧脗拢卢鲁陇掳麓脳贸录媒脥路拢卢脭貌陆酶脠毛脡猫脰脙脛拢脢陆
 		{
 			mod_main_a = MOD_SET;
 			mod_seta_preh = mod_seta_preh_bak;
@@ -538,7 +538,7 @@ void  MODE_ProA(void)/*used*/
 	case MOD_ZHT:
 	{
 		record_ds_turn=0;
-        twenty_seconds=0;
+		twenty_seconds=0;
 		PUMP = 0;
 		debug_air=0;
 		mod_jixa = 0;
@@ -580,9 +580,9 @@ void  MODE_ProA(void)/*used*/
 		scan_dusai_time = 0;
 		flager_a &=~ERRB_DS;
 		debug_air=0;
-		if (mod_seta_cnt == UI_WORKMODE_SELECT)// lwz mod_seta_cnt为0代表当前界面为选择模式
+		if (mod_seta_cnt == UI_WORKMODE_SELECT)// lwz mod_seta_cnt脦陋0麓煤卤铆碌卤脟掳陆莽脙忙脦陋脩隆脭帽脛拢脢陆
 		{
-			if (set_a00==0)// lwz 当前在界面上选择的是连续模式
+			if (set_a00==0)// lwz 碌卤脟掳脭脷陆莽脙忙脡脧脩隆脭帽碌脛脢脟脕卢脨酶脛拢脢陆
 			{
 				mod_seta_wok = MOD_LIX;
 				if (key_val == KEY_UP)
@@ -601,7 +601,7 @@ void  MODE_ProA(void)/*used*/
 					DISP_Clear();
 				}
 			}
-			else if (set_a00==1)// lwz 当前在界面上选择的是间歇模式
+			else if (set_a00==1)// lwz 碌卤脟掳脭脷陆莽脙忙脡脧脩隆脭帽碌脛脢脟录盲脨陋脛拢脢陆
 			{
 				mod_seta_wok = MOD_JIX;
 				if (key_val == KEY_UP)
@@ -624,7 +624,7 @@ void  MODE_ProA(void)/*used*/
 					}
 				}
 			}
-			else if (set_a00==2)// lwz 当前在界面上选择的是无模式
+			else if (set_a00==2)// lwz 碌卤脟掳脭脷陆莽脙忙脡脧脩隆脭帽碌脛脢脟脦脼脛拢脢陆
 			{
 				mod_seta_wok = MOD_ZXB;
 				if (key_val == KEY_UP)
@@ -647,14 +647,14 @@ void  MODE_ProA(void)/*used*/
 				}
 			}
 		}
-		else if (mod_seta_cnt==UI_MODE_SET_HI)// lwz mod_seta_cnt为1代表间歇模式高压力设置或者连续模式压力设置
+		else if (mod_seta_cnt==UI_MODE_SET_HI)// lwz mod_seta_cnt脦陋1麓煤卤铆录盲脨陋脛拢脢陆赂脽脩鹿脕娄脡猫脰脙禄貌脮脽脕卢脨酶脛拢脢陆脩鹿脕娄脡猫脰脙
 		{
-			if (mod_seta_wok == MOD_LIX)// lwz 连续模式下设置压力
+			if (mod_seta_wok == MOD_LIX)// lwz 脕卢脨酶脛拢脢陆脧脗脡猫脰脙脩鹿脕娄
 			{
 				if (key_val == KEY_UP)
 				{
 					mod_seta_preh=mod_seta_preh+MMHG_PER_STEP;
-					if (mod_seta_preh>CFG_HI)// lwz 压力超过上限则翻转
+					if (mod_seta_preh>CFG_HI)// lwz 脩鹿脕娄鲁卢鹿媒脡脧脧脼脭貌路颅脳陋
 					{
 						mod_seta_preh=CFG_LOW;
 					}
@@ -663,7 +663,7 @@ void  MODE_ProA(void)/*used*/
 				else if (key_val == KEY_DN)
 				{
 					mod_seta_preh=mod_seta_preh-MMHG_PER_STEP;
-					if (mod_seta_preh<CFG_LOW)// lwz 压力超过下限则翻转
+					if (mod_seta_preh<CFG_LOW)// lwz 脩鹿脕娄鲁卢鹿媒脧脗脧脼脭貌路颅脳陋
 					{
 						mod_seta_preh=CFG_HI;
 					}
@@ -699,7 +699,7 @@ void  MODE_ProA(void)/*used*/
 				}
 				else if (key_val == KEY_OK)
 				{
-					mod_seta_cnt=UI_WORKMODE_SELECT;////////////////////////20151201修改////////////////////
+					mod_seta_cnt=UI_WORKMODE_SELECT;////////////////////////20151201脨脼赂脛////////////////////
 					mod_main_baka=mod_seta_wok;
 					mod_main_a=MOD_ZHT;
 					DISP_Clear();
@@ -713,7 +713,7 @@ void  MODE_ProA(void)/*used*/
 					}
 				}
 			}
-			else//间隙模式设高压力 
+			else//录盲脧露脛拢脢陆脡猫赂脽脩鹿脕娄 
 			{
 				if (key_val == KEY_UP)
 				{
@@ -790,13 +790,13 @@ void  MODE_ProA(void)/*used*/
 			}
 			mod_seta_preh_bak=mod_seta_preh;
 		}
-		else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)//间隙模式设低压力
+		else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)//录盲脧露脛拢脢陆脡猫碌脥脩鹿脕娄
 		{
 
 			if (key_val == KEY_UP)
 			{
 				mod_seta_prel = mod_seta_prel+MMHG_PER_STEP;
-                if(mod_seta_prel > JIX_LOW_MODE_HIGHPRESS || mod_seta_prel > mod_seta_preh - 10)
+				if(mod_seta_prel > JIX_LOW_MODE_HIGHPRESS || mod_seta_prel > mod_seta_preh - 10)
 					mod_seta_prel = JIX_LOW_MODE_LOWPRESS;
 				if(mod_seta_prel >= mod_seta_preh - 10 )
 					mod_seta_prel = mod_seta_preh - 10;
@@ -806,10 +806,10 @@ void  MODE_ProA(void)/*used*/
 			{
 
 				mod_seta_prel = mod_seta_prel-MMHG_PER_STEP;
-                //20160606 add  如果压力小于10，则为高压-5，实现数字反转
+				//20160606 add  脠莽鹿没脩鹿脕娄脨隆脫脷10拢卢脭貌脦陋赂脽脩鹿-5拢卢脢碌脧脰脢媒脳脰路麓脳陋
 				if(mod_seta_prel >= mod_seta_preh - 10 )
 					mod_seta_prel = mod_seta_preh - 10;
-                if(mod_seta_prel < JIX_LOW_MODE_LOWPRESS )
+				if(mod_seta_prel < JIX_LOW_MODE_LOWPRESS )
 					mod_seta_prel = mod_seta_preh - 10;
 				// DISP_Clr3();
 			}
@@ -825,7 +825,7 @@ void  MODE_ProA(void)/*used*/
 				mod_seta_prel = mod_seta_prel-MMHG_PER_STEP;
 				if(mod_seta_prel >= mod_seta_preh - 10 )
 					mod_seta_prel = mod_seta_preh - 10;
-                //20160606 add  如果压力小于10，则为高压-5，实现数字反转
+				//20160606 add  脠莽鹿没脩鹿脕娄脨隆脫脷10拢卢脭貌脦陋赂脽脩鹿-5拢卢脢碌脧脰脢媒脳脰路麓脳陋
 				// DISP_Clr3();
 			}
 			else if (key_val == KEY_UPL)
@@ -846,7 +846,7 @@ void  MODE_ProA(void)/*used*/
 				if (language)
 				{
 //					DISP_time_set2015();
-                    DISP_Clear();
+					DISP_Clear();
 				}
 				else
 				{
@@ -864,7 +864,7 @@ void  MODE_ProA(void)/*used*/
 			}
 
 		}
-		else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)//间隙模式充ON时间
+		else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)//录盲脧露脛拢脢陆鲁盲ON脢卤录盲
 		{
 			if (key_val == KEY_UP)
 			{
@@ -922,7 +922,7 @@ void  MODE_ProA(void)/*used*/
 			}
 
 		}
-		else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)//间隙模式设OFF时间
+		else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)//录盲脧露脛拢脢陆脡猫OFF脢卤录盲
 		{
 			if (key_val == KEY_UP)
 			{
@@ -972,7 +972,7 @@ void  MODE_ProA(void)/*used*/
 			{
 				mod_seta_cnt=0;
 				mod_main_baka=mod_seta_wok;
-				mod_main_a=MOD_ZHT;//进入暂停模式
+				mod_main_a=MOD_ZHT;//陆酶脠毛脭脻脥拢脛拢脢陆
 				mod_tim_cnta=0;
 				cnt_cnta=0;
 				cnt_cntaa=0;
@@ -981,7 +981,7 @@ void  MODE_ProA(void)/*used*/
 				// DISP_Clear();
 			}
 		}
-		else if (mod_seta_cnt==UI_SET_PRESSURE)//没有用上
+		else if (mod_seta_cnt==UI_SET_PRESSURE)//脙禄脫脨脫脙脡脧
 		{
 
 			if (key_val == KEY_UP)
@@ -1191,7 +1191,7 @@ void  MODE_Pro(void)/*used*/
 	}
 	else if ( mod_main_a == MOD_OFF )
 	{
-		if ((bat_lev&0x0f)==LOWER_THAN_3_5V)// lwz 低电压下，不进行正常关机操作。推测：可能是为了避免在写FLASH时断点，从而毁坏数据
+		if ((bat_lev&0x0f)==LOWER_THAN_3_5V)// lwz 碌脥碌莽脩鹿脧脗拢卢虏禄陆酶脨脨脮媒鲁拢鹿脴禄煤虏脵脳梅隆拢脥脝虏芒拢潞驴脡脛脺脢脟脦陋脕脣卤脺脙芒脭脷脨麓FLASH脢卤露脧碌茫拢卢麓脫露酶禄脵禄碌脢媒戮脻
 		{
 			;
 		}
@@ -1201,7 +1201,7 @@ void  MODE_Pro(void)/*used*/
 			{
 				ClrBlk();
 				AUDIO_EN=0;
-				Flash_Erase(addr);//擦除1024个字节,CPU 在擦除期间将会停止工作,所以无法仿真
+				Flash_Erase(addr);//虏脕鲁媒1024赂枚脳脰陆脷,CPU 脭脷虏脕鲁媒脝脷录盲陆芦禄谩脥拢脰鹿鹿陇脳梅,脣霉脪脭脦脼路篓路脗脮忙
 				Write_One_Word(addr, mod_seta_preh_bak);
 				Write_One_Word(addr+2, mod_seta_ont);
 				Write_One_Word(addr+4, mod_seta_oft);
@@ -1215,7 +1215,7 @@ void  MODE_Pro(void)/*used*/
 				Write_One_Word(addr+10,dataK2);
 				Write_One_Word(addr+12,dataK3);
 				Write_One_Word(addr+14,dataK4);
-				key_silent_flag = (key_silent_flag | language);// lwz 将静默标志保存到flash中
+				key_silent_flag = (key_silent_flag | language);// lwz 陆芦戮虏脛卢卤锚脰戮卤拢麓忙碌陆flash脰脨
 				Write_One_Word(addr+16,key_silent_flag);
 				Write_One_Word(addr+18,mod_seta_prel);
 				POWER_ON=0;
@@ -1223,29 +1223,29 @@ void  MODE_Pro(void)/*used*/
 		}
 	}
 
-	if (key_val==UNLOCK_NPWT_L_KEYVAL)// 按键被长按，解锁按键
+	if (key_val==UNLOCK_NPWT_L_KEYVAL)// 掳麓录眉卤禄鲁陇掳麓拢卢陆芒脣酶掳麓录眉
 	{
 		lock_flg=0;
 		lock_cnt=0;
 	}
-	if (key_val==UNLOCK_NPWT_KEYVAL)// 按键被长按，解锁按键
+	if (key_val==UNLOCK_NPWT_KEYVAL)// 掳麓录眉卤禄鲁陇掳麓拢卢陆芒脣酶掳麓录眉
 	{
 		lock_flg=0;
 		lock_cnt=0;
 	}
 
-	if (lock_flg==0) // lwz 非锁定状态 启动后进入暂停模式，按了POWER+BUZ进行换语言
+	if (lock_flg==0) // lwz 路脟脣酶露篓脳麓脤卢 脝么露炉潞贸陆酶脠毛脭脻脥拢脛拢脢陆拢卢掳麓脕脣POWER+BUZ陆酶脨脨禄禄脫茂脩脭
 	{
 		if ( mod_main_a==MOD_WAT)
 		{
-			if (key_key==0)// lwz 这里主要是为了判断“在切换语言之前，是否有一段无按键按下的空隙”，有空隙才允许切换语言
+			if (key_key==0)// lwz 脮芒脌茂脰梅脪陋脢脟脦陋脕脣脜脨露脧隆掳脭脷脟脨禄禄脫茂脩脭脰庐脟掳拢卢脢脟路帽脫脨脪禄露脦脦脼掳麓录眉掳麓脧脗碌脛驴脮脧露隆卤拢卢脫脨驴脮脧露虏脜脭脢脨铆脟脨禄禄脫茂脩脭
 			{
-//20160606 禁止语文切换
-// lwz 由于这个语言切换功能不完善，尚有许多BUG，禁掉原来的功能
+//20160606 陆没脰鹿脫茂脦脛脟脨禄禄
+// lwz 脫脡脫脷脮芒赂枚脫茂脩脭脟脨禄禄鹿娄脛脺虏禄脥锚脡脝拢卢脡脨脫脨脨铆露脿BUG拢卢陆没碌么脭颅脌麓碌脛鹿娄脛脺
 				if (key_val==LONG_PRESS_SWITCH_LANG)
 				{
 					key_key=1;
-					// 切换语言
+					// 脟脨禄禄脫茂脩脭
 					//language=~language;
 					if(0 == language)
 					{
@@ -1255,7 +1255,7 @@ void  MODE_Pro(void)/*used*/
 					{
 						language = 0;
 					}
-                    all_flg = 0;
+					all_flg = 0;
 					//mod_main_a=MOD_LANGUAGE;
 					DISP_Clear();
 					// DISP_LANGUAGE();
@@ -1265,11 +1265,11 @@ void  MODE_Pro(void)/*used*/
 		}
 
 	}
-	if (mod_main_a!=mod_bak_bak)//模式切换前先清屏
+	if (mod_main_a!=mod_bak_bak)//脛拢脢陆脟脨禄禄脟掳脧脠脟氓脝脕
 	{
 		DISP_Clear();
 	}
-	mod_bak_bak=mod_main_a;//备份当前模式
+	mod_bak_bak=mod_main_a;//卤赂路脻碌卤脟掳脛拢脢陆
 }
 
 

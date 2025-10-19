@@ -11,14 +11,14 @@
 #include   "npwt_dis_ofile_lcd_02.h"
 // #include "EEP.h" 
 /*
-压力传感器：0-----105
-            200---309
-            100---207
-            50----155
-            400---516
-            500---604
-            550---670
-            540---660
+脩鹿脕娄麓芦赂脨脝梅拢潞0-----105
+			200---309
+			100---207
+			50----155
+			400---516
+			500---604
+			550---670
+			540---660
 */
 
 unsigned char   ccnt1;
@@ -28,9 +28,9 @@ unsigned char   ccnt1;
 3.7v   295
 3.8v   305
 4.0v   315
-充电中 CHARGE=0
-充满： CHARGE=1
-断开： CHARGE=1
+鲁盲碌莽脰脨 CHARGE=0
+鲁盲脗煤拢潞 CHARGE=1
+露脧驴陋拢潞 CHARGE=1
 
 ***************RUI*****************/
 // #define    BAT4          315     ///////4.0v
@@ -44,9 +44,9 @@ unsigned char   ccnt1;
 // #define    BAT2          283     ///////3.7v
 // #define    BAT1          275     ///////3.6v
 // #define    BAT0          267     ///////3.5v
-/*************ma 20160506日修改 防止电池显示3格工作后黑屏，让用户产生有充电的紧迫感*******************/
-//将上面的3个增大
-//下面的2个不变，工作时长不变
+/*************ma 20160506脠脮脨脼赂脛 路脌脰鹿碌莽鲁脴脧脭脢戮3赂帽鹿陇脳梅潞贸潞脷脝脕拢卢脠脙脫脙禄搂虏煤脡煤脫脨鲁盲碌莽碌脛陆么脝脠赂脨*******************/
+//陆芦脡脧脙忙碌脛3赂枚脭枚麓贸
+//脧脗脙忙碌脛2赂枚虏禄卤盲拢卢鹿陇脳梅脢卤鲁陇虏禄卤盲
 #define    BAT4          319     ///////4.15v
 #define    BAT3          304     ///////3.95v
 #define    BAT2          296     ///////3.85v
@@ -56,8 +56,8 @@ unsigned char   ccnt1;
 
 
 
-#define    WJ_LEV        150     ///////////////////////////////////////////未接液盒值
-////#define    LQ_FIR    1100    ///////////////////////////////////////////漏气初值
+#define    WJ_LEV        150     ///////////////////////////////////////////脦麓陆脫脪潞潞脨脰碌
+////#define    LQ_FIR    1100    ///////////////////////////////////////////脗漏脝酶鲁玫脰碌
 #define    YEW_SES       15  
 #define    LQ_SES        10
 
@@ -66,22 +66,22 @@ unsigned short     LQ_FIR=0;
 unsigned short  cntcnt=0;
 extern  unsigned char   overabc;
 
-// lwz 检测漏气并判断液位满
+// lwz 录矛虏芒脗漏脝酶虏垄脜脨露脧脪潞脦禄脗煤
 void LEVEL_WarnA(void)/*used*/
 {
 	if(mod_main_a == MOD_LIX)
 	{
-		LQ_FIR=LEAKAGE_TIMEOUT_FOR_LIX;/*漏气2分钟*/
+		LQ_FIR=LEAKAGE_TIMEOUT_FOR_LIX;/*脗漏脝酶2路脰脰脫*/
 	}
 	else if(mod_main_a == MOD_JIX)
 	{
-		LQ_FIR=LEAKAGE_TIMEOUT_FOR_JIX;/*漏气2分钟*/
+		LQ_FIR=LEAKAGE_TIMEOUT_FOR_JIX;/*脗漏脝酶2路脰脰脫*/
 	}
 	else
 	{
-		LQ_FIR=SET_LEAKAGE_FLAG_CYCLE;/*漏气2分钟*/
+		LQ_FIR=SET_LEAKAGE_FLAG_CYCLE;/*脗漏脝酶2路脰脰脫*/
 	}
-		// LQ_FIR=1100;/*漏气1分钟*/  //20160331
+		// LQ_FIR=1100;/*脗漏脝酶1路脰脰脫*/  //20160331
 	/**********************************************************************/
 	if(mod_seta_preh==0)
 	{
@@ -89,44 +89,44 @@ void LEVEL_WarnA(void)/*used*/
 	}
 	else
 	{
-		if(open_bum==FALSE)//泵无启动
+		if(open_bum==FALSE)//卤脙脦脼脝么露炉
 		{
 			ccnt1=0;
-			if(overabc)//漏气的时间已经达到了10分钏，将overabc=1;
+			if(overabc)//脗漏脝酶碌脛脢卤录盲脪脩戮颅麓茂碌陆脕脣10路脰卯脣拢卢陆芦overabc=1;
 			{;}
-			else// lwz 如果一段时间内没有漏气10分钟以上的标志，则清除漏气标志
+			else// lwz 脠莽鹿没脪禄露脦脢卤录盲脛脷脙禄脫脨脗漏脝酶10路脰脰脫脪脭脡脧碌脛卤锚脰戮拢卢脭貌脟氓鲁媒脗漏脝酶卤锚脰戮
 			{
 				if(cntcnt++>=CANCEL_LEAKAGE_FLAG_CYCLE)
 				{
 					cntcnt=0;
-					flager_a = flager_a&(~ERRA_LQ);/*漏气标志*/
-					load_perioda_up=0;/*漏气时间清零*/
+					flager_a = flager_a&(~ERRA_LQ);/*脗漏脝酶卤锚脰戮*/
+					load_perioda_up=0;/*脗漏脝酶脢卤录盲脟氓脕茫*/
 				}
 			}
 		}
-		else//泵有启动
+		else//卤脙脫脨脝么露炉
 		{
 			cntcnt=0;
 			if(ccnt1++>=10)
 			{
 				ccnt1=0;
 				#if IS_NO_LIQUID_ALARM_STOP == 0
-			//	if (adc_ps00<(mod_seta_preh-con_lo_delta))//20160506 日MA ADD
+			//	if (adc_ps00<(mod_seta_preh-con_lo_delta))//20160506 脠脮MA ADD
 			//	{
-				if(load_perioda_up++>JUDGE_LEAKAGE_TIMEOUT)////////////////////10分钟到
+				if(load_perioda_up++>JUDGE_LEAKAGE_TIMEOUT)////////////////////10路脰脰脫碌陆
 				{
-                    load_perioda_up=JUDGE_LEAKAGE_TIMEOUT+2200;
-                }///////////////停泵  
+					load_perioda_up=JUDGE_LEAKAGE_TIMEOUT+2200;
+				}///////////////脥拢卤脙  
 			//	}
-				else if(load_perioda_up>LQ_FIR)/////////////////1分钟时间
+				else if(load_perioda_up>LQ_FIR)/////////////////1路脰脰脫脢卤录盲
 				{
-					flager_a = flager_a|ERRA_LQ;// lwz 在SET_LEAKAGE_FLAG_CYCLE周期后设置漏气标志
+					flager_a = flager_a|ERRA_LQ;// lwz 脭脷SET_LEAKAGE_FLAG_CYCLE脰脺脝脷潞贸脡猫脰脙脗漏脝酶卤锚脰戮
 				}
 				else
-					{flager_a = flager_a&(~ERRA_LQ);}// lwz 在SET_LEAKAGE_FLAG_CYCLE周期内取消漏气标志
+					{flager_a = flager_a&(~ERRA_LQ);}// lwz 脭脷SET_LEAKAGE_FLAG_CYCLE脰脺脝脷脛脷脠隆脧没脗漏脝酶卤锚脰戮
 				#else
 
-				if(load_perioda_up++>LQ_FIR)/////////////////1分钟时间
+				if(load_perioda_up++>LQ_FIR)/////////////////1路脰脰脫脢卤录盲
 					{flager_a = flager_a|ERRA_LQ;}
 				else
 					{flager_a = flager_a&(~ERRA_LQ);}
@@ -136,11 +136,11 @@ void LEVEL_WarnA(void)/*used*/
 			}
 		}
 	}
-	// if(cnt_cntaa++>=4000)/////20秒
- 	// if(cnt_cntaa++>=6000)/////30秒    20160401
+	// if(cnt_cntaa++>=4000)/////20脙毛
+ 	// if(cnt_cntaa++>=6000)/////30脙毛    20160401
 	// {
-		// if(cnt_cnta>4)//20秒内有4次震荡
-			// flager_a = flager_a|ERRA_S;//////////液位满
+		// if(cnt_cnta>4)//20脙毛脛脷脫脨4麓脦脮冒碌麓
+			// flager_a = flager_a|ERRA_S;//////////脪潞脦禄脗煤
 	    // cnt_cnta=0;
 		// cnt_cntaa=0;
 	// } 
@@ -148,35 +148,35 @@ void LEVEL_WarnA(void)/*used*/
 	if(cnt_cnta > 0)
 	{
 		cnt_cntaa++;
-        //高压的时候，液满震荡的时间长，YUKI20160606拿了一台200mmh液位满无法判断
-		// if(cnt_cntaa<=6000)//20秒内有4次震荡   20160420
-		if(cnt_cntaa<=JUDGE_CANISTER_FULL_TIME)//20秒内有4次震荡   20160608 30秒报5次很紧张，改为40秒比较保险 200mmHG的时候0气压冲上去较慢
+		//赂脽脩鹿碌脛脢卤潞貌拢卢脪潞脗煤脮冒碌麓碌脛脢卤录盲鲁陇拢卢YUKI20160606脛脙脕脣脪禄脤篓200mmh脪潞脦禄脗煤脦脼路篓脜脨露脧
+		// if(cnt_cntaa<=6000)//20脙毛脛脷脫脨4麓脦脮冒碌麓   20160420
+		if(cnt_cntaa<=JUDGE_CANISTER_FULL_TIME)//20脙毛脛脷脫脨4麓脦脮冒碌麓   20160608 30脙毛卤篓5麓脦潞脺陆么脮脜拢卢赂脛脦陋40脙毛卤脠陆脧卤拢脧脮 200mmHG碌脛脢卤潞貌0脝酶脩鹿鲁氓脡脧脠楼陆脧脗媒
 		{
-			if(cnt_cnta > JUDGE_CANISTER_FULL_COUNT)// lwz 震荡次数大于4，则开始判断液位满
+			if(cnt_cnta > JUDGE_CANISTER_FULL_COUNT)// lwz 脮冒碌麓麓脦脢媒麓贸脫脷4拢卢脭貌驴陋脢录脜脨露脧脪潞脦禄脗煤
 			{
-				if(mod_main_a!=MOD_JIX)// lwz 如果不是间歇模式，则判断为液位满
+				if(mod_main_a!=MOD_JIX)// lwz 脠莽鹿没虏禄脢脟录盲脨陋脛拢脢陆拢卢脭貌脜脨露脧脦陋脪潞脦禄脗煤
 				{
-					flager_a = flager_a|ERRA_S;//////////液位满
+					flager_a = flager_a|ERRA_S;//////////脪潞脦禄脗煤
 				}
-				else// lwz 如果是间歇模式，则在以下泵开启的工作状态下，可以判断为液位满
+				else// lwz 脠莽鹿没脢脟录盲脨陋脛拢脢陆拢卢脭貌脭脷脪脭脧脗卤脙驴陋脝么碌脛鹿陇脳梅脳麓脤卢脧脗拢卢驴脡脪脭脜脨露脧脦陋脪潞脦禄脗煤
 				{
-					if (mod_jixa==0)// lwz 并且当前处于间歇模式的高压状态，则判断为液位满
+					if (mod_jixa==0)// lwz 虏垄脟脪碌卤脟掳麓娄脫脷录盲脨陋脛拢脢陆碌脛赂脽脩鹿脳麓脤卢拢卢脭貌脜脨露脧脦陋脪潞脦禄脗煤
 					{
-						flager_a = flager_a|ERRA_S;//////////液位满
+						flager_a = flager_a|ERRA_S;//////////脪潞脦禄脗煤
 					}
-					if (mod_jixa==1)// lwz 并且当前处于间歇模式的低压状态，则判断为液位满
+					if (mod_jixa==1)// lwz 虏垄脟脪碌卤脟掳麓娄脫脷录盲脨陋脛拢脢陆碌脛碌脥脩鹿脳麓脤卢拢卢脭貌脜脨露脧脦陋脪潞脦禄脗煤
 					{
-						if(ddfq==0)// lwz 并且当前不处于放气状态，则判断为液位满
-							flager_a = flager_a|ERRA_S;//////////液位满
+						if(ddfq==0)// lwz 虏垄脟脪碌卤脟掳虏禄麓娄脫脷路脜脝酶脳麓脤卢拢卢脭貌脜脨露脧脦陋脪潞脦禄脗煤
+							flager_a = flager_a|ERRA_S;//////////脪潞脦禄脗煤
 					}
 				}
-				// lwz 清零计数
+				// lwz 脟氓脕茫录脝脢媒
 				cnt_cnta=0;
 				cnt_cntaa=0;
 			}
 		}
 		else
-		{// lwz 30秒后，计时器清零
+		{// lwz 30脙毛潞贸拢卢录脝脢卤脝梅脟氓脕茫
 			cnt_cnta=0;
 			cnt_cntaa=0;
 		}
@@ -191,14 +191,14 @@ void LEVEL_WarnA(void)/*used*/
 
 unsigned short  cntx=0;
 unsigned char   bat_sas=0,bat_sas_bak=0;
-// lwz 将adc采集所得的数据转换为当前的电压
-void BAT_WarnFir(void)/*used 开机时候监测电量*/
+// lwz 陆芦adc虏脡录炉脣霉碌脙碌脛脢媒戮脻脳陋禄禄脦陋碌卤脟掳碌脛碌莽脩鹿
+void BAT_WarnFir(void)/*used 驴陋禄煤脢卤潞貌录脿虏芒碌莽脕驴*/
 {
 	// if(adc_bat<BAT0)
 		// {bat_lev=5;}
 	// else if(adc_bat<BAT1)
 		// {bat_lev=10;}
-    // else if(adc_bat<BAT2)
+	// else if(adc_bat<BAT2)
 		// {bat_lev=1;}
 	// else if(adc_bat<BAT3)
 		// {bat_lev=2;}
@@ -206,36 +206,36 @@ void BAT_WarnFir(void)/*used 开机时候监测电量*/
 		// {bat_lev=3;}
 	// else
 	        // {bat_lev=4;}
-    bat_lev=0;
+	bat_lev=0;
 	bat_sas=bat_sas_bak=0;
 	
 }
-// lwz 电池电量的计算
-void BAT_Warn(void)/*used 电池状态*/
+// lwz 碌莽鲁脴碌莽脕驴碌脛录脝脣茫
+void BAT_Warn(void)/*used 碌莽鲁脴脳麓脤卢*/
 {
 	if (adc_bat<BAT0)
 	{
-		bat_sas=LOWER_THAN_3_5V;// lwz 电量空格
+		bat_sas=LOWER_THAN_3_5V;// lwz 碌莽脕驴驴脮赂帽
 	}
 	else if (adc_bat<BAT1)
 	{
-		bat_sas=LOWER_BAT_WARN_3_6V;// lwz 电量一格
+		bat_sas=LOWER_BAT_WARN_3_6V;// lwz 碌莽脕驴脪禄赂帽
 	}
 	else if (adc_bat<BAT2)
 	{
-		bat_sas=LOWER_THAN_3_7V;// lwz 电量一格
+		bat_sas=LOWER_THAN_3_7V;// lwz 碌莽脕驴脪禄赂帽
 	}
 	else if (adc_bat<BAT3)
 	{
-		bat_sas=LOWER_THAN_3_8V;// lwz 电量二格
+		bat_sas=LOWER_THAN_3_8V;// lwz 碌莽脕驴露镁赂帽
 	}
 	else if (adc_bat<BAT4)
 	{
-		bat_sas=LOWER_THAN_4V;// lwz 电量三格
+		bat_sas=LOWER_THAN_4V;// lwz 碌莽脕驴脠媒赂帽
 	}
 	else
 	{
-		bat_sas=BAT_FULL;// lwz 电量四满格
+		bat_sas=BAT_FULL;// lwz 碌莽脕驴脣脛脗煤赂帽
 	}
 
 	if (bat_sas==bat_sas_bak)
@@ -253,14 +253,14 @@ void BAT_Warn(void)/*used 电池状态*/
 	}
 
 	bat_sas_bak = bat_sas;
-	// lwz 如果处于充电状态，则设置第12位；否则清零第12位；
+	// lwz 脠莽鹿没麓娄脫脷鲁盲碌莽脳麓脤卢拢卢脭貌脡猫脰脙碌脷12脦禄拢禄路帽脭貌脟氓脕茫碌脷12脦禄拢禄
 	if (BAT_CHARGE==BAT_CHARGING)
 	{
-		bat_lev=bat_lev|0x80;    /////////////////充电中，将第7位置位
+		bat_lev=bat_lev|0x80;    /////////////////鲁盲碌莽脰脨拢卢陆芦碌脷7脦禄脰脙脦禄
 	}
 	else
 	{
-		bat_lev=bat_lev&0x7f;// 不在充电中，将第7位清空
+		bat_lev=bat_lev&0x7f;// 虏禄脭脷鲁盲碌莽脰脨拢卢陆芦碌脷7脦禄脟氓驴脮
 	}
 }
 

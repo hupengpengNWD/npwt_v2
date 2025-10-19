@@ -11,7 +11,7 @@ unsigned short   fall_cnta0 ;
 
 unsigned char    fall_stata ;
 
-unsigned char    con_flg_falla ;// lwz 1代表耗材盒需要放气、0代表耗材盒不用放气
+unsigned char    con_flg_falla ;// lwz 1麓煤卤铆潞脛虏脛潞脨脨猫脪陋路脜脝酶隆垄0麓煤卤铆潞脛虏脛潞脨虏禄脫脙路脜脝酶
 unsigned short   gao_cnt ;
 unsigned char    good_check=0 ;
 unsigned char    nggood_check=0 ;
@@ -19,19 +19,19 @@ unsigned short   BOX_FQ_TURNS ;
 
 unsigned short   tim_tima=0 ;
 
-unsigned short   adc_ps00;// lwz 当前的压力值
+unsigned short   adc_ps00;// lwz 碌卤脟掳碌脛脩鹿脕娄脰碌
 // unsigned char    det300 = 0;
-//20160505日修改，减少液位满误报警，过冲值
+//20160505脠脮脨脼赂脛拢卢录玫脡脵脪潞脦禄脗煤脦贸卤篓戮炉拢卢鹿媒鲁氓脰碌
 // unsigned char    det300 = 20;
 
 
-//20160506日修改，减少液位满误报警，过冲值
+//20160506脠脮脨脼赂脛拢卢录玫脡脵脪潞脦禄脗煤脦贸卤篓戮炉拢卢鹿媒鲁氓脰碌
 // unsigned char    det300 = 15;
-//20160603 日修改，陈巧林反应20mmhg的时候液位满不报警
+//20160603 脠脮脨脼赂脛拢卢鲁脗脟脡脕脰路麓脫娄20mmhg碌脛脢卤潞貌脪潞脦禄脗煤虏禄卤篓戮炉
 unsigned char    det300 = 10;
 unsigned char    det00 ;
-unsigned short con_hi_delta = 0;// 高压步距
-unsigned short con_lo_delta = 0;// 低压步距
+unsigned short con_hi_delta = 0;// 赂脽脩鹿虏陆戮脿
+unsigned short con_lo_delta = 0;// 碌脥脩鹿虏陆戮脿
 
 unsigned short debug_times = 0;
 unsigned short debug_thirtys = 0;
@@ -44,15 +44,15 @@ void CONTR_fallaNew(void)
 		fall_stata=1;
 		fall_cnta0=0;
 		VAL2 = 1 ;
-		//20160725 修改在间隙模式下，报管路堵塞后，进入低压模式不消除报警
+		//20160725 脨脼赂脛脭脷录盲脧露脛拢脢陆脧脗拢卢卤篓鹿脺脗路露脗脠没潞贸拢卢陆酶脠毛碌脥脩鹿脛拢脢陆虏禄脧没鲁媒卤篓戮炉
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；
+		flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄
 	}
 	else if (fall_stata==1)
 	{
 		fall_cnta0++;
 		unsigned short fall_cnta0_count = 4;
-		if(mod_seta_preh <=50)// 低压泄气时间延长
+		if(mod_seta_preh <=50)// 碌脥脩鹿脨鹿脝酶脢卤录盲脩脫鲁陇
 			fall_cnta0_count = 16;
 		if (fall_cnta0>fall_cnta0_count) 
 		{//////////////////////0.1
@@ -60,31 +60,31 @@ void CONTR_fallaNew(void)
 			fall_stata=2;
 			fall_cnta0=0;
 		}
-		//20160725 修改在间隙模式下，报管路堵塞后，进入低压模式不消除报警
+		//20160725 脨脼赂脛脭脷录盲脧露脛拢脢陆脧脗拢卢卤篓鹿脺脗路露脗脠没潞贸拢卢陆酶脠毛碌脥脩鹿脛拢脢陆虏禄脧没鲁媒卤篓戮炉
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；
+		flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄
 	}
 	else if (fall_stata==2)
 	{
 		fall_cnta0++;
 		if (fall_cnta0>50)  //////30
-		{//////////////////////0.1秒
+		{//////////////////////0.1脙毛
 			fall_stata=0;
 			fall_cnta0=0;
-			if (adc_ps00<(mod_seta_preh+con_hi_delta))// lwz 泄气达到目标
+			if (adc_ps00<(mod_seta_preh+con_hi_delta))// lwz 脨鹿脝酶麓茂碌陆脛驴卤锚
 			{
 				// if(debug_air!=0)
 				// {
 					// mod_seta_preh=debug_air;
 					// debug_air=0;
 				// }	
-				con_flg_falla=0;//盒子不用放气
+				con_flg_falla=0;//潞脨脳脫虏禄脫脙路脜脝酶
 				gao_cnt=0;
 			}
 		}
-		//20160725 修改在间隙模式下，报管路堵塞后，进入低压模式不消除报警
+		//20160725 脨脼赂脛脭脷录盲脧露脛拢脢陆脧脗拢卢卤篓鹿脺脗路露脗脠没潞贸拢卢陆酶脠毛碌脥脩鹿脛拢脢陆虏禄脧没鲁媒卤篓戮炉
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；
+		flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄
 		
 	}
 }
@@ -92,7 +92,7 @@ void CONTR_fallaNew(void)
 void get_press_delta(unsigned short press)
 {
 	unsigned short delta = 8;
-	// lwz 更改：除了Deroyal版意外，其他的版本将浮动阈值扩大，尽量减少泵的启动次数
+	// lwz 赂眉赂脛拢潞鲁媒脕脣Deroyal掳忙脪芒脥芒拢卢脝盲脣没碌脛掳忙卤戮陆芦赂隆露炉茫脨脰碌脌漏麓贸拢卢戮隆脕驴录玫脡脵卤脙碌脛脝么露炉麓脦脢媒
 #ifdef LOGO_TYPE_DEROYAL
 	if (press<20)
 	{
@@ -112,8 +112,8 @@ void get_press_delta(unsigned short press)
 	con_lo_delta = delta;
 	con_hi_delta = delta+4;
 #else
-	con_lo_delta = press/10;// lwz 非deroyal版，10%的补气判定条件
-	// lwz 对于充气停止条件，做出调整
+	con_lo_delta = press/10;// lwz 路脟deroyal掳忙拢卢10%碌脛虏鹿脝酶脜脨露篓脤玫录镁
+	// lwz 露脭脫脷鲁盲脝酶脥拢脰鹿脤玫录镁拢卢脳枚鲁枚碌梅脮没
 	if (press > 200)
 	{
 		con_hi_delta = press/20;
@@ -127,13 +127,13 @@ void get_press_delta(unsigned short press)
 		con_hi_delta = press/10+2;
 	}
 #endif
-	// 20160526 正15，负10
+	// 20160526 脮媒15拢卢赂潞10
 } 
 
 
 
 
-/*----------------16位有符号数计算差值-----------------------------------------*/
+/*----------------16脦禄脫脨路没潞脜脢媒录脝脣茫虏卯脰碌-----------------------------------------*/
 static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2 )
 {
 	unsigned short rst = 0;
@@ -146,22 +146,22 @@ static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2
 }
 unsigned char oppump_flg = 0;
 unsigned short  np_good_times=0;
-unsigned char   overabc = 0;// lwz 为1，表示漏气超过10分钟
+unsigned char   overabc = 0;// lwz 脦陋1拢卢卤铆脢戮脗漏脝酶鲁卢鹿媒10路脰脰脫
 unsigned short   val_cnt=0;
-unsigned long scan_dusai_time = 0;// lwz 判断堵塞时间，在补气和切换主模式的时候，这个标志会清零
+unsigned long scan_dusai_time = 0;// lwz 脜脨露脧露脗脠没脢卤录盲拢卢脭脷虏鹿脝酶潞脥脟脨禄禄脰梅脛拢脢陆碌脛脢卤潞貌拢卢脮芒赂枚卤锚脰戮禄谩脟氓脕茫
 unsigned char xxturn=0;
 unsigned char xxok=0;
 signed int result=0;
 
 unsigned short record_ds[8];
-unsigned char  record_ds_turn=0;// 当前的数组索引
+unsigned char  record_ds_turn=0;// 碌卤脟掳碌脛脢媒脳茅脣梅脪媒
 unsigned short twenty_seconds=0;
-// lwz 根据当前的压力做出判断，处理压力过小、过大、液位满、漏气等情况
+// lwz 赂霉戮脻碌卤脟掳碌脛脩鹿脕娄脳枚鲁枚脜脨露脧拢卢麓娄脌铆脩鹿脕娄鹿媒脨隆隆垄鹿媒麓贸隆垄脪潞脦禄脗煤隆垄脗漏脝酶碌脠脟茅驴枚
 void STAT_conNewa(void)/*used*/
 {
 	unsigned short temp=0;
-    unsigned short run_time=0;
-	if (mod_seta_preh==0)/*如果设定的压力是0就不要玩*/
+	unsigned short run_time=0;
+	if (mod_seta_preh==0)/*脠莽鹿没脡猫露篓碌脛脩鹿脕娄脢脟0戮脥虏禄脪陋脥忙*/
 	{
 		CLS_PwmA();
 		if (val_cnt++>1000)
@@ -180,13 +180,13 @@ void STAT_conNewa(void)/*used*/
 		get_press_delta(mod_seta_preh);
 		val_cnt=0;
 	}
-	if (flager_a&ERRA_S)/*液位满*/
+	if (flager_a&ERRA_S)/*脪潞脦禄脗煤*/
 	{
 		np_good_times=0;
 		VAL1 = 0 ;
 		VAL2 = 0 ;
 		//bump_need_out_air_flg=bump_need_out_air_flg&0x0f;
-		CLS_PwmA();//////////////////////液位满需要取消后才能使用
+		CLS_PwmA();//////////////////////脪潞脦禄脗煤脨猫脪陋脠隆脧没潞贸虏脜脛脺脢鹿脫脙
 	}
 	else
 	{
@@ -194,7 +194,7 @@ void STAT_conNewa(void)/*used*/
 		unsigned short target_press = mod_seta_preh+con_hi_delta;
 		if(target_press >= TOP_PRESSURE_MAX)
 			target_press = TOP_PRESSURE_MAX-3;
-		if (adc_ps00<=temp)//压力小于底限处理
+		if (adc_ps00<=temp)//脩鹿脕娄脨隆脫脷碌脳脧脼麓娄脌铆
 		{
 			
 			record_ds_turn=0;
@@ -211,44 +211,44 @@ void STAT_conNewa(void)/*used*/
 			scan_dusai_time = 0;
 			debug_times=0;
 			debug_thirtys=0;
-			flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；
-			if (con_flg_falla==0)//盒子不需要放气
+			flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄
+			if (con_flg_falla==0)//潞脨脳脫虏禄脨猫脪陋路脜脝酶
 			{
 				BOX_FQ_TURNS++;
-				if (BOX_FQ_TURNS>10)/*泄气的状态没有完成前不能开泵:40ms*/  
-				//if (BOX_FQ_TURNS>99)/*泄气的状态没有完成前不能开泵:500ms*/   //20160509
+				if (BOX_FQ_TURNS>10)/*脨鹿脝酶碌脛脳麓脤卢脙禄脫脨脥锚鲁脡脟掳虏禄脛脺驴陋卤脙:40ms*/  
+				//if (BOX_FQ_TURNS>99)/*脨鹿脝酶碌脛脳麓脤卢脙禄脫脨脥锚鲁脡脟掳虏禄脛脺驴陋卤脙:500ms*/   //20160509
 				{
 					BOX_FQ_TURNS=0;
 					
 					if (mod_jixa!=1)
-						VAL2 = 0 ;//盒子放气阀关闭
+						VAL2 = 0 ;//潞脨脳脫路脜脝酶路搂鹿脴卤脮
 					else
 					{
 						if(ddfq==2)	
-							VAL2 = 0 ;//盒子放气阀关闭
+							VAL2 = 0 ;//潞脨脳脫路脜脝酶路搂鹿脴卤脮
 					}
 					// if(debug_air!=0)
 					// {
 						// mod_seta_preh=debug_air;
 						// debug_air=0;
 					// }
-					if (flager_a&ERRA_LQ)//如果确认已经有了漏气标志
+					if (flager_a&ERRA_LQ)//脠莽鹿没脠路脠脧脪脩戮颅脫脨脕脣脗漏脝酶卤锚脰戮
 					{
-					    // lwz 九梅反馈间歇模式的漏气时间不足，需单独针对间歇模式来调整，原时间：1分12秒
-						if (load_perioda_up>JUDGE_LEAKAGE_TIMEOUT+1200  // 连续模式下，漏气超过10分钟
-						    || load_perioda_up>(JUDGE_LEAKAGE_TIMEOUT)*JX_MODE_TIME_FACTOR_BY_LX // 间歇模式下漏气超过10分钟
-							)/*漏气超10分钟*/
+					    // lwz 戮脜脙路路麓脌隆录盲脨陋脛拢脢陆碌脛脗漏脝酶脢卤录盲虏禄脳茫拢卢脨猫碌楼露脌脮毛露脭录盲脨陋脛拢脢陆脌麓碌梅脮没拢卢脭颅脢卤录盲拢潞1路脰12脙毛
+						if (load_perioda_up>JUDGE_LEAKAGE_TIMEOUT+1200  // 脕卢脨酶脛拢脢陆脧脗拢卢脗漏脝酶鲁卢鹿媒10路脰脰脫
+						    || load_perioda_up>(JUDGE_LEAKAGE_TIMEOUT)*JX_MODE_TIME_FACTOR_BY_LX // 录盲脨陋脛拢脢陆脧脗脗漏脝酶鲁卢鹿媒10路脰脰脫
+							)/*脗漏脝酶鲁卢10路脰脰脫*/
 #if IS_NO_LIQUID_ALARM_STOP==0
 						{
-							//泵上的阀VA1不要放气
+							//卤脙脡脧碌脛路搂VA1虏禄脪陋路脜脝酶
 							//bump_need_out_air_flg=bump_need_out_air_flg&0x0f;
-							CLS_PwmA();// lwz 如果发生了漏气，则停泵
+							CLS_PwmA();// lwz 脠莽鹿没路垄脡煤脕脣脗漏脝酶拢卢脭貌脥拢卤脙
 							overabc = 1;
 						}
 						else
 #endif
 						{
-							//泵上的阀VA1要放气一欠,准备打开泵充气
+							//卤脙脡脧碌脛路搂VA1脪陋路脜脝酶脪禄脟路,脳录卤赂麓貌驴陋卤脙鲁盲脝酶
 							//bump_need_out_air_flg=bump_need_out_air_flg|0xf0;
 							OPEN_PwmA();
 							overabc = 0;
@@ -256,7 +256,7 @@ void STAT_conNewa(void)/*used*/
 					}
 					else
 					{
-						//泵上的阀VA1要放气一欠,准备打开泵充气
+						//卤脙脡脧碌脛路搂VA1脪陋路脜脝酶脪禄脟路,脳录卤赂麓貌驴陋卤脙鲁盲脝酶
 						//bump_need_out_air_flg=bump_need_out_air_flg|0xf0;
 						OPEN_PwmA();
 						overabc = 0;
@@ -264,22 +264,22 @@ void STAT_conNewa(void)/*used*/
 				}
 			}
 		}
-		//else if (adc_ps00>=(mod_seta_preh+con_hi_delta))//压力大于上限处理
+		//else if (adc_ps00>=(mod_seta_preh+con_hi_delta))//脩鹿脕娄麓贸脫脷脡脧脧脼麓娄脌铆
 
 		//else if	(((adc_ps00>=mod_seta_preh+17))||((mod_seta_preh>=200)&&(adc_ps00>=mod_seta_preh+12))||((mod_seta_preh<=100)&&(adc_ps00>=mod_seta_preh+7)))
-		else if (adc_ps00>=(target_press))//压力大于上限处理
+		else if (adc_ps00>=(target_press))//脩鹿脕娄麓贸脫脷脡脧脧脼麓娄脌铆
 		{
 			gao_cnt++;
 			if (gao_cnt>999)
 				gao_cnt=1000;
-			// lwz 根据当前设定的压力来判断需要等待高压的时间，目标压力越高，等待的时间就越长，等待时间=目标压力*2
-            run_time=mod_seta_preh/10+2;
-			// lwz 对于小于等于50mmhg，泵可以延迟启动，以确保泵不会多次启动
+			// lwz 赂霉戮脻碌卤脟掳脡猫露篓碌脛脩鹿脕娄脌麓脜脨露脧脨猫脪陋碌脠麓媒赂脽脩鹿碌脛脢卤录盲拢卢脛驴卤锚脩鹿脕娄脭陆赂脽拢卢碌脠麓媒碌脛脢卤录盲戮脥脭陆鲁陇拢卢碌脠麓媒脢卤录盲=脛驴卤锚脩鹿脕娄*2
+			run_time=mod_seta_preh/10+2;
+			// lwz 露脭脫脷脨隆脫脷碌脠脫脷50mmhg拢卢卤脙驴脡脪脭脩脫鲁脵脝么露炉拢卢脪脭脠路卤拢卤脙虏禄禄谩露脿麓脦脝么露炉
 			if(run_time < 15)
 			{
 				run_time=15;
 			}
-			// lwz 测试中发现，间歇模式下，保压时间不够，在这里补偿一点
+			// lwz 虏芒脢脭脰脨路垄脧脰拢卢录盲脨陋脛拢脢陆脧脗拢卢卤拢脩鹿脢卤录盲虏禄鹿禄拢卢脭脷脮芒脌茂虏鹿鲁楼脪禄碌茫
 			if(mod_main_a == MOD_JIX)
 			{
 				run_time=run_time+4;
@@ -289,30 +289,30 @@ void STAT_conNewa(void)/*used*/
 				run_time=20;
 			if(run_time>=400)
 				run_time=400;
-            if (gao_cnt>run_time) //20160606 lwz 时间到，关泵
+			if (gao_cnt>run_time) //20160606 lwz 脢卤录盲碌陆拢卢鹿脴卤脙
 			{
 				CLS_PwmA();
 				PUMP=0;
 				open_bum=0;
 			}
-            if (gao_cnt>(run_time+JUDGE_YWM_AFTER_PUMP_STOP)) 
+			if (gao_cnt>(run_time+JUDGE_YWM_AFTER_PUMP_STOP)) 
 			{
-/*  				if (oppump_flg)//防止液位满误报警
+/*  				if (oppump_flg)//路脌脰鹿脪潞脦禄脗煤脦贸卤篓戮炉
 				{
-					cnt_cnta++;	//20秒内4次震荡累计
+					cnt_cnta++;	//20脙毛脛脷4麓脦脮冒碌麓脌脹录脝
 					oppump_flg = 0;
 					con_flg_falla=1;
 					fall_stata=0;
 					fall_cnta0=0;
 					gao_cnt=0;
 				} 	 */
-	// lwz 如果高压计数大于499，并且泵在上一次震荡累计之后开过，即气压：adc_ps00<=(mod_seta_preh-10)条件被执行过
- 				if (con_flg_falla==0)//防止液位满误报警 lwz 当前不在液位满的放气阶段
+	// lwz 脠莽鹿没赂脽脩鹿录脝脢媒麓贸脫脷499拢卢虏垄脟脪卤脙脭脷脡脧脪禄麓脦脮冒碌麓脌脹录脝脰庐潞贸驴陋鹿媒拢卢录麓脝酶脩鹿拢潞adc_ps00<=(mod_seta_preh-10)脤玫录镁卤禄脰麓脨脨鹿媒
+ 				if (con_flg_falla==0)//路脌脰鹿脪潞脦禄脗煤脦贸卤篓戮炉 lwz 碌卤脟掳虏禄脭脷脪潞脦禄脗煤碌脛路脜脝酶陆脳露脦
 				{
-					cnt_cnta++;	//20秒内4次震荡累计
+					cnt_cnta++;	//20脙毛脛脷4麓脦脮冒碌麓脌脹录脝
 					oppump_flg = 0;
 					con_flg_falla=1;
-					fall_stata=0;// lwz 放气开VAL2标志
+					fall_stata=0;// lwz 路脜脝酶驴陋VAL2卤锚脰戮
 					fall_cnta0=0;
 					gao_cnt=0;
 				} 	
@@ -323,26 +323,26 @@ void STAT_conNewa(void)/*used*/
 			good_check=0;
 			np_good_times=0;
 		}
-		else//压力大于底限小于上限
+		else//脩鹿脕娄麓贸脫脷碌脳脧脼脨隆脫脷脡脧脧脼
 		{
 			#if IS_NO_LIQUID_ALARM_STOP==0
 			if (flager_a&ERRA_LQ)
 			{
 				if (load_perioda_up>JUDGE_LEAKAGE_TIMEOUT+1200
-				|| load_perioda_up>(JUDGE_LEAKAGE_TIMEOUT)*JX_MODE_TIME_FACTOR_BY_LX // 间歇模式下漏气超过10分钟
+				|| load_perioda_up>(JUDGE_LEAKAGE_TIMEOUT)*JX_MODE_TIME_FACTOR_BY_LX // 录盲脨陋脛拢脢陆脧脗脗漏脝酶鲁卢鹿媒10路脰脰脫
 				)
 				{
 					//bump_need_out_air_flg=bump_need_out_air_flg&0x0f;
-					CLS_PwmA();//不要开泵上的放气阀 	lwz 关泵
+					CLS_PwmA();//虏禄脪陋驴陋卤脙脡脧碌脛路脜脝酶路搂 	lwz 鹿脴卤脙
 				}
 			}
 			#endif
-			if (scan_dusai_time++>JUDGE_DS_TIME)/*如果持续15分钟内没有补气、放气表示有堵塞*/
+			if (scan_dusai_time++>JUDGE_DS_TIME)/*脠莽鹿没鲁脰脨酶15路脰脰脫脛脷脙禄脫脨虏鹿脝酶隆垄路脜脝酶卤铆脢戮脫脨露脗脠没*/
 			{
 				flager_a|=ERRB_DS;
 			}
 			
-            good_check++;
+			good_check++;
 			if(good_check>49)
 			{
 				nggood_check=0;
@@ -351,11 +351,11 @@ void STAT_conNewa(void)/*used*/
 			}
 			//20160524 add mafacai///////////
 			twenty_seconds++;
-			// lwz 低压状态下，
+			// lwz 碌脥脩鹿脳麓脤卢脧脗拢卢
 			unsigned short record_pre_compare_interval;
 			if(adc_ps00 >= MIN_PRESS_REPORT_DS)
 			{
-				// lwz 间歇模式的管路堵塞报警周期计算时应该加倍，这样得到的实际时间才能准确
+				// lwz 录盲脨陋脛拢脢陆碌脛鹿脺脗路露脗脠没卤篓戮炉脰脺脝脷录脝脣茫脢卤脫娄赂脙录脫卤露拢卢脮芒脩霉碌脙碌陆碌脛脢碌录脢脢卤录盲虏脜脛脺脳录脠路
 				if(mod_main_a == MOD_JIX)
 				{
 					record_pre_compare_interval = RECORDE_PRESSURE_INTERVAL*JX_MODE_TIME_FACTOR_BY_LX;
@@ -367,7 +367,7 @@ void STAT_conNewa(void)/*used*/
 			}
 			else
 			{
-				// lwz 间歇模式的管路堵塞报警周期计算时应该加倍，这样得到的实际时间才能准确
+				// lwz 录盲脨陋脛拢脢陆碌脛鹿脺脗路露脗脠没卤篓戮炉脰脺脝脷录脝脣茫脢卤脫娄赂脙录脫卤露拢卢脮芒脩霉碌脙碌陆碌脛脢碌录脢脢卤录盲虏脜脛脺脳录脠路
 				if(mod_main_a == MOD_JIX)
 				{
 					record_pre_compare_interval = RECORDE_PRESSURE_INTERVAL_LOW*JX_MODE_TIME_FACTOR_BY_LX;
@@ -377,7 +377,7 @@ void STAT_conNewa(void)/*used*/
 					record_pre_compare_interval = RECORDE_PRESSURE_INTERVAL_LOW;
 				}
 			}
-			if(twenty_seconds>=record_pre_compare_interval)//180000ul/15/3  每隔15秒查检一次，
+			if(twenty_seconds>=record_pre_compare_interval)//180000ul/15/3  脙驴赂么15脙毛虏茅录矛脪禄麓脦拢卢
 			{
 				record_ds[record_ds_turn]=adc_ps00;
 				record_ds_turn++;
@@ -385,25 +385,25 @@ void STAT_conNewa(void)/*used*/
 				{
 					if((record_ds[7] == record_ds[0])||((record_ds[7]+1) == record_ds[0]))
 					{
-						// lwz 这部分代码的目的是为了提高在低压状态下判定管路堵塞的门槛
-						// lwz 如果大于此值，则直接设置为管路堵塞
+						// lwz 脮芒虏驴路脰麓煤脗毛碌脛脛驴碌脛脢脟脦陋脕脣脤谩赂脽脭脷碌脥脩鹿脳麓脤卢脧脗脜脨露篓鹿脺脗路露脗脠没碌脛脙脜录梅
+						// lwz 脠莽鹿没麓贸脫脷麓脣脰碌拢卢脭貌脰卤陆脫脡猫脰脙脦陋鹿脺脗路露脗脠没
 						if(record_ds[7] >= MIN_PRESS_REPORT_DS)
 						{
-							flager_a|=ERRB_DS;// lwz 压力前后没有变化，设置堵塞标志
+							flager_a|=ERRB_DS;// lwz 脩鹿脕娄脟掳潞贸脙禄脫脨卤盲禄炉拢卢脡猫脰脙露脗脠没卤锚脰戮
 						}
 						else if(record_ds[7] > NO_REPORE_PRESS_FOR_DS)
 						{
-							// lwz 如果大于NO_REPORE_PRESS_FOR_DS，则计算数组平均值，如果等于record_ds[7]，才判定为管路堵塞
+							// lwz 脠莽鹿没麓贸脫脷NO_REPORE_PRESS_FOR_DS拢卢脭貌录脝脣茫脢媒脳茅脝陆戮霉脰碌拢卢脠莽鹿没碌脠脫脷record_ds[7]拢卢虏脜脜脨露篓脦陋鹿脺脗路露脗脠没
 							if((record_ds[0]+record_ds[1]+record_ds[2]+record_ds[3]+record_ds[4]+record_ds[5]+record_ds[6])/7 == record_ds[7])
 							{
-								flager_a|=ERRB_DS;// lwz 压力前后没有变化，设置堵塞标志
+								flager_a|=ERRB_DS;// lwz 脩鹿脕娄脟掳潞贸脙禄脫脨卤盲禄炉拢卢脡猫脰脙露脗脠没卤锚脰戮
 							}
 						
-}// lwz 小于NO_REPORE_PRESS_FOR_DS，则不报管路堵塞
+}// lwz 脨隆脫脷NO_REPORE_PRESS_FOR_DS拢卢脭貌虏禄卤篓鹿脺脗路露脗脠没
 					}
 					else
 					{
-						flager_a &=~ERRB_DS;// 只有当前气压大于设定压力，后才有con_flg_falla=1；
+						flager_a &=~ERRB_DS;// 脰禄脫脨碌卤脟掳脝酶脩鹿麓贸脫脷脡猫露篓脩鹿脕娄拢卢潞贸虏脜脫脨con_flg_falla=1拢禄
 					}
 					
 					record_ds[0]=record_ds[1];
@@ -420,7 +420,7 @@ void STAT_conNewa(void)/*used*/
 			//////////////////////////////////
 				
 		}
-		if (con_flg_falla)//当前压力大于设定压力+上限，给盒子放气一小会儿，执行完后con_flg_falla=0；
+		if (con_flg_falla)//碌卤脟掳脩鹿脕娄麓贸脫脷脡猫露篓脩鹿脕娄+脡脧脧脼拢卢赂酶潞脨脳脫路脜脝酶脪禄脨隆禄谩露霉拢卢脰麓脨脨脥锚潞贸con_flg_falla=0拢禄
 		{
 			CONTR_fallaNew();
 		}

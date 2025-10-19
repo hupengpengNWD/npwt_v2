@@ -2,19 +2,19 @@
 #include   "npwt_dis_main.h"
 
 /*
-hpp: PWM频率修改到10kHz时，本文件中需要修改的地方：
+hpp: PWMé¢çä¿®æ¹å°10kHzæ¶ï¼æ¬æä»¶ä¸­éè¦ä¿®æ¹çå°æ¹ï¼
 
-1. pwm_cnt2变量类型修改:
-   - 在npwt_dis_sys_ini_00.c中将unsigned char pwm_cnt2改为float pwm_cnt2
+1. pwm_cnt2åéç±»åä¿®æ¹:
+   - å¨npwt_dis_sys_ini_00.cä¸­å°unsigned char pwm_cnt2æ¹ä¸ºfloat pwm_cnt2
 
-2. pwm_cnt2赋值逻辑修改 (第134-156行):
-   - pwm_cnt2=4; 改为 pwm_cnt2=0.4;  // 40%占空比
-   - pwm_cnt2=5; 改为 pwm_cnt2=0.5;  // 50%占空比  
-   - pwm_cnt2=6; 改为 pwm_cnt2=0.6;  // 60%占空比
+2. pwm_cnt2èµå¼é»è¾ä¿®æ¹ (ç¬¬134-156è¡):
+   - pwm_cnt2=4; æ¹ä¸º pwm_cnt2=0.4;  // 40%å ç©ºæ¯
+   - pwm_cnt2=5; æ¹ä¸º pwm_cnt2=0.5;  // 50%å ç©ºæ¯  
+   - pwm_cnt2=6; æ¹ä¸º pwm_cnt2=0.6;  // 60%å ç©ºæ¯
 
-3. PWM控制逻辑修改:
-   - 需要修改PWM控制逻辑以支持小数占空比
-   - 可能需要使用累加器来实现小数占空比控制
+3. PWMæ§å¶é»è¾ä¿®æ¹:
+   - éè¦ä¿®æ¹PWMæ§å¶é»è¾ä»¥æ¯æå°æ°å ç©ºæ¯
+   - å¯è½éè¦ä½¿ç¨ç´¯å å¨æ¥å®ç°å°æ°å ç©ºæ¯æ§å¶
 */
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_ifile_key_00.h"
@@ -23,21 +23,21 @@ hpp: PWM频率修改到10kHz时，本文件中需要修改的地方：
 #include   "npwt_dis_sys_ini_00.h"
 #include   "npwt_dis_sys_uart_00.h"
 
-unsigned short	 load_perioda_up;// lwz �ж�©����ʱ��
+unsigned short	 load_perioda_up;// lwz ï¿½Ð¶ï¿½Â©ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 unsigned short   cnt_cnta,cnt_cntaa;
 
 unsigned char    bump_need_out_air_flg;
 
 
 unsigned short   mod_seta_prehh;
-float    pwm_k1;// lwz ��ͬ��adc_ps00������ǰѹ��ֵ
+float    pwm_k1;// lwz ï¿½ï¿½Í¬ï¿½ï¿½adc_ps00ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ñ¹ï¿½ï¿½Öµ
 unsigned short   fq_cnt1=0;
-// lwz ����
+// lwz ï¿½ï¿½ï¿½ï¿½
 void OPEN_PwmA(void)
 {
 	bump_need_out_air_flg=bump_need_out_air_flg|0xf0;
 }
-// lwz �ر�
+// lwz ï¿½Ø±ï¿½
 void CLS_PwmA(void)/*used*/
 {
 	bump_need_out_air_flg=bump_need_out_air_flg&0x0f;
@@ -101,17 +101,17 @@ const  char mot_sys[]={
 	det00   =     mot_sys[i];
 	STAT_conNewa();
 } */
- // lwz ���©�����ж�Һλ�������㵱ǰѹ��ֵ�����������������
+ // lwz ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ÒºÎ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ãµ±Ç°Ñ¹ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void PRESS_ConSubA(void)
 {
 	unsigned short i;
 
-	LEVEL_WarnA();// lwz ���©�����ж�Һλ��
+	LEVEL_WarnA();// lwz ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ÒºÎ»ï¿½ï¿½
 
 	mod_seta_prehh=mod_seta_preh;
 	if (adc_ps0>adc_zero)
 	{
-		pwm_k1    =    (adc_ps0-adc_zero)/valueK;// lwz ���㵱ǰ����ѹֵ = ��ǰ��������ѹ��ֵ ��ȥ ����ѹ �Ĳ�ٳ���valueK
+		pwm_k1    =    (adc_ps0-adc_zero)/valueK;// lwz ï¿½ï¿½ï¿½ãµ±Ç°ï¿½ï¿½ï¿½ï¿½Ñ¹Öµ = ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½Öµ ï¿½ï¿½È¥ ï¿½ï¿½ï¿½ï¿½Ñ¹ ï¿½Ä²î£¬ï¿½Ù³ï¿½ï¿½ï¿½valueK
 	}
 	else
 	{
@@ -145,8 +145,8 @@ void PRESS_ConSubA(void)
 	}
  */
 //	pwm_cnt2  =    5;  
-	//20160601  ��0.4��Ĥ����ѹ��������̫�󣬿պĲĺ���40mmHG�²�����©�����ָ��ϲ���
-	if (mod_seta_preh<=20)//20160630��ǰ��3����Щ�����������������4
+	//20160601  ï¿½ï¿½0.4ï¿½ï¿½Ä¤ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì«ï¿½ó£¬¿ÕºÄ²Äºï¿½ï¿½ï¿½40mmHGï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ï²ï¿½ï¿½ï¿½
+	if (mod_seta_preh<=20)//20160630ï¿½ï¿½Ç°ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4
 	{
 		pwm_cnt2=4;    //  3//2
 	}
@@ -173,10 +173,10 @@ void PRESS_ConSubA(void)
 	
 	i       =     mod_seta_preh/10;
 	det00   =     mot_sys[i];
-	STAT_conNewa();// lwz ���ݵ�ǰ��ѹ�������жϣ�����ѹ����С������Һλ����©�������
+	STAT_conNewa();// lwz ï¿½ï¿½ï¿½Ýµï¿½Ç°ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï£ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒºÎ»ï¿½ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
-// ��ȡ��ǰѹ���������ݵ�ǰѹ��������Ӧ
+// ï¿½ï¿½È¡ï¿½ï¿½Ç°Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Ç°Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
 void PRESS_ConA(void)/*used*/
 {
 	switch (mod_main_a)
@@ -184,14 +184,14 @@ void PRESS_ConA(void)/*used*/
 	case MOD_SYS:
 	{
 		cnt_cnta=cnt_cntaa=0;
-		load_perioda_up=0;/// lwz ©��ʱ������
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		break;
 	}
 	case MOD_WAT:
 	{
 		VAL1=0;
 		VAL2=0;
-		//flager_a = 0;     //flager_a = 0;      20160330ȥ��
+		//flager_a = 0;     //flager_a = 0;      20160330È¥ï¿½ï¿½
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
 		flager_a &=~ERRA_YW;
@@ -199,7 +199,7 @@ void PRESS_ConA(void)/*used*/
 		flager_a &=~ERRB_DS;
 		flager_a &=~ERRB_YW;
 		flager_a &=~ERRB_S;
-		load_perioda_up=0;/// lwz ©��ʱ������
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		break;
 	}
 	case MOD_LIX:
@@ -225,7 +225,7 @@ void PRESS_ConA(void)/*used*/
 	{
 		VAL1=0;
 		VAL2=0;
-		//flager_a = 0;     //flager_a = 0;      20160330ȥ��
+		//flager_a = 0;     //flager_a = 0;      20160330È¥ï¿½ï¿½
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
 		flager_a &=~ERRA_YW;
@@ -234,7 +234,7 @@ void PRESS_ConA(void)/*used*/
 		flager_a &=~ERRB_YW;
 		flager_a &=~ERRB_S;
 		cnt_cnta=cnt_cntaa=0;
-		load_perioda_up=0;/// lwz ©��ʱ������
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CLS_PwmA();
 		break;;
 	}
@@ -242,7 +242,7 @@ void PRESS_ConA(void)/*used*/
 	{
 		VAL1=0;
 		VAL2=0;
-		//flager_a = 0;     //flager_a = 0;      20160330ȥ��
+		//flager_a = 0;     //flager_a = 0;      20160330È¥ï¿½ï¿½
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
 		flager_a &=~ERRA_YW;
@@ -251,7 +251,7 @@ void PRESS_ConA(void)/*used*/
 		flager_a &=~ERRB_YW;
 		flager_a &=~ERRB_S;
 		cnt_cnta=cnt_cntaa=0;
-		load_perioda_up=0;/// lwz ©��ʱ������
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CLS_PwmA();
 		break;;
 	}

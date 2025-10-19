@@ -10,8 +10,8 @@
 #include   "npwt_dis_main.h"
 #include   "npwt_dis_ofile_lcd_02.h"
 /*
-Ĭ��Ӣ��/���   0
-Ĭ������/Ӣ�   FF
+聛0聫8聞1陇7聞1陇7聛0谩4聞1陇7聞1陇7/聞1陇7聞1陇7聞1陇7聝9镁5   0
+聛0聫8聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7/聛0谩4聞1陇7聝9镁5   FF
 */
 unsigned char        language=0;
 #define      det   32
@@ -24,7 +24,7 @@ unsigned char   disp_set_flg=0;
 unsigned short  dis_cnta;
 unsigned char   add91200=0;
 unsigned short  add91201=0;
-unsigned short  adc_temp00=0;// lwz ����������ĵ�ǰ��ѹ��ֵ
+unsigned short  adc_temp00=0;// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聬7聞1陇7聛0垄2聞1陇7聞1陇7聛0脰9聞1陇7聞1陇7聛0枚5
 unsigned short  addhpp = 0;
 unsigned short  addhpp2 = 0;
 
@@ -34,20 +34,20 @@ const unsigned char rus_switch[] = {0x82, 0xBB, 0xA1, 0xAE, 0xB0, 0x00};
 const unsigned char rus_continuous[] = {0x8F, 0xAE, 0xB1, 0xB2, 0xAE, 0xBF, 0xAD,0xAD,0xBB,0xA9,0x00};
 const unsigned char rus_intermittent[] = {0x8F, 0xA5, 0xB0, 0xA5, 0xAC, 0xA5, 0xAD, 0xAD, 0xBB, 0xA9, 0x00};
 
-const unsigned char rus_liquid_full[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x20,0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};//Һλ������
-const unsigned char rus_liquid_full1[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x00};//Һλ������
-const unsigned char rus_liquid_full2[] = {0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};//Һλ������
+const unsigned char rus_liquid_full[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x20,0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};//聛0脻4娄脣聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
+const unsigned char rus_liquid_full1[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x00};//聛0脻4娄脣聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
+const unsigned char rus_liquid_full2[] = {0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};//聛0脻4娄脣聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 
-const unsigned char rus_leak_Alarm[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x20,0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xA0,0x00};//й©����
-const unsigned char rus_leak_Alarm1[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x00};//й©����
-const unsigned char rus_leak_Alarm2[] = {0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xC4,0x00};//й©����
+const unsigned char rus_leak_Alarm[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x20,0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xA0,0x00};//搂脹聛0聞8聞1陇7聞1陇7聞1陇7聞1陇7
+const unsigned char rus_leak_Alarm1[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x00};//搂脹聛0聞8聞1陇7聞1陇7聞1陇7聞1陇7
+const unsigned char rus_leak_Alarm2[] = {0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xC4,0x00};//搂脹聛0聞8聞1陇7聞1陇7聞1陇7聞1陇7
 
-const unsigned char rus_battery_low[] = {0x8D,0xA8,0xA7,0xAA,0xA8,0xA9,0x20,0xA7,0xA0,0xB0,0xBF,0xA4,0x00};//�͵������� 
+const unsigned char rus_battery_low[] = {0x8D,0xA8,0xA7,0xAA,0xA8,0xA9,0x20,0xA7,0xA0,0xB0,0xBF,0xA4,0x00};//聞1陇7聛0脠3聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7 
 
-const unsigned char rus_blockage_Alarm[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x20,0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};//�������� 
-const unsigned char rus_blockage_Alarm1[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x00};//�������� 
-const unsigned char rus_blockage_Alarm2[] = {0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};//�������� 
-const unsigned char rus_pump_idle[] = {0x81,0xA5,0xA7,0xA4,0xA5,0xA9,0xB1,0xB2, 0xA2,0xA8,0xA5,0x00};//���б��� 
+const unsigned char rus_blockage_Alarm[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x20,0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};//聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7 
+const unsigned char rus_blockage_Alarm1[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x00};//聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7 
+const unsigned char rus_blockage_Alarm2[] = {0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};//聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7 
+const unsigned char rus_pump_idle[] = {0x81,0xA5,0xA7,0xA4,0xA5,0xA9,0xB1,0xB2, 0xA2,0xA8,0xA5,0x00};//聞1陇7聞1陇7聞1陇7搂脪聞1陇7聞1陇7聞1陇7 
 
 const unsigned char rus_therapy_on[] = {0x8B, 0xA5 ,0xB7 ,0xA5 ,0xAD ,0xA8 ,0xA5 ,0x20, 0x82 ,0x8A ,0x8B ,0x00};  
 const unsigned char rus_therapy_off[] = {0x8B, 0xA5 ,0xB7 ,0xA5 ,0xAD ,0xA8 ,0xA5 ,0x20, 0x82 ,0x9B ,0x8A ,0x8B ,0x00};
@@ -66,7 +66,7 @@ const unsigned char rus_pre_LP[] = {0x8D ,0xC1 ,0xA4 ,0xA0 ,0xA2 ,0xAB ,0xC1 ,0x
 #endif
 
 /******************************************************************/
-// lwz ��ʾLED��ɫ����
+// lwz 聞1陇7聞1陇7聛0露5LED聞1陇7聞1陇7聛0庐2聞1陇7聞1陇7聞1陇7聞1陇7
 void DISP_Led(void)/*used*/
 {
 	YEL    =  0;
@@ -87,7 +87,7 @@ void DISP_Bat(void)/*used*/
 	i=(bat_lev&0x0f);
 	j=(bat_lev&0xc0);
 	if (j==0x80)
-	{/////////////////////////////////�����δ��
+	{/////////////////////////////////聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7娄脛聞1陇7聞1陇7
 		if (audio_flg==LED_BAT_NORMAL)
 		{
 			GRE=0;
@@ -95,11 +95,11 @@ void DISP_Bat(void)/*used*/
 		}
 		else if (audio_flg==LED_LOW_THAN_3_6V)
 		{
-			DISP_Led();// lwz ��ʾ��������
+			DISP_Led();// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 		}
 		else if (audio_flg==LED_LOW_THAN_3_5V_OR_ERR)
 		{
-			DISP_Led();// lwz ��ʾ��������
+			DISP_Led();// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 		}
 
 		if (bat_cnt<25)
@@ -129,7 +129,7 @@ void DISP_Bat(void)/*used*/
 	}
 
 	else
-	{/////////////////////////////////δ��������
+	{/////////////////////////////////娄脛聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 		if (audio_flg==LED_BAT_NORMAL)
 		{
 			GRE=0;
@@ -185,13 +185,13 @@ void DISP_Bat(void)/*used*/
 	}
 }
 
-// lwz ���ݵ�ǰ�Ĵ����룬����Ļ����ʾ��Ӧ�Ĵ�������
+// lwz 聞1陇7聞1陇7聞1陇7聛1楼3聞1陇7聛0垄2聞1陇7聛0聬6聞1陇7聞1陇7聞1陇7聞1陇7聝0聽3聞1陇7聞1陇7聞1陇7聞1陇7聛0聭3聞1陇7聞1陇7聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聛0谩8聞1陇7聛0聬6聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 void DISP_Erra(void)/*used*/
 {
  unsigned char bbb=0;
 	if (disp_ssa++<50)
 	{
-       bbb=1;
+	   bbb=1;
 		DISP_ClrZero(0,6,0,125);
 	}
 	else if (disp_ssa++<200)
@@ -203,57 +203,57 @@ void DISP_Erra(void)/*used*/
 		switch (err_codea)
 		{
 
-		case ERR_CANISTER_FULL:////////////////////////Һλ��
+		case ERR_CANISTER_FULL:////////////////////////聛0脻4娄脣聞1陇7聞1陇7
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_8X16ascii((char *)"Canister Full",3,13);
+				DISP_8X16ascii((char *)"Canister Full",3,13);
 #else
-                DISP_yewm(3,85);
+				DISP_yewm(3,85);
 #endif                
-                
+				
 			}
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH
 //                DISP_8X16ascii((char *)rus_liquid_full,3,13); 
-                  DISP_8X16ascii((char *)rus_liquid_full1,1,46); 
-                  DISP_8X16ascii((char *)rus_liquid_full2,3,46); 
+				  DISP_8X16ascii((char *)rus_liquid_full1,1,46); 
+				  DISP_8X16ascii((char *)rus_liquid_full2,3,46); 
 #else
-                DISP_8X16ascii((char *)"Canister Full",3,13);
+				DISP_8X16ascii((char *)"Canister Full",3,13);
 #endif 
 			}
 			break;
 
-		case ERR_AIR_LEAKAGE://©��
+		case ERR_AIR_LEAKAGE://聛0聞8聞1陇7聞1陇7
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-               DISP_8X16ascii((char *)"Leak  Alarm",3,24);
+			   DISP_8X16ascii((char *)"Leak  Alarm",3,24);
 #else
-               DISP_louq(3,85);
+			   DISP_louq(3,85);
 #endif 
 			}
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
 //                DISP_8X16ascii((char *)rus_leak_Alarm,3,24);	
-                DISP_8X16ascii((char *)rus_leak_Alarm1,1,46);
-                DISP_8X16ascii((char *)rus_leak_Alarm2,3,46);
+				DISP_8X16ascii((char *)rus_leak_Alarm1,1,46);
+				DISP_8X16ascii((char *)rus_leak_Alarm2,3,46);
 #else
-                DISP_8X16ascii((char *)"Leak  Alarm",3,24);
+				DISP_8X16ascii((char *)"Leak  Alarm",3,24);
 #endif
 			}
 
 			break;
-		case ERR_JAMED://��������
+		case ERR_JAMED://聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 		{
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH    
-                DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  //20160707  YUKI ASK CHANGED TO BLOCKAGE ALARM
+				DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  //20160707  YUKI ASK CHANGED TO BLOCKAGE ALARM
 #else
-                DISP_block(3,85);
+				DISP_block(3,85);
 #endif
 				
 			}
@@ -261,30 +261,30 @@ void DISP_Erra(void)/*used*/
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
 //                DISP_8X16ascii((char *)rus_blockage_Alarm,3,24);
-                DISP_8X16ascii((char *)rus_blockage_Alarm1,1,46);
-                DISP_8X16ascii((char *)rus_blockage_Alarm2,3,46);
+				DISP_8X16ascii((char *)rus_blockage_Alarm1,1,46);
+				DISP_8X16ascii((char *)rus_blockage_Alarm2,3,46);
 #else
-                DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  //20160707  YUKI ASK CHANGED TO BLOCKAGE ALARM
+				DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  //20160707  YUKI ASK CHANGED TO BLOCKAGE ALARM
 #endif				
 			}
 		}
 		break;
 		
-		case ERR_DEV_IDLE://���б���  ����5����������
+		case ERR_DEV_IDLE://聞1陇7聞1陇7聞1陇7搂脪聞1陇7聞1陇7聞1陇7  聞1陇7聞1陇7聞1陇7聞1陇75聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 		{
 #if LANGUAGE_RUSSIA_ENGILISH    
-            
-        if (language)
-        {
-            DISP_8X16ascii((char *)"Pump Idle",3,24);
-        }
-        else
-        {
-            DISP_8X16ascii((char *)rus_pump_idle,3,40);
-        }
+			
+		if (language)
+		{
+			DISP_8X16ascii((char *)"Pump Idle",3,24);
+		}
+		else
+		{
+			DISP_8X16ascii((char *)rus_pump_idle,3,40);
+		}
 		
 #else
-        DISP_8X16ascii((char *)"Pump Idle",3,24);
+		DISP_8X16ascii((char *)"Pump Idle",3,24);
 #endif                
 		}
 		break;
@@ -295,17 +295,17 @@ void DISP_Erra(void)/*used*/
 				if (language)
 				{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                    DISP_8X16ascii((char *)"Battery  Low",3,20);
+					DISP_8X16ascii((char *)"Battery  Low",3,20);
 #else
-                    DISP_didl(3,85);
+					DISP_didl(3,85);
 #endif                    				
 				}
 				else
 				{
 #if LANGUAGE_RUSSIA_ENGILISH  
-                    DISP_8X16ascii((char *)rus_battery_low,3,20);
+					DISP_8X16ascii((char *)rus_battery_low,3,20);
 #else
-                    DISP_8X16ascii((char *)"Battery  Low",3,20);
+					DISP_8X16ascii((char *)"Battery  Low",3,20);
 #endif 				
 				}
 			}
@@ -324,7 +324,7 @@ void DISP_Erra(void)/*used*/
 static unsigned short value_buf[10];
 static unsigned char i =0;
 static unsigned short delay_count = 0;
-static unsigned short disp_filter(unsigned short pdata)/*�¼ҵ�*/
+static unsigned short disp_filter(unsigned short pdata)/*聞1陇7聛0聠4聛0脺9聞1陇7*/
 {
 
 	value_buf[i++] = pdata;
@@ -356,15 +356,15 @@ void  clear_lqtimes(void)
 void show_lq(void)
 {
    
-	if(show_lq_times.step==0)//wait to check lwz ���BUZ�����µ�״̬
+	if(show_lq_times.step==0)//wait to check lwz 聞1陇7聞1陇7聞1陇7BUZ聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聟8聞1陇7聛0眉8聛0脕0
 	{
-		read_key = PORTB;// lwz ��ȡ�����Ĵ�����ֵ
-		read_key=~read_key;// lwz ȡ��
+		read_key = PORTB;// lwz 聞1陇7聞1陇7聛0搂0聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聬6聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0枚5
+		read_key=~read_key;// lwz 聛0搂0聞1陇7聞1陇7
 		// read_key=read_key&0b00010000;
 		// if(read_key==0b00010000)
 		
-		read_key=read_key&0b00100000;// lwz �鿴��5λ�Ƿ���λ
-		if(read_key==0b00100000)// lwz �����5λ��λ����ʼ��ʱ
+		read_key=read_key&0b00100000;// lwz 聞1陇7聜5聴1聞1陇7聞1陇75娄脣聞1陇7聛0垄9聞1陇7聞1陇7聞1陇7娄脣
+		if(read_key==0b00100000)// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇75娄脣聞1陇7聞1陇7娄脣聞1陇7聞1陇7聞1陇7聞1陇7聛0露3聞1陇7聞1陇7聛0碌2
 		{
 			// if(show_lq_times.buz_key_pressed_times++ >499)
 			if(show_lq_times.buz_key_pressed_times++ >PRESS_KEY_BUZ_SHOWLQ_TIME)
@@ -373,7 +373,7 @@ void show_lq(void)
 		else
 			show_lq_times.buz_key_pressed_times=0;
 	}
-	if(show_lq_times.step==1)//show,wait to exit lwz ��ʾ�����Ĵ���
+	if(show_lq_times.step==1)//show,wait to exit lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聬6聞1陇7聞1陇7聞1陇7
 	{
 		read_key = PORTB;
 		read_key=~read_key;
@@ -401,7 +401,7 @@ void show_lq(void)
 ////////////////////////////////////////////////////////////
 
 
-// lwz ��ʾ��������ģʽ�µĽ���
+// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4聞1陇7聛0聟8聛0聭5聞1陇7聞1陇7聞1陇7
 void DISP_LixA(void)/*used*/
 {
 	disp_presa = mod_seta_preh;
@@ -414,48 +414,48 @@ void DISP_LixA(void)/*used*/
 	{
 		DISP_Clear();
 	}
-    
-    if (audio_flg==LED_LOW_THAN_3_6V)
-    {
-        DISP_Clear22();
-    }
+	
+	if (audio_flg==LED_LOW_THAN_3_6V)
+	{
+		DISP_Clear22();
+	}
 
-	// 情况1：有错误时显示错误信息
+	// 脟茅驴枚1拢潞脫脨麓铆脦贸脢卤脧脭脢戮麓铆脦贸脨脜脧垄
 	if (err_codea!=0)
 	{
 		DISP_Erra();
 	}
-	// 情况2：没有错误且电池低电量时显示电池低电量信息
+	// 脟茅驴枚2拢潞脙禄脫脨麓铆脦贸脟脪碌莽鲁脴碌脥碌莽脕驴脢卤脧脭脢戮碌莽鲁脴碌脥碌莽脕驴脨脜脧垄
 	else if (audio_flg==LED_LOW_THAN_3_6V)
 	{
-        addhpp = 1;
-		// 确保清除屏幕，避免重叠
+		addhpp = 1;
+		// 脠路卤拢脟氓鲁媒脝脕脛禄拢卢卤脺脙芒脰脴碌镁
 		DISP_Clear();
 		if (language)
 		{
 #if LANGUAGE_RUSSIA_ENGILISH 
-            DISP_8X16ascii((char *)"Battery  Low",3,20);
+			DISP_8X16ascii((char *)"Battery  Low",3,20);
 #else
-            DISP_didl(3,85);
+			DISP_didl(3,85);
 #endif                    				
 		}
 		else
 		{
 #if LANGUAGE_RUSSIA_ENGILISH  
-            DISP_8X16ascii((char *)rus_battery_low,3,34);
+			DISP_8X16ascii((char *)rus_battery_low,3,34);
 #else
-            DISP_8X16ascii((char *)"Battery  Low",3,20);
+			DISP_8X16ascii((char *)"Battery  Low",3,20);
 #endif 
 		}
 	}
-	// 情况3：没有错误且电池电量正常时显示正常界面
+	// 脟茅驴枚3拢潞脙禄脫脨麓铆脦贸脟脪碌莽鲁脴碌莽脕驴脮媒鲁拢脢卤脧脭脢戮脮媒鲁拢陆莽脙忙
 	else
 	{
-        if(addhpp == 1)
-        {
-            DISP_Clear22();
-            addhpp = 0;
-        }
+		if(addhpp == 1)
+		{
+			DISP_Clear22();
+			addhpp = 0;
+		}
 
 		show_lq();
 
@@ -499,14 +499,14 @@ void DISP_LixA(void)/*used*/
 			add91200=0;
 			add91201=adc_temp00;
 		}
-		if (++delay_count>UPDATE_UI_PRESSURE_TIME_2)// lwz 延迟更新压力值
+		if (++delay_count>UPDATE_UI_PRESSURE_TIME_2)// lwz 脩脫鲁脵赂眉脨脗脩鹿脕娄脰碌
 		{
 			delay_count = 0;
 			run_tim_a = disp_filter(add91201);
 		}
 
 #if (DISP_TRUE_DATA ==0)
-		// 非实际采集数据，显示处理后的数据
+		// 路脟脢碌录脢虏脡录炉脢媒戮脻拢卢脧脭脢戮麓娄脌铆潞贸碌脛脢媒戮脻
 		if (dis_cnta++>DIS_COUNT/2)
 		{
 			dis_cnta=0;
@@ -587,7 +587,7 @@ void DISP_LixA(void)/*used*/
 
 
 unsigned short bbbbb=0;
-// lwz ��ʾ��Ϲ���ģʽ�µĽ���
+// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聛0脨7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4聞1陇7聛0聟8聛0聭5聞1陇7聞1陇7聞1陇7
 void DISP_JixA(void)/*used*/
 {
 	if (mod_jixa==0)
@@ -608,48 +608,48 @@ void DISP_JixA(void)/*used*/
 	{
 		DISP_Clear();
 	}
-    
-    if (audio_flg==LED_LOW_THAN_3_6V)
-    {
-        DISP_Clear22();
-        addhpp2 = 1;
-    }
-	// 情况1：有错误时显示错误信息
+	
+	if (audio_flg==LED_LOW_THAN_3_6V)
+	{
+		DISP_Clear22();
+		addhpp2 = 1;
+	}
+	// 脟茅驴枚1拢潞脫脨麓铆脦贸脢卤脧脭脢戮麓铆脦贸脨脜脧垄
 	if (err_codea!=0)
 	{
 		DISP_Erra();
 	}
-	// 情况2：没有错误且电池低电量时显示电池低电量信息
+	// 脟茅驴枚2拢潞脙禄脫脨麓铆脦贸脟脪碌莽鲁脴碌脥碌莽脕驴脢卤脧脭脢戮碌莽鲁脴碌脥碌莽脕驴脨脜脧垄
 	else if (audio_flg==LED_LOW_THAN_3_6V)
 	{
-		// 确保清除屏幕，避免重叠
+		// 脠路卤拢脟氓鲁媒脝脕脛禄拢卢卤脺脙芒脰脴碌镁
 		DISP_Clear();
 		
 		if (language)
 		{
 #if LANGUAGE_RUSSIA_ENGILISH 
-            DISP_8X16ascii((char *)"Battery  Low",3,20);
+			DISP_8X16ascii((char *)"Battery  Low",3,20);
 #else
-            DISP_didl(3,85);
+			DISP_didl(3,85);
 #endif                    				
 		}
 		else
 		{
 #if LANGUAGE_RUSSIA_ENGILISH  
-            DISP_8X16ascii((char *)rus_battery_low,3,34);
+			DISP_8X16ascii((char *)rus_battery_low,3,34);
 #else
-            DISP_8X16ascii((char *)"Battery  Low",3,20);
+			DISP_8X16ascii((char *)"Battery  Low",3,20);
 #endif 
 		}
 	}
-	// 情况3：没有错误且电池电量正常时显示正常界面
+	// 脟茅驴枚3拢潞脙禄脫脨麓铆脦贸脟脪碌莽鲁脴碌莽脕驴脮媒鲁拢脢卤脧脭脢戮脮媒鲁拢陆莽脙忙
 	else
 	{
-        if(addhpp2 == 1)
-        {
-            addhpp2 = 0;
-            DISP_Clear22();
-        }
+		if(addhpp2 == 1)
+		{
+			addhpp2 = 0;
+			DISP_Clear22();
+		}
 		show_lq();
 		
 		DISP_jx(0,17);
@@ -664,12 +664,12 @@ void DISP_JixA(void)/*used*/
 			DISP_ChaBasic(M,0,61+addx);
 			DISP_ChaBasic(H,0,67+addx);
 			DISP_ChaBasic(G,0,73+addx);
-			DISP_Dig1(2,80,mod_seta_ont);// lwz 显示间歇模式下的高压时间
+			DISP_Dig1(2,80,mod_seta_ont);// lwz 脧脭脢戮录盲脨陋脛拢脢陆脧脗碌脛赂脽脩鹿脢卤录盲
 			DISP_ChaBasic2('m',2,106);
 			DISP_ChaBasic2('i',2,113);
 			DISP_ChaBasic2('n',2,120);
 
-			DISP_Dig1(4,80,mod_seta_oft);// lwz 显示间歇模式下的低压时间
+			DISP_Dig1(4,80,mod_seta_oft);// lwz 脧脭脢戮录盲脨陋脛拢脢陆脧脗碌脛碌脥脩鹿脢卤录盲
 			DISP_ChaBasic2('m',4,106);
 			DISP_ChaBasic2('i',4,113);
 			DISP_ChaBasic2('n',4,120);
@@ -698,12 +698,12 @@ void DISP_JixA(void)/*used*/
 		DISP_ChaBasic(H,0,67+addx);
 		DISP_ChaBasic(G,0,73+addx);
 
-		DISP_Dig1(2,80,mod_seta_ont);// lwz 显示间歇模式下的高压时间
+		DISP_Dig1(2,80,mod_seta_ont);// lwz 脧脭脢戮录盲脨陋脛拢脢陆脧脗碌脛赂脽脩鹿脢卤录盲
 		DISP_ChaBasic2('m',2,106);
 		DISP_ChaBasic2('i',2,113);
 		DISP_ChaBasic2('n',2,120);
 
-		DISP_Dig1(4,80,mod_seta_oft);// lwz 显示间歇模式下的低压时间
+		DISP_Dig1(4,80,mod_seta_oft);// lwz 脧脭脢戮录盲脨陋脛拢脢陆脧脗碌脛碌脥脩鹿脢卤录盲
 		DISP_ChaBasic2('m',4,106);
 		DISP_ChaBasic2('i',4,113);
 		DISP_ChaBasic2('n',4,120);
@@ -749,17 +749,17 @@ void DISP_JixA(void)/*used*/
 		if (language)
 		{
 #if LANGUAGE_RUSSIA_ENGILISH 
-            DISP_cha7s((char *)"Therapy  On",6,2);
+			DISP_cha7s((char *)"Therapy  On",6,2);
 #else
-            DISP_run2015(6,45);
+			DISP_run2015(6,45);
 #endif		
 		}
 		else
 		{
 #if LANGUAGE_RUSSIA_ENGILISH 
-            DISP_8X16ascii((char *)rus_therapy_on,6,2);
+			DISP_8X16ascii((char *)rus_therapy_on,6,2);
 #else
-            DISP_cha7s((char *)"Therapy  On",6,2);
+			DISP_cha7s((char *)"Therapy  On",6,2);
 #endif            
 			
 		}
@@ -767,10 +767,10 @@ void DISP_JixA(void)/*used*/
 	err_codeabak=err_codea;
 
 }
-    
-    
-    
-    
+	
+	
+	
+	
 unsigned char  flg_disp=0;
 
 unsigned char  flg2015=0;
@@ -785,26 +785,26 @@ void DISP_SetA_new(void)/*used*/
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_key2015(0,70);
+				DISP_key2015(0,70);
 				DISP_8X16ascii((char *)"Mode",0,5);
 				DISP_8X16ascii((char *)"Switch",0,80);
 				DISP_8X16ascii((char *)"Continuous",2,8);
 				DISP_8X16ascii((char *)"Intermittent",4,5);
 #else
-                DISP_mod_set2015();
+				DISP_mod_set2015();
 #endif                
 				
 			}
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_key2015(0,70);
-                DISP_8X16ascii((char *)rus_model,0,5);   
-                DISP_8X16ascii((char *)rus_switch,0,80);   
-                DISP_8X16ascii((char *)rus_continuous,2,8);   
-                DISP_8X16ascii((char *)rus_intermittent,4,5); 
+				DISP_key2015(0,70);
+				DISP_8X16ascii((char *)rus_model,0,5);   
+				DISP_8X16ascii((char *)rus_switch,0,80);   
+				DISP_8X16ascii((char *)rus_continuous,2,8);   
+				DISP_8X16ascii((char *)rus_intermittent,4,5); 
 #else
-                DISP_key2015(0,70);
+				DISP_key2015(0,70);
 				DISP_8X16ascii((char *)"Mode",0,5);
 				DISP_8X16ascii((char *)"Switch",0,80);
 				DISP_8X16ascii((char *)"Continuous",2,8);
@@ -830,54 +830,54 @@ void DISP_SetA_new(void)/*used*/
 		}
 
 	}
-	else if (mod_seta_cnt==UI_MODE_SET_HI)//1 -----------------------------------���ø�ѹ
+	else if (mod_seta_cnt==UI_MODE_SET_HI)//1 -----------------------------------聞1陇7聞1陇7聞1陇7聛0聥3聞1陇7聛0脰9
 	{
 		val_val = mod_seta_preh;
 		if (mod_seta_wok == MOD_LIX)
 		{
-            
-            if (language)
-            {
+			
+			if (language)
+			{
 #if LANGUAGE_RUSSIA_ENGILISH
-                DISP_Fu(3,32);
-                DISP_Dig15_32(4, 48);
-                DISP_8X16ascii((char *)"Pressure",0,36);
+				DISP_Fu(3,32);
+				DISP_Dig15_32(4, 48);
+				DISP_8X16ascii((char *)"Pressure",0,36);
 #else
-                DISP_pset(1,77);
+				DISP_pset(1,77);
 #endif             
-            }
-            else
-            {
+			}
+			else
+			{
 #if LANGUAGE_RUSSIA_ENGILISH
-                DISP_Fu(3,11);
-                val_val = mod_seta_preh;
-                if (mod_seta_preh<100)
-                {
-                    DISP_Dig15_32(4, 26);
-                }
-                else
-                {
-                    DISP_Dig15_32(4, 26);
-                }
-                DISP_8X16ascii((char *)rus_psressure,0,46);
+				DISP_Fu(3,11);
+				val_val = mod_seta_preh;
+				if (mod_seta_preh<100)
+				{
+					DISP_Dig15_32(4, 26);
+				}
+				else
+				{
+					DISP_Dig15_32(4, 26);
+				}
+				DISP_8X16ascii((char *)rus_psressure,0,46);
 #else
-                DISP_8X16ascii((char *)"Pressure",0,36);
+				DISP_8X16ascii((char *)"Pressure",0,36);
 #endif           
-            }
+			}
 			
 		}
-		else//��Ъģʽ�ĸ�ѹ����
+		else//聞1陇7聞1陇7搂录聛0聫0聛0露4聞1陇7聛0聭0聞1陇7聛0脰9聞1陇7聞1陇7聞1陇7聞1陇7
 		{
-            if (language)
-            {
+			if (language)
+			{
 #if LANGUAGE_RUSSIA_ENGILISH                
-                if(flg2015==0)
-                {
-                    flg2015=1;
-                    DISP_8X16ascii((char *)"Pressure",0,36);
-                    DISP_8X16ascii((char *)"HP Set : -",2,6);
-                    DISP_8X16ascii((char *)"LP Set : -",4,6);                
-                }
+				if(flg2015==0)
+				{
+					flg2015=1;
+					DISP_8X16ascii((char *)"Pressure",0,36);
+					DISP_8X16ascii((char *)"HP Set : -",2,6);
+					DISP_8X16ascii((char *)"LP Set : -",4,6);                
+				}
 #else
 				if(flg2015==0)
 				{
@@ -888,106 +888,106 @@ void DISP_SetA_new(void)/*used*/
 				DISP_8X16ascii((char *)"-",4,55+6);            
 #endif
 
-            }
-            else
-            {
-                
+			}
+			else
+			{
+				
 #if LANGUAGE_RUSSIA_ENGILISH
-                DISP_Fu(3,32);
-                DISP_8X16ascii((char *)rus_psressure,0,42);
-                DISP_8X16ascii((char *)rus_pre_HP,2,3);
+				DISP_Fu(3,32);
+				DISP_8X16ascii((char *)rus_psressure,0,42);
+				DISP_8X16ascii((char *)rus_pre_HP,2,3);
 				DISP_8X16ascii((char *)rus_pre_LP,4,3);
 #else
-                DISP_8X16ascii((char *)"Pressure",0,36);
-                DISP_8X16ascii((char *)"HP Set : -",2,6);
-                DISP_8X16ascii((char *)"LP Set : -",4,6);
+				DISP_8X16ascii((char *)"Pressure",0,36);
+				DISP_8X16ascii((char *)"HP Set : -",2,6);
+				DISP_8X16ascii((char *)"LP Set : -",4,6);
 #endif                
-            }
-            
-            
+			}
+			
+			
 #if LANGUAGE_RUSSIA_ENGILISH
-            if(language)
-            {
-                disp_set_flg=1;
-                DISP_Dig14_16(2, 65+8,mod_seta_preh);
-                disp_set_flg=0;
-                DISP_Dig14_16(4, 65+8,mod_seta_prel);
-            }
-            else
-            {
-                disp_set_flg=1;
-                DISP_Dig14_16(2, 53,mod_seta_preh);
-                disp_set_flg=0;
-                DISP_Dig14_16(4, 53,mod_seta_prel);
-            }
-            
+			if(language)
+			{
+				disp_set_flg=1;
+				DISP_Dig14_16(2, 65+8,mod_seta_preh);
+				disp_set_flg=0;
+				DISP_Dig14_16(4, 65+8,mod_seta_prel);
+			}
+			else
+			{
+				disp_set_flg=1;
+				DISP_Dig14_16(2, 53,mod_seta_preh);
+				disp_set_flg=0;
+				DISP_Dig14_16(4, 53,mod_seta_prel);
+			}
+			
 #else            
-            disp_set_flg=1;
-            DISP_Dig14_16(2, 65+8,mod_seta_preh);
-            disp_set_flg=0;
-            DISP_Dig14_16(4, 65+8,mod_seta_prel);
+			disp_set_flg=1;
+			DISP_Dig14_16(2, 65+8,mod_seta_preh);
+			disp_set_flg=0;
+			DISP_Dig14_16(4, 65+8,mod_seta_prel);
 #endif  
-            
-            
+			
+			
 #if LANGUAGE_RUSSIA_ENGILISH            
-            if (language)
-            {
-                DISP_ChaBasic2('m',2,90+8);
-                DISP_ChaBasic2('m',2,97+8);
-                DISP_ChaBasic2('H',2,104+8);
-                DISP_ChaBasic2('g',2,111+8);
-            }
-            else
-            {
-                DISP_ChaBasic2015(0xAC,2,78);
-                DISP_ChaBasic2015(0xAC,2,84);
-                DISP_ChaBasic2015(0xC1,2,90);
-                DISP_ChaBasic2015(0xB0,2,96);
-                DISP_ChaBasic2015(0xB2,2,102);
-                DISP_ChaBasic2015(0xC1,2,108);
-                DISP_ChaBasic2015(0xB1,2,114);
-                DISP_ChaBasic2015(0xB2,2,120);
-                DISP_ChaBasic2015(0xC1,2,126);
-            }
+			if (language)
+			{
+				DISP_ChaBasic2('m',2,90+8);
+				DISP_ChaBasic2('m',2,97+8);
+				DISP_ChaBasic2('H',2,104+8);
+				DISP_ChaBasic2('g',2,111+8);
+			}
+			else
+			{
+				DISP_ChaBasic2015(0xAC,2,78);
+				DISP_ChaBasic2015(0xAC,2,84);
+				DISP_ChaBasic2015(0xC1,2,90);
+				DISP_ChaBasic2015(0xB0,2,96);
+				DISP_ChaBasic2015(0xB2,2,102);
+				DISP_ChaBasic2015(0xC1,2,108);
+				DISP_ChaBasic2015(0xB1,2,114);
+				DISP_ChaBasic2015(0xB2,2,120);
+				DISP_ChaBasic2015(0xC1,2,126);
+			}
 #else
-            DISP_ChaBasic2('m',2,90+8);
-            DISP_ChaBasic2('m',2,97+8);
-            DISP_ChaBasic2('H',2,104+8);
-            DISP_ChaBasic2('g',2,111+8);
+			DISP_ChaBasic2('m',2,90+8);
+			DISP_ChaBasic2('m',2,97+8);
+			DISP_ChaBasic2('H',2,104+8);
+			DISP_ChaBasic2('g',2,111+8);
 #endif            
 
 		}
-        
+		
 		disp_set_flg=0;
 #if LANGUAGE_RUSSIA_ENGILISH         
-        if(language)
-        {
-            DISP_ChaBasic2('m',4,90+8);
-            DISP_ChaBasic2('m',4,97+8);
-            DISP_ChaBasic2('H',4,104+8);
-            DISP_ChaBasic2('g',4,111+8);
-        }
-        else
-        {
-            DISP_ChaBasic2015(0xAC,4,78);
-            DISP_ChaBasic2015(0xAC,4,84);
-            DISP_ChaBasic2015(0xC1,4,90);
-            DISP_ChaBasic2015(0xB0,4,96);
-            DISP_ChaBasic2015(0xB2,4,102);
-            DISP_ChaBasic2015(0xC1,4,108);
-            DISP_ChaBasic2015(0xB1,4,114);
-            DISP_ChaBasic2015(0xB2,4,120);
-            DISP_ChaBasic2015(0xC1,4,126);
-        }  
+		if(language)
+		{
+			DISP_ChaBasic2('m',4,90+8);
+			DISP_ChaBasic2('m',4,97+8);
+			DISP_ChaBasic2('H',4,104+8);
+			DISP_ChaBasic2('g',4,111+8);
+		}
+		else
+		{
+			DISP_ChaBasic2015(0xAC,4,78);
+			DISP_ChaBasic2015(0xAC,4,84);
+			DISP_ChaBasic2015(0xC1,4,90);
+			DISP_ChaBasic2015(0xB0,4,96);
+			DISP_ChaBasic2015(0xB2,4,102);
+			DISP_ChaBasic2015(0xC1,4,108);
+			DISP_ChaBasic2015(0xB1,4,114);
+			DISP_ChaBasic2015(0xB2,4,120);
+			DISP_ChaBasic2015(0xC1,4,126);
+		}  
 #else
-        DISP_ChaBasic2('m',4,90+8);
-        DISP_ChaBasic2('m',4,97+8);
-        DISP_ChaBasic2('H',4,104+8);
-        DISP_ChaBasic2('g',4,111+8);
+		DISP_ChaBasic2('m',4,90+8);
+		DISP_ChaBasic2('m',4,97+8);
+		DISP_ChaBasic2('H',4,104+8);
+		DISP_ChaBasic2('g',4,111+8);
 #endif     	
-        
+		
 	}
-	else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)// 2 -----------------------------���õ�ѹ
+	else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)// 2 -----------------------------聞1陇7聞1陇7聞1陇7聛0聥1聞1陇7聛0脰9
 	{
 		flg2015=0;		
 		val_val = mod_seta_preh;
@@ -996,7 +996,7 @@ void DISP_SetA_new(void)/*used*/
 #if LANGUAGE_RUSSIA_ENGILISH 
 			DISP_Fu(3,32);
 			DISP_Dig15_32(4, 48);
-            
+			
 			if (language)
 			{
 				DISP_8X16ascii((char *)"Pressure",0,36);
@@ -1009,7 +1009,7 @@ void DISP_SetA_new(void)/*used*/
 #else            
 			DISP_Fu(3,32);
 			DISP_Dig15_32(4, 48);
-            
+			
 			if (language)
 			{
 				DISP_pset(1,77);
@@ -1021,7 +1021,7 @@ void DISP_SetA_new(void)/*used*/
 			}
 #endif             
 		}
-		else//��Ъģʽ
+		else//聞1陇7聞1陇7搂录聛0聫0聛0露4
 		{
 #if LANGUAGE_RUSSIA_ENGILISH
 			if (language)
@@ -1032,22 +1032,22 @@ void DISP_SetA_new(void)/*used*/
 			}
 			else
 			{
-                DISP_8X16ascii((char *)rus_psressure,0,42);
-                DISP_8X16ascii((char *)rus_pre_HP,2,3);
-                DISP_8X16ascii((char *)rus_pre_LP,4,3);
+				DISP_8X16ascii((char *)rus_psressure,0,42);
+				DISP_8X16ascii((char *)rus_pre_HP,2,3);
+				DISP_8X16ascii((char *)rus_pre_LP,4,3);
 			}            
 #else            
 			if (language)
 			{
 				
 				if((flg_disp++) < 5)
-                {
+				{
 					DISP_press_set2016();
-                }
+				}
 				else
-                {
+				{
 					flg_disp=5;
-                }
+				}
 				
 
 				DISP_8X16ascii((char *)"-",2,55+6);
@@ -1062,20 +1062,20 @@ void DISP_SetA_new(void)/*used*/
 			}
 #endif
 #if LANGUAGE_RUSSIA_ENGILISH 
-            if(language)
-            {            
-                DISP_Dig14_16(2, 65+8,mod_seta_preh);
-                disp_set_flg=1;
-                DISP_Dig14_16(4, 65+8,mod_seta_prel);
-                disp_set_flg=0;
-            }
-            else
-            {            
-                DISP_Dig14_16(2, 53,mod_seta_preh);
-                disp_set_flg=1;
-                DISP_Dig14_16(4, 53,mod_seta_prel);
-                disp_set_flg=0;
-            }            
+			if(language)
+			{            
+				DISP_Dig14_16(2, 65+8,mod_seta_preh);
+				disp_set_flg=1;
+				DISP_Dig14_16(4, 65+8,mod_seta_prel);
+				disp_set_flg=0;
+			}
+			else
+			{            
+				DISP_Dig14_16(2, 53,mod_seta_preh);
+				disp_set_flg=1;
+				DISP_Dig14_16(4, 53,mod_seta_prel);
+				disp_set_flg=0;
+			}            
 
 #else            
 			DISP_Dig14_16(2, 65+8,mod_seta_preh);
@@ -1085,16 +1085,16 @@ void DISP_SetA_new(void)/*used*/
 #endif            
 
 #if LANGUAGE_RUSSIA_ENGILISH 
-        if(language)
-        {
-            DISP_ChaBasic2('m',2,90+8);
+		if(language)
+		{
+			DISP_ChaBasic2('m',2,90+8);
 			DISP_ChaBasic2('m',2,97+8);
 			DISP_ChaBasic2('H',2,104+8);
 			DISP_ChaBasic2('g',2,111+8);
-        }
-        else
-        {
-            DISP_ChaBasic2015(0xAC,2,78);
+		}
+		else
+		{
+			DISP_ChaBasic2015(0xAC,2,78);
 			DISP_ChaBasic2015(0xAC,2,84);
 			DISP_ChaBasic2015(0xC1,2,90);
 			DISP_ChaBasic2015(0xB0,2,96);
@@ -1103,49 +1103,49 @@ void DISP_SetA_new(void)/*used*/
 			DISP_ChaBasic2015(0xB1,2,114);
 			DISP_ChaBasic2015(0xB2,2,120);
 			DISP_ChaBasic2015(0xC1,2,126);
-        }
+		}
 #else
-            DISP_ChaBasic2('m',2,90+8);
+			DISP_ChaBasic2('m',2,90+8);
 			DISP_ChaBasic2('m',2,97+8);
 			DISP_ChaBasic2('H',2,104+8);
 			DISP_ChaBasic2('g',2,111+8);
 #endif 
-            
+			
 
 		}
 #if LANGUAGE_RUSSIA_ENGILISH 
-        disp_set_flg=0;
-        if(language)
-        {
-            DISP_ChaBasic2('m',4,90+8);
-            DISP_ChaBasic2('m',4,97+8);
-            DISP_ChaBasic2('H',4,104+8);
-            DISP_ChaBasic2('g',4,111+8);
-        }
-        else
-        {
-            DISP_ChaBasic2015(0xAC,4,78);
-            DISP_ChaBasic2015(0xAC,4,84);
-            DISP_ChaBasic2015(0xC1,4,90);
-            DISP_ChaBasic2015(0xB0,4,96);
-            DISP_ChaBasic2015(0xB2,4,102);
-            DISP_ChaBasic2015(0xC1,4,108);
-            DISP_ChaBasic2015(0xB1,4,114);
-            DISP_ChaBasic2015(0xB2,4,120);
-            DISP_ChaBasic2015(0xC1,4,126);
-        }
+		disp_set_flg=0;
+		if(language)
+		{
+			DISP_ChaBasic2('m',4,90+8);
+			DISP_ChaBasic2('m',4,97+8);
+			DISP_ChaBasic2('H',4,104+8);
+			DISP_ChaBasic2('g',4,111+8);
+		}
+		else
+		{
+			DISP_ChaBasic2015(0xAC,4,78);
+			DISP_ChaBasic2015(0xAC,4,84);
+			DISP_ChaBasic2015(0xC1,4,90);
+			DISP_ChaBasic2015(0xB0,4,96);
+			DISP_ChaBasic2015(0xB2,4,102);
+			DISP_ChaBasic2015(0xC1,4,108);
+			DISP_ChaBasic2015(0xB1,4,114);
+			DISP_ChaBasic2015(0xB2,4,120);
+			DISP_ChaBasic2015(0xC1,4,126);
+		}
 #else        
 		disp_set_flg=0;
-        DISP_ChaBasic2('m',4,90+8);
+		DISP_ChaBasic2('m',4,90+8);
 		DISP_ChaBasic2('m',4,97+8);
 		DISP_ChaBasic2('H',4,104+8);
 		DISP_ChaBasic2('g',4,111+8);
 #endif
-        
-          
+		
+		  
 	}
 
-	else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)// 3 ���ø�ѹʱ��
+	else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)// 3 聞1陇7聞1陇7聞1陇7聛0聥3聞1陇7聛0脰9聛0碌2聞1陇7聞1陇7
 	{
 #if LANGUAGE_RUSSIA_ENGILISH  
 		if (language)
@@ -1181,35 +1181,35 @@ void DISP_SetA_new(void)/*used*/
 		disp_set_flg=1;
 		DISP_Dig14_16(2, 75,mod_seta_ont);
 		disp_set_flg=0;
-        
-        if(language)
-        {
-            DISP_8X16ascii((char *)"min",2,101);
-        }
-        else
-        {
-            DISP_8X16ascii((char *)rus_min,2,101);
-        }
-        
-        
 		
-        
+		if(language)
+		{
+			DISP_8X16ascii((char *)"min",2,101);
+		}
+		else
+		{
+			DISP_8X16ascii((char *)rus_min,2,101);
+		}
+		
+		
+		
+		
 		DISP_Dig14_16(4, 75,mod_seta_oft);
-        
-        if(language)
-        {
-            DISP_8X16ascii((char *)"min",4,101);
-        }    
-        else
-        {
-            DISP_8X16ascii((char *)rus_min,4,101);
-        }
-        
+		
+		if(language)
+		{
+			DISP_8X16ascii((char *)"min",4,101);
+		}    
+		else
+		{
+			DISP_8X16ascii((char *)rus_min,4,101);
+		}
+		
 	}
-	else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)// 4 -----------------------------���õ�ѹʱ��
+	else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)// 4 -----------------------------聞1陇7聞1陇7聞1陇7聛0聥1聞1陇7聛0脰9聛0碌2聞1陇7聞1陇7
 	{
 		flg2015=0;
-        
+		
 #if LANGUAGE_RUSSIA_ENGILISH 
 		if (language)
 		{
@@ -1228,20 +1228,20 @@ void DISP_SetA_new(void)/*used*/
 		disp_set_flg=0;
 		DISP_Dig14_16(2, 75,mod_seta_ont);
 		disp_set_flg=0;
-        
-        if(language){
+		
+		if(language){
 			DISP_8X16ascii((char *)"min",2,101);
 		}else{
 			DISP_8X16ascii((char *)rus_min,2,101);
 		}
-        
+		
 
 		
-        disp_set_flg=1;
+		disp_set_flg=1;
 		DISP_Dig14_16(4, 75,mod_seta_oft);
 		disp_set_flg=0;
-        
-        
+		
+		
 		if(language){
 			DISP_8X16ascii((char *)"min",4,101);
 		}else{
@@ -1266,11 +1266,11 @@ void DISP_SetA_new(void)/*used*/
 		disp_set_flg=0;
 		DISP_Dig14_16(2, 75,mod_seta_ont);
 		disp_set_flg=0;
-		DISP_8X16ascii((char *)"min",2,101);// lwz ����Ǽ�Ъģʽ�µķ���
+		DISP_8X16ascii((char *)"min",2,101);// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聛0拢3聞1陇7搂录聛0聫0聛0露4聞1陇7聛0聟8聛0聬9聞1陇7聞1陇7聞1陇7
 		disp_set_flg=1;
 		DISP_Dig14_16(4, 75,mod_seta_oft);
 		disp_set_flg=0;
-		DISP_8X16ascii((char *)"min",4,101);// lwz ����Ǽ�Ъģʽ�µķ���        
+		DISP_8X16ascii((char *)"min",4,101);// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聛0拢3聞1陇7搂录聛0聫0聛0露4聞1陇7聛0聟8聛0聬9聞1陇7聞1陇7聞1陇7        
 #endif        
 	}
 
@@ -1278,9 +1278,9 @@ void DISP_SetA_new(void)/*used*/
 	else if (mod_seta_cnt==UI_SET_PRESSURE)
 	{
 		DISP_Fu(2,32);
-        
+		
 #if LANGUAGE_RUSSIA_ENGILISH 
-        if (language)
+		if (language)
 		{
 			DISP_ChaBasic2('S',0,24);
 			DISP_ChaBasic2('e',0,31);
@@ -1311,7 +1311,7 @@ void DISP_SetA_new(void)/*used*/
 
 		}        
 #elif
-        if (language)
+		if (language)
 		{
 			DISP_pset(0,77);
 
@@ -1342,30 +1342,30 @@ void DISP_SetA_new(void)/*used*/
 		{
 			DISP_Dig15_32(4, 46);
 		}
-        
+		
 #if LANGUAGE_RUSSIA_ENGILISH 
-        if(language)
-        {
-            DISP_ChaBasic2('m',4,90);
-            DISP_ChaBasic2('m',4,97);
-            DISP_ChaBasic2('H',4,104);
-            DISP_ChaBasic2('g',4,111);
-        }
-        else
-        {
-            DISP_ChaBasic2015(0xAC,4,78);
-            DISP_ChaBasic2015(0xAC,4,84);
-            DISP_ChaBasic2015(0xC1,4,90);
-            DISP_ChaBasic2015(0xB0,4,96);
-            DISP_ChaBasic2015(0xB2,4,102);
-            DISP_ChaBasic2015(0xC1,4,108);
-            DISP_ChaBasic2015(0xB1,4,114);
-            DISP_ChaBasic2015(0xB2,4,120);
-            DISP_ChaBasic2015(0xC1,4,126);
-        }
+		if(language)
+		{
+			DISP_ChaBasic2('m',4,90);
+			DISP_ChaBasic2('m',4,97);
+			DISP_ChaBasic2('H',4,104);
+			DISP_ChaBasic2('g',4,111);
+		}
+		else
+		{
+			DISP_ChaBasic2015(0xAC,4,78);
+			DISP_ChaBasic2015(0xAC,4,84);
+			DISP_ChaBasic2015(0xC1,4,90);
+			DISP_ChaBasic2015(0xB0,4,96);
+			DISP_ChaBasic2015(0xB2,4,102);
+			DISP_ChaBasic2015(0xC1,4,108);
+			DISP_ChaBasic2015(0xB1,4,114);
+			DISP_ChaBasic2015(0xB2,4,120);
+			DISP_ChaBasic2015(0xC1,4,126);
+		}
 
 #else
-        DISP_ChaBasic2('m',4,90);
+		DISP_ChaBasic2('m',4,90);
 		DISP_ChaBasic2('m',4,97);
 		DISP_ChaBasic2('H',4,104);
 		DISP_ChaBasic2('g',4,111);
@@ -1378,7 +1378,7 @@ void DISP_SetA_new(void)/*used*/
 
 
 
-// lwz �����Ƿ���ʾ����־�;�����־
+// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0垄9聞1陇7聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聞1陇7聞1陇7聛0梅4聞1陇7;聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0梅4
 void DISP_Info(void)/*used*/
 {
 
@@ -1394,7 +1394,7 @@ void DISP_Info(void)/*used*/
 
 	}
 
-	if (lock_flg)// lwz ��ʾ��
+	if (lock_flg)// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7
 	{
 		DISP_Lock(6,115);
 	}
@@ -1409,7 +1409,7 @@ extern  void DISP_yn(unsigned char startx,unsigned char starty);
 extern  void DISP_yn0(unsigned char startx,unsigned char starty);
 
 unsigned char  all_flg=0;
-// lwz ����������ʾ�߼�
+// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0露5聞1陇7聛1虏8聞1陇7
 void  DISP_MainA(void)/*used*/
 {
 	float i;
@@ -1425,18 +1425,18 @@ void  DISP_MainA(void)/*used*/
 	adc_temp00=(unsigned short)i;
 #if (DISP_TRUE_DATA ==0)
 
-	if (tim5_flg==0)// lwz ����Բɼ��õ�����ֵ������һ���̶ȵ�����
+	if (tim5_flg==0)// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聛0茅4聛0炉9聞1陇7聞1陇7聛0聥1聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0枚5聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0脻5聞1陇7聞1陇7聞1陇7聛0脗0聛0漏0聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7
 	{
-		if (adc_temp00>=(mod_seta_preh-DIS_COUNT))// lwz ����ɼ��õ�����ֵ�ȡ��趨ֵ��5������adc_temp00��ֵΪ�趨ֵ
+		if (adc_temp00>=(mod_seta_preh-DIS_COUNT))// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聛0炉9聞1陇7聞1陇7聛0聥1聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0枚5聞1陇7聛0搂0聞1陇7聞1陇7脷聟聛0枚5聞1陇7聞1陇75聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7adc_temp00聞1陇7聞1陇7聛0枚5聛0脣2聞1陇7脷聟聛0枚5
 		{
 			adc_temp00   =   mod_seta_preh;
 		}
 		else
 		{
-			adc_temp00   =   (adc_temp00/DIS_COUNT)*(DIS_COUNT+1);// lwz �ɼ��õ�����ֵ�ϸ�20%
+			adc_temp00   =   (adc_temp00/DIS_COUNT)*(DIS_COUNT+1);// lwz 聞1陇7聛0炉9聞1陇7聞1陇7聛0聥1聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0枚5聞1陇7聛0脨6聞1陇720%
 		}
 	}
-	if (adc_temp00<DIS_COUNT)// lwz ����ɼ�ֵ��С����ֱ������Ϊ0
+	if (adc_temp00<DIS_COUNT)// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聛0炉9聞1陇7聛0枚5聞1陇7聞1陇7搂鲁聞1陇7聞1陇7聞1陇7聞1陇7聛0枚1聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0脣20
 	{
 		adc_temp00=0;
 	}
@@ -1450,7 +1450,7 @@ void  DISP_MainA(void)/*used*/
 	{
 		break;
 	}
-	case MOD_WAT:// lwz ��ʾ�ȴ�ָ��״̬�µĽ����߼�
+	case MOD_WAT:// lwz 聞1陇7聞1陇7聛0露5聞1陇7聛0篓9聞1陇7聛0枚8聞1陇7聞1陇7聛0眉8聛0脕0聞1陇7聛0聟8聛0聭5聞1陇7聞1陇7聞1陇7聞1陇7聛1虏8聞1陇7
 	{
 		if (all_flg==0)
 		{
@@ -1458,31 +1458,31 @@ void  DISP_MainA(void)/*used*/
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_key2015(2,20);
+				DISP_key2015(2,20);
 				DISP_8X16ascii((char *)"Settings",2,50);
 				DISP_8X16ascii((char *)" |       Therapy",4,10);    
 #else
-                DISP_ask();
+				DISP_ask();
 #endif
 				
 			}
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_key2015(2,20);
+				DISP_key2015(2,20);
 				DISP_8X16ascii((char *)rus_Settings,2,50);		
 				DISP_8X16ascii((char *)rus_Therapy2,4,14);
 #else
-                DISP_key2015(2,20);
+				DISP_key2015(2,20);
 				DISP_8X16ascii((char *)"Settings",2,50);
 				DISP_8X16ascii((char *)" |       Therapy",4,10);
 #endif
 
 			}
 		}
-        
+		
 #if LANGUAGE_RUSSIA_ENGILISH 
-		if (mod_main_baka==MOD_LIX)// lwz �������ģʽ������ģʽ
+		if (mod_main_baka==MOD_LIX)// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4
 		{
 			if(language){
 				DISP_lx(0,17);
@@ -1496,7 +1496,7 @@ void  DISP_MainA(void)/*used*/
 				DISP_lx(0,17);
 				DISP_Fu1(0,31);
 				DISP_Dig12_16(0,37,mod_seta_preh);     
-                DISP_ChaBasic2015(0xAC,0,60);
+				DISP_ChaBasic2015(0xAC,0,60);
 				DISP_ChaBasic2015(0xAC,0,66);
 				DISP_ChaBasic2015(0xC1,0,72);
 				DISP_ChaBasic2015(0xB0,0,78);
@@ -1508,12 +1508,12 @@ void  DISP_MainA(void)/*used*/
 			}
 
 		}
-		else// lwz �������ģʽ�Ǽ��ģʽ
+		else// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4聞1陇7聛0拢3聞1陇7聞1陇7聛0聫0聛0露4
 		{
 			if(language){
-                DISP_jx(0,17);
-                DISP_Fu1(0,28);
-                DISP_Dig12_16(0,33,mod_seta_preh);
+				DISP_jx(0,17);
+				DISP_Fu1(0,28);
+				DISP_Dig12_16(0,33,mod_seta_preh);
 				DISP_ChaBasic(M,0,52);
 				DISP_ChaBasic(M,0,58);
 				DISP_ChaBasic(H,0,64);
@@ -1522,7 +1522,7 @@ void  DISP_MainA(void)/*used*/
 				DISP_jx(0,17);
 				DISP_Fu1(0,31);
 				DISP_Dig12_16(0,37,mod_seta_preh);     
-                DISP_ChaBasic2015(0xAC,0,60);
+				DISP_ChaBasic2015(0xAC,0,60);
 				DISP_ChaBasic2015(0xAC,0,66);
 				DISP_ChaBasic2015(0xC1,0,72);
 				DISP_ChaBasic2015(0xB0,0,78);
@@ -1535,7 +1535,7 @@ void  DISP_MainA(void)/*used*/
 
 		}
 #else        
-		if (mod_main_baka==MOD_LIX)// lwz �������ģʽ������ģʽ
+		if (mod_main_baka==MOD_LIX)// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4
 		{
 			DISP_lx(0,17);
 			DISP_Fu1(0,28);
@@ -1547,7 +1547,7 @@ void  DISP_MainA(void)/*used*/
 			DISP_ChaBasic(G,0,73+addx);
 
 		}
-		else// lwz �������ģʽ�Ǽ��ģʽ
+		else// lwz 聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聞1陇7聛0聫0聛0露4聞1陇7聛0拢3聞1陇7聞1陇7聛0聫0聛0露4
 		{
 			DISP_jx(0,17);
 			DISP_Fu1(0,28);
@@ -1560,10 +1560,10 @@ void  DISP_MainA(void)/*used*/
 
 		}
 #endif
-        
-        
+		
+		
 
-		if (lock_flg)// lwz ��ʾ��
+		if (lock_flg)// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7
 		{
 			DISP_Lock(6,108);
 		}
@@ -1593,10 +1593,10 @@ void  DISP_MainA(void)/*used*/
 
 	case MOD_ZHT:
 	{
-		disp_presa = mod_seta_preh;// lwz 暂停阶段，显示当前设定的压力值，而不是实时压力值
+		disp_presa = mod_seta_preh;// lwz 脭脻脥拢陆脳露脦拢卢脧脭脢戮碌卤脟掳脡猫露篓碌脛脩鹿脕娄脰碌拢卢露酶虏禄脢脟脢碌脢卤脩鹿脕娄脰碌
 		
 #if LANGUAGE_RUSSIA_ENGILISH 
-		if (mod_main_baka==MOD_LIX)// lwz 如果前一个工作模式是连续模式，则显示相应的界面
+		if (mod_main_baka==MOD_LIX)// lwz 脠莽鹿没脟掳脪禄赂枚鹿陇脳梅脛拢脢陆脢脟脕卢脨酶脛拢脢陆拢卢脭貌脧脭脢戮脧脿脫娄碌脛陆莽脙忙
 		{
 			DISP_lx(0,17);
 			DISP_Fu1(0,31);
@@ -1620,7 +1620,7 @@ void  DISP_MainA(void)/*used*/
 				DISP_ChaBasic2015(0xC1,0,116);
 			}
 		}
-		else if (mod_main_baka==MOD_JIX)// lwz 如果前一个工作模式是间歇工作模式，则显示相应的界面
+		else if (mod_main_baka==MOD_JIX)// lwz 脠莽鹿没脟掳脪禄赂枚鹿陇脳梅脛拢脢陆脢脟录盲脨陋鹿陇脳梅脛拢脢陆拢卢脭貌脧脭脢戮脧脿脫娄碌脛陆莽脙忙
 		{
 			DISP_jx(0,17);
 			DISP_Fu1(0,31);
@@ -1645,17 +1645,17 @@ void  DISP_MainA(void)/*used*/
 			}	
 		}        
 #else        
-		if (mod_main_baka==MOD_LIX)// lwz 如果前一个工作模式是连续模式，则显示相应的界面
+		if (mod_main_baka==MOD_LIX)// lwz 脠莽鹿没脟掳脪禄赂枚鹿陇脳梅脛拢脢陆脢脟脕卢脨酶脛拢脢陆拢卢脭貌脧脭脢戮脧脿脫娄碌脛陆莽脙忙
 		{
 			DISP_lx(0,17);
-			DISP_Fu1(0,31);// lwz 显示单位
-			DISP_Dig12_16(0,37,disp_presa);// lwz 显示压力值
+			DISP_Fu1(0,31);// lwz 脧脭脢戮碌楼脦禄
+			DISP_Dig12_16(0,37,disp_presa);// lwz 脧脭脢戮脩鹿脕娄脰碌
 			DISP_ChaBasic(M,0,55+addx);
 			DISP_ChaBasic(M,0,61+addx);
 			DISP_ChaBasic(H,0,67+addx);
 			DISP_ChaBasic(G,0,73+addx);
 		}
-		else if (mod_main_baka==MOD_JIX)// lwz 如果前一个工作模式是间歇工作模式，则显示相应的界面
+		else if (mod_main_baka==MOD_JIX)// lwz 脠莽鹿没脟掳脪禄赂枚鹿陇脳梅脛拢脢陆脢脟录盲脨陋鹿陇脳梅脛拢脢陆拢卢脭貌脧脭脢戮脧脿脫娄碌脛陆莽脙忙
 		{
 			DISP_jx(0,17);
 			DISP_Fu1(0,31);
@@ -1674,11 +1674,11 @@ void  DISP_MainA(void)/*used*/
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_8X16ascii((char *)"Therapy  Off",3,20);
+				DISP_8X16ascii((char *)"Therapy  Off",3,20);
 				DISP_ChaBasic2015('|',6,4);
 				DISP_cha7s((char *)" Therapy",6,16);
 #else
-                DISP_stop2015(3,92);
+				DISP_stop2015(3,92);
 				DISP_press2015(6,44);
 #endif                
 
@@ -1686,11 +1686,11 @@ void  DISP_MainA(void)/*used*/
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-                DISP_8X16ascii((char *)rus_therapy_off,3,20);
+				DISP_8X16ascii((char *)rus_therapy_off,3,20);
 				DISP_ChaBasic2015('|',6,4);
 				DISP_8X16ascii((char *)rus_Therapy,6,16);
 #else
-                DISP_8X16ascii((char *)"Therapy  Off",3,20);
+				DISP_8X16ascii((char *)"Therapy  Off",3,20);
 				DISP_ChaBasic2015('|',6,4);
 				DISP_cha7s((char *)" Therapy",6,16);
 #endif 
@@ -1705,7 +1705,7 @@ void  DISP_MainA(void)/*used*/
 	}
 	case MOD_SET:
 	{
-		DISP_SetA_new();// lwz ��ʾ���ý���
+		DISP_SetA_new();// lwz 聞1陇7聞1陇7聛0露5聞1陇7聞1陇7聞1陇7聛0聥5聞1陇7聞1陇7聞1陇7
 		break;;
 	}
 	case MOD_ERR:
@@ -1724,7 +1724,7 @@ void  DISP_MainA(void)/*used*/
 			}
 			else
 			{
-				DISP_BatWarnC();//����
+				DISP_BatWarnC();//聞1陇7聞1陇7聞1陇7聞1陇7
 			}
 		}
 		else

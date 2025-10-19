@@ -26,50 +26,50 @@
 //#pragma config IOL1WAY = OFF
 //#pragma config WPDIS  = OFF
 
-// lwz 生成配置位，并放入一个单独的文件中
+// lwz 脡煤鲁脡脜盲脰脙脦禄拢卢虏垄路脜脠毛脪禄赂枚碌楼露脌碌脛脦脛录镁脰脨
 #include "../project/config_bits.h"
 
 unsigned char    audio_flg;
 unsigned short   audio_cnt,audio_basic;
 unsigned short   audio_period;
-unsigned char    err_codea,err_codeb;/*错误状态   lwz   err_codeb没有任何用处，可以直接忽略，值一直为0 */
-unsigned char    buz_flg,buz_flg1,buz_cnt;// lwz buz_flg代表是否需要蜂鸣器响；buz_flg1为0代表蜂鸣器正在响，1代表不响了；buz_cnt代表关闭响声的倒计时；
+unsigned char    err_codea,err_codeb;/*麓铆脦贸脳麓脤卢   lwz   err_codeb脙禄脫脨脠脦潞脦脫脙麓娄拢卢驴脡脪脭脰卤陆脫潞枚脗脭拢卢脰碌脪禄脰卤脦陋0 */
+unsigned char    buz_flg,buz_flg1,buz_cnt;// lwz buz_flg麓煤卤铆脢脟路帽脨猫脪陋路盲脙霉脝梅脧矛拢禄buz_flg1脦陋0麓煤卤铆路盲脙霉脝梅脮媒脭脷脧矛拢卢1麓煤卤铆虏禄脧矛脕脣拢禄buz_cnt麓煤卤铆鹿脴卤脮脧矛脡霉碌脛碌鹿录脝脢卤拢禄
 unsigned short   bat_close_tim=0;
-unsigned char    mute_flg=0;// lwz 静音标志，0为不静音，1为静音
+unsigned char    mute_flg=0;// lwz 戮虏脪么卤锚脰戮拢卢0脦陋虏禄戮虏脪么拢卢1脦陋戮虏脪么
 unsigned short   mute_tim=0;
 
 unsigned char  SPEAK_flg=0;
 unsigned char  close_flg=0;
-unsigned char   	bat_lev_bak=0;// lwz 对z1的备份
-unsigned char   	z1=0;// lwz z1的各个位代表的含义：0位-》是否低于3.5V；1位-》是否发生了任何错误；3位-》是否低于3.7V；
+unsigned char   	bat_lev_bak=0;// lwz 露脭z1碌脛卤赂路脻
+unsigned char   	z1=0;// lwz z1碌脛赂梅赂枚脦禄麓煤卤铆碌脛潞卢脪氓拢潞0脦禄-隆路脢脟路帽碌脥脫脷3.5V拢禄1脦禄-隆路脢脟路帽路垄脡煤脕脣脠脦潞脦麓铆脦贸拢禄3脦禄-隆路脢脟路帽碌脥脫脷3.7V拢禄
 
 unsigned char   	open_bum=0;
 unsigned char   	bum_dly=0;
-unsigned char   	bum_dly_flg=0;// lwz 泵不需要放气，则为0，需要放气则为1
+unsigned char   	bum_dly_flg=0;// lwz 卤脙虏禄脨猫脪陋路脜脝酶拢卢脭貌脦陋0拢卢脨猫脪陋路脜脝酶脭貌脦陋1
 unsigned short      dataREAD0,dataREAD1,dataREAD2,dataREAD3;
 
 unsigned char SPK_STATE = 0;
-volatile unsigned short TK_TIME = 0;//太空时间
+volatile unsigned short TK_TIME = 0;//脤芦驴脮脢卤录盲
 unsigned short    key_silent_flag = 0;
 
-/*20秒响一声*/
+/*20脙毛脧矛脪禄脡霉*/
 typedef enum _on{
 	BEEGO,BEEONE,BEETWO,BEETHREE,BEEEND
 }BEEPTWO;
 BEEPTWO BEE_TWO=BEEGO;
-#define spk_set()  SPEAK=1;SPK_STATE=1;// lwz 蜂鸣器响
-#define spk_clr()  SPEAK=0;SPK_STATE=0;// lwz 蜂鸣器关闭
-unsigned short spk_selay = 0;// lwz 蜂鸣器延时
+#define spk_set()  SPEAK=1;SPK_STATE=1;// lwz 路盲脙霉脝梅脧矛
+#define spk_clr()  SPEAK=0;SPK_STATE=0;// lwz 路盲脙霉脝梅鹿脴卤脮
+unsigned short spk_selay = 0;// lwz 路盲脙霉脝梅脩脫脢卤
 void spk_bee_server()
 {
-	if (0==SPK_STATE)// lwz 确保关闭蜂鸣器，并重置spk_selay计数
+	if (0==SPK_STATE)// lwz 脠路卤拢鹿脴卤脮路盲脙霉脝梅拢卢虏垄脰脴脰脙spk_selay录脝脢媒
 	{
 			spk_selay = 0;
 			spk_clr();
 			return;
 	}
 	
-	if (spk_selay++ > MAX_BEE_TIME)// lwz 当SPK_STATE=1时（即蜂鸣器在响），且计时器超时，则关闭蜂鸣器
+	if (spk_selay++ > MAX_BEE_TIME)// lwz 碌卤SPK_STATE=1脢卤拢篓录麓路盲脙霉脝梅脭脷脧矛拢漏拢卢脟脪录脝脢卤脝梅鲁卢脢卤拢卢脭貌鹿脴卤脮路盲脙霉脝梅
 	{
 		spk_selay = 15;
 		audio_period=0;
@@ -89,7 +89,7 @@ void  SYS_DatIni(void)/*used*/
 	mod_tim_cnta=0;;
 	buz_flg1=0;
 	///////////////////////////////////////
-	audio_period=AUDIO_PERIOD+400;// lwz 让蜂鸣器开机就响
+	audio_period=AUDIO_PERIOD+400;// lwz 脠脙路盲脙霉脝梅驴陋禄煤戮脥脧矛
 	audio_cnt=0;
 	audio_basic=0;
 	audio_flg=LED_BAT_NORMAL;
@@ -102,59 +102,59 @@ void  SYS_DatIni(void)/*used*/
 
 void Warn(void)/*used*/
 {
-	// lwz 警报优先级：管路堵塞 < 液位到 < 漏气 < 传感器触发 < 未接液盒
-	if (flager_a&ERRA_V)// lwz 如果未接液盒
+	// lwz 戮炉卤篓脫脜脧脠录露拢潞鹿脺脗路露脗脠没 < 脪潞脦禄碌陆 < 脗漏脝酶 < 麓芦赂脨脝梅麓楼路垄 < 脦麓陆脫脪潞潞脨
+	if (flager_a&ERRA_V)// lwz 脠莽鹿没脦麓陆脫脪潞潞脨
 	{
-		if (mod_main_a==MOD_WAT)// lwz 如果当前处于等待指令模式，则确认错误为：未接盒
+		if (mod_main_a==MOD_WAT)// lwz 脠莽鹿没碌卤脟掳麓娄脫脷碌脠麓媒脰赂脕卯脛拢脢陆拢卢脭貌脠路脠脧麓铆脦贸脦陋拢潞脦麓陆脫潞脨
 		{
-			err_codea=ERR_CANISTER_NOT_CON;    /////////未接盒
+			err_codea=ERR_CANISTER_NOT_CON;    /////////脦麓陆脫潞脨
 		}
-		else// lwz 否则确认错误为：堵管
+		else// lwz 路帽脭貌脠路脠脧麓铆脦贸脦陋拢潞露脗鹿脺
 		{
-			err_codea=ERR_PIPE_BLOCKED;    //////////堵管
+			err_codea=ERR_PIPE_BLOCKED;    //////////露脗鹿脺
 		}
 	}
-	else if (flager_a&ERRA_S)// lwz 如果接了盒子，并且传感器触发
+	else if (flager_a&ERRA_S)// lwz 脠莽鹿没陆脫脕脣潞脨脳脫拢卢虏垄脟脪麓芦赂脨脝梅麓楼路垄
 	{
-		if (mod_main_a==MOD_WAT)// lwz 如果接了盒子，传感器触发，并且当前处于等待指令的阶段，则认为传感器故障
+		if (mod_main_a==MOD_WAT)// lwz 脠莽鹿没陆脫脕脣潞脨脳脫拢卢麓芦赂脨脝梅麓楼路垄拢卢虏垄脟脪碌卤脟掳麓娄脫脷碌脠麓媒脰赂脕卯碌脛陆脳露脦拢卢脭貌脠脧脦陋麓芦赂脨脝梅鹿脢脮脧
 		{
-			err_codea=ERR_SENSOR_MALFUCTION;    ///////////传感器故障
+			err_codea=ERR_SENSOR_MALFUCTION;    ///////////麓芦赂脨脝梅鹿脢脮脧
 		}
 		else
 		{
-			err_codea=ERR_CANISTER_FULL;    ///////////液位满故障
+			err_codea=ERR_CANISTER_FULL;    ///////////脪潞脦禄脗煤鹿脢脮脧
 		}
 		//err_codea=4;
 	}
-	else if (flager_a&ERRA_LQ)// lwz 如果接了盒子，传感器没触发，并且漏气
+	else if (flager_a&ERRA_LQ)// lwz 脠莽鹿没陆脫脕脣潞脨脳脫拢卢麓芦赂脨脝梅脙禄麓楼路垄拢卢虏垄脟脪脗漏脝酶
 	{
-		err_codea=ERR_AIR_LEAKAGE;    //////////漏气
+		err_codea=ERR_AIR_LEAKAGE;    //////////脗漏脝酶
 	}
-	else if (flager_a&ERRA_YW)// 液位到
+	else if (flager_a&ERRA_YW)// 脪潞脦禄碌陆
 	{
-		err_codea=ERR_CANISTER_REACHED;    //////////液位到
+		err_codea=ERR_CANISTER_REACHED;    //////////脪潞脦禄碌陆
 	}
-	else if (flager_a&ERRB_DS)// lwz 管路堵塞
+	else if (flager_a&ERRB_DS)// lwz 鹿脺脗路露脗脠没
 	{
-		err_codea=ERR_JAMED;    //////////IEC60601 堵塞报警
+		err_codea=ERR_JAMED;    //////////IEC60601 露脗脠没卤篓戮炉
 	}
-	else if (flager_a&ERRB_TK)// lwz 空闲5分钟
+	else if (flager_a&ERRB_TK)// lwz 驴脮脧脨5路脰脰脫
 	{
-		err_codea=ERR_DEV_IDLE;    //////////IEC60601 堵塞报警
+		err_codea=ERR_DEV_IDLE;    //////////IEC60601 露脗脠没卤篓戮炉
 	}
 	
 	else
 	{
-		err_codea=0;    ///////////无故障
+		err_codea=0;    ///////////脦脼鹿脢脮脧
 	}
-	if (err_codea > 0)/*如果有故障 则灯亮*/
+	if (err_codea > 0)/*脠莽鹿没脫脨鹿脢脮脧 脭貌碌脝脕脕*/
 	{
 		back_led_cnt = 0;
 	}
-	spk_bee_server();// lwz 设置BEE_TWO = BEETWO
+	spk_bee_server();// lwz 脡猫脰脙BEE_TWO = BEETWO
 }
 unsigned short bee_delay = 0;
-// lwz 此处为控制声音播放的主函数
+// lwz 麓脣麓娄脦陋驴脴脰脝脡霉脪么虏楼路脜碌脛脰梅潞炉脢媒
 void bee_three()
 {
 	//if (buz_flg)return;
@@ -172,7 +172,7 @@ void bee_three()
 		BEE_TWO=BEEONE;
 		break;
 	}
-	case BEEONE:/*叫一声 */
+	case BEEONE:/*陆脨脪禄脡霉 */
 	{
 		spk_set();
 		if (audio_basic++ > AUDIO_TIM)
@@ -183,17 +183,17 @@ void bee_three()
 
 		break;
 	}
-	case BEETWO:/*停20秒 */
+	case BEETWO:/*脥拢20脙毛 */
 	{
 		spk_clr();
 		if (audio_period++ > AUDIO_PERIOD)
 		{
-            
+			
 			BEE_TWO=BEETHREE;
 		}
 		break;
 	}
-	case BEETHREE:/* 设置参数*/
+	case BEETHREE:/* 脡猫脰脙虏脦脢媒*/
 	{
 		audio_period = 0;
 		audio_basic = 0;
@@ -206,12 +206,12 @@ void bee_three()
 }
 
 #if 0
-// lwz 声音播放函数，参数cnt为声音播放的次数
+// lwz 脡霉脪么虏楼路脜潞炉脢媒拢卢虏脦脢媒cnt脦陋脡霉脪么虏楼路脜碌脛麓脦脢媒
 void AUDIO_Sub(unsigned char cnt)/*used*/
 {
 	unsigned char  i;
 	i=cnt;
-	// lwz (SPEAK_flg==0)的条件是按键没有被长时间按下
+	// lwz (SPEAK_flg==0)碌脛脤玫录镁脢脟掳麓录眉脙禄脫脨卤禄鲁陇脢卤录盲掳麓脧脗
 	if ((key_val==KEY_MUT)&&(SPEAK_flg==0))
 	{
 		SPEAK_flg=1;
@@ -224,7 +224,7 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 			DISP_BuzClr(6,25);
 		}
 	}
-	// lwz (SPEAK_flg==0)的条件是按键没有被长时间按下。反问：这里跟KEY_MUTL不矛盾吗？这里应该是在长按静音键时，设置SPEAK_flg为1
+	// lwz (SPEAK_flg==0)碌脛脤玫录镁脢脟掳麓录眉脙禄脫脨卤禄鲁陇脢卤录盲掳麓脧脗隆拢路麓脦脢拢潞脮芒脌茂赂煤KEY_MUTL虏禄脙卢露脺脗冒拢驴脮芒脌茂脫娄赂脙脢脟脭脷鲁陇掳麓戮虏脪么录眉脢卤拢卢脡猫脰脙SPEAK_flg脦陋1
 	if ((key_val==KEY_MUTL)&&(SPEAK_flg==0))
 	{
 
@@ -240,22 +240,22 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 			close_flg=0;
 		}
 
-		if (mute_flg==0)// lwz 如果当前不是静音状态，则清除蜂鸣器标志
+		if (mute_flg==0)// lwz 脠莽鹿没碌卤脟掳虏禄脢脟戮虏脪么脳麓脤卢拢卢脭貌脟氓鲁媒路盲脙霉脝梅卤锚脰戮
 		{
 			DISP_BuzClr(6,25);
 		}
 	}
 
-	if (mute_flg)// lwz 静音模式
+	if (mute_flg)// lwz 戮虏脪么脛拢脢陆
 	{
-		if (close_flg)// lwz 长按了静音按钮，进入了静音模式，则不再倒计时取消静音标志
+		if (close_flg)// lwz 鲁陇掳麓脕脣戮虏脪么掳麓脜楼拢卢陆酶脠毛脕脣戮虏脪么脛拢脢陆拢卢脭貌虏禄脭脵碌鹿录脝脢卤脠隆脧没戮虏脪么卤锚脰戮
 		{
-        if (mute_tim++>CANCEL_MUTEFLAG_TIMEOUT)
+		if (mute_tim++>CANCEL_MUTEFLAG_TIMEOUT)
 		{
 			mute_flg=0;
 			mute_tim=0;
 			DISP_BuzClr(6,25);
-            bee_three();
+			bee_three();
 		}
 			return;
 		}
@@ -268,18 +268,18 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 	}
 	else
 	{
-		bee_three();// lwz 如果没有静音标志，则播放声音
+		bee_three();// lwz 脠莽鹿没脙禄脫脨戮虏脪么卤锚脰戮拢卢脭貌虏楼路脜脡霉脪么
 	}
 	// else
 	// {
 	// if (audio_period++>=AUDIO_PERIOD)
 	// {
 	// audio_basic++;
-	// if (audio_basic<AUDIO_TIM)/////////////////占空比
+	// if (audio_basic<AUDIO_TIM)/////////////////脮录驴脮卤脠
 	// {
 	// SPEAK  =  1;
 	// }
-	// else if ( audio_basic<20 )/////////////////小周期
+	// else if ( audio_basic<20 )/////////////////脨隆脰脺脝脷
 	// {
 	// SPEAK  =  0;
 	// SPEAK=0;
@@ -303,7 +303,7 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 {
 	unsigned char  i;
 	i=cnt;
-	// lwz (SPEAK_flg==0)的条件是按键没有被长时间按下
+	// lwz (SPEAK_flg==0)碌脛脤玫录镁脢脟掳麓录眉脙禄脫脨卤禄鲁陇脢卤录盲掳麓脧脗
 	if ((key_val==KEY_MUT)&&(SPEAK_flg==0))
 	{
 		SPEAK_flg=1;
@@ -311,7 +311,7 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 		mute_tim=0;
 		//close_flg=0;
 
-        if (mute_flg)
+		if (mute_flg)
 		{
 			close_flg=1;
 		}
@@ -325,9 +325,9 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 			DISP_BuzClr(6,25);
 		}
 
-		if (mute_flg)// lwz 静音模式
+		if (mute_flg)// lwz 戮虏脪么脛拢脢陆
 		{
-			if (close_flg)// lwz 长按了静音按钮，进入了静音模式，则不再倒计时取消静音标志
+			if (close_flg)// lwz 鲁陇掳麓脕脣戮虏脪么掳麓脜楼拢卢陆酶脠毛脕脣戮虏脪么脛拢脢陆拢卢脭貌虏禄脭脵碌鹿录脝脢卤脠隆脧没戮虏脪么卤锚脰戮
 			{
 				if (mute_tim++>CANCEL_MUTEFLAG_TIMEOUT)
 				{
@@ -341,11 +341,11 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 		}
 		else
 		{
-			bee_three();// lwz 如果没有静音标志，则播放声音
+			bee_three();// lwz 脠莽鹿没脙禄脫脨戮虏脪么卤锚脰戮拢卢脭貌虏楼路脜脡霉脪么
 		}
 	}
 	
-	// lwz (SPEAK_flg==0)的条件是按键没有被长时间按下。反问：这里跟KEY_MUTL不矛盾吗？这里应该是在长按静音键时，设置SPEAK_flg为1
+	// lwz (SPEAK_flg==0)碌脛脤玫录镁脢脟掳麓录眉脙禄脫脨卤禄鲁陇脢卤录盲掳麓脧脗隆拢路麓脦脢拢潞脮芒脌茂赂煤KEY_MUTL虏禄脙卢露脺脗冒拢驴脮芒脌茂脫娄赂脙脢脟脭脷鲁陇掳麓戮虏脪么录眉脢卤拢卢脡猫脰脙SPEAK_flg脦陋1
 	if ((key_val==KEY_MUTL)&&(SPEAK_flg==0))
 	{
 
@@ -360,73 +360,73 @@ void AUDIO_Sub(unsigned char cnt)/*used*/
 		{
 			close_flg=0;
 		}
-		if (mute_flg==0)// lwz 如果当前不是静音状态，则清除蜂鸣器标志
+		if (mute_flg==0)// lwz 脠莽鹿没碌卤脟掳虏禄脢脟戮虏脪么脳麓脤卢拢卢脭貌脟氓鲁媒路盲脙霉脝梅卤锚脰戮
 		{
 			DISP_BuzClr(6,25);
 		}
 	}
 
-	if (mute_flg)// lwz 静音模式
+	if (mute_flg)// lwz 戮虏脪么脛拢脢陆
 	{
-		if (close_flg)// lwz 长按了静音按钮，进入了静音模式，则不再倒计时取消静音标志
+		if (close_flg)// lwz 鲁陇掳麓脕脣戮虏脪么掳麓脜楼拢卢陆酶脠毛脕脣戮虏脪么脛拢脢陆拢卢脭貌虏禄脭脵碌鹿录脝脢卤脠隆脧没戮虏脪么卤锚脰戮
 		{
-            if (mute_tim++>CANCEL_MUTEFLAG_TIMEOUT)
-            {
-              mute_flg=0;
+			if (mute_tim++>CANCEL_MUTEFLAG_TIMEOUT)
+			{
+			  mute_flg=0;
 			  mute_tim=0;
 			  DISP_BuzClr(6,25);
-              bee_three();
-            }
+			  bee_three();
+			}
 			return;
 		}
 	}
 	else
 	{
-		bee_three();// lwz 如果没有静音标志，则播放声音
+		bee_three();// lwz 脠莽鹿没脙禄脫脨戮虏脪么卤锚脰戮拢卢脭貌虏楼路脜脡霉脪么
 	}
 }
 
 void BUZ_Cls(void);
 
-// lwz 电池电量过低时，软关机；播放声音；
+// lwz 碌莽鲁脴碌莽脕驴鹿媒碌脥脢卤拢卢脠铆鹿脴禄煤拢禄虏楼路脜脡霉脪么拢禄
 void AUDIO(void)/*used*/
 {
 
 	if ((bat_lev&0x0f)==LOWER_THAN_3_5V)
 	{
-		z1=z1|1;//lwz 设置z1的第0位
+		z1=z1|1;//lwz 脡猫脰脙z1碌脛碌脷0脦禄
 	}
 	else
 	{
-		z1=z1&(~1);//lwz 取消z1的第0位
+		z1=z1&(~1);//lwz 脠隆脧没z1碌脛碌脷0脦禄
 	}
 
 
-	if (err_codea)// 如果发生了任何错误
+	if (err_codea)// 脠莽鹿没路垄脡煤脕脣脠脦潞脦麓铆脦贸
 	{
-		z1=z1|2;//lwz 设置z1的第1位
+		z1=z1|2;//lwz 脡猫脰脙z1碌脛碌脷1脦禄
 	}
 	else
 	{
-		z1=z1&(~2);//lwz 取消z1的第1位
+		z1=z1&(~2);//lwz 脠隆脧没z1碌脛碌脷1脦禄
 	}
-	if ((bat_lev&0x0f)==1)// lwz 低于3.7v
+	if ((bat_lev&0x0f)==1)// lwz 碌脥脫脷3.7v
 	{
-		z1=z1|8;//lwz 设置z1的第3位
+		z1=z1|8;//lwz 脡猫脰脙z1碌脛碌脷3脦禄
 	}
 	else
 	{
-		z1=z1&(~8);//lwz 取消z1的第3位
+		z1=z1&(~8);//lwz 脠隆脧没z1碌脛碌脷3脦禄
 	}
 
-	if (z1>bat_lev_bak)// 如果z1新设置了某个标志位（即发生了某个事件），则取消静音标识
+	if (z1>bat_lev_bak)// 脠莽鹿没z1脨脗脡猫脰脙脕脣脛鲁赂枚卤锚脰戮脦禄拢篓录麓路垄脡煤脕脣脛鲁赂枚脢脗录镁拢漏拢卢脭貌脠隆脧没戮虏脪么卤锚脢露
 	{
 		mute_flg=0;
 	}
 
 	/******************************************************/
 	if ((bat_lev&0x0f)==LOWER_THAN_3_5V)////////////////////////////////////
-	{////////////////////////////////////////////////////////欠压报警
+	{////////////////////////////////////////////////////////脟路脩鹿卤篓戮炉
 		mod_main_a  =  MOD_OFF;
 		mod_main_b  =  MOD_OFF;
 		audio_flg=LED_LOW_THAN_3_5V_OR_ERR;
@@ -437,13 +437,13 @@ void AUDIO(void)/*used*/
 		}
 		else
 		{
-			POWER_ON=0;// lwz 如果电压小于3.5V，且运行超过500个循环，则进行软关机
+			POWER_ON=0;// lwz 脠莽鹿没碌莽脩鹿脨隆脫脷3.5V拢卢脟脪脭脣脨脨鲁卢鹿媒500赂枚脩颅禄路拢卢脭貌陆酶脨脨脠铆鹿脴禄煤
 		}
 	}
 
 	else if (err_codea||err_codeb)
 	{
-		// lwz 除了漏气的同时充电线插上或者满电这种情况不报警，其他错误码情况都报警。即大部分情况都要报警。
+		// lwz 鲁媒脕脣脗漏脝酶碌脛脥卢脢卤鲁盲碌莽脧脽虏氓脡脧禄貌脮脽脗煤碌莽脮芒脰脰脟茅驴枚虏禄卤篓戮炉拢卢脝盲脣没麓铆脦贸脗毛脟茅驴枚露录卤篓戮炉隆拢录麓麓贸虏驴路脰脟茅驴枚露录脪陋卤篓戮炉隆拢
 		if (!((err_codea == ERR_AIR_LEAKAGE)&&((BAT_CHARGING ==BAT_CHARGE)||(bat_sas == BAT_FULL)&&(overabc == 1))))
 		{
 			AUDIO_Sub(1);
@@ -454,7 +454,7 @@ void AUDIO(void)/*used*/
 	{
 		if (mod_main_a == MOD_OFF)
 			return;
-		if ((bat_lev&0x0f)==LOWER_BAT_WARN_3_6V)///////////////////////////////////低电量报警
+		if ((bat_lev&0x0f)==LOWER_BAT_WARN_3_6V)///////////////////////////////////碌脥碌莽脕驴卤篓戮炉
 		{
 			AUDIO_Sub(1);
 			audio_flg=LED_LOW_THAN_3_6V;
@@ -492,19 +492,19 @@ void BUZ_Cls(void)/*used*/
 
 void AUDIO_Key(void)/*used*/
 {
-	if (key_val && key_silent_flag)// lwz 如果按键有值，则可以播放声音； 加上了key_silent_flag标志来静默按键
+	if (key_val && key_silent_flag)// lwz 脠莽鹿没掳麓录眉脫脨脰碌拢卢脭貌驴脡脪脭虏楼路脜脡霉脪么拢禄 录脫脡脧脕脣key_silent_flag卤锚脰戮脌麓戮虏脛卢掳麓录眉
 	{
 		buz_flg=1;
 	}
 
-	if (buz_flg)// lwz 代表需要蜂鸣器响
+	if (buz_flg)// lwz 麓煤卤铆脨猫脪陋路盲脙霉脝梅脧矛
 	{
-		if (buz_flg1==0)// lwz 判断是否正在播放声音，为0代表正在播放，1代表播放完毕
+		if (buz_flg1==0)// lwz 脜脨露脧脢脟路帽脮媒脭脷虏楼路脜脡霉脪么拢卢脦陋0麓煤卤铆脮媒脭脷虏楼路脜拢卢1麓煤卤铆虏楼路脜脥锚卤脧
 		{
 			if (buz_cnt++>=BUZZER_TIME_CYCLE)
 			{
 				spk_clr();
-				BUZ_Cls();// lwz 设置为声音已经播放过
+				BUZ_Cls();// lwz 脡猫脰脙脦陋脡霉脪么脪脩戮颅虏楼路脜鹿媒
 			}
 			else
 			{
@@ -540,8 +540,8 @@ void FIND_FREE(void)
 void main(void)
 {
 	SYS_OSC_Ini();
-  asm("clrwdt"); //清看门狗
-  	// lwz 从flash中读取数据，每次读取2个字节，即一个short类型
+  asm("clrwdt"); //脟氓驴麓脙脜鹿路
+  	// lwz 麓脫flash脰脨露脕脠隆脢媒戮脻拢卢脙驴麓脦露脕脠隆2赂枚脳脰陆脷拢卢录麓脪禄赂枚short脌脿脨脥
 	dataREAD1 = Flash_Read(addr);
 	dataREAD2 = Flash_Read(addr+2);
 	dataREAD3 = Flash_Read(addr+4);
@@ -552,61 +552,61 @@ void main(void)
 	dataK3    = Flash_Read(addr+12);
 	dataK4    = Flash_Read(addr+14);
 	key_silent_flag  = Flash_Read(addr+16);
-	language = (key_silent_flag & 0xFF);// lwz 低字节为语言标志
+	language = (key_silent_flag & 0xFF);// lwz 碌脥脳脰陆脷脦陋脫茂脩脭卤锚脰戮
 #ifdef LOGO_TYPE_VR_CHINA
-	if(language == 0xFF)// lwz 如果是国内版，烧录后的开机默认就是英文
+	if(language == 0xFF)// lwz 脠莽鹿没脢脟鹿煤脛脷掳忙拢卢脡脮脗录潞贸碌脛驴陋禄煤脛卢脠脧戮脥脢脟脫垄脦脛
 		language = 0xFE;
 #endif
-	if(language != 0xFE)// lwz 默认只有英文、中文两种语言，如果读到的不是中文，则直接设置英文
+	if(language != 0xFE)// lwz 脛卢脠脧脰禄脫脨脫垄脦脛隆垄脰脨脦脛脕陆脰脰脫茂脩脭拢卢脠莽鹿没露脕碌陆碌脛虏禄脢脟脰脨脦脛拢卢脭貌脰卤陆脫脡猫脰脙脫垄脦脛
 		language = 0;
-	key_silent_flag = (key_silent_flag & SILENT_FLAG_BITMASK);// lwz 静默标志在地址为addr+16的short类型的高字节的最高位
-	// language=0;//默认英语
-	mod_seta_prel  = Flash_Read(addr+18);// lwz 读取间隙模式下的低压值
-	// lwz 初始化全局GPIO状态
+	key_silent_flag = (key_silent_flag & SILENT_FLAG_BITMASK);// lwz 戮虏脛卢卤锚脰戮脭脷碌脴脰路脦陋addr+16碌脛short脌脿脨脥碌脛赂脽脳脰陆脷碌脛脳卯赂脽脦禄
+	// language=0;//脛卢脠脧脫垄脫茂
+	mod_seta_prel  = Flash_Read(addr+18);// lwz 露脕脠隆录盲脧露脛拢脢陆脧脗碌脛碌脥脩鹿脰碌
+	// lwz 鲁玫脢录禄炉脠芦戮脰GPIO脳麓脤卢
 	SYS_IO_Ini();
-	// lwz 初始化定时器0
+	// lwz 鲁玫脢录禄炉露篓脢卤脝梅0
 	SYS_TMR0_Ini();
-	// lwz 初始化定时器3
+	// lwz 鲁玫脢录禄炉露篓脢卤脝梅3
 	SYS_TMR3_Ini();
-	// lwz 初始化系统中要用的各个全局变量
+	// lwz 鲁玫脢录禄炉脧碌脥鲁脰脨脪陋脫脙碌脛赂梅赂枚脠芦戮脰卤盲脕驴
 	SYS_DatIni();
-	// lwz adc模数转换控制初始化
+	// lwz adc脛拢脢媒脳陋禄禄驴脴脰脝鲁玫脢录禄炉
 	adc_init();
-	// lwz 加载工作模式、压力上下限等参数
+	// lwz 录脫脭脴鹿陇脳梅脛拢脢陆隆垄脩鹿脕娄脡脧脧脗脧脼碌脠虏脦脢媒
 	UART_Test();
 	flager_a=0;
 	mod_seta_prehh=0;
 	bump_need_out_air_flg=0;
-	BAT_WarnFir();// lwz 将adc采集所得的数据转换为当前的电压
-	T3ON=1;// lwz 启动定时器3
+	BAT_WarnFir();// lwz 陆芦adc虏脡录炉脣霉碌脙碌脛脢媒戮脻脳陋禄禄脦陋碌卤脟掳碌脛碌莽脩鹿
+	T3ON=1;// lwz 脝么露炉露篓脢卤脝梅3
 	BEE_TWO=BEEGO;
 	GIE =1;
 	PEIE =1;
-  asm("clrwdt"); //清看门狗
+  asm("clrwdt"); //脟氓驴麓脙脜鹿路
 	clear_lqtimes();
 	valueK  =  2.75f;
 	while (1)
 	{
 	//	LATC|=0x10;
 //		LATCbits.LATC4=1;
-	  asm("clrwdt"); //清看门狗
-		if (FLG_SYS_10MS)//实际改为了20ms TMR0定时器中设定了
+	  asm("clrwdt"); //脟氓驴麓脙脜鹿路
+		if (FLG_SYS_10MS)//脢碌录脢赂脛脦陋脕脣20ms TMR0露篓脢卤脝梅脰脨脡猫露篓脕脣
 		{
 			FLG_SYS_10MS = 0;
 		//	ClrWdt();
 			if (mod_main_a!=MOD_SYS)
 			{
-				KEY_Scan();// lwz 按键扫描
-				AUDIO_Key();// lwz 控制与按键对应的声音
+				KEY_Scan();// lwz 掳麓录眉脡篓脙猫
+				AUDIO_Key();// lwz 驴脴脰脝脫毛掳麓录眉露脭脫娄碌脛脡霉脪么
 			}
 #ifdef PUMP_IDLE_FLAG
-			FIND_FREE();// lwz 检查当前是否处于空的状态，清除和设置对应的状态位
+			FIND_FREE();// lwz 录矛虏茅碌卤脟掳脢脟路帽麓娄脫脷驴脮碌脛脳麓脤卢拢卢脟氓鲁媒潞脥脡猫脰脙露脭脫娄碌脛脳麓脤卢脦禄
 #endif
-			MODE_ProA();// lwz 根据当前模式，来决定处理方式
-			MODE_Pro();// lwz 控制按键关机、锁屏、语言切换
+			MODE_ProA();// lwz 赂霉戮脻碌卤脟掳脛拢脢陆拢卢脌麓戮枚露篓麓娄脌铆路陆脢陆
+			MODE_Pro();// lwz 驴脴脰脝掳麓录眉鹿脴禄煤隆垄脣酶脝脕隆垄脫茂脩脭脟脨禄禄
 			
-			DISP_MainA();// lwz 根据当前模式，控制面板的显示
-			// lwz 如果当前没有在系统初始化状态和空状态，则执行报警函数
+			DISP_MainA();// lwz 赂霉戮脻碌卤脟掳脛拢脢陆拢卢驴脴脰脝脙忙掳氓碌脛脧脭脢戮
+			// lwz 脠莽鹿没碌卤脟掳脙禄脫脨脭脷脧碌脥鲁鲁玫脢录禄炉脳麓脤卢潞脥驴脮脳麓脤卢拢卢脭貌脰麓脨脨卤篓戮炉潞炉脢媒
 			if ((mod_main_a!=MOD_SYS)||(mod_main_a==MOD_TK))
 			{
 				Warn();
@@ -614,16 +614,16 @@ void main(void)
 				AUDIO();
 			}
 
-			if ((mod_main_a!=MOD_SYS)&&(mod_main_a!=MOD_OFF))/*统统关机时后不显示电池*/
+			if ((mod_main_a!=MOD_SYS)&&(mod_main_a!=MOD_OFF))/*脥鲁脥鲁鹿脴禄煤脢卤潞贸虏禄脧脭脢戮碌莽鲁脴*/
 			{
-				if (mod_main_a!=MOD_WAT)// lwz 除了初始化、等待指令、关机三种状态，其他状态都显示电池信息
+				if (mod_main_a!=MOD_WAT)// lwz 鲁媒脕脣鲁玫脢录禄炉隆垄碌脠麓媒脰赂脕卯隆垄鹿脴禄煤脠媒脰脰脳麓脤卢拢卢脝盲脣没脳麓脤卢露录脧脭脢戮碌莽鲁脴脨脜脧垄
 				{
 					DISP_Bat();
 				}
 			}
 
-			/*********************对大气放气****************************/
-			if (bump_need_out_air_flg&0xf0)// lwz 如果要打开pwm，则设置VAL1，放气100个循环，以便于泵启动
+			/*********************露脭麓贸脝酶路脜脝酶****************************/
+			if (bump_need_out_air_flg&0xf0)// lwz 脠莽鹿没脪陋麓貌驴陋pwm拢卢脭貌脡猫脰脙VAL1拢卢路脜脝酶100赂枚脩颅禄路拢卢脪脭卤茫脫脷卤脙脝么露炉
 			{
 				// open_bum=1;
 				if (bum_dly_flg==0)
@@ -631,22 +631,22 @@ void main(void)
 					// if (bum_dly++>=20)
 					if (bum_dly++>=50)
 					{
-						open_bum=1;// lwz 准备启动泵
+						open_bum=1;// lwz 脳录卤赂脝么露炉卤脙
 						// if (bum_dly>=30)//20160518
 						//if (bum_dly>=100)
-						if (bum_dly>=100)// lwz 放气100个循环后，关阀1
+						if (bum_dly>=100)// lwz 路脜脝酶100赂枚脩颅禄路潞贸拢卢鹿脴路搂1
 						{
 							bum_dly_flg=1;
-							VAL1=0;// lwz 关闭阀1
+							VAL1=0;// lwz 鹿脴卤脮路搂1
 							bum_dly=0;
-							show_lq_times.lq_times++;// lwz 放气次数加一
+							show_lq_times.lq_times++;// lwz 路脜脝酶麓脦脢媒录脫脪禄
 						}
 					}
 					else
 					{
-						//if(adc_ps00>79)//20160401:压力大于80启动翁翁叫
-						//if(adc_ps00>200)//20160509:压力超了就打开,减少放气噪声
-							VAL1=1;// lwz 打开阀1
+						//if(adc_ps00>79)//20160401:脩鹿脕娄麓贸脫脷80脝么露炉脦脤脦脤陆脨
+						//if(adc_ps00>200)//20160509:脩鹿脕娄鲁卢脕脣戮脥麓貌驴陋,录玫脡脵路脜脝酶脭毛脡霉
+							VAL1=1;// lwz 麓貌驴陋路搂1
 					}
 				}
 			}

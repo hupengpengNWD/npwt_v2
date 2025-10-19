@@ -5,7 +5,7 @@
 extern unsigned char    audio_flg;
 extern unsigned short   audio_cnt,audio_basic;
 extern unsigned short   audio_period;
-extern unsigned char    err_codea,err_codeb;/*´íÎó×´Ì¬*/
+extern unsigned char    err_codea,err_codeb;/*Â´Ã­ÃÃ³Ã—Â´ÃŒÂ¬*/
 extern unsigned char    buz_flg,buz_flg1,buz_cnt;
 extern unsigned short   bat_close_tim;
 extern unsigned char    mute_flg;
@@ -20,8 +20,8 @@ extern unsigned char   	open_bum;
 extern unsigned char   	bum_dly;
 extern unsigned char   	bum_dly_flg;
 extern unsigned short          dataREAD0,dataREAD1,dataREAD2,dataREAD3;
-extern volatile unsigned short TK_TIME ;//Ì«¿ÕÊ±¼ä
-extern unsigned short   key_silent_flag;/// lwz °´¼ü¾²Ä¬±êÖ¾£¬0±íÊ¾°´¼üÓĞÉùÒô£¬·ÇÁã±íÊ¾¾²Ä¬
+extern volatile unsigned short TK_TIME ;//ÃŒÂ«Â¿Ã•ÃŠÂ±Â¼Ã¤
+extern unsigned short   key_silent_flag;/// lwz Â°Â´Â¼Ã¼Â¾Â²Ã„Â¬Â±ÃªÃ–Â¾Â£Â¬0Â±Ã­ÃŠÂ¾Â°Â´Â¼Ã¼Ã“ÃÃ‰Ã¹Ã’Ã´Â£Â¬Â·Ã‡ÃÃ£Â±Ã­ÃŠÂ¾Â¾Â²Ã„Â¬
 extern  void LEVEL_WarnA(void);
 
 extern void BUZ_KeyCls(void)/*used*/;
