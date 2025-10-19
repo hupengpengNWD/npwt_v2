@@ -9,12 +9,13 @@ typedef struct	_TIMER
 	unsigned char	IsTimeOut;				//time out flag
 } TIMER;
 
-extern volatile unsigned long   Timeone_sum;  //ȫ�ּ���
+extern volatile unsigned long   Timeone_sum;  //ȫ�ּ���
 extern unsigned char FLG_SYS_10MS;	
 extern unsigned char  os_cnt;
 extern unsigned char  pwm_cnt1;
 extern unsigned char  pwm_cnt2;
-//extern volatile unsigned long  ;  //ȫ�ּ���
+// hpp: 当PWM频率提高到10kHz时，需要改为 extern float pwm_cnt2;
+//extern volatile unsigned long  ;  //ȫ�ּ���
 extern unsigned char TIMER_FOUR;
 extern  unsigned short  psps_turn;
 extern unsigned int psps[30];

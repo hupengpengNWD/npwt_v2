@@ -1,5 +1,21 @@
 #include   "include.h"
 #include   "npwt_dis_main.h"
+
+/*
+hpp: PWMé¢‘çŽ‡ä¿®æ”¹åˆ°10kHzæ—¶ï¼Œæœ¬æ–‡ä»¶ä¸­éœ€è¦ä¿®æ”¹çš„åœ°æ–¹ï¼š
+
+1. pwm_cnt2å˜é‡ç±»åž‹ä¿®æ”¹:
+   - åœ¨npwt_dis_sys_ini_00.cä¸­å°†unsigned char pwm_cnt2æ”¹ä¸ºfloat pwm_cnt2
+
+2. pwm_cnt2èµ‹å€¼é€»è¾‘ä¿®æ”¹ (ç¬¬134-156è¡Œ):
+   - pwm_cnt2=4; æ”¹ä¸º pwm_cnt2=0.4;  // 40%å ç©ºæ¯”
+   - pwm_cnt2=5; æ”¹ä¸º pwm_cnt2=0.5;  // 50%å ç©ºæ¯”  
+   - pwm_cnt2=6; æ”¹ä¸º pwm_cnt2=0.6;  // 60%å ç©ºæ¯”
+
+3. PWMæŽ§åˆ¶é€»è¾‘ä¿®æ”¹:
+   - éœ€è¦ä¿®æ”¹PWMæŽ§åˆ¶é€»è¾‘ä»¥æ”¯æŒå°æ•°å ç©ºæ¯”
+   - å¯èƒ½éœ€è¦ä½¿ç”¨ç´¯åŠ å™¨æ¥å®žçŽ°å°æ•°å ç©ºæ¯”æŽ§åˆ¶
+*/
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_ifile_key_00.h"
 #include  "npwt_con_ifile_adc.h"
@@ -7,21 +23,21 @@
 #include   "npwt_dis_sys_ini_00.h"
 #include   "npwt_dis_sys_uart_00.h"
 
-unsigned short	 load_perioda_up;// lwz ÅÐ¶ÏÂ©ÆøµÄÊ±¼ä
+unsigned short	 load_perioda_up;// lwz ï¿½Ð¶ï¿½Â©ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 unsigned short   cnt_cnta,cnt_cntaa;
 
 unsigned char    bump_need_out_air_flg;
 
 
 unsigned short   mod_seta_prehh;
-float    pwm_k1;// lwz µÈÍ¬ÓÚadc_ps00£¬¼´µ±Ç°Ñ¹Á¦Öµ
+float    pwm_k1;// lwz ï¿½ï¿½Í¬ï¿½ï¿½adc_ps00ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ñ¹ï¿½ï¿½Öµ
 unsigned short   fq_cnt1=0;
-// lwz ¿ª±Ã
+// lwz ï¿½ï¿½ï¿½ï¿½
 void OPEN_PwmA(void)
 {
 	bump_need_out_air_flg=bump_need_out_air_flg|0xf0;
 }
-// lwz ¹Ø±Ã
+// lwz ï¿½Ø±ï¿½
 void CLS_PwmA(void)/*used*/
 {
 	bump_need_out_air_flg=bump_need_out_air_flg&0x0f;
@@ -85,17 +101,17 @@ const  char mot_sys[]={
 	det00   =     mot_sys[i];
 	STAT_conNewa();
 } */
- // lwz ¼ì²âÂ©Æø²¢ÅÐ¶ÏÒºÎ»Âú£¬¼ÆËãµ±Ç°Ñ¹Á¦Öµ£¬¾ö¶¨¿ª±ÃÃüÁî´ÎÊý
+ // lwz ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ÒºÎ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ãµ±Ç°Ñ¹ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void PRESS_ConSubA(void)
 {
 	unsigned short i;
 
-	LEVEL_WarnA();// lwz ¼ì²âÂ©Æø²¢ÅÐ¶ÏÒºÎ»Âú
+	LEVEL_WarnA();// lwz ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ÒºÎ»ï¿½ï¿½
 
 	mod_seta_prehh=mod_seta_preh;
 	if (adc_ps0>adc_zero)
 	{
-		pwm_k1    =    (adc_ps0-adc_zero)/valueK;// lwz ¼ÆËãµ±Ç°µÄÆøÑ¹Öµ = µ±Ç°´«¸ÐÆ÷µÄÑ¹Á¦Öµ ¼õÈ¥ ´óÆøÑ¹ µÄ²î£¬ÔÙ³ýÒÔvalueK
+		pwm_k1    =    (adc_ps0-adc_zero)/valueK;// lwz ï¿½ï¿½ï¿½ãµ±Ç°ï¿½ï¿½ï¿½ï¿½Ñ¹Öµ = ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½Öµ ï¿½ï¿½È¥ ï¿½ï¿½ï¿½ï¿½Ñ¹ ï¿½Ä²î£¬ï¿½Ù³ï¿½ï¿½ï¿½valueK
 	}
 	else
 	{
@@ -129,8 +145,8 @@ void PRESS_ConSubA(void)
 	}
  */
 //	pwm_cnt2  =    5;  
-	//20160601  ÓÃ0.4µÄÄ¤£¬µÍÑ¹Á¦£¬×èÁ¦Ì«´ó£¬¿ÕºÄ²ÄºÐÔÚ40mmHGÏÂ²»±¨¾¯Â©Æø£¬»Ö¸´ÀÏ²ÎÊý
-	if (mod_seta_preh<=20)//20160630ÈÕÇ°ÓÃ3£¬ÓÐÐ©µç»úÆô¶¯²»Á¼£¬¸ÄÓÃ4
+	//20160601  ï¿½ï¿½0.4ï¿½ï¿½Ä¤ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì«ï¿½ó£¬¿ÕºÄ²Äºï¿½ï¿½ï¿½40mmHGï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ï²ï¿½ï¿½ï¿½
+	if (mod_seta_preh<=20)//20160630ï¿½ï¿½Ç°ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4
 	{
 		pwm_cnt2=4;    //  3//2
 	}
@@ -157,10 +173,10 @@ void PRESS_ConSubA(void)
 	
 	i       =     mod_seta_preh/10;
 	det00   =     mot_sys[i];
-	STAT_conNewa();// lwz ¸ù¾Ýµ±Ç°µÄÑ¹Á¦×ö³öÅÐ¶Ï£¬´¦ÀíÑ¹Á¦¹ýÐ¡¡¢¹ý´ó¡¢ÒºÎ»Âú¡¢Â©ÆøµÈÇé¿ö
+	STAT_conNewa();// lwz ï¿½ï¿½ï¿½Ýµï¿½Ç°ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï£ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒºÎ»ï¿½ï¿½ï¿½ï¿½Â©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
-// »ñÈ¡µ±Ç°Ñ¹Á¦£¬²¢¸ù¾Ýµ±Ç°Ñ¹Á¦×ö³ö·´Ó¦
+// ï¿½ï¿½È¡ï¿½ï¿½Ç°Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Ç°Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
 void PRESS_ConA(void)/*used*/
 {
 	switch (mod_main_a)
@@ -168,14 +184,14 @@ void PRESS_ConA(void)/*used*/
 	case MOD_SYS:
 	{
 		cnt_cnta=cnt_cntaa=0;
-		load_perioda_up=0;/// lwz Â©ÆøÊ±¼äÇåÁã
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		break;
 	}
 	case MOD_WAT:
 	{
 		VAL1=0;
 		VAL2=0;
-		//flager_a = 0;     //flager_a = 0;      20160330È¥³ý
+		//flager_a = 0;     //flager_a = 0;      20160330È¥ï¿½ï¿½
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
 		flager_a &=~ERRA_YW;
@@ -183,7 +199,7 @@ void PRESS_ConA(void)/*used*/
 		flager_a &=~ERRB_DS;
 		flager_a &=~ERRB_YW;
 		flager_a &=~ERRB_S;
-		load_perioda_up=0;/// lwz Â©ÆøÊ±¼äÇåÁã
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		break;
 	}
 	case MOD_LIX:
@@ -209,7 +225,7 @@ void PRESS_ConA(void)/*used*/
 	{
 		VAL1=0;
 		VAL2=0;
-		//flager_a = 0;     //flager_a = 0;      20160330È¥³ý
+		//flager_a = 0;     //flager_a = 0;      20160330È¥ï¿½ï¿½
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
 		flager_a &=~ERRA_YW;
@@ -218,7 +234,7 @@ void PRESS_ConA(void)/*used*/
 		flager_a &=~ERRB_YW;
 		flager_a &=~ERRB_S;
 		cnt_cnta=cnt_cntaa=0;
-		load_perioda_up=0;/// lwz Â©ÆøÊ±¼äÇåÁã
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CLS_PwmA();
 		break;;
 	}
@@ -226,7 +242,7 @@ void PRESS_ConA(void)/*used*/
 	{
 		VAL1=0;
 		VAL2=0;
-		//flager_a = 0;     //flager_a = 0;      20160330È¥³ý
+		//flager_a = 0;     //flager_a = 0;      20160330È¥ï¿½ï¿½
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
 		flager_a &=~ERRA_YW;
@@ -235,7 +251,7 @@ void PRESS_ConA(void)/*used*/
 		flager_a &=~ERRB_YW;
 		flager_a &=~ERRB_S;
 		cnt_cnta=cnt_cntaa=0;
-		load_perioda_up=0;/// lwz Â©ÆøÊ±¼äÇåÁã
+		load_perioda_up=0;/// lwz Â©ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		CLS_PwmA();
 		break;;
 	}

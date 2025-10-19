@@ -4,8 +4,8 @@
 #include  "npwt_con_main.h"
  unsigned char  adc_ch,adc_cnt;
  unsigned short adc_buf[ADC_CHN*ADC_CNT];
- unsigned short adc_ps0,adc_bat = BAT4;// lwz adc_ps0´«¸ÐÆ÷µÄÑ¹Á¦Öµ
- unsigned short adc_zero;// lwz µ±Ç°´óÆøÑ¹µÄÖµ£¬¸ÃÖµÔÚ¿ª»úÊ±¾Í½øÐÐ²É¼¯£¬Õâ¸öÊýÖµ±»ÓÃÀ´¼ÆËã²Î¿¼Öµ£¬Èç¹û²É¼¯µÄÆøÑ¹ÉÔÓÐ±ä»¯£¬¿ÉÄÜ»áµ¼ÖÂµ±Ç°ÆøÑ¹µÄ±ä»¯¡£Ò²»áÓ°ÏìÆøÑ¹ÉÏÏÞµÄ¼ÆËã£¬ÀýÈç£¬Èç¹û²É¼¯µ½µÄ³õÊ¼ÆøÑ¹´óÓÚ143£¬ÔòÓÐ¿ÉÄÜ»áµ¼ÖÂ×î´óÆøÑ¹´ï²»µ½320
+ unsigned short adc_ps0,adc_bat = BAT4;// lwz adc_ps0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½Öµ
+ unsigned short adc_zero;// lwz ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Öµï¿½Ú¿ï¿½ï¿½ï¿½Ê±ï¿½Í½ï¿½ï¿½Ð²É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½Ð±ä»¯ï¿½ï¿½ï¿½ï¿½ï¿½Ü»áµ¼ï¿½Âµï¿½Ç°ï¿½ï¿½Ñ¹ï¿½Ä±ä»¯ï¿½ï¿½Ò²ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ÞµÄ¼ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ç£¬ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½143ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½Ü»áµ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï²»ï¿½ï¿½320
 /*
 
 300mmHg  adc_ps0=841
@@ -53,6 +53,7 @@ static unsigned short bat_scan_filter(unsigned short pdata)
 		if(sum<1)sum=0;
    return (unsigned short)sum;
 }
+
 unsigned short  delay_adc = 249;
 unsigned short  delay_P_adc = 249;
 void ADC_DatCal(void)/*used*/
@@ -60,16 +61,16 @@ void ADC_DatCal(void)/*used*/
 	// unsigned short bat_temp =adc_buf[(ADC_CNT/2+2*ADC_CNT)]; 
 
 	// adc_ps0 = adc_buf[(ADC_CNT/2)];
-	if (++delay_P_adc > 3)//Ã¿¸ô3ms²É¼¯Ò»´Î£º×Ü¹²²É¼¯3´Î£¬¼Æ9msÈ¡Æ½¾ùÖµ
+	if (++delay_P_adc > 3)
 	{
 		adc_ps0 = adc_reader_press();
 		delay_P_adc = 0;
 	}
 	// adc_bat = bat_scan_filter(bat_temp);
-	if (++delay_adc > 250)//Ã¿¸ô250ms²É¼¯Ò»´Î,×Ü¹²²É¼¯10´Î£¬¼Æ2.5SÈ¡Æ½¾ùÖµ
+	if (++delay_adc > 250)
 	{
-	adc_bat = adc_reader_power();	
-	delay_adc = 0;
+		adc_bat = adc_reader_power();	
+		delay_adc = 0;
 	}
 }
 

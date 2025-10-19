@@ -82,10 +82,12 @@ static unsigned short adc_press_filter(unsigned char ch)
 		if(sum<1)sum=0;
    return (unsigned short)sum;
 }
+
+
 #define COUNT_PW 10
 static short value_power_buf[COUNT_PW]={
-BAT4,BAT4,BAT4,BAT4,BAT4,
-BAT4,BAT4,BAT4,BAT4,BAT4,
+	BAT4,BAT4,BAT4,BAT4,BAT4,
+	BAT4,BAT4,BAT4,BAT4,BAT4,
 };
 static unsigned char Pw_i=0;
 static unsigned short adc_power_filter(unsigned char ch)
