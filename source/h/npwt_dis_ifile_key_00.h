@@ -21,6 +21,6 @@ extern float   valueK;
 extern unsigned short  dataK1,dataK2,dataK3,dataK4,dataK;
 extern unsigned char   ddfq;
 extern void  MODE_ProA(void);
-extern void KEY_Scan(void)/*used*/;
+extern void KEY_Scan(void);
 extern void  MODE_Pro(void);
 #endif

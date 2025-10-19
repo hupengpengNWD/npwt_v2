@@ -21,31 +21,9 @@ extern unsigned char  debug;
 extern unsigned short record_ds[8];
 extern unsigned char  record_ds_turn;
 extern unsigned short twenty_seconds;
-extern unsigned char   overabc;// lwz Îª1£¬±íÊ¾Â©Æø³¬¹ý10·ÖÖÓ
+extern unsigned char   overabc;
 
-
-
-extern void STAT_conNewa(void)/*used*/;
+extern void STAT_conNewa(void);
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

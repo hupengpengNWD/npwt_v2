@@ -16,24 +16,19 @@ extern unsigned short  adc_temp00;
 extern unsigned char  all_flg;
 extern unsigned char  flg2015;
 extern unsigned char  flg_disp;
-//extern struct show_lq_times;
 
-
-///20160510 add////////////////////////////////////////////////////////////
 struct 
 {
-	unsigned short lq_times;// lwz ·ÅÆø´ÎÊý
+	unsigned short lq_times;
 	unsigned char show_times;
 	unsigned char step;
-	unsigned long buz_key_pressed_times;// lwz °´ÏÂBUZ¼üµÄÊ±¼ä
+	unsigned long buz_key_pressed_times;
 }show_lq_times;
 
-
 extern  unsigned short bbbbb;
-extern void DISP_Led(void)/*used*/;
+extern void DISP_Led(void);
 extern void  clear_lqtimes(void);
-extern void DISP_Bat(void)/*used*/;
-
+extern void DISP_Bat(void);
 
 #endif
 

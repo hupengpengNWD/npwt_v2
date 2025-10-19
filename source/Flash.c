@@ -1,19 +1,7 @@
-/**************************************************************************************************
-**Project Name  : Flash_READ_WRITE
-**Created by    : Abbott Lin
-**Created Date  : 2014.11.21
-**Version:      : V1.0
-**Target        : PIC18F46J11
-**OSC           : 8MHZ
-**HardWare      : 
-**Function      : Flash¶ÁÐ´²Á³ýº¯Êý
-**Notice	: ¿ÉÊ¹ÓÃMPLAB SIM½øÐÐ·ÂÕæ,²é¿´ÔËÐÐÐ§¹û
-**************************************************************************************************/
+
 #include   "include.h"
 
-
-//Ð´ÖÜÆÚ
-void Write_Cycle(void)/*used*/
+void Write_Cycle(void)
 {
 
 	WREN = 1;		
@@ -26,24 +14,21 @@ void Write_Cycle(void)/*used*/
 	EECON2 = 0X55;
 	EECON2 = 0XAA;
 
-	WR = 1; 		//1 Æô¶¯¶Á/Ð´ÖÜÆÚ;0 Ð´ÖÜÆÚÍê³É
+	WR = 1; 		
 	NOP();
 	NOP();
 	NOP();
 	NOP();
 	NOP();
 	NOP();
-	while(WR) ;		//µÈ´ýÐ´ÖÜÆÚÍê³É
+	while(WR) ;		
 	WREN = 0;		
 
 	if(CARRY) 
 		GIE = 0;
 }
 
-
-
-//²Á³ýº¯Êý,Ã¿´Î²Á³ý1024¸ö×Ö½Ú
-void Flash_Erase(unsigned long address)/*used*/
+void Flash_Erase(unsigned long address)
 {
 	TBLPTRL = ((address) & 0xFF);
 	TBLPTRH = (((address) >> 8) & 0xFF);
@@ -53,17 +38,16 @@ void Flash_Erase(unsigned long address)/*used*/
 	Write_Cycle();
 }
 
-//Ð´º¯Êý,Ã¿´ÎÐ´ÈëFLASH 1¸ö×Ö
-void Write_One_Word(unsigned long address,unsigned int data)/*used*/
+void Write_One_Word(unsigned long address,unsigned int data)
 {
 
 	TBLPTRL = ((address) & 0xFF);
 		TBLPTRH = (((address) >> 8) & 0xFF);
 		TBLPTRU = (((address) >> 8) >> 8);
 
-	TABLAT = data>>8;//¸ßÎ»
+	TABLAT = data>>8;
   	asm("\tTBLWT*+");
-	TABLAT = data;   //µÍÎ»
+	TABLAT = data;   
   	asm("\tTBLWT*");  	
 
 	FREE = 0;  		
@@ -71,19 +55,17 @@ void Write_One_Word(unsigned long address,unsigned int data)/*used*/
 	Write_Cycle();
 }
 
-//¶Áº¯Êý£¬Ã¿´Î¶ÁÒ»¸ö×Ö
-unsigned int Flash_Read(unsigned long address)/*used*/
+unsigned int Flash_Read(unsigned long address)
 {
 	unsigned int temp;
 		TBLPTRL = ((address) & 0xFF);
 		TBLPTRH = (((address) >> 8) & 0xFF);
 		TBLPTRU = (((address) >> 8) >> 8);
 	asm("\tTBLRD*+");
-	temp=TABLAT;//¸ßÎ»
+	temp=TABLAT;
 	temp<<=8;
 	asm("\tTBLRD*+");
-	temp|=TABLAT;//µÍÎ»		
+	temp|=TABLAT;
 		return temp;
 }
-
 

@@ -9,10 +9,7 @@
 #include   "npwt_dis_sys_uart_00.h"
 #include   "npwt_dis_main.h"
 #include   "npwt_dis_ofile_lcd_02.h"
-/*
-081¤71¤70á41¤71¤7/1¤71¤71¤79þ5   0
-081¤71¤71¤71¤71¤71¤7/0á41¤79þ5   FF
-*/
+
 unsigned char        language=0;
 #define      det   32
 unsigned char   bat_cnt,bat_cnt1;
@@ -24,7 +21,7 @@ unsigned char   disp_set_flg=0;
 unsigned short  dis_cnta;
 unsigned char   add91200=0;
 unsigned short  add91201=0;
-unsigned short  adc_temp00=0;// lwz 1¤71¤71¤71¤71¤71¤71¤71¤71¤71¤7071¤70¢21¤71¤70Ö91¤71¤70ö5
+unsigned short  adc_temp00=0;
 unsigned short  addhpp = 0;
 unsigned short  addhpp2 = 0;
 
@@ -34,20 +31,20 @@ const unsigned char rus_switch[] = {0x82, 0xBB, 0xA1, 0xAE, 0xB0, 0x00};
 const unsigned char rus_continuous[] = {0x8F, 0xAE, 0xB1, 0xB2, 0xAE, 0xBF, 0xAD,0xAD,0xBB,0xA9,0x00};
 const unsigned char rus_intermittent[] = {0x8F, 0xA5, 0xB0, 0xA5, 0xAC, 0xA5, 0xAD, 0xAD, 0xBB, 0xA9, 0x00};
 
-const unsigned char rus_liquid_full[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x20,0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};//0Ý4¦Ë1¤71¤71¤71¤71¤71¤7
-const unsigned char rus_liquid_full1[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x00};//0Ý4¦Ë1¤71¤71¤71¤71¤71¤7
-const unsigned char rus_liquid_full2[] = {0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};//0Ý4¦Ë1¤71¤71¤71¤71¤71¤7
+const unsigned char rus_liquid_full[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x20,0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};
+const unsigned char rus_liquid_full1[] = {0x85,0xAC,0xAA,0xAE,0xB1, 0xB2,0xBC,0x00};
+const unsigned char rus_liquid_full2[] = {0xA7,0xA0,0xAF,0xAE,0xAB,0xAD,0xA5,0xAD,0xA0,0x00};
 
-const unsigned char rus_leak_Alarm[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x20,0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xA0,0x00};//§Û081¤71¤71¤71¤7
-const unsigned char rus_leak_Alarm1[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x00};//§Û081¤71¤71¤71¤7
-const unsigned char rus_leak_Alarm2[] = {0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xC4,0x00};//§Û081¤71¤71¤71¤7
+const unsigned char rus_leak_Alarm[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x20,0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xA0,0x00};
+const unsigned char rus_leak_Alarm1[] = {0x93,0xB2,0xA5,0xB7,0xAA,0xA0,0x00};
+const unsigned char rus_leak_Alarm2[] = {0xA2,0xAE,0xA7,0xA4,0xB3,0xB5,0xC4,0x00};
 
-const unsigned char rus_battery_low[] = {0x8D,0xA8,0xA7,0xAA,0xA8,0xA9,0x20,0xA7,0xA0,0xB0,0xBF,0xA4,0x00};//1¤70È31¤71¤71¤71¤71¤71¤71¤7 
+const unsigned char rus_battery_low[] = {0x8D,0xA8,0xA7,0xAA,0xA8,0xA9,0x20,0xA7,0xA0,0xB0,0xBF,0xA4,0x00};
 
-const unsigned char rus_blockage_Alarm[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x20,0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};//1¤71¤71¤71¤71¤71¤71¤71¤7 
-const unsigned char rus_blockage_Alarm1[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x00};//1¤71¤71¤71¤71¤71¤71¤71¤7 
-const unsigned char rus_blockage_Alarm2[] = {0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};//1¤71¤71¤71¤71¤71¤71¤71¤7 
-const unsigned char rus_pump_idle[] = {0x81,0xA5,0xA7,0xA4,0xA5,0xA9,0xB1,0xB2, 0xA2,0xA8,0xA5,0x00};//1¤71¤71¤7§Ò1¤71¤71¤7 
+const unsigned char rus_blockage_Alarm[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x20,0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};
+const unsigned char rus_blockage_Alarm1[] = {0x91, 0xA8,0xA3,0xAD,0xA0,0xAB,0x00};
+const unsigned char rus_blockage_Alarm2[] = {0xA7,0xA0,0xB1,0xAE,0xB0,0xA0,0x00};
+const unsigned char rus_pump_idle[] = {0x81,0xA5,0xA7,0xA4,0xA5,0xA9,0xB1,0xB2, 0xA2,0xA8,0xA5,0x00};
 
 const unsigned char rus_therapy_on[] = {0x8B, 0xA5 ,0xB7 ,0xA5 ,0xAD ,0xA8 ,0xA5 ,0x20, 0x82 ,0x8A ,0x8B ,0x00};  
 const unsigned char rus_therapy_off[] = {0x8B, 0xA5 ,0xB7 ,0xA5 ,0xAD ,0xA8 ,0xA5 ,0x20, 0x82 ,0x9B ,0x8A ,0x8B ,0x00};
@@ -65,9 +62,7 @@ const unsigned char rus_pre_HP[]  = {0x82 ,0xC1 ,0xA4 ,0xA0 ,0xA2 ,0xAB ,0xC1 ,0
 const unsigned char rus_pre_LP[] = {0x8D ,0xC1 ,0xA4 ,0xA0 ,0xA2 ,0xAB ,0xC1 ,0xC3, 0x00};
 #endif
 
-/******************************************************************/
-// lwz 1¤71¤70¶5LED1¤71¤70®21¤71¤71¤71¤7
-void DISP_Led(void)/*used*/
+void DISP_Led(void)
 {
 	YEL    =  0;
 	ClrBlk();
@@ -75,19 +70,18 @@ void DISP_Led(void)/*used*/
 	if (led_cnt++>=50)
 	{
 		led_cnt=0;
-		GRE    =  1;////~GRE;
+		GRE    =  1;
 	}
 }
 
-
-void DISP_Bat(void)/*used*/
+void DISP_Bat(void)
 {
 	unsigned char   i,j;
 	bat_cnt++;
 	i=(bat_lev&0x0f);
 	j=(bat_lev&0xc0);
 	if (j==0x80)
-	{/////////////////////////////////1¤71¤71¤71¤71¤7¦Ä1¤71¤7
+	{
 		if (audio_flg==LED_BAT_NORMAL)
 		{
 			GRE=0;
@@ -95,11 +89,11 @@ void DISP_Bat(void)/*used*/
 		}
 		else if (audio_flg==LED_LOW_THAN_3_6V)
 		{
-			DISP_Led();// lwz 1¤71¤70¶51¤71¤71¤71¤71¤71¤71¤71¤7
+			DISP_Led();
 		}
 		else if (audio_flg==LED_LOW_THAN_3_5V_OR_ERR)
 		{
-			DISP_Led();// lwz 1¤71¤70¶51¤71¤71¤71¤71¤71¤71¤71¤7
+			DISP_Led();
 		}
 
 		if (bat_cnt<25)
@@ -129,7 +123,7 @@ void DISP_Bat(void)/*used*/
 	}
 
 	else
-	{/////////////////////////////////¦Ä1¤71¤71¤71¤71¤71¤71¤71¤7
+	{
 		if (audio_flg==LED_BAT_NORMAL)
 		{
 			GRE=0;
@@ -146,10 +140,10 @@ void DISP_Bat(void)/*used*/
 
 		switch (i)
 		{
-		case 10://///////////////////
+		case 10:
 			if (bat_cnt1++<50)
 			{
-				//DISP_ClrA4();DISP_ClrB4();
+				
 				DISP_Bat00Clr(6,102);
 			}
 			else if (bat_cnt1++<200)
@@ -160,33 +154,32 @@ void DISP_Bat(void)/*used*/
 			{
 				bat_cnt1=0;
 			}
-			//SetLedRed(void)
+			
 			break;
-		case 1://///////////////////
+		case 1:
 			DISP_Bat001(6,102);
 			break;
-		case 2://///////////////////
+		case 2:
 			DISP_Bat002(6,102);
 			break;
-		case 3://///////////////////
+		case 3:
 			DISP_Bat003(6,102);
 			break;
-		case 4://///////////////////
-			// SetLedYel();
+		case 4:
+			
 			DISP_Bat004(6,102);
 			break;
-		case 5://///////////////////
-			//bat_flg=10;
+		case 5:
+			
 			break;
-		default://///////////////////
-			//  DISP_Bat03(6,102);
+		default:
+			
 			break;
 		}
 	}
 }
 
-// lwz 1¤71¤71¤71¥31¤70¢21¤7061¤71¤71¤71¤70 31¤71¤71¤71¤7031¤71¤71¤71¤70¶51¤71¤70á81¤7061¤71¤71¤71¤71¤71¤71¤7
-void DISP_Erra(void)/*used*/
+void DISP_Erra(void)
 {
  unsigned char bbb=0;
 	if (disp_ssa++<50)
@@ -203,7 +196,7 @@ void DISP_Erra(void)/*used*/
 		switch (err_codea)
 		{
 
-		case ERR_CANISTER_FULL:////////////////////////0Ý4¦Ë1¤71¤7
+		case ERR_CANISTER_FULL:
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
@@ -216,7 +209,7 @@ void DISP_Erra(void)/*used*/
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH
-//                DISP_8X16ascii((char *)rus_liquid_full,3,13); 
+
 				  DISP_8X16ascii((char *)rus_liquid_full1,1,46); 
 				  DISP_8X16ascii((char *)rus_liquid_full2,3,46); 
 #else
@@ -225,7 +218,7 @@ void DISP_Erra(void)/*used*/
 			}
 			break;
 
-		case ERR_AIR_LEAKAGE://081¤71¤7
+		case ERR_AIR_LEAKAGE:
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
@@ -237,7 +230,7 @@ void DISP_Erra(void)/*used*/
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-//                DISP_8X16ascii((char *)rus_leak_Alarm,3,24);	
+
 				DISP_8X16ascii((char *)rus_leak_Alarm1,1,46);
 				DISP_8X16ascii((char *)rus_leak_Alarm2,3,46);
 #else
@@ -246,12 +239,12 @@ void DISP_Erra(void)/*used*/
 			}
 
 			break;
-		case ERR_JAMED://1¤71¤71¤71¤71¤71¤71¤71¤7
+		case ERR_JAMED:
 		{
 			if (language)
 			{
 #if LANGUAGE_RUSSIA_ENGILISH    
-				DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  //20160707  YUKI ASK CHANGED TO BLOCKAGE ALARM
+				DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  
 #else
 				DISP_block(3,85);
 #endif
@@ -260,17 +253,17 @@ void DISP_Erra(void)/*used*/
 			else
 			{
 #if LANGUAGE_RUSSIA_ENGILISH 
-//                DISP_8X16ascii((char *)rus_blockage_Alarm,3,24);
+
 				DISP_8X16ascii((char *)rus_blockage_Alarm1,1,46);
 				DISP_8X16ascii((char *)rus_blockage_Alarm2,3,46);
 #else
-				DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  //20160707  YUKI ASK CHANGED TO BLOCKAGE ALARM
+				DISP_8X16ascii_block((char *)"Blockage  Alarm",3,24);  
 #endif				
 			}
 		}
 		break;
 		
-		case ERR_DEV_IDLE://1¤71¤71¤7§Ò1¤71¤71¤7  1¤71¤71¤71¤751¤71¤71¤71¤71¤71¤71¤71¤71¤71¤7
+		case ERR_DEV_IDLE:
 		{
 #if LANGUAGE_RUSSIA_ENGILISH    
 			
@@ -324,7 +317,7 @@ void DISP_Erra(void)/*used*/
 static unsigned short value_buf[10];
 static unsigned char i =0;
 static unsigned short delay_count = 0;
-static unsigned short disp_filter(unsigned short pdata)/*1¤7040Ü91¤7*/
+static unsigned short disp_filter(unsigned short pdata)
 {
 
 	value_buf[i++] = pdata;
@@ -341,9 +334,6 @@ static unsigned short disp_filter(unsigned short pdata)/*1¤7040Ü91¤
 #define DIS_COUNT   5
 unsigned char  err_codeabak=0;
 
-
-
-
 void  clear_lqtimes(void)
 {
 	show_lq_times.lq_times=0;
@@ -356,39 +346,32 @@ void  clear_lqtimes(void)
 void show_lq(void)
 {
    
-	if(show_lq_times.step==0)//wait to check lwz 1¤71¤71¤7BUZ1¤71¤71¤71¤71¤7081¤70ü80Á0
+	if(show_lq_times.step==0)
 	{
-		read_key = PORTB;// lwz 1¤71¤70§01¤71¤71¤71¤71¤7061¤71¤71¤71¤71¤70ö5
-		read_key=~read_key;// lwz 0§01¤71¤7
-		// read_key=read_key&0b00010000;
-		// if(read_key==0b00010000)
-		
-		read_key=read_key&0b00100000;// lwz 1¤7511¤71¤75¦Ë1¤70¢91¤71¤71¤7¦Ë
-		if(read_key==0b00100000)// lwz 1¤71¤71¤71¤71¤75¦Ë1¤71¤7¦Ë1¤71¤71¤71¤70¶31¤71¤70µ2
+		read_key = PORTB;
+		read_key=~read_key;
+
+		read_key=read_key&0b00100000;
+		if(read_key==0b00100000)
 		{
-			// if(show_lq_times.buz_key_pressed_times++ >499)
+			
 			if(show_lq_times.buz_key_pressed_times++ >PRESS_KEY_BUZ_SHOWLQ_TIME)
 				show_lq_times.step=1;
 		}
 		else
 			show_lq_times.buz_key_pressed_times=0;
 	}
-	if(show_lq_times.step==1)//show,wait to exit lwz 1¤71¤70¶51¤71¤71¤71¤71¤7061¤71¤71¤7
+	if(show_lq_times.step==1)
 	{
 		read_key = PORTB;
 		read_key=~read_key;
-		// read_key=read_key&0b00010000;
-		// if(read_key==0b00010000)
+
 		read_key=read_key&0b00100000;
 		if(read_key==0b00100000)
 		{
-			// if(show_lq_times.show_times++<250)
+			
 				DISP_Dig12_16(0,100,show_lq_times.lq_times);
-			// else
-			// {
-				// DISP_Dig12_16(0,100,0);
-				// show_lq_times.step=0;
-			// }
+
 		}
 		else
 		{
@@ -398,11 +381,8 @@ void show_lq(void)
 		}
 	}
 }
-////////////////////////////////////////////////////////////
 
-
-// lwz 1¤71¤70¶51¤71¤71¤71¤71¤71¤71¤71¤7000¶41¤708051¤71¤71¤7
-void DISP_LixA(void)/*used*/
+void DISP_LixA(void)
 {
 	disp_presa = mod_seta_preh;
 
@@ -420,16 +400,15 @@ void DISP_LixA(void)/*used*/
 		DISP_Clear22();
 	}
 
-	// Çé¿ö1£ºÓÐ´íÎóÊ±ÏÔÊ¾´íÎóÐÅÏ¢
 	if (err_codea!=0)
 	{
 		DISP_Erra();
 	}
-	// Çé¿ö2£ºÃ»ÓÐ´íÎóÇÒµç³ØµÍµçÁ¿Ê±ÏÔÊ¾µç³ØµÍµçÁ¿ÐÅÏ¢
+	
 	else if (audio_flg==LED_LOW_THAN_3_6V)
 	{
 		addhpp = 1;
-		// È·±£Çå³ýÆÁÄ»£¬±ÜÃâÖØµþ
+		
 		DISP_Clear();
 		if (language)
 		{
@@ -448,7 +427,7 @@ void DISP_LixA(void)/*used*/
 #endif 
 		}
 	}
-	// Çé¿ö3£ºÃ»ÓÐ´íÎóÇÒµç³ØµçÁ¿Õý³£Ê±ÏÔÊ¾Õý³£½çÃæ
+	
 	else
 	{
 		if(addhpp == 1)
@@ -490,23 +469,20 @@ void DISP_LixA(void)/*used*/
 		DISP_ChaBasic(H,0,67+addx);
 		DISP_ChaBasic(G,0,73+addx);
 #endif    
-		
-		
-
 
 		if (add91200++>UPDATE_UI_PRESSURE_TIME_1)
 		{
 			add91200=0;
 			add91201=adc_temp00;
 		}
-		if (++delay_count>UPDATE_UI_PRESSURE_TIME_2)// lwz ÑÓ³Ù¸üÐÂÑ¹Á¦Öµ
+		if (++delay_count>UPDATE_UI_PRESSURE_TIME_2)
 		{
 			delay_count = 0;
 			run_tim_a = disp_filter(add91201);
 		}
 
 #if (DISP_TRUE_DATA ==0)
-		// ·ÇÊµ¼Ê²É¼¯Êý¾Ý£¬ÏÔÊ¾´¦ÀíºóµÄÊý¾Ý
+		
 		if (dis_cnta++>DIS_COUNT/2)
 		{
 			dis_cnta=0;
@@ -521,8 +497,7 @@ void DISP_LixA(void)/*used*/
 #else
 		val_val = run_tim_a;			
 #endif
-		
-		
+
 #if LANGUAGE_RUSSIA_ENGILISH 
 		if(language)
 		{
@@ -557,8 +532,6 @@ void DISP_LixA(void)/*used*/
 		DISP_ChaBasic2('g',4,97);
 #endif        
 
-
-
 		if (language)
 		{
 #if LANGUAGE_RUSSIA_ENGILISH 
@@ -582,13 +555,9 @@ void DISP_LixA(void)/*used*/
 
 }
 
-
-
-
-
 unsigned short bbbbb=0;
-// lwz 1¤71¤70¶51¤71¤70Ð71¤71¤71¤7000¶41¤708051¤71¤71¤7
-void DISP_JixA(void)/*used*/
+
+void DISP_JixA(void)
 {
 	if (mod_jixa==0)
 	{
@@ -597,7 +566,7 @@ void DISP_JixA(void)/*used*/
 	else
 	{
 		disp_presa = mod_seta_prel;
-		// run_tim_a=0;
+		
 	}
 
 	if (err_codea==err_codeabak)
@@ -614,15 +583,15 @@ void DISP_JixA(void)/*used*/
 		DISP_Clear22();
 		addhpp2 = 1;
 	}
-	// Çé¿ö1£ºÓÐ´íÎóÊ±ÏÔÊ¾´íÎóÐÅÏ¢
+	
 	if (err_codea!=0)
 	{
 		DISP_Erra();
 	}
-	// Çé¿ö2£ºÃ»ÓÐ´íÎóÇÒµç³ØµÍµçÁ¿Ê±ÏÔÊ¾µç³ØµÍµçÁ¿ÐÅÏ¢
+	
 	else if (audio_flg==LED_LOW_THAN_3_6V)
 	{
-		// È·±£Çå³ýÆÁÄ»£¬±ÜÃâÖØµþ
+		
 		DISP_Clear();
 		
 		if (language)
@@ -642,7 +611,7 @@ void DISP_JixA(void)/*used*/
 #endif 
 		}
 	}
-	// Çé¿ö3£ºÃ»ÓÐ´íÎóÇÒµç³ØµçÁ¿Õý³£Ê±ÏÔÊ¾Õý³£½çÃæ
+	
 	else
 	{
 		if(addhpp2 == 1)
@@ -664,12 +633,12 @@ void DISP_JixA(void)/*used*/
 			DISP_ChaBasic(M,0,61+addx);
 			DISP_ChaBasic(H,0,67+addx);
 			DISP_ChaBasic(G,0,73+addx);
-			DISP_Dig1(2,80,mod_seta_ont);// lwz ÏÔÊ¾¼äÐªÄ£Ê½ÏÂµÄ¸ßÑ¹Ê±¼ä
+			DISP_Dig1(2,80,mod_seta_ont);
 			DISP_ChaBasic2('m',2,106);
 			DISP_ChaBasic2('i',2,113);
 			DISP_ChaBasic2('n',2,120);
 
-			DISP_Dig1(4,80,mod_seta_oft);// lwz ÏÔÊ¾¼äÐªÄ£Ê½ÏÂµÄµÍÑ¹Ê±¼ä
+			DISP_Dig1(4,80,mod_seta_oft);
 			DISP_ChaBasic2('m',4,106);
 			DISP_ChaBasic2('i',4,113);
 			DISP_ChaBasic2('n',4,120);
@@ -690,7 +659,6 @@ void DISP_JixA(void)/*used*/
 			DISP_Dig1(4,80,mod_seta_oft);
 			DISP_8X16ascii((char *)rus_min,4,106);
 		}
-		
 
 #else
 		DISP_ChaBasic(M,0,55+addx);
@@ -698,12 +666,12 @@ void DISP_JixA(void)/*used*/
 		DISP_ChaBasic(H,0,67+addx);
 		DISP_ChaBasic(G,0,73+addx);
 
-		DISP_Dig1(2,80,mod_seta_ont);// lwz ÏÔÊ¾¼äÐªÄ£Ê½ÏÂµÄ¸ßÑ¹Ê±¼ä
+		DISP_Dig1(2,80,mod_seta_ont);
 		DISP_ChaBasic2('m',2,106);
 		DISP_ChaBasic2('i',2,113);
 		DISP_ChaBasic2('n',2,120);
 
-		DISP_Dig1(4,80,mod_seta_oft);// lwz ÏÔÊ¾¼äÐªÄ£Ê½ÏÂµÄµÍÑ¹Ê±¼ä
+		DISP_Dig1(4,80,mod_seta_oft);
 		DISP_ChaBasic2('m',4,106);
 		DISP_ChaBasic2('i',4,113);
 		DISP_ChaBasic2('n',4,120);
@@ -767,15 +735,12 @@ void DISP_JixA(void)/*used*/
 	err_codeabak=err_codea;
 
 }
-	
-	
-	
-	
+
 unsigned char  flg_disp=0;
 
 unsigned char  flg2015=0;
 
-void DISP_SetA_new(void)/*used*/
+void DISP_SetA_new(void)
 {
 	if (mod_seta_cnt == UI_WORKMODE_SELECT)
 	{
@@ -830,7 +795,7 @@ void DISP_SetA_new(void)/*used*/
 		}
 
 	}
-	else if (mod_seta_cnt==UI_MODE_SET_HI)//1 -----------------------------------1¤71¤71¤7031¤70Ö9
+	else if (mod_seta_cnt==UI_MODE_SET_HI)
 	{
 		val_val = mod_seta_preh;
 		if (mod_seta_wok == MOD_LIX)
@@ -866,7 +831,7 @@ void DISP_SetA_new(void)/*used*/
 			}
 			
 		}
-		else//1¤71¤7§¼000¶41¤7001¤70Ö91¤71¤71¤71¤7
+		else
 		{
 			if (language)
 			{
@@ -903,8 +868,7 @@ void DISP_SetA_new(void)/*used*/
 				DISP_8X16ascii((char *)"LP Set : -",4,6);
 #endif                
 			}
-			
-			
+
 #if LANGUAGE_RUSSIA_ENGILISH
 			if(language)
 			{
@@ -927,8 +891,7 @@ void DISP_SetA_new(void)/*used*/
 			disp_set_flg=0;
 			DISP_Dig14_16(4, 65+8,mod_seta_prel);
 #endif  
-			
-			
+
 #if LANGUAGE_RUSSIA_ENGILISH            
 			if (language)
 			{
@@ -987,7 +950,7 @@ void DISP_SetA_new(void)/*used*/
 #endif     	
 		
 	}
-	else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)// 2 -----------------------------1¤71¤71¤7011¤70Ö9
+	else if (mod_seta_cnt==UI_JIX_MODE_SET_LO)
 	{
 		flg2015=0;		
 		val_val = mod_seta_preh;
@@ -1021,7 +984,7 @@ void DISP_SetA_new(void)/*used*/
 			}
 #endif             
 		}
-		else//1¤71¤7§¼000¶4
+		else
 		{
 #if LANGUAGE_RUSSIA_ENGILISH
 			if (language)
@@ -1048,7 +1011,6 @@ void DISP_SetA_new(void)/*used*/
 				{
 					flg_disp=5;
 				}
-				
 
 				DISP_8X16ascii((char *)"-",2,55+6);
 				DISP_8X16ascii((char *)"-",4,55+6);
@@ -1110,7 +1072,6 @@ void DISP_SetA_new(void)/*used*/
 			DISP_ChaBasic2('H',2,104+8);
 			DISP_ChaBasic2('g',2,111+8);
 #endif 
-			
 
 		}
 #if LANGUAGE_RUSSIA_ENGILISH 
@@ -1141,11 +1102,10 @@ void DISP_SetA_new(void)/*used*/
 		DISP_ChaBasic2('H',4,104+8);
 		DISP_ChaBasic2('g',4,111+8);
 #endif
-		
-		  
+
 	}
 
-	else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)// 3 1¤71¤71¤7031¤70Ö90µ21¤71¤7
+	else if (mod_seta_cnt==UI_JIX_SET_HI_TIME)
 	{
 #if LANGUAGE_RUSSIA_ENGILISH  
 		if (language)
@@ -1190,10 +1150,7 @@ void DISP_SetA_new(void)/*used*/
 		{
 			DISP_8X16ascii((char *)rus_min,2,101);
 		}
-		
-		
-		
-		
+
 		DISP_Dig14_16(4, 75,mod_seta_oft);
 		
 		if(language)
@@ -1206,7 +1163,7 @@ void DISP_SetA_new(void)/*used*/
 		}
 		
 	}
-	else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)// 4 -----------------------------1¤71¤71¤7011¤70Ö90µ21¤71¤7
+	else if (mod_seta_cnt==UI_JIX_SET_LO_TIME)
 	{
 		flg2015=0;
 		
@@ -1234,14 +1191,11 @@ void DISP_SetA_new(void)/*used*/
 		}else{
 			DISP_8X16ascii((char *)rus_min,2,101);
 		}
-		
 
-		
 		disp_set_flg=1;
 		DISP_Dig14_16(4, 75,mod_seta_oft);
 		disp_set_flg=0;
-		
-		
+
 		if(language){
 			DISP_8X16ascii((char *)"min",4,101);
 		}else{
@@ -1266,14 +1220,13 @@ void DISP_SetA_new(void)/*used*/
 		disp_set_flg=0;
 		DISP_Dig14_16(2, 75,mod_seta_ont);
 		disp_set_flg=0;
-		DISP_8X16ascii((char *)"min",2,101);// lwz 1¤71¤71¤71¤70£31¤7§¼000¶41¤708091¤71¤71¤7
+		DISP_8X16ascii((char *)"min",2,101);
 		disp_set_flg=1;
 		DISP_Dig14_16(4, 75,mod_seta_oft);
 		disp_set_flg=0;
-		DISP_8X16ascii((char *)"min",4,101);// lwz 1¤71¤71¤71¤70£31¤7§¼000¶41¤708091¤71¤71¤7        
+		DISP_8X16ascii((char *)"min",4,101);
 #endif        
 	}
-
 
 	else if (mod_seta_cnt==UI_SET_PRESSURE)
 	{
@@ -1375,11 +1328,7 @@ void DISP_SetA_new(void)/*used*/
 	}
 }
 
-
-
-
-// lwz 1¤71¤71¤71¤71¤70¢91¤71¤71¤70¶51¤71¤71¤71¤70÷41¤7;1¤71¤71¤71¤71¤70÷4
-void DISP_Info(void)/*used*/
+void DISP_Info(void)
 {
 
 	if (mute_flg)
@@ -1389,12 +1338,10 @@ void DISP_Info(void)/*used*/
 	}
 	else
 	{
-		//DISP_ClrZero(6,7,0,50);DISP_BuzClr(6,25);
-
 
 	}
 
-	if (lock_flg)// lwz 1¤71¤70¶51¤71¤7
+	if (lock_flg)
 	{
 		DISP_Lock(6,115);
 	}
@@ -1409,8 +1356,8 @@ extern  void DISP_yn(unsigned char startx,unsigned char starty);
 extern  void DISP_yn0(unsigned char startx,unsigned char starty);
 
 unsigned char  all_flg=0;
-// lwz 1¤71¤71¤71¤71¤71¤71¤71¤71¤71¤70¶51¤71²81¤7
-void  DISP_MainA(void)/*used*/
+
+void  DISP_MainA(void)
 {
 	float i;
 	if (adc_ps0>adc_zero)
@@ -1425,22 +1372,21 @@ void  DISP_MainA(void)/*used*/
 	adc_temp00=(unsigned short)i;
 #if (DISP_TRUE_DATA ==0)
 
-	if (tim5_flg==0)// lwz 1¤71¤71¤71¤70é40¯91¤71¤7011¤71¤71¤71¤71¤70ö51¤71¤71¤71¤71¤71¤70Ý51¤71¤71¤70Â00©01¤71¤71¤71¤71¤7
+	if (tim5_flg==0)
 	{
-		if (adc_temp00>=(mod_seta_preh-DIS_COUNT))// lwz 1¤71¤71¤71¤70¯91¤71¤7011¤71¤71¤71¤71¤70ö51¤70§01¤71¤7Ú0ö51¤71¤751¤71¤71¤71¤71¤71¤7adc_temp001¤71¤70ö50Ë21¤7Ú0ö5
+		if (adc_temp00>=(mod_seta_preh-DIS_COUNT))
 		{
 			adc_temp00   =   mod_seta_preh;
 		}
 		else
 		{
-			adc_temp00   =   (adc_temp00/DIS_COUNT)*(DIS_COUNT+1);// lwz 1¤70¯91¤71¤7011¤71¤71¤71¤71¤70ö51¤70Ð61¤720%
+			adc_temp00   =   (adc_temp00/DIS_COUNT)*(DIS_COUNT+1);
 		}
 	}
-	if (adc_temp00<DIS_COUNT)// lwz 1¤71¤71¤71¤70¯91¤70ö51¤71¤7§³1¤71¤71¤71¤70ö11¤71¤71¤71¤71¤71¤70Ë20
+	if (adc_temp00<DIS_COUNT)
 	{
 		adc_temp00=0;
 	}
-	
 
 #endif
 
@@ -1450,7 +1396,7 @@ void  DISP_MainA(void)/*used*/
 	{
 		break;
 	}
-	case MOD_WAT:// lwz 1¤71¤70¶51¤70¨91¤70ö81¤71¤70ü80Á01¤708051¤71¤71¤71¤71²81¤7
+	case MOD_WAT:
 	{
 		if (all_flg==0)
 		{
@@ -1482,7 +1428,7 @@ void  DISP_MainA(void)/*used*/
 		}
 		
 #if LANGUAGE_RUSSIA_ENGILISH 
-		if (mod_main_baka==MOD_LIX)// lwz 1¤71¤71¤71¤71¤71¤71¤7000¶41¤71¤71¤71¤71¤71¤7000¶4
+		if (mod_main_baka==MOD_LIX)
 		{
 			if(language){
 				DISP_lx(0,17);
@@ -1508,7 +1454,7 @@ void  DISP_MainA(void)/*used*/
 			}
 
 		}
-		else// lwz 1¤71¤71¤71¤71¤71¤71¤7000¶41¤70£31¤71¤7000¶4
+		else
 		{
 			if(language){
 				DISP_jx(0,17);
@@ -1535,7 +1481,7 @@ void  DISP_MainA(void)/*used*/
 
 		}
 #else        
-		if (mod_main_baka==MOD_LIX)// lwz 1¤71¤71¤71¤71¤71¤71¤7000¶41¤71¤71¤71¤71¤71¤7000¶4
+		if (mod_main_baka==MOD_LIX)
 		{
 			DISP_lx(0,17);
 			DISP_Fu1(0,28);
@@ -1547,7 +1493,7 @@ void  DISP_MainA(void)/*used*/
 			DISP_ChaBasic(G,0,73+addx);
 
 		}
-		else// lwz 1¤71¤71¤71¤71¤71¤71¤7000¶41¤70£31¤71¤7000¶4
+		else
 		{
 			DISP_jx(0,17);
 			DISP_Fu1(0,28);
@@ -1560,10 +1506,8 @@ void  DISP_MainA(void)/*used*/
 
 		}
 #endif
-		
-		
 
-		if (lock_flg)// lwz 1¤71¤70¶51¤71¤7
+		if (lock_flg)
 		{
 			DISP_Lock(6,108);
 		}
@@ -1593,16 +1537,15 @@ void  DISP_MainA(void)/*used*/
 
 	case MOD_ZHT:
 	{
-		disp_presa = mod_seta_preh;// lwz ÔÝÍ£½×¶Î£¬ÏÔÊ¾µ±Ç°Éè¶¨µÄÑ¹Á¦Öµ£¬¶ø²»ÊÇÊµÊ±Ñ¹Á¦Öµ
+		disp_presa = mod_seta_preh;
 		
 #if LANGUAGE_RUSSIA_ENGILISH 
-		if (mod_main_baka==MOD_LIX)// lwz Èç¹ûÇ°Ò»¸ö¹¤×÷Ä£Ê½ÊÇÁ¬ÐøÄ£Ê½£¬ÔòÏÔÊ¾ÏàÓ¦µÄ½çÃæ
+		if (mod_main_baka==MOD_LIX)
 		{
 			DISP_lx(0,17);
 			DISP_Fu1(0,31);
 			DISP_Dig12_16(0,37,disp_presa);
 
-			//hpp
 			if(language){
 				DISP_ChaBasic(M,0,55);
 				DISP_ChaBasic(M,0,61);
@@ -1620,13 +1563,12 @@ void  DISP_MainA(void)/*used*/
 				DISP_ChaBasic2015(0xC1,0,116);
 			}
 		}
-		else if (mod_main_baka==MOD_JIX)// lwz Èç¹ûÇ°Ò»¸ö¹¤×÷Ä£Ê½ÊÇ¼äÐª¹¤×÷Ä£Ê½£¬ÔòÏÔÊ¾ÏàÓ¦µÄ½çÃæ
+		else if (mod_main_baka==MOD_JIX)
 		{
 			DISP_jx(0,17);
 			DISP_Fu1(0,31);
 			DISP_Dig12_16(0,37,disp_presa);
 
-			//hpp
 			if(language){
 				DISP_ChaBasic(M,0,55);
 				DISP_ChaBasic(M,0,61);
@@ -1645,17 +1587,17 @@ void  DISP_MainA(void)/*used*/
 			}	
 		}        
 #else        
-		if (mod_main_baka==MOD_LIX)// lwz Èç¹ûÇ°Ò»¸ö¹¤×÷Ä£Ê½ÊÇÁ¬ÐøÄ£Ê½£¬ÔòÏÔÊ¾ÏàÓ¦µÄ½çÃæ
+		if (mod_main_baka==MOD_LIX)
 		{
 			DISP_lx(0,17);
-			DISP_Fu1(0,31);// lwz ÏÔÊ¾µ¥Î»
-			DISP_Dig12_16(0,37,disp_presa);// lwz ÏÔÊ¾Ñ¹Á¦Öµ
+			DISP_Fu1(0,31);
+			DISP_Dig12_16(0,37,disp_presa);
 			DISP_ChaBasic(M,0,55+addx);
 			DISP_ChaBasic(M,0,61+addx);
 			DISP_ChaBasic(H,0,67+addx);
 			DISP_ChaBasic(G,0,73+addx);
 		}
-		else if (mod_main_baka==MOD_JIX)// lwz Èç¹ûÇ°Ò»¸ö¹¤×÷Ä£Ê½ÊÇ¼äÐª¹¤×÷Ä£Ê½£¬ÔòÏÔÊ¾ÏàÓ¦µÄ½çÃæ
+		else if (mod_main_baka==MOD_JIX)
 		{
 			DISP_jx(0,17);
 			DISP_Fu1(0,31);
@@ -1705,7 +1647,7 @@ void  DISP_MainA(void)/*used*/
 	}
 	case MOD_SET:
 	{
-		DISP_SetA_new();// lwz 1¤71¤70¶51¤71¤71¤7051¤71¤71¤7
+		DISP_SetA_new();
 		break;;
 	}
 	case MOD_ERR:
@@ -1720,11 +1662,11 @@ void  DISP_MainA(void)/*used*/
 		{
 			if (language)
 			{
-				DISP_BatWarnE();//hpp
+				DISP_BatWarnE();
 			}
 			else
 			{
-				DISP_BatWarnC();//1¤71¤71¤71¤7
+				DISP_BatWarnC();
 			}
 		}
 		else
@@ -1740,17 +1682,11 @@ void  DISP_MainA(void)/*used*/
 		err_codeabak=err_codea;
 		break;
 	}
-	
-	
+
 	default:
 	{
 		break;
 	}
 	}
 }
-
-
-
-
-
 

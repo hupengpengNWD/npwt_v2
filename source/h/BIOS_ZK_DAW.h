@@ -32,22 +32,5 @@ extern const  char bat001[];
 extern const  char bat002[];
 extern const  char bat003[];
 
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

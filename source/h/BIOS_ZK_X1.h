@@ -9,42 +9,5 @@ extern const  unsigned char arry_char2[];
 extern const  unsigned char arry_char22[];
 extern const  unsigned char arry_dig22[];
 
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

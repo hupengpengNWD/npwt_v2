@@ -2,7 +2,7 @@
 #include   "npwt_dis_main.h"
 
 extern unsigned char    audio_flg;
-void SetBlk(void)/*used*/
+void SetBlk(void)
 	{
 		if(audio_flg==LED_BAT_NORMAL)
 		{

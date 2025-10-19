@@ -3,7 +3,6 @@
 
 #include "../h/common_config.h"
 
-
 extern const  char draw_bat01[];
 extern const  char draw_buz[];
 extern const  char draw_batwarn[];
@@ -38,22 +37,5 @@ extern const  char bat001[];
 extern const  char bat002[];
 extern const  char bat003[];
 
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

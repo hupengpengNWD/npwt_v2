@@ -4,8 +4,8 @@
 #include	 "zk_all.h"
 
 extern unsigned char disp_set_flg;
-/***********************************************************************/
-void BIOS_JLX12864_TRANS_CMD(int data)   /*used*/ 
+
+void BIOS_JLX12864_TRANS_CMD(int data)    
 { 
 	CS=0;  RS=0; 
 	RD=1;  WR=0; 
@@ -14,8 +14,7 @@ void BIOS_JLX12864_TRANS_CMD(int data)   /*used*/
 	CS=1;  
 }  
 
-
-void BIOS_JLX12864_TRANS_DAT(int data) /*used*/
+void BIOS_JLX12864_TRANS_DAT(int data) 
 { 
 	CS=0;  RS=1; 
 	RD=1;  WR=0;  
@@ -23,55 +22,48 @@ void BIOS_JLX12864_TRANS_DAT(int data) /*used*/
 	CS=1;  RD=0; 
 }  
 
-void BIOS_JLX12864_DELAY(int i)/*used*/
+void BIOS_JLX12864_DELAY(int i)
 {  
 	int j,k; 
 	for(j=0;j<i;j++) 
 		for(k=0;k<10;k++);
 }  
 
-/******************LCD ³õÊ¼»¯*********************************************/ 
-void SYS_IniLcd(void)/*used*/
+void SYS_IniLcd(void)
 {     
-	RES=0;              /*µÍµçÆ½¸´Î»*/    
+	RES=0;                  
 	BIOS_JLX12864_DELAY(200);    
-	RES=1;     /*¸´Î»Íê±Ï*/   
+	RES=1;        
 	BIOS_JLX12864_DELAY(200);          
-	BIOS_JLX12864_TRANS_CMD(JLX12864G_RES);   /*Èí¸´Î»*/ 
+	BIOS_JLX12864_TRANS_CMD(JLX12864G_RES);    
 	BIOS_JLX12864_DELAY(50);  
+
+	BIOS_JLX12864_TRANS_CMD(0xa2);    
 	
+	BIOS_JLX12864_TRANS_CMD(0xa1);   
 	
-	BIOS_JLX12864_TRANS_CMD(0xa2);   /*1/9 Æ«Ñ¹±È£¨bias£©*/ 
+	BIOS_JLX12864_TRANS_CMD(0xc0);   
 	
-	BIOS_JLX12864_TRANS_CMD(0xa1);  /*ÁÐÉ¨ÃèË³Ðò£º´Ó×óµ½ÓÒ*/ 
-	
-	BIOS_JLX12864_TRANS_CMD(0xc0);  /*ÐÐÉ¨ÃèË³Ðò£º´ÓÉÏµ½ÏÂ*/ 
-	
-	BIOS_JLX12864_TRANS_CMD(0x2c);   /*ÉýÑ¹²½¾Û 1*/ 
+	BIOS_JLX12864_TRANS_CMD(0x2c);    
 	BIOS_JLX12864_DELAY(5);  
-	BIOS_JLX12864_TRANS_CMD(0x2e);   /*ÉýÑ¹²½¾Û 2*/ 
+	BIOS_JLX12864_TRANS_CMD(0x2e);    
 	BIOS_JLX12864_DELAY(5); 
-	BIOS_JLX12864_TRANS_CMD(0x2f);   /*ÉýÑ¹²½¾Û 3*/
+	BIOS_JLX12864_TRANS_CMD(0x2f);   
 	BIOS_JLX12864_DELAY(50);  
-	
-	
-	BIOS_JLX12864_TRANS_CMD(0x25);   /*´Öµ÷¶Ô±È¶È£¬¿ÉÉèÖÃ·¶Î§ 0x20¡«0x27   23*/ 
-	BIOS_JLX12864_TRANS_CMD(0x81);   /*Î¢µ÷¶Ô±È¶È80*/ 
-	//BIOS_JLX12864_TRANS_CMD(0x22); /*Î¢µ÷¶Ô±È¶ÈµÄÖµ£¬¿ÉÉèÖÃ·¶Î§ 0x00¡«0x3f   1a*/ 
+
+	BIOS_JLX12864_TRANS_CMD(0x25);    
+	BIOS_JLX12864_TRANS_CMD(0x81);    
 
 	BIOS_JLX12864_TRANS_CMD(0x0c); 
-	
-	
+
 	BIOS_JLX12864_DELAY(10); 
 	
 	BIOS_JLX12864_TRANS_CMD(0xac);
 	BIOS_JLX12864_TRANS_CMD(0x00);
 	BIOS_JLX12864_TRANS_CMD(0x40);
+
+	BIOS_JLX12864_TRANS_CMD(JLX12864G_ON);     
 	
-	//BIOS_JLX12864_DELAY(200); 
-	
-	BIOS_JLX12864_TRANS_CMD(JLX12864G_ON);    /*¿ªÏÔÊ¾*/ 
-	//BIOS_JLX12864_TRANS_CMD(0xa7);          /*·´ÏÔ¿ªÆô*/ 
 } 
 
 void DISP_DigBasic(unsigned char dat,unsigned char startx,unsigned char starty)
@@ -95,8 +87,7 @@ void DISP_DigBasic(unsigned char dat,unsigned char startx,unsigned char starty)
 		x=x&0xff;
 		BIOS_JLX12864_TRANS_DAT(x);
 	}
-	
-	
+
 	BIOS_JLX12864_TRANS_CMD(0xb0+i+1);  
 	BIOS_JLX12864_TRANS_CMD(0x10+j);  
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 		
@@ -106,17 +97,14 @@ void DISP_DigBasic(unsigned char dat,unsigned char startx,unsigned char starty)
 		x=(x<<8)|arry_dig[l-6];
 		x=x<<3;
 		y=x>>8;
-		//x=x>>8;
-	    	
-	       // y=y&0x00ff;
-		
+
 				BIOS_JLX12864_TRANS_DAT(y);
 	}
 }
 
-unsigned short  val_val=0;// lwz ÕýÊ½ÏÔÊ¾ÔÚ½çÃæÉÏµÄÊýÖµ
+unsigned short  val_val=0;
 
-void DISP_DigBasic32(unsigned short dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_DigBasic32(unsigned short dat,unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -142,7 +130,7 @@ void DISP_DigBasic32(unsigned short dat,unsigned char startx,unsigned char start
 		{BIOS_JLX12864_TRANS_DAT(arry_dig22[l]);}
 }
 
-void DISP_ChaBasic(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_ChaBasic(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	
 	unsigned char i,j,k,l,m,n;
@@ -178,167 +166,7 @@ void DISP_ChaBasic(unsigned char dat,unsigned char startx,unsigned char starty)/
 	}
 }
 
-
-
-//void DISP_BatWarnC(void) /*used*/
-//{ 
-//	unsigned int i,j,l;   
-//	l=0;       
-//	for(i=0;i<8;i++)        
-//	{          
-//		CS=0; 
-//		BIOS_JLX12864_TRANS_CMD(0xb0+i);  
-//		BIOS_JLX12864_TRANS_CMD(0x10);  
-//		BIOS_JLX12864_TRANS_CMD(0x00); 
-//		for(j=0;j<128;j++)   
-//		{
-//                  
-//                   BIOS_JLX12864_TRANS_DAT(draw_batwarn[l]);
-//                   l++;
-//        	}         
-//	} 
-//}
-
-
-
-//´¹Ö±·­×ªµÄÐ§¹û
-//void DISP_BatWarnC(void) /*used*/
-//{ 
-//	unsigned int i,j,l;   
-//	unsigned char corrected_data;
-//	l=0;       
-//	for(i=0;i<8;i++)        
-//	{          
-//		CS=0; 
-//		BIOS_JLX12864_TRANS_CMD(0xb0+i);  
-//		BIOS_JLX12864_TRANS_CMD(0x10);  
-//		BIOS_JLX12864_TRANS_CMD(0x00); 
-//		for(j=0;j<128;j++)   
-//		{
-//			// ÏÈ×ö´¹Ö±·­×ª£¨Î»Ðò·­×ª£©£¬ÔÙ×öË®Æ½·­×ª£¨ÁÐÐò·­×ª£©
-//			unsigned char original_data = draw_batwarn[127-j + i*128];
-//			
-//			// Î»Ðò·­×ª£º½â¾öÉÏÏÂ·Ö¸îÎÊÌâ
-//			corrected_data = 0;
-//			if(original_data & 0x01) corrected_data |= 0x80;
-//			if(original_data & 0x02) corrected_data |= 0x40;
-//			if(original_data & 0x04) corrected_data |= 0x20;
-//			if(original_data & 0x08) corrected_data |= 0x10;
-//			if(original_data & 0x10) corrected_data |= 0x08;
-//			if(original_data & 0x20) corrected_data |= 0x04;
-//			if(original_data & 0x40) corrected_data |= 0x02;
-//			if(original_data & 0x80) corrected_data |= 0x01;
-//			
-//			BIOS_JLX12864_TRANS_DAT(corrected_data);
-//			l++;
-//		}         
-//	} 
-//}
-
-//·Ö¸îÁË£¬ÉÏ°ë²¿·ÖÔÚÉÏ£¬ÏÂ°ë²¿·ÖÔÚÏÂ
-//void DISP_BatWarnC(void) /*used*/
-//{ 
-//	unsigned int i,j,l;   
-//	unsigned char corrected_data, final_data;
-//	l=0;       
-//	for(i=0;i<8;i++)        
-//	{          
-//		CS=0; 
-//		BIOS_JLX12864_TRANS_CMD(0xb0+i);  
-//		BIOS_JLX12864_TRANS_CMD(0x10);  
-//		BIOS_JLX12864_TRANS_CMD(0x00); 
-//		for(j=0;j<128;j++)   
-//		{
-//			// ÏÈ×ö´¹Ö±·­×ª£¨Î»Ðò·­×ª£©£¬ÔÙ×öË®Æ½·­×ª£¨ÁÐÐò·­×ª£©
-//			unsigned char original_data = draw_batwarn[127-j + i*128];
-//			
-//			// µÚÒ»´ÎÎ»Ðò·­×ª£º½â¾öÉÏÏÂ·Ö¸îÎÊÌâ
-//			corrected_data = 0;
-//			if(original_data & 0x01) corrected_data |= 0x80;
-//			if(original_data & 0x02) corrected_data |= 0x40;
-//			if(original_data & 0x04) corrected_data |= 0x20;
-//			if(original_data & 0x08) corrected_data |= 0x10;
-//			if(original_data & 0x10) corrected_data |= 0x08;
-//			if(original_data & 0x20) corrected_data |= 0x04;
-//			if(original_data & 0x40) corrected_data |= 0x02;
-//			if(original_data & 0x80) corrected_data |= 0x01;
-//			
-//			// µÚ¶þ´ÎÎ»Ðò·­×ª£º½â¾ö´¹Ö±·­×ªÎÊÌâ
-//			final_data = 0;
-//			if(corrected_data & 0x01) final_data |= 0x80;
-//			if(corrected_data & 0x02) final_data |= 0x40;
-//			if(corrected_data & 0x04) final_data |= 0x20;
-//			if(corrected_data & 0x08) final_data |= 0x10;
-//			if(corrected_data & 0x10) final_data |= 0x08;
-//			if(corrected_data & 0x20) final_data |= 0x04;
-//			if(corrected_data & 0x40) final_data |= 0x02;
-//			if(corrected_data & 0x80) final_data |= 0x01;
-//			
-//			BIOS_JLX12864_TRANS_DAT(final_data);
-//			l++;
-//		}         
-//	} 
-//}
-
-
-
-
-
-
-//void DISP_BatWarnC(void) /*used*/
-//{ 
-//	unsigned int i,j,l;   
-//	l=0;       
-//	for(i=0;i<8;i++)        
-//	{          
-//		CS=0; 
-//		BIOS_JLX12864_TRANS_CMD(0xb0+i);  
-//		BIOS_JLX12864_TRANS_CMD(0x10);  
-//		BIOS_JLX12864_TRANS_CMD(0x00); 
-//		for(j=0;j<128;j++)   
-//		{
-//			// Ö»×öÁÐÐò·­×ª£¬²»×öÎ»Ðò·­×ª
-//			BIOS_JLX12864_TRANS_DAT(draw_batwarn[127-j + i*128]);
-//			l++;
-//		}         
-//	} 
-//}
-
-//void DISP_BatWarnC(void) /*used*/
-//{ 
-//	unsigned int i,j,l;   
-//	unsigned char corrected_data;
-//	l=0;       
-//	for(i=0;i<8;i++)        
-//	{          
-//		CS=0; 
-//		BIOS_JLX12864_TRANS_CMD(0xb0+i);  
-//		BIOS_JLX12864_TRANS_CMD(0x10);  
-//		BIOS_JLX12864_TRANS_CMD(0x00); 
-//		for(j=0;j<128;j++)   
-//		{
-//			// ÏÈ×öÎ»Ðò·­×ª½â¾ö·Ö¸îÎÊÌâ£¬ÔÙ×öÁÐÐò·­×ª½â¾öË®Æ½·­×ª
-//			unsigned char original_data = draw_batwarn[l];
-//			
-//			// Î»Ðò·­×ª£º½â¾ö·Ö¸îÎÊÌâ
-//			corrected_data = 0;
-//			if(original_data & 0x01) corrected_data |= 0x80;
-//			if(original_data & 0x02) corrected_data |= 0x40;
-//			if(original_data & 0x04) corrected_data |= 0x20;
-//			if(original_data & 0x08) corrected_data |= 0x10;
-//			if(original_data & 0x10) corrected_data |= 0x08;
-//			if(original_data & 0x20) corrected_data |= 0x04;
-//			if(original_data & 0x40) corrected_data |= 0x02;
-//			if(original_data & 0x80) corrected_data |= 0x01;
-//			
-//			// ÁÐÐò·­×ª£º½â¾öË®Æ½·­×ª
-//			BIOS_JLX12864_TRANS_DAT(corrected_data);
-//			l++;
-//		}         
-//	} 
-//}
-
-void DISP_BatWarnC(void) /*used*/
+void DISP_BatWarnC(void) 
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -350,16 +178,14 @@ void DISP_BatWarnC(void) /*used*/
 		BIOS_JLX12864_TRANS_CMD(0x00); 
 		for(j=0;j<128;j++)   
 		{
-			// µ÷ÕûÐÐÐò½â¾ö·Ö¸îÎÊÌâ£¬Í¬Ê±×öÁÐÐò·­×ª½â¾öË®Æ½·­×ª
+			
 			BIOS_JLX12864_TRANS_DAT(draw_batwarn[127-j + (7-i)*128]);
 			l++;
 		}         
 	} 
 }
 
-
-
-void DISP_BatWarnE(void) /*used*/
+void DISP_BatWarnE(void) 
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -378,12 +204,7 @@ void DISP_BatWarnE(void) /*used*/
 	} 
 }
 
-
-
-
-
-//===============clear all dot martrics============= 
-void DISP_Clear(void) /*used*/
+void DISP_Clear(void) 
 { 
 	unsigned char i,j;          
 	for(i=0;i<9;i++)        
@@ -397,7 +218,7 @@ void DISP_Clear(void) /*used*/
 	} 
 }  
 
-void DISP_Clear22(void) /*used*/
+void DISP_Clear22(void) 
 { 
 	unsigned char i,j;          
 	for(i=2;i<9;i++)        
@@ -411,7 +232,7 @@ void DISP_Clear22(void) /*used*/
 	} 
 } 
 
-void DISP_ClrZero(unsigned char x,unsigned char x1,unsigned char y,unsigned char y1)/*used*/
+void DISP_ClrZero(unsigned char x,unsigned char x1,unsigned char y,unsigned char y1)
 {
 	unsigned char  i,l,m;	
 		for(i=x;i<x1;i++)
@@ -427,7 +248,7 @@ void DISP_ClrZero(unsigned char x,unsigned char x1,unsigned char y,unsigned char
 	}
 }
 
-void DISP_Bat00Clr(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Bat00Clr(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n;
 	unsigned short m,l;
@@ -453,7 +274,7 @@ void DISP_Bat00Clr(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-void QQQQQQQQQQQQQQDISP_Bat01(unsigned char startx,unsigned char starty)/*used*/
+void QQQQQQQQQQQQQQDISP_Bat01(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -481,7 +302,7 @@ void QQQQQQQQQQQQQQDISP_Bat01(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-void DISP_Bat000(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Bat000(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -508,7 +329,7 @@ void DISP_Bat000(unsigned char startx,unsigned char starty)/*used*/
 		BIOS_JLX12864_TRANS_DAT(temp);
 	}
 }
-void DISP_Bat001(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Bat001(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -535,7 +356,7 @@ void DISP_Bat001(unsigned char startx,unsigned char starty)/*used*/
 		BIOS_JLX12864_TRANS_DAT(temp);
 	}
 }
-void DISP_Bat002(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Bat002(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -562,7 +383,7 @@ void DISP_Bat002(unsigned char startx,unsigned char starty)/*used*/
 		BIOS_JLX12864_TRANS_DAT(temp);
 	}
 }
-void DISP_Bat003(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Bat003(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -589,7 +410,7 @@ void DISP_Bat003(unsigned char startx,unsigned char starty)/*used*/
 		BIOS_JLX12864_TRANS_DAT(temp);
 	}
 }
-void DISP_Bat004(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Bat004(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -617,8 +438,7 @@ void DISP_Bat004(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-
-void DISP_Buz(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Buz(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -645,7 +465,7 @@ void DISP_Buz(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-void DISP_BuzClr(unsigned char startx,unsigned char starty)/*used*/
+void DISP_BuzClr(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n;
 	unsigned short m,l;
@@ -670,11 +490,10 @@ void DISP_BuzClr(unsigned char startx,unsigned char starty)/*used*/
 	  	
 		BIOS_JLX12864_TRANS_DAT(0);
 	}
-	
-	   
+
 }
 
-void DISP_Lock(unsigned char startx,unsigned char starty)/*used*/
+void DISP_Lock(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -700,7 +519,7 @@ void DISP_Lock(unsigned char startx,unsigned char starty)/*used*/
 		BIOS_JLX12864_TRANS_DAT(temp);
 	}
 }
-void DISP_LockClr(unsigned char startx,unsigned char starty)/*used*/
+void DISP_LockClr(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n;
 	unsigned short m,l;
@@ -725,7 +544,7 @@ void DISP_LockClr(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-void DISP_lx(unsigned char startx,unsigned char starty)/*used*/
+void DISP_lx(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 		unsigned short m,l;
@@ -752,10 +571,7 @@ void DISP_lx(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-
-
-
-void DISP_jx(unsigned char startx,unsigned char starty)/*used*/
+void DISP_jx(unsigned char startx,unsigned char starty)
 {
 		unsigned char i,j,k,n,temp;
 	unsigned short m,l;
@@ -780,15 +596,14 @@ void DISP_jx(unsigned char startx,unsigned char starty)/*used*/
 		temp=draw_jx[l];	        	
 		BIOS_JLX12864_TRANS_DAT(temp);
 	}
-	
-	   
+
 }
-/*¸ººÅ*/
-void DISP_Fu(unsigned char startx,unsigned char starty)/*used*/
+
+void DISP_Fu(unsigned char startx,unsigned char starty)
 {
 	
 	unsigned char i,j,k,l,n;
-	  //  m = dat;        
+	  
 		i = (6-startx);
 		n = (122-starty);
 		j = n>>4;
@@ -799,12 +614,12 @@ void DISP_Fu(unsigned char startx,unsigned char starty)/*used*/
 		for(l=0;l<10;l++)   
 		{BIOS_JLX12864_TRANS_DAT(0x03);}	
 }
-/*¸ººÅÁíÍâÒ»ÖÖ*/
-void DISP_Fu1(unsigned char startx,unsigned char starty)/*used*/
+
+void DISP_Fu1(unsigned char startx,unsigned char starty)
 {
 	
 	unsigned char i,j,k,l,n;
-	  //  m = dat;        
+	  
 		i = (7-startx);
 		n = (122-starty);
 		j = n>>4;
@@ -816,12 +631,9 @@ void DISP_Fu1(unsigned char startx,unsigned char starty)/*used*/
 		{BIOS_JLX12864_TRANS_DAT(0x01);}	
 }
 
-
-
 unsigned char flgdis=0;
 
-
-void DISP_Dig15_32(unsigned char startx, unsigned char starty)/*used*/
+void DISP_Dig15_32(unsigned char startx, unsigned char starty)
 {
 		unsigned char i,j,dig2,dig1,dig0;
 		dig2=val_val/100;
@@ -861,9 +673,7 @@ void DISP_Dig15_32(unsigned char startx, unsigned char starty)/*used*/
 		}                               																																	
 }
 
-
-
-void DISP_DigBasic40(unsigned short dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_DigBasic40(unsigned short dat,unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -894,8 +704,7 @@ void DISP_DigBasic40(unsigned short dat,unsigned char startx,unsigned char start
 		{BIOS_JLX12864_TRANS_DAT(arry_dig40[l]);}
 }
 
-
-void DISP_Dig18_40(unsigned char startx, unsigned char starty)/*used*/
+void DISP_Dig18_40(unsigned char startx, unsigned char starty)
 {
 		unsigned char i,j,dig2,dig1,dig0;
 		dig2=val_val/100;
@@ -934,8 +743,8 @@ void DISP_Dig18_40(unsigned char startx, unsigned char starty)/*used*/
 		DISP_DigBasic40(dig0,i,j+27);
 	    }
 }
-/*Ñ¹Á¦ÉèÖÃ*/
-void DISP_pset(unsigned char startx,unsigned char starty)/*used*/
+
+void DISP_pset(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -956,8 +765,8 @@ void DISP_pset(unsigned char startx,unsigned char starty)/*used*/
 		{BIOS_JLX12864_TRANS_DAT(pset[l]);}
 	
 }
-/*µÍÑ¹ÉèÖÃÉèÖÃ*/
-void DISP_pset_low(unsigned char startx,unsigned char starty)/*used*/
+
+void DISP_pset_low(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -979,8 +788,7 @@ void DISP_pset_low(unsigned char startx,unsigned char starty)/*used*/
 	
 }
 
-
-void DISP_DigBasic0(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_DigBasic0(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,l,m,n;
 		m = (9-dat)*12;        
@@ -1011,9 +819,7 @@ void DISP_DigBasic0(unsigned char dat,unsigned char startx,unsigned char starty)
 	}
 }
 
-
-
-void DISP_Dig12_16(unsigned char startx, unsigned char starty,unsigned short disp_val)/*used*/
+void DISP_Dig12_16(unsigned char startx, unsigned char starty,unsigned short disp_val)
 {
 		unsigned char i,j,dig2,dig1,dig0;
 		dig2=disp_val/100;
@@ -1041,7 +847,7 @@ void DISP_Dig12_16(unsigned char startx, unsigned char starty,unsigned short dis
 	}
 }
 
-void DISP_DigBasics12(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_DigBasics12(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,l,m,n;
 		m = dat*16;        
@@ -1072,9 +878,7 @@ void DISP_DigBasics12(unsigned char dat,unsigned char startx,unsigned char start
 		}
 }
 
-
-
-void DISP_DigBasic00(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_DigBasic00(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,l,m,n;
 		m = (9-dat)*12;        
@@ -1105,7 +909,7 @@ void DISP_DigBasic00(unsigned char dat,unsigned char startx,unsigned char starty
 		}
 }
 
-void DISP_Dig14_16(unsigned char startx, unsigned char starty,unsigned short disp_val)/*used*/
+void DISP_Dig14_16(unsigned char startx, unsigned char starty,unsigned short disp_val)
 {
 		unsigned char i,j,dig2,dig1,dig0;
 		dig2=disp_val/100;
@@ -1134,7 +938,7 @@ void DISP_Dig14_16(unsigned char startx, unsigned char starty,unsigned short dis
 }
 
 #if LANGUAGE_RUSSIA_ENGILISH
-void DISP_Sys100(void)/*used*/
+void DISP_Sys100(void)
 {
 	unsigned int i,j,l;
 	l=0;
@@ -1148,7 +952,7 @@ void DISP_Sys100(void)/*used*/
 		for (j=0;j<128;j++)
 		{
 			l=(7-i)*128;
-			BIOS_JLX12864_TRANS_DAT(arry_desk[l+127-j]);    //arry_desk
+			BIOS_JLX12864_TRANS_DAT(arry_desk[l+127-j]);    
 			l++;
 		}
 	}
@@ -1159,12 +963,12 @@ void DISP_Sys100(void)/*used*/
 	for (j=0;j<128;j++)
 	{
 		 
-		BIOS_JLX12864_TRANS_DAT(0x00);    //arry_desk
+		BIOS_JLX12864_TRANS_DAT(0x00);    
 
 	}
 }
 #else
-void DISP_Sys100(void)/*used*/
+void DISP_Sys100(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1177,7 +981,7 @@ void DISP_Sys100(void)/*used*/
 		BIOS_JLX12864_TRANS_CMD(0x00); 
 		for(j=0;j<128;j++)   
 		{
-				   BIOS_JLX12864_TRANS_DAT(arry_desk[l]);    //arry_desk
+				   BIOS_JLX12864_TRANS_DAT(arry_desk[l]);    
 				   l++;
 				}         
 	} 
@@ -1185,9 +989,7 @@ void DISP_Sys100(void)/*used*/
 
 #endif
 
-
-
-void DISP_Ver(void)/*used*/
+void DISP_Ver(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1205,8 +1007,7 @@ void DISP_Ver(void)/*used*/
 	} 
 } 
 
-
-void DISP_ask(void)/*used*/
+void DISP_ask(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1224,7 +1025,7 @@ void DISP_ask(void)/*used*/
 	} 
 } 
 extern const  char set_language[];
-void DISP_LANGUAGE(void)/*used*/
+void DISP_LANGUAGE(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1243,10 +1044,10 @@ void DISP_LANGUAGE(void)/*used*/
 } 
 
 extern const char sanjiao[];
-void DISP_set_sanjiao(unsigned char x,unsigned y)/*used*/
+void DISP_set_sanjiao(unsigned char x,unsigned y)
 { 
 	unsigned char i,j,k,l,n;
-	  //  m = dat;        
+	  
 		i = (6-x);
 		n = (122-y);
 		j = n>>4;
@@ -1257,10 +1058,10 @@ void DISP_set_sanjiao(unsigned char x,unsigned y)/*used*/
 		for(l=0;l<7;l++)   
 		{BIOS_JLX12864_TRANS_DAT(sanjiao[l]);}	
 } 
-void DISP_set_sanjiao0(unsigned char x,unsigned y)/*used*/
+void DISP_set_sanjiao0(unsigned char x,unsigned y)
 { 
 	unsigned char i,j,k,l,n;
-	  //  m = dat;        
+	  
 		i = (6-x);
 		n = (122-y);
 		j = n>>4;
@@ -1272,9 +1073,7 @@ void DISP_set_sanjiao0(unsigned char x,unsigned y)/*used*/
 		{BIOS_JLX12864_TRANS_DAT(0);}	
 } 
 
-
-
-void DISP_press_set2016(void)/*used*/
+void DISP_press_set2016(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1292,8 +1091,7 @@ void DISP_press_set2016(void)/*used*/
 	} 
 } 
 
-
-void DISP_mod_set2015(void)/*used*/
+void DISP_mod_set2015(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1311,8 +1109,7 @@ void DISP_mod_set2015(void)/*used*/
 	} 
 } 
 
-
-void DISP_time_set2015(void)/*used*/
+void DISP_time_set2015(void)
 { 
 	unsigned int i,j,l;   
 	l=0;       
@@ -1330,7 +1127,7 @@ void DISP_time_set2015(void)/*used*/
 	} 
 } 
 
-void DISP_run2015(unsigned char startx,unsigned char starty)/*used*/
+void DISP_run2015(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1351,9 +1148,7 @@ void DISP_run2015(unsigned char startx,unsigned char starty)/*used*/
 		{BIOS_JLX12864_TRANS_DAT(run2015[l]);}
 }
 
-
-
-void DISP_press2015(unsigned char startx,unsigned char starty)/*used*/
+void DISP_press2015(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1372,12 +1167,10 @@ void DISP_press2015(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+46;l<(m+92);l++) 
 		{BIOS_JLX12864_TRANS_DAT(press2015[l]);}
-		
-		
+
 }
 
-
-void DISP_stop2015(unsigned char startx,unsigned char starty)/*used*/
+void DISP_stop2015(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1396,12 +1189,10 @@ void DISP_stop2015(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+58;l<(m+116);l++) 
 		{BIOS_JLX12864_TRANS_DAT(stop2015[l]);}
-		
-		
+
 }
 
-/*´ò¹³*/
-void DISP_select(unsigned char startx,unsigned char starty)/*used*/
+void DISP_select(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1420,13 +1211,10 @@ void DISP_select(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+16;l<(m+32);l++) 
 		{BIOS_JLX12864_TRANS_DAT(select[l]);}
-		
-		
+
 }
 
-
-
-void DISP_select0(unsigned char startx,unsigned char starty)/*used*/
+void DISP_select0(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1445,13 +1233,10 @@ void DISP_select0(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+16;l<(m+32);l++) 
 		{BIOS_JLX12864_TRANS_DAT(0);}
-		
-		
+
 }
 
-
-/*¹ÜÂ·¶ÂÈû*/
-void DISP_block(unsigned char startx,unsigned char starty)/*used*/
+void DISP_block(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1470,13 +1255,10 @@ void DISP_block(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+54;l<(m+108);l++) 
 		{BIOS_JLX12864_TRANS_DAT(block[l]);}
-		
-		
+
 }
 
-
-/*Â©Æø*/
-void DISP_louq(unsigned char startx,unsigned char starty)/*used*/
+void DISP_louq(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1495,12 +1277,10 @@ void DISP_louq(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+54;l<(m+108);l++) 
 		{BIOS_JLX12864_TRANS_DAT(louq[l]);}
-		
-		
+
 }
 
-
-void DISP_didl(unsigned char startx,unsigned char starty)/*used*/
+void DISP_didl(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1519,12 +1299,10 @@ void DISP_didl(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+54;l<(m+108);l++) 
 		{BIOS_JLX12864_TRANS_DAT(didl[l]);}
-		
-		
+
 }
 
-
-void DISP_yewm(unsigned char startx,unsigned char starty)/*used*/
+void DISP_yewm(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
@@ -1543,37 +1321,32 @@ void DISP_yewm(unsigned char startx,unsigned char starty)/*used*/
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
 		 for(l=m+54;l<(m+108);l++) 
 		{BIOS_JLX12864_TRANS_DAT(yewm[l]);}
-		
-		
+
 }
 
-
-
-/*×Ö·û*/
 #if LANGUAGE_RUSSIA_ENGILISH
-void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,n;
 	unsigned short l,m;
 	const unsigned char *font_ptr;
-	
-	// ×Ö·ûÀàÐÍÅÐ¶Ï
+
 	if (dat >= 0x20 && dat <= 0x7F) {
-		// ASCII×Ö·û (0x20-0x7F) - ±£³ÖÔ­ÓÐÂß¼­
+		
 		m = dat;
-		if (m>90)    //////small (97-122)
+		if (m>90)    
 		{
 			m=(m-97)*14;
 			font_ptr = arry_char2;
 		}
-		else if (m>40) /////big (65-90)
+		else if (m>40) 
 		{
 			m=(m-65)*14;
 			font_ptr = arry_char22;
 		}
 		else
 		{
-			// ÆäËûASCII×Ö·û£¬ÏÔÊ¾¿Õ°×
+			
 			i = (6-startx);
 			n = (122-starty);
 			j = n>>4;
@@ -1595,11 +1368,11 @@ void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 			return;
 		}
 	} else if (dat >= 0x80 && dat <= 0xFF) {
-		// ¶íÂÞË¹×Ö·û (0x80-0xFF) - Ê¹ÓÃÓëASCIIÏàÍ¬µÄÂß¼­
-		m = (dat - 0x80) * 14;  // 14×Ö½Ú/×Ö·û£¬ÓëASCIIÒ»ÖÂ
+		
+		m = (dat - 0x80) * 14;  
 		font_ptr = CYRILLIC;
 	} else {
-		// ÆäËû×Ö·û£¬ÏÔÊ¾¿Õ°×
+		
 		i = (6-startx);
 		n = (122-starty);
 		j = n>>4;
@@ -1620,8 +1393,7 @@ void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 		}
 		return;
 	}
-	
-	// ÏÔÊ¾×Ö·û - Ê¹ÓÃÓëÔ­Ê¼º¯ÊýÍêÈ«ÏàÍ¬µÄÂß¼­
+
 	i = (6-startx);
 	n = (122-starty);
 	j = n>>4;
@@ -1642,13 +1414,13 @@ void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 	}
 }
 #else
-void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	
 	unsigned char i,j,k,n;
 	unsigned short l,m;
 		m = dat;   
-		if(m>90)     //////small
+		if(m>90)     
 	{
 		m=(m-97)*14;
 	        i = (6-startx);
@@ -1666,7 +1438,7 @@ void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 	        for(l=m+7;l<(m+14);l++)   
 			{BIOS_JLX12864_TRANS_DAT(arry_char2[l]);}
 	}
-	else if(m>40)  /////big
+	else if(m>40)  
 	{
 		m=(m-65)*14;
 	        i = (6-startx);
@@ -1686,7 +1458,7 @@ void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 	}
 	else
 	{
-		//m=(m-65)*14;
+		
 	        i = (6-startx);
 	        n = (122-starty);
 	        j = n>>4;
@@ -1707,12 +1479,7 @@ void DISP_ChaBasic2(unsigned char dat,unsigned char startx,unsigned char starty)
 }
 #endif
 
-
-
-
-
-
-void DISP_cha7s(char *s,unsigned char x,unsigned char y)/*used*/
+void DISP_cha7s(char *s,unsigned char x,unsigned char y)
 {
 	unsigned char  z;
 	z = y;
@@ -1730,13 +1497,9 @@ void DISP_cha7s(char *s,unsigned char x,unsigned char y)/*used*/
 	   
 	}
 
-
 }
 
-
-
-
-void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	
 		unsigned char i,j,k,n;
@@ -1777,8 +1540,6 @@ void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)
 	        }
 }
 
-
-
 #if LANGUAGE_RUSSIA_ENGILISH
  void DISP_ChaBasic2015(unsigned char dat, unsigned char startx, unsigned char starty)
 {
@@ -1786,17 +1547,16 @@ void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)
 	unsigned short l, m;
 	const unsigned char *font_ptr;
 
-	// ×Ö·û±àÂëÅÐ¶Ï
 	if (dat >= 0x20 && dat <= 0x7F) {
-		// ASCII×Ö·û (0x20-0x7F)
+		
 		m = (dat - 0x20) * 16;
 		font_ptr = &ASCII[m];
 	} else if (dat >= 0x80 && dat <= 0xFF) {
-		// ¶íÂÞË¹×Ö·û (0x80-0xFF) - ANSI±àÂë
+		
 		m = (dat - 0x80) * 16;
 		font_ptr = &CYRILLIC[m];
 	} else {
-		// Ä¬ÈÏÏÔÊ¾¿Õ¸ñ
+		
 		m = 0;
 		font_ptr = &ASCII[0];
 	}
@@ -1822,7 +1582,7 @@ void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)
 		} 
 		
 	}else{
-		 // ÏÔÊ¾ÉÏ°ë²¿·Ö8ÏñËØ - Ê¹ÓÃÓëDISP_Dig0ÏàÍ¬µÄÂß¼­
+		 
 		BIOS_JLX12864_TRANS_CMD(0xb0 + i);
 		BIOS_JLX12864_TRANS_CMD(0x10 + j);
 		BIOS_JLX12864_TRANS_CMD(0x00 + k);
@@ -1830,7 +1590,6 @@ void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)
 			BIOS_JLX12864_TRANS_DAT(font_ptr[l-m]);
 		}
 
-		// ÏÔÊ¾ÏÂ°ë²¿·Ö8ÏñËØ - Ê¹ÓÃÓëDISP_Dig0ÏàÍ¬µÄÂß¼­
 		BIOS_JLX12864_TRANS_CMD(0xb0 + i + 1);
 		BIOS_JLX12864_TRANS_CMD(0x10 + j);
 		BIOS_JLX12864_TRANS_CMD(0x00 + k);
@@ -1841,7 +1600,7 @@ void DISP_block_new(unsigned char dat,unsigned char startx,unsigned char starty)
 
 }
 #else
-void DISP_ChaBasic2015(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_ChaBasic2015(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	
 		unsigned char i,j,k,n;
@@ -1885,7 +1644,7 @@ void DISP_ChaBasic2015(unsigned char dat,unsigned char startx,unsigned char star
 
 #if LANGUAGE_RUSSIA_ENGILISH
 extern unsigned char   language;
-void DISP_8X16ascii(char *s,unsigned char x,unsigned char y)/*used*/
+void DISP_8X16ascii(char *s,unsigned char x,unsigned char y)
 {
 	unsigned char  z;
 	z = y;
@@ -1933,10 +1692,9 @@ void DISP_8X16ascii(char *s,unsigned char x,unsigned char y)/*used*/
 
 	}
 
-
 }
 #else
-void DISP_8X16ascii(char *s,unsigned char x,unsigned char y)/*used*/
+void DISP_8X16ascii(char *s,unsigned char x,unsigned char y)
 {
 	unsigned char  z;
 	z = y;
@@ -1956,10 +1714,7 @@ void DISP_8X16ascii(char *s,unsigned char x,unsigned char y)/*used*/
 }
 #endif
 
-
-
-
-void DISP_8X16ascii_block(char *s,unsigned char x,unsigned char y)/*used*/
+void DISP_8X16ascii_block(char *s,unsigned char x,unsigned char y)
 {
 	unsigned char  z;
 	z = y;
@@ -1978,10 +1733,10 @@ void DISP_8X16ascii_block(char *s,unsigned char x,unsigned char y)/*used*/
 	}
 }
 
-void DISP_key2015(unsigned char startx,unsigned char starty)/*used*/
+void DISP_key2015(unsigned char startx,unsigned char starty)
 {
 	unsigned char i,j,k,l,m=0,n;
-	  ///m = dat*16;  
+	  
 		i = (6-startx);
 		n = (122-starty);
 		j = n>>4;
@@ -1993,8 +1748,7 @@ void DISP_key2015(unsigned char startx,unsigned char starty)/*used*/
 	{
 		BIOS_JLX12864_TRANS_DAT(key2015[l]);
 	}	
-			
-	
+
 	BIOS_JLX12864_TRANS_CMD(0xb0+i+1);  
 	BIOS_JLX12864_TRANS_CMD(0x10+j);  
 	BIOS_JLX12864_TRANS_CMD(0x00+k); 
@@ -2004,8 +1758,7 @@ void DISP_key2015(unsigned char startx,unsigned char starty)/*used*/
 	}
 }
 
-
-void DISP_Dig0(unsigned char dat,unsigned char startx,unsigned char starty)/*used*/
+void DISP_Dig0(unsigned char dat,unsigned char startx,unsigned char starty)
 {
 	unsigned short i,j,k,l,n;
 	unsigned short m;
@@ -2036,9 +1789,7 @@ void DISP_Dig0(unsigned char dat,unsigned char startx,unsigned char starty)/*use
 	}
 }
 
-
-
-void DISP_Dig1(unsigned char startx, unsigned char starty,unsigned short disp_val)/*used*/
+void DISP_Dig1(unsigned char startx, unsigned char starty,unsigned short disp_val)
 {
 		unsigned char i,j,dig2,dig1,dig0;
 		dig2=disp_val/100;
