@@ -1,3 +1,23 @@
+/****************************************************************************
+ * 文件名: npwt_con_ofile_load_00.c
+ * 功能: 负载控制模块（气泵和电磁阀控制）
+ * 
+ * 主要功能:
+ *   1. 压力计算：ADC值 → mmHg
+ *   2. PWM占空比查表（根据目标压力）
+ *   3. 泄漏检测
+ *   4. 液位检测
+ *   5. 电磁阀控制（VAL1排气阀、VAL2放气阀）
+ * 
+ * 控制参数查找表:
+ *   mot_sys[]: 根据目标压力查找det00控制参数
+ *              用于调整不同压力段的响应速度
+ * 
+ * 调用关系:
+ *   主调用: PRESS_ConA() → PRESS_ConSubA() → STAT_conNewa()
+ *   被调用: 定时器3中断每100ms调用一次PRESS_ConA()
+ ****************************************************************************/
+
 #include   "include.h"
 #include   "npwt_dis_main.h"
 
@@ -15,13 +35,23 @@ unsigned char    bump_need_out_air_flg;
 
 unsigned short   mod_seta_prehh;
 float    pwm_k1;
-unsigned short   fq_cnt1=0;
+unsigned short   fq_cnt1=0;          // 放气计数器
 
+/**
+ * 函数: OPEN_PwmA
+ * 功能: 开启PWM控制（允许气泵工作）
+ * 说明: 设置排气需求标志的高4位
+ */
 void OPEN_PwmA(void)
 {
 	bump_need_out_air_flg=bump_need_out_air_flg|0xf0;
 }
 
+/**
+ * 函数: CLS_PwmA
+ * 功能: 关闭PWM控制（禁止气泵工作）
+ * 说明: 清除排气需求标志的高4位
+ */
 void CLS_PwmA(void)
 {
 	bump_need_out_air_flg=bump_need_out_air_flg&0x0f;

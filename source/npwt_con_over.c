@@ -1,3 +1,25 @@
+/****************************************************************************
+ * 文件名: npwt_con_over.c
+ * 功能: 压力综合控制模块
+ * 
+ * 主要功能:
+ *   1. 压力双位控制算法（Bang-Bang Control）
+ *   2. 动态阈值计算
+ *   3. 泄漏检测
+ *   4. 液位检测
+ *   5. 堵塞检测
+ *   6. 放气控制
+ * 
+ * 控制策略:
+ *   - 当前压力 < 目标压力-10% → 开启气泵
+ *   - 当前压力 > 目标压力+5~15% → 关闭气泵
+ *   - 压力在范围内 → 保持状态并进行故障检测
+ * 
+ * 调用关系:
+ *   被调用: PRESS_ConSubA() → STAT_conNewa()
+ *   调用: OPEN_PwmA(), CLS_PwmA(), get_press_delta()
+ ****************************************************************************/
+
 #include  "include.h"
 #include "npwt_con_over.h"
 #include  "npwt_con_ofile_load_00.h"
@@ -26,121 +48,157 @@ unsigned char    det00 ;
 unsigned short con_hi_delta = 0;
 unsigned short con_lo_delta = 0;
 
-unsigned short debug_times = 0;
-unsigned short debug_thirtys = 0;
-unsigned short debug_air=0;
-unsigned char  debug=0;
+/* 调试和记录相关 */
+unsigned short debug_times = 0;      // 调试计数器
+unsigned short debug_thirtys = 0;    // 30秒调试计数
+unsigned short debug_air=0;          // 调试用气压值
+unsigned char  debug=0;              // 调试标志
+
+/**
+ * 函数: CONTR_fallaNew
+ * 功能: 放气控制（三段式）
+ * 说明: 
+ *   状态0：开启放气阀VAL2，准备放气
+ *   状态1：保持放气0.08~0.32秒
+ *   状态2：关闭放气阀，等待压力稳定1秒后检测是否达到目标
+ */
 void CONTR_fallaNew(void)
 {
-	if (fall_stata==0)
+	if (fall_stata==0)  // 状态0：准备放气
 	{
-		fall_stata=1;
-		fall_cnta0=0;
-		VAL2 = 1 ;
+		fall_stata=1;      // 转入状态1
+		fall_cnta0=0;      // 清零计数器
+		VAL2 = 1;          // 开启放气阀VAL2
 		
-		record_ds_turn=0;
-		flager_a &=~ERRB_DS;
+		record_ds_turn=0;         // 清零堵塞检测记录
+		flager_a &=~ERRB_DS;      // 清除堵塞标志（间歇模式下放气时不检测堵塞）
 	}
-	else if (fall_stata==1)
+	else if (fall_stata==1)  // 状态1：正在放气
 	{
 		fall_cnta0++;
-		unsigned short fall_cnta0_count = 4;
-		if(mod_seta_preh <=50)
-			fall_cnta0_count = 16;
-		if (fall_cnta0>fall_cnta0_count) 
+		unsigned short fall_cnta0_count = 4;  // 默认放气时间：4个周期（0.08秒）
+		
+		if(mod_seta_preh <=50)  // 低压时延长放气时间
+			fall_cnta0_count = 16;  // 16个周期（0.32秒）
+			
+		if (fall_cnta0>fall_cnta0_count)  // 放气时间到
 		{
-			VAL2 = 0 ;
-			fall_stata=2;
+			VAL2 = 0;      // 关闭放气阀
+			fall_stata=2;  // 转入状态2：等待稳定
 			fall_cnta0=0;
 		}
 		
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;
+		flager_a &=~ERRB_DS;  // 放气期间不检测堵塞
 	}
-	else if (fall_stata==2)
+	else if (fall_stata==2)  // 状态2：等待压力稳定
 	{
 		fall_cnta0++;
-		if (fall_cnta0>50)  
+		if (fall_cnta0>50)  // 等待50个周期（1秒）
 		{
-			fall_stata=0;
+			fall_stata=0;  // 返回状态0
 			fall_cnta0=0;
-			if (adc_ps00<(mod_seta_preh+con_hi_delta))
+			
+			if (adc_ps00<(mod_seta_preh+con_hi_delta))  // 如果压力仍未达到目标
 			{
-
-				con_flg_falla=0;
-				gao_cnt=0;
+				con_flg_falla=0;  // 清除补气标志：不需要继续补气了
+				gao_cnt=0;        // 清零高压计数
 			}
 		}
 		
 		record_ds_turn=0;
-		flager_a &=~ERRB_DS;
-		
+		flager_a &=~ERRB_DS;  // 稳定期间不检测堵塞
 	}
 }
 
+/**
+ * 函数: get_press_delta
+ * 功能: 计算动态压力阈值
+ * 参数: press - 目标压力值（mmHg）
+ * 
+ * 说明:
+ *   根据目标压力值动态计算控制死区，实现自适应控制
+ *   - con_lo_delta: 下阈值增量（开始补气的偏差）
+ *   - con_hi_delta: 上阈值增量（停止补气的偏差）
+ * 
+ * 控制范围示例:
+ *   目标120mmHg → 补气范围：108~126 mmHg (±10%)
+ *   目标200mmHg → 补气范围：180~210 mmHg (-10%/+5%)
+ */
 void get_press_delta(unsigned short press)
 {
 	unsigned short delta = 8;
 	
-#ifdef LOGO_TYPE_DEROYAL
-	if (press<20)
+#ifdef LOGO_TYPE_DEROYAL  // Deroyal版本：较小的死区
+	if (press<20)  // 极低压：±2 mmHg
 	{
 		delta = 2;
 		con_hi_delta = 2;
 	}
-	else if (press >= 80)
+	else if (press >= 80)  // 高压：±5~7.5%
 	{
-		delta = press/20;
-		con_hi_delta = delta*15/10;
+		delta = press/20;           // 5%
+		con_hi_delta = delta*15/10; // 7.5%
 	}
-	else
+	else  // 中压：±10~17%
 	{
-		delta = press/10;
-		con_hi_delta = delta*17/10;
+		delta = press/10;           // 10%
+		con_hi_delta = delta*17/10; // 17%
 	}
 	con_lo_delta = delta;
 	con_hi_delta = delta+4;
-#else
-	con_lo_delta = press/10;
 	
-	if (press > 200)
+#else  // 其他版本：较大的死区，减少补气次数
+	con_lo_delta = press/10;  // 下阈值：目标压力的10%
+	
+	if (press > 200)  // 高压段：±5%
 	{
 		con_hi_delta = press/20;
 	}
-	else if (press >= 80)
+	else if (press >= 80)  // 中压段：±9~10%
 	{
-		con_hi_delta = press/20+4;
+		con_hi_delta = press/20+4;  // 5% + 4mmHg
 	}
-	else
+	else  // 低压段：±10~12 mmHg
 	{
-		con_hi_delta = press/10+2;
+		con_hi_delta = press/10+2;  // 10% + 2mmHg
 	}
 #endif
-	
 } 
 
+/**
+ * 函数: calc_delta_i
+ * 功能: 计算两个值的差值
+ * 参数: counts1 - 被减数, counts2 - 减数
+ * 返回: 差值（最小值为5）
+ * 说明: 用于计算压力控制的死区下限
+ */
 static unsigned short calc_delta_i(unsigned short counts1,unsigned short counts2 )
 {
 	unsigned short rst = 0;
 	if ( counts1 >= counts2 )
 		{rst = (counts1 - counts2);}
-	if (rst<5)
-	{rst = 5;
-	}
-		return rst;
+	if (rst<5)  // 确保最小死区为5mmHg
+	{rst = 5;}
+	return rst;
 }
-unsigned char oppump_flg = 0;
-unsigned short  np_good_times=0;
-unsigned char   overabc = 0;
-unsigned short   val_cnt=0;
-unsigned long scan_dusai_time = 0;
-unsigned char xxturn=0;
-unsigned char xxok=0;
-signed int result=0;
 
-unsigned short record_ds[8];
-unsigned char  record_ds_turn=0;
-unsigned short twenty_seconds=0;
+/******************** 压力控制状态变量 ********************/
+unsigned char oppump_flg = 0;          // 气泵运行标志
+unsigned short  np_good_times=0;       // 正常压力持续次数
+unsigned char   overabc = 0;           // 泄漏超过10次标志：1=泄漏严重，需停止补气
+unsigned short   val_cnt=0;            // 阀门控制计数器
+
+/* 堵塞检测相关 */
+unsigned long scan_dusai_time = 0;     // 堵塞检测时间累加器（单位：20ms）
+unsigned char xxturn=0;                // 扫描轮次
+unsigned char xxok=0;                  // 扫描完成标志
+signed int result=0;                   // 计算结果
+
+/* 压力记录数组（用于堵塞检测） */
+unsigned short record_ds[8];           // 记录最近8次的压力值
+unsigned char  record_ds_turn=0;       // 当前记录位置（0~7循环）
+unsigned short twenty_seconds=0;       // 记录间隔计时器
 
 void STAT_conNewa(void)
 {
