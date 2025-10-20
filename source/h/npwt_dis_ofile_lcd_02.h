@@ -1,34 +1,20 @@
-#ifndef _npwt_dis_ofile_lcd_02_
-#define _npwt_dis_ofile_lcd_02_
+/****************************************************************************
+ * 文件名: npwt_dis_ofile_lcd_02.h
+ * 功能: LCD显示模块头文件
+ * 
+ * 说明: 
+ *   【架构升级】
+ *   原有的全局变量extern声明已移除
+ *   现在通过 global_compat.h 提供的兼容层访问
+ * 
+ * 创建日期: 2025-10-19
+ ****************************************************************************/
 
-extern unsigned char        language;
-extern unsigned char   bat_cnt,bat_cnt1;
-extern unsigned char   led_cnt;
-extern unsigned short  run_tim_a;
-extern unsigned short  disp_presa;
-extern unsigned short  disp_ssa;
-extern unsigned char   disp_set_flg;
-extern unsigned short  dis_cnta;
-extern unsigned char   add91200;
-extern unsigned short  add91201;
-extern unsigned char   zht_flg;
-extern unsigned short  adc_temp00;
-extern unsigned char  all_flg;
-extern unsigned char  flg2015;
-extern unsigned char  flg_disp;
+#ifndef __npwt_dis_ofile_lcd_02_h_
+#define __npwt_dis_ofile_lcd_02_h_
 
-struct 
-{
-	unsigned short lq_times;
-	unsigned char show_times;
-	unsigned char step;
-	unsigned long buz_key_pressed_times;
-}show_lq_times;
-
-extern  unsigned short bbbbb;
-extern void DISP_Led(void);
-extern void  clear_lqtimes(void);
+/* 函数声明 */
 extern void DISP_Bat(void);
+extern void DISP_Main(void);
 
 #endif
-
