@@ -19,9 +19,6 @@
  ****************************************************************************/
 
 #include	 "include.h"
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include	 "sys_cpu.h"
 #include  "npwt_con_main.h"
 

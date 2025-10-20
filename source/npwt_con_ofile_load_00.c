@@ -19,9 +19,6 @@
  ****************************************************************************/
 
 #include   "include.h"
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include   "npwt_dis_main.h"
 
 #include  "npwt_con_ofile_load_00.h"
@@ -31,18 +28,14 @@
 #include   "npwt_dis_sys_ini_00.h"
 #include   "npwt_dis_sys_uart_00.h"
 
-/****************************************************************************
- * 【架构重构】
- * 全局变量已移至 system_manager.c 的结构体中
- * 通过 global_compat.h 的兼容层宏访问：
- *   - load_perioda_up, cnt_cnta, cnt_cntaa → g_fault
- *   - bump_need_out_air_flg → g_pump
- *   - mod_seta_prehh → g_pressure
- ****************************************************************************/
+unsigned short	 load_perioda_up;
+unsigned short   cnt_cnta,cnt_cntaa;
 
-/* 局部静态变量 */
-static float pwm_k1;
-static unsigned short fq_cnt1=0;
+unsigned char    bump_need_out_air_flg;
+
+unsigned short   mod_seta_prehh;
+float    pwm_k1;
+unsigned short   fq_cnt1=0;          // 放气计数器
 
 /**
  * 函数: OPEN_PwmA
@@ -136,8 +129,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_WAT:
 	{
-		HAL_Valve1_Close();
-		HAL_Valve2_Close();
+		VAL1=0;
+		VAL2=0;
 		
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
@@ -170,8 +163,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_ZHT:
 	{
-		HAL_Valve1_Close();
-		HAL_Valve2_Close();
+		VAL1=0;
+		VAL2=0;
 		
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
@@ -187,8 +180,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_SET:
 	{
-		HAL_Valve1_Close();
-		HAL_Valve2_Close();
+		VAL1=0;
+		VAL2=0;
 		
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
@@ -208,8 +201,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_OFF:
 	{
-		HAL_Valve1_Close();
-		HAL_Valve2_Close();
+		VAL1=0;
+		VAL2=0;
 		CLS_PwmA();
 		break;
 	}

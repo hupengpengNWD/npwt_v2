@@ -1,8 +1,5 @@
 #include 	"sys_cpu.h"
 #include	 "include.h"
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include	 "BIOS_JLX1864G_139.h"
 #include	 "zk_all.h"
 

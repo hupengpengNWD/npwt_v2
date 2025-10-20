@@ -34,21 +34,54 @@
 #include   "npwt_con_main.h"
 #include   "npwt_dis_ofile_lcd_02.h"
 #include  "adc.h"
-#include  "system_manager.h"
-#include  "global_compat.h"
-#include  "hardware_abstraction.h"
 
 #include "../project/config_bits.h"
 
-/****************************************************************************
- * 【架构重构说明】
- * 
- * 本文件已迁移至新架构：
- * - 全局变量已移至 system_manager.c 中的结构体
- * - 通过 global_compat.h 提供的宏进行兼容访问
- * - 硬件操作已更换为 hardware_abstraction.h 中的HAL函数
- * - 底层实现已改变，但对本文件代码透明
- ****************************************************************************/
+/******************** 全局变量定义 ********************/
+
+/* 声音报警相关 */
+unsigned char    audio_flg;          // 声音状态标志：LED_BAT_NORMAL, LED_LOW_THAN_3_6V等
+unsigned short   audio_cnt;          // 声音计数器
+unsigned short   audio_basic;        // 声音基础计数
+unsigned short   audio_period;       // 声音周期计数
+
+/* 错误码 */
+unsigned char    err_codea;          // 错误代码A：主要故障（泄漏、液位等）
+unsigned char    err_codeb;          // 错误代码B：辅助故障（未使用）
+
+/* 蜂鸣器控制 */
+unsigned char    buz_flg;            // 蜂鸣器标志：1=需要响，0=不需要响
+unsigned char    buz_flg1;           // 蜂鸣器状态：0=正在响，1=已停止
+unsigned char    buz_cnt;            // 蜂鸣器计数器
+
+/* 电池管理 */
+unsigned short   bat_close_tim=0;    // 低电自动关机计时器
+unsigned char    bat_lev_bak=0;      // 电池电量备份值
+
+/* 静音功能 */
+unsigned char    mute_flg=0;         // 静音标志：0=正常，1=静音
+unsigned short   mute_tim=0;         // 静音计时器
+unsigned char    SPEAK_flg=0;        // 按键静音操作标志
+unsigned char    close_flg=0;        // 静音关闭标志
+
+/* 状态标志 */
+unsigned char    battery_status_flags=0;  // 电池综合状态位：bit0=低于3.5V, bit1=有错误, bit3=低于3.7V
+
+/* 气泵和电磁阀控制 */
+unsigned char    open_bum=0;         // 气泵开启标志
+unsigned char    bum_dly=0;          // 泄气延迟计数器
+unsigned char    bum_dly_flg=0;      // 泄气延迟标志：0=需要排气，1=不需要排气
+
+/* Flash读取的配置数据 */
+unsigned short   dataREAD0;          // Flash读取数据0（校准参数）
+unsigned short   dataREAD1;          // Flash读取数据1（校准参数）
+unsigned short   dataREAD2;          // Flash读取数据2（校准参数）
+unsigned short   dataREAD3;          // Flash读取数据3（校准参数）
+
+/* 其他控制标志 */
+unsigned char    SPK_STATE = 0;      // 扬声器状态：0=关闭，1=开启
+volatile unsigned short TK_TIME = 0; // 空闲超时计时器（5分钟无操作）
+unsigned short   key_silent_flag = 0; // 按键静音配置标志（高字节：静音使能，低字节：语言选择）
 
 /* 蜂鸣器状态枚举 */
 typedef enum _on{
@@ -60,9 +93,10 @@ typedef enum _on{
 }BEEPTWO;
 BEEPTWO BEE_TWO=BEEGO;
 
-// 扬声器控制宏（使用HAL层）
-#define spk_set()  HAL_Buzzer_On();SPK_STATE=1;  // 开启扬声器
-#define spk_clr()  HAL_Buzzer_Off();SPK_STATE=0;  // 关闭扬声器
+#define spk_set()  SPEAK=1;SPK_STATE=1;  // 开启扬声器
+#define spk_clr()  SPEAK=0;SPK_STATE=0;  // 关闭扬声器
+
+unsigned short spk_selay = 0;  // 扬声器延时计数器
 
 /**
  * 函数: spk_bee_server
@@ -429,7 +463,7 @@ void AUDIO(void)
 		}
 		else
 		{
-			HAL_Power_Release();  // 释放电源（关机）
+			POWER_ON=0;
 		}
 	}
 
@@ -552,11 +586,8 @@ void FIND_FREE(void)
 void main(void)
 {
 	/* ========== 第1步：系统时钟初始化 ========== */
-	SYS_OSC_Ini();         // 配置振荡器：内部8MHz×4PLL=32MHz
-	HAL_Watchdog_Clear();  // 清除看门狗
-	
-	/* ========== 【新架构】初始化系统管理器 ========== */
-	System_Init();
+	SYS_OSC_Ini();        // 配置振荡器：内部8MHz×4PLL=32MHz
+	asm("clrwdt");        // 清除看门狗
 	
 	/* ========== 第2步：从Flash读取配置参数 ========== */
 	// Flash地址0xa000开始存储用户配置数据，每次读取2字节
@@ -606,13 +637,13 @@ void main(void)
 	BEE_TWO=BEEGO;     // 蜂鸣器状态机初始化
 	GIE =1;            // 使能全局中断
 	PEIE =1;           // 使能外设中断
-	HAL_Watchdog_Clear();     // 清除看门狗
+	asm("clrwdt");     // 清除看门狗
 	clear_lqtimes();   // 清除泄漏次数记录
 	
 	/* ========== 主循环：20ms周期 ========== */
 	while (1)  // 主循环：永久运行
 	{
-		HAL_Watchdog_Clear();  // 喂狗：防止看门狗复位
+		asm("clrwdt");  // 喂狗：防止看门狗复位
 		
 		if (FLG_SYS_10MS)  // 每20ms执行一次（由定时器0中断设置）
 		{
@@ -666,14 +697,14 @@ void main(void)
 						if (bum_dly >= VALVE1_CLOSE_DELAY_CYCLES)  // 延迟2秒后关闭排气阀
 						{
 							bum_dly_flg=1;         // 设置排气完成标志
-							HAL_Valve1_Close();    // 关闭电磁阀1（排气阀）
+							VAL1=0;                // 关闭电磁阀1（排气阀）
 							bum_dly=0;             // 清零延迟计数器
 							show_lq_times.lq_times++;  // 泄漏次数+1
 						}
 					}
 					else  // 延迟期间保持阀门开启
 					{
-						HAL_Valve1_Open();  // 开启电磁阀1
+						VAL1=1;  // 开启电磁阀1
 					}
 				}
 			}
@@ -681,7 +712,7 @@ void main(void)
 			{
 				open_bum=0;      // 禁止气泵工作
 				bum_dly_flg=0;   // 清除排气标志
-				HAL_Valve1_Close();  // 关闭电磁阀1
+				VAL1=0;          // 关闭电磁阀1
 				bum_dly=0;       // 清零延迟计数
 			}
 		}  // if (FLG_SYS_10MS) 结束

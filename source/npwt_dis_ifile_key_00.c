@@ -1,7 +1,4 @@
 #include   "include.h"
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include  "BIOS_JLX1864G_139.h"
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_ifile_key_00.h"
@@ -13,26 +10,23 @@
 #include   "npwt_dis_ofile_lcd_02.h"
 #include   "npwt_con_over.h"
 #include   "Flash.h"
+unsigned short  key_cnt;
+unsigned char   key_key=0;
+unsigned char   set_a00=0;
+unsigned char key_port,key_port_bak,key_val,key_val_bak,key_flg,key_flg_l;
+unsigned char mod_main_a,mod_main_b,mod_main_baka,mod_jixa;
 
-/****************************************************************************
- * 【架构重构】
- * 所有全局变量已移至 system_manager.c 的结构体中
- * 通过 global_compat.h 的兼容层宏访问：
- *   - key_cnt, key_val, key_flg_l 等 → g_key
- *   - mod_main_a, mod_jixa, mod_seta_cnt 等 → g_system
- *   - back_led_cnt, lock_flg → g_display, g_system
- *   - valueK, dataK1-K4 → g_pressure, g_flash_cfg
- ****************************************************************************/
+unsigned char remember_mod;
+unsigned char mod_seta_cnt,mod_seta_wok;
+unsigned short mod_seta_preh,mod_seta_preh_bak,mod_seta_prel,mod_seta_ont,mod_seta_oft;
+unsigned short mod_tim_cnta,mod_tim_cnta2;
 
-/* 局部静态变量 */
-static unsigned char key_key=0;
-static unsigned char set_a00=0;
-static unsigned char key_port, key_port_bak;
-static unsigned char mod_main_baka;
-static unsigned char mod_seta_wok;
-static unsigned short mod_seta_ont, mod_seta_oft;
-static unsigned short set_moda=0;
-static unsigned short dataK;
+unsigned short back_led_cnt,lock_cnt;
+unsigned char  lock_flg;
+
+unsigned short  set_moda=0;
+float   valueK  =  0;
+unsigned short  dataK1,dataK2,dataK3,dataK4,dataK;
 
 void KEY_Scan(void)
 {
@@ -249,14 +243,14 @@ void  MODE_ProA(void)
 				if (key_start_tim<30)
 				{
 					mod_tim_cnta=0;
-					HAL_Power_Release();
+					POWER_ON=0;
 					key_start_tim=0;
 					return;
 				}
 				else
 				{
 					SYS_IniLcd();
-					HAL_Power_Hold();
+					POWER_ON=1;
 					DRV_EN=1;
 					VAL2 = 1;
 				}
@@ -389,7 +383,7 @@ void  MODE_ProA(void)
 			{
 				if(jx_phase_delay++ >= 12)
 				{
-					HAL_Valve2_Close();
+					VAL2=0;
 					if(jx_phase_delay >=75)
 					{
 						get_xx_delta(mod_seta_preh);
@@ -402,7 +396,7 @@ void  MODE_ProA(void)
 					}
 				}
 				else
-					HAL_Valve2_Open();	
+					VAL2=1;	
 
 		record_ds_turn=0;
 		flager_a &=~ERRB_DS;
@@ -1190,7 +1184,7 @@ void  MODE_Pro(void)
 				key_silent_flag = (key_silent_flag | language);
 				Write_One_Word(addr+16,key_silent_flag);
 				Write_One_Word(addr+18,mod_seta_prel);
-				HAL_Power_Release();
+				POWER_ON=0;
 			}
 		}
 	}

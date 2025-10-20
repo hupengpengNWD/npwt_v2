@@ -1,7 +1,4 @@
 #include  "include.h"
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include  "sys_cpu.h"
 #include  "adc.h"
 #include  "npwt_con_main.h"
@@ -49,12 +46,8 @@ static unsigned short bat_scan_filter(unsigned short pdata)
    return (unsigned short)sum;
 }
 
-/****************************************************************************
- * 【架构重构】
- * 局部变量改为static，避免全局污染
- ****************************************************************************/
-static unsigned short delay_adc = 249;
-static unsigned short delay_P_adc = 249;
+unsigned short  delay_adc = 249;
+unsigned short  delay_P_adc = 249;
 void ADC_DatCal(void)
 {
 

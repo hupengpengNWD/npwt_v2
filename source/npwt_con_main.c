@@ -1,7 +1,4 @@
 #include  "include.h"	
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include  "sys_cpu.h"
 #include  "BIOS_JLX1864G_139.h"
 #include  "npwt_con_ofile_load_00.h"
@@ -26,13 +23,10 @@ unsigned char   ccnt1;
 #define    YEW_SES       15  
 #define    LQ_SES        10
 
-/****************************************************************************
- * 【架构重构】
- * 所有全局变量已移至 system_manager.c 的结构体中
- * 通过 global_compat.h 的兼容层宏访问
- ****************************************************************************/
-
-static unsigned short LQ_FIR=0;  // 泄漏首次检测标志
+unsigned short     LQ_FIR=0;
+ 
+unsigned short  leak_cancel_counter=0;  // 泄漏取消计数器
+extern  unsigned char   overabc;
 
 void LEVEL_WarnA(void)
 {
@@ -142,8 +136,8 @@ void LEVEL_WarnA(void)
 
 }
 
-static unsigned short cntx=0;  // 局部使用
-/* bat_sas, bat_sas_bak 已在结构体中 */
+unsigned short  cntx=0;
+unsigned char   bat_sas=0,bat_sas_bak=0;
 
 void BAT_WarnFir(void)
 {

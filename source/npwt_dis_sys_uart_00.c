@@ -1,7 +1,4 @@
 #include  "include.h"
-#include "system_manager.h"
-#include "global_compat.h"
-#include "hardware_abstraction.h"
 #include   "npwt_dis_main.h"
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_ifile_key_00.h"
