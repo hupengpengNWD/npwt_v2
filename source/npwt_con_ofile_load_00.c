@@ -149,7 +149,7 @@ void PRESS_ConA(void)
 	}
 	case MOD_JIX:
 	{  
-		if((ddfq!=1)&&(ddfq!=2))
+		if((jx_current_phase!=1)&&(jx_current_phase!=2))
 		
 			PRESS_ConSubA();
 		else

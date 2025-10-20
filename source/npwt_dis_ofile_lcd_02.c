@@ -687,7 +687,7 @@ void DISP_JixA(void)
 			delay_count = 0;
 			run_tim_a = disp_filter(add91201);
 		}
-		if((mod_jixa!=1)||(ddfq!=1))
+		if((mod_jixa!=1)||(jx_current_phase!=1))
 		{
 			if (dis_cnta++>DIS_COUNT/2)
 			{
@@ -702,7 +702,7 @@ void DISP_JixA(void)
 		}
 		else
 		{
-			if(ddfq==1)
+			if(jx_current_phase==1)
 			{
 				if(bbbbb==0)
 					val_val=adc_ps00;

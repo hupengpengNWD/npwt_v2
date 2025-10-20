@@ -19,7 +19,7 @@ extern unsigned char remember_mod;
 extern unsigned short  set_moda;
 extern float   valueK;
 extern unsigned short  dataK1,dataK2,dataK3,dataK4,dataK;
-extern unsigned char   ddfq;
+extern unsigned char   jx_current_phase;  // 间歇模式当前阶段
 extern void  MODE_ProA(void);
 extern void KEY_Scan(void);
 extern void  MODE_Pro(void);

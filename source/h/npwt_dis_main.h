@@ -13,7 +13,7 @@ extern unsigned short   mute_tim;
 extern unsigned char  SPEAK_flg; 
 extern unsigned char  close_flg;
 extern unsigned char   	bat_lev_bak;
-extern unsigned char   	z1;
+extern unsigned char battery_status_flags;  // 电池状态标志位
 
 extern unsigned char   	open_bum;
 extern unsigned char   	bum_dly;

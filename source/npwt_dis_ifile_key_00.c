@@ -161,8 +161,9 @@ unsigned char   key_set_tim,key_start_tim;
 
 unsigned char   tim5_flg=0;
 
-unsigned char   ddfq=0;
-unsigned short   ddfq_delay=0;
+// 间歇模式控制变量
+unsigned char    jx_current_phase=0;      // 间歇模式当前阶段：0=高压，1=低压，2=停顿
+unsigned short   jx_phase_delay=0;        // 间歇模式阶段延迟计数
 
 void get_xx_delta(unsigned short press)
 {
@@ -361,7 +362,7 @@ void  MODE_ProA(void)
 
 					bbbbb=0;
 					ddfq=1;
-					ddfq_delay=0;
+					jx_phase_delay=0;
 					mod_tim_cnta2=0;
 					mod_jixa=1;
 				}
@@ -380,10 +381,10 @@ void  MODE_ProA(void)
 			
 			if(ddfq==1)
 			{
-				if(ddfq_delay++ >= 12)
+				if(jx_phase_delay++ >= 12)
 				{
 					VAL2=0;
-					if(ddfq_delay >=75)
+					if(jx_phase_delay >=75)
 					{
 						get_xx_delta(mod_seta_preh);
 						if(adc_ps00 <= (mod_seta_preh+con_hi_delta))
@@ -391,7 +392,7 @@ void  MODE_ProA(void)
 							ddfq=2;
 							mod_tim_cnta=0;
 						}
-						ddfq_delay=0;
+						jx_phase_delay=0;
 					}
 				}
 				else
@@ -402,7 +403,7 @@ void  MODE_ProA(void)
 			}
 			else
 			{
-				if(ddfq_delay++ >= 499)
+				if(jx_phase_delay++ >= 499)
 				{
 					ddfq=0;
 					if (mod_tim_cnta++>=JIX_CYCLES_PER_SECOND)
@@ -418,7 +419,7 @@ void  MODE_ProA(void)
 							mod_seta_preh = mod_seta_preh_bak;
 						}
 					}
-					ddfq_delay=499;
+					jx_phase_delay=499;
 				}
 			}
 		}

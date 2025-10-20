@@ -148,12 +148,13 @@ unsigned char IsTimeOut(TIMER *timer)
 	return timer->IsTimeOut;
 }
 
-unsigned short   adc_ps00;       // 当前压力值缓存
-unsigned char tttt=0;            // 临时变量
-unsigned int  psps[30];          // 压力值数组（记录历史）
-unsigned short  psps_turn=0;    // 压力记录轮次
+/* 压力采集相关 */
+unsigned short   adc_ps00;           // 当前压力值缓存
+unsigned char    temp_counter=0;     // 临时计数器
+unsigned int     psps[30];           // 压力值历史记录数组
+unsigned short   psps_turn=0;        // 压力记录轮次索引
 
-unsigned char run_arrived=0;    // 运行到达标志
+unsigned char run_arrived=0;         // 运行到达标志
 
 /****************************************************************************
  * 函数: Isr (中断服务程序)
@@ -211,7 +212,7 @@ void __interrupt() Isr(void)
 				}
 				else  // 间歇模式
 				{
-					if((mod_jixa==1)&&(ddfq==0))  // 间歇模式且在高压阶段
+					if((mod_jixa==1)&&(jx_current_phase==0))  // 间歇模式且在高压阶段
 					{
 						PUMP=1;  // 开启气泵
 					}

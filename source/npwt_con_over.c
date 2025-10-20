@@ -49,6 +49,7 @@ unsigned short con_hi_delta = 0;
 unsigned short con_lo_delta = 0;
 
 /* 调试和记录相关 */
+/* 调试和记录相关 */
 unsigned short debug_times = 0;      // 调试计数器
 unsigned short debug_thirtys = 0;    // 30秒调试计数
 unsigned short debug_air=0;          // 调试用气压值
@@ -76,10 +77,10 @@ void CONTR_fallaNew(void)
 	else if (fall_stata==1)  // 状态1：正在放气
 	{
 		fall_cnta0++;
-		unsigned short fall_cnta0_count = 4;  // 默认放气时间：4个周期（0.08秒）
+		unsigned short fall_cnta0_count = VALVE2_DEGAS_SHORT_CYCLES;  // 默认短时放气
 		
-		if(mod_seta_preh <=50)  // 低压时延长放气时间
-			fall_cnta0_count = 16;  // 16个周期（0.32秒）
+		if(mod_seta_preh <= PRESSURE_MIN_THRESHOLD)  // 低压时延长放气时间
+			fall_cnta0_count = VALVE2_DEGAS_LONG_CYCLES;  // 长时放气
 			
 		if (fall_cnta0>fall_cnta0_count)  // 放气时间到
 		{
@@ -94,7 +95,7 @@ void CONTR_fallaNew(void)
 	else if (fall_stata==2)  // 状态2：等待压力稳定
 	{
 		fall_cnta0++;
-		if (fall_cnta0>50)  // 等待50个周期（1秒）
+		if (fall_cnta0 > VALVE2_STABILIZE_CYCLES)  // 等待压力稳定
 		{
 			fall_stata=0;  // 返回状态0
 			fall_cnta0=0;
@@ -191,9 +192,9 @@ unsigned short   val_cnt=0;            // 阀门控制计数器
 
 /* 堵塞检测相关 */
 unsigned long scan_dusai_time = 0;     // 堵塞检测时间累加器（单位：20ms）
-unsigned char xxturn=0;                // 扫描轮次
-unsigned char xxok=0;                  // 扫描完成标志
-signed int result=0;                   // 计算结果
+unsigned char scan_turn=0;             // 扫描轮次计数
+unsigned char scan_completed=0;        // 扫描完成标志
+signed int    calc_result=0;           // 压力计算结果
 
 /* 压力记录数组（用于堵塞检测） */
 unsigned short record_ds[8];           // 记录最近8次的压力值
@@ -267,7 +268,7 @@ void STAT_conNewa(void)
 						VAL2 = 0 ;
 					else
 					{
-						if(ddfq==2)	
+						if(jx_current_phase==2)	
 							VAL2 = 0 ;
 					}
 

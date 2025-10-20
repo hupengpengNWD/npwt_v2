@@ -65,7 +65,7 @@ unsigned char    SPEAK_flg=0;        // 按键静音操作标志
 unsigned char    close_flg=0;        // 静音关闭标志
 
 /* 状态标志 */
-unsigned char    z1=0;               // 综合状态位：bit0=低于3.5V, bit1=有错误, bit3=低于3.7V
+unsigned char    battery_status_flags=0;  // 电池综合状态位：bit0=低于3.5V, bit1=有错误, bit3=低于3.7V
 
 /* 气泵和电磁阀控制 */
 unsigned char    open_bum=0;         // 气泵开启标志
@@ -422,31 +422,31 @@ void AUDIO(void)
 
 	if ((bat_lev&0x0f)==LOWER_THAN_3_5V)
 	{
-		z1=z1|1;
+		battery_status_flags=battery_status_flags|1;
 	}
 	else
 	{
-		z1=z1&(~1);
+		battery_status_flags=battery_status_flags&(~1);
 	}
 
 	if (err_codea)
 	{
-		z1=z1|2;
+		battery_status_flags=battery_status_flags|2;
 	}
 	else
 	{
-		z1=z1&(~2);
+		battery_status_flags=battery_status_flags&(~2);
 	}
 	if ((bat_lev&0x0f)==1)
 	{
-		z1=z1|8;
+		battery_status_flags=battery_status_flags|8;
 	}
 	else
 	{
-		z1=z1&(~8);
+		battery_status_flags=battery_status_flags&(~8);
 	}
 
-	if (z1>bat_lev_bak)
+	if (battery_status_flags>bat_lev_bak)
 	{
 		mute_flg=0;
 	}
@@ -494,7 +494,7 @@ void AUDIO(void)
 			GRE    =  0;
 		}
 	}
-	bat_lev_bak  =  z1;
+	bat_lev_bak = battery_status_flags;  // 备份当前状态
 	
 }
 
@@ -686,15 +686,15 @@ void main(void)
 			}
 
 			/* --- 任务7：排气控制（泄漏补偿） --- */
-			if (bump_need_out_air_flg&0xf0)  // 如果需要通过PWM控制排气
+			if (bump_need_out_air_flg & PUMP_ENABLE_MASK)  // 如果需要通过PWM控制排气
 			{
 				if (bum_dly_flg==0)  // 排气延迟标志为0时才执行
 				{
-					if (bum_dly++>=50)  // 延迟50个周期（1秒）后开始排气
+					if (bum_dly++ >= VALVE1_OPEN_DELAY_CYCLES)  // 延迟1秒后开始排气
 					{
 						open_bum=1;  // 允许气泵工作
 						
-						if (bum_dly>=100)  // 延迟100个周期（2秒）后关闭排气阀
+						if (bum_dly >= VALVE1_CLOSE_DELAY_CYCLES)  // 延迟2秒后关闭排气阀
 						{
 							bum_dly_flg=1;         // 设置排气完成标志
 							VAL1=0;                // 关闭电磁阀1（排气阀）

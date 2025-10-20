@@ -25,7 +25,7 @@ unsigned char   ccnt1;
 
 unsigned short     LQ_FIR=0;
  
-unsigned short  cntcnt=0;
+unsigned short  leak_cancel_counter=0;  // 泄漏取消计数器
 extern  unsigned char   overabc;
 
 void LEVEL_WarnA(void)
@@ -56,9 +56,9 @@ void LEVEL_WarnA(void)
 			{;}
 			else
 			{
-				if(cntcnt++>=CANCEL_LEAKAGE_FLAG_CYCLE)
+				if(leak_cancel_counter++>=CANCEL_LEAKAGE_FLAG_CYCLE)
 				{
-					cntcnt=0;
+					leak_cancel_counter=0;
 					flager_a = flager_a&(~ERRA_LQ);
 					load_perioda_up=0;
 				}
@@ -66,7 +66,7 @@ void LEVEL_WarnA(void)
 		}
 		else
 		{
-			cntcnt=0;
+			leak_cancel_counter=0;
 			if(ccnt1++>=10)
 			{
 				ccnt1=0;
@@ -116,7 +116,7 @@ void LEVEL_WarnA(void)
 					}
 					if (mod_jixa==1)
 					{
-						if(ddfq==0)
+						if(jx_current_phase==0)
 							flager_a = flager_a|ERRA_S;
 					}
 				}
