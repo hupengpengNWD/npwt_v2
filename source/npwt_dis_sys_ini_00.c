@@ -30,14 +30,18 @@
 #include   "npwt_dis_ifile_key_00.h"
 #include   "npwt_con_over.h"
 
-/******************** 系统控制标志和计数器 ********************/
-unsigned char FLG_SYS_10MS;           // 主循环20ms标志（由TMR0中断设置）
-unsigned char  os_cnt=0;              // 压力采集计数器：每5次中断采集一次
-unsigned char  pwm_cnt1=0;            // PWM计数器1：当前计数值
-unsigned char  pwm_cnt2=0;            // PWM计数器2：占空比设定值（4~6对应40%~60%）
+/****************************************************************************
+ * 【架构重构】
+ * 全局变量已移至 system_manager.c 的结构体中
+ * 通过 global_compat.h 的兼容层宏访问：
+ *   - FLG_SYS_10MS → g_flags
+ *   - pwm_cnt1, pwm_cnt2 → g_pump
+ ****************************************************************************/
 
-volatile unsigned long   Timeone_sum = 0;  // 系统运行时间累加器
-unsigned char TIMER_FOUR=0;           // 定时器分频计数器
+/* 局部静态变量 */
+static unsigned char os_cnt=0;
+static volatile unsigned long Timeone_sum = 0;
+static unsigned char TIMER_FOUR=0;
 void SYS_OSC_Ini(void)
 {
 	OSCCON  =  0b01110000  ;

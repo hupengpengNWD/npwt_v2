@@ -26,10 +26,13 @@ unsigned char   ccnt1;
 #define    YEW_SES       15  
 #define    LQ_SES        10
 
-unsigned short     LQ_FIR=0;
- 
-unsigned short  leak_cancel_counter=0;  // 泄漏取消计数器
-extern  unsigned char   overabc;
+/****************************************************************************
+ * 【架构重构】
+ * 所有全局变量已移至 system_manager.c 的结构体中
+ * 通过 global_compat.h 的兼容层宏访问
+ ****************************************************************************/
+
+static unsigned short LQ_FIR=0;  // 泄漏首次检测标志
 
 void LEVEL_WarnA(void)
 {
@@ -139,8 +142,8 @@ void LEVEL_WarnA(void)
 
 }
 
-unsigned short  cntx=0;
-unsigned char   bat_sas=0,bat_sas_bak=0;
+static unsigned short cntx=0;  // 局部使用
+/* bat_sas, bat_sas_bak 已在结构体中 */
 
 void BAT_WarnFir(void)
 {

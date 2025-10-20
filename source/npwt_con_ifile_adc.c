@@ -49,8 +49,12 @@ static unsigned short bat_scan_filter(unsigned short pdata)
    return (unsigned short)sum;
 }
 
-unsigned short  delay_adc = 249;
-unsigned short  delay_P_adc = 249;
+/****************************************************************************
+ * 【架构重构】
+ * 局部变量改为static，避免全局污染
+ ****************************************************************************/
+static unsigned short delay_adc = 249;
+static unsigned short delay_P_adc = 249;
 void ADC_DatCal(void)
 {
 

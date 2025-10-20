@@ -31,14 +31,18 @@
 #include   "npwt_dis_sys_ini_00.h"
 #include   "npwt_dis_sys_uart_00.h"
 
-unsigned short	 load_perioda_up;
-unsigned short   cnt_cnta,cnt_cntaa;
+/****************************************************************************
+ * 【架构重构】
+ * 全局变量已移至 system_manager.c 的结构体中
+ * 通过 global_compat.h 的兼容层宏访问：
+ *   - load_perioda_up, cnt_cnta, cnt_cntaa → g_fault
+ *   - bump_need_out_air_flg → g_pump
+ *   - mod_seta_prehh → g_pressure
+ ****************************************************************************/
 
-unsigned char    bump_need_out_air_flg;
-
-unsigned short   mod_seta_prehh;
-float    pwm_k1;
-unsigned short   fq_cnt1=0;          // 放气计数器
+/* 局部静态变量 */
+static float pwm_k1;
+static unsigned short fq_cnt1=0;
 
 /**
  * 函数: OPEN_PwmA
