@@ -79,12 +79,13 @@ typedef struct {
  * UI管理器数据结构
  ****************************************************************************/
 typedef struct {
-	uint8_t  language;              // 当前语言
 	bool     backlight_on;          // 背光状态
 	uint16_t backlight_timer;       // 背光计时器
 	bool     is_locked;             // 按键锁定
 	uint16_t lock_timer;            // 锁定计时器
 } UIData_t;
+
+/* 注意：语言选项已移除，新架构仅支持英语显示 */
 
 /****************************************************************************
  * 系统状态结构
@@ -106,12 +107,13 @@ typedef struct {
  ****************************************************************************/
 typedef struct {
 	uint16_t pressure_setting;      // 压力设置
-	uint8_t  language_setting;      // 语言设置
 	float    calibration_k1;        // 校准系数K1
 	float    calibration_k2;        // 校准系数K2
 	uint16_t usage_hours;           // 使用时长（小时）
 	uint32_t crc;                   // 校验值
 } FlashConfig_t;
+
+/* 注意：语言设置已移除，仅支持英语 */
 
 #endif /* SYSTEM_TYPES_H */
 

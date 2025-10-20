@@ -79,16 +79,16 @@ static void System_LoadConfig(void)
 	{
 		/* 应用配置 */
 		PressureController_SetTarget(&g_system.pressure, config.pressure_setting);
-		g_system.ui.language = config.language_setting;
 		g_system.pressure.calibration_k = config.calibration_k1;
 	}
 	else
 	{
 		/* 使用默认配置 */
 		PressureController_SetTarget(&g_system.pressure, PRESSURE_DEFAULT);
-		g_system.ui.language = LANGUAGE_RUSSIAN;
 		g_system.pressure.calibration_k = 2.75f;
 	}
+	
+	/* 新架构仅支持英语显示，无需语言设置 */
 }
 
 /****************************************************************************

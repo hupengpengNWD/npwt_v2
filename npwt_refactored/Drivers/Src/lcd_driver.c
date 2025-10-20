@@ -14,22 +14,14 @@
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Core/Inc/system_config.h"
 
-/* 引用旧项目的LCD BIOS函数 */
+/****************************************************************************
+ * 引用旧项目的LCD BIOS函数
+ * 说明：只使用基础的ASCII显示函数，不需要俄语字库
+ ****************************************************************************/
 extern void Init_LCD(void);
 extern void ClrBlk(void);
 extern void PutStr(unsigned char page, unsigned char column, const unsigned char *puts);
 extern void PutNO(unsigned char page, unsigned char column, unsigned short NO);
-extern void PutGB1616(unsigned char page, unsigned char column, unsigned char index);
-
-/* 俄语字符串（从旧代码引用） */
-extern const unsigned char rus_model[];
-extern const unsigned char rus_continuous[];
-extern const unsigned char rus_intermittent[];
-extern const unsigned char rus_leak_Alarm[];
-extern const unsigned char rus_blockage_Alarm[];
-extern const unsigned char rus_battery_low[];
-extern const unsigned char rus_liquid_full[];
-extern const unsigned char rus_psressure[];
 
 /**
  * 函数: LCD_Driver_Init
@@ -81,49 +73,38 @@ void LCD_DisplayStartup(void)
 
 /**
  * 函数: LCD_DisplayMode
- * 功能: 显示工作模式
+ * 功能: 显示工作模式（仅英语）
  */
-void LCD_DisplayMode(WorkMode_e mode, uint8_t language)
+void LCD_DisplayMode(WorkMode_e mode)
 {
-	/* 显示"模式："标题 */
-	if (language == LANGUAGE_RUSSIAN) {
-		PutStr(0, 0, rus_model);
-	} else {
-		LCD_DisplayString(0, 0, "Mode:");
-	}
+	/* 显示标题 */
+	LCD_DisplayString(0, 0, "Mode:");
 	
 	/* 显示具体模式 */
 	switch (mode)
 	{
 		case MODE_STANDBY:
-			LCD_DisplayString(0, 60, "Standby");
+			LCD_DisplayString(0, 60, "Standby   ");
 			break;
 			
 		case MODE_CONTINUOUS:
-			if (language == LANGUAGE_RUSSIAN) {
-				PutStr(0, 60, rus_continuous);
-			} else {
-				LCD_DisplayString(0, 60, "Continuous");
-			}
+			LCD_DisplayString(0, 60, "Continuous");
 			break;
 			
 		case MODE_INTERMITTENT:
-			if (language == LANGUAGE_RUSSIAN) {
-				PutStr(0, 60, rus_intermittent);
-			} else {
-				LCD_DisplayString(0, 60, "Intermittent");
-			}
+			LCD_DisplayString(0, 60, "Intermit. ");
 			break;
 			
 		case MODE_PAUSE:
-			LCD_DisplayString(0, 60, "Pause");
+			LCD_DisplayString(0, 60, "Pause     ");
 			break;
 			
 		case MODE_ERROR:
-			LCD_DisplayString(0, 60, "ERROR");
+			LCD_DisplayString(0, 60, "ERROR     ");
 			break;
 			
 		default:
+			LCD_DisplayString(0, 60, "Unknown   ");
 			break;
 	}
 }
@@ -182,47 +163,45 @@ void LCD_DisplayBattery(uint8_t level, bool is_charging)
 
 /**
  * 函数: LCD_DisplayError
- * 功能: 显示故障信息
+ * 功能: 显示故障信息（仅英语）
  */
-void LCD_DisplayError(ErrorCode_e error, uint8_t language)
+void LCD_DisplayError(ErrorCode_e error)
 {
 	LCD_Clear();
 	
+	/* 显示"ERROR"标题 */
+	LCD_DisplayString(0, 30, "*** ERROR ***");
+	
+	/* 显示具体错误 */
 	switch (error)
 	{
 		case ERROR_LEAKAGE:
-			if (language == LANGUAGE_RUSSIAN) {
-				PutStr(2, 10, rus_leak_Alarm);
-			} else {
-				LCD_DisplayString(2, 10, "Air Leakage!");
-			}
+			LCD_DisplayString(2, 10, "Air Leakage!");
+			LCD_DisplayString(4, 10, "Check tube");
 			break;
 			
 		case ERROR_BLOCKAGE:
-			if (language == LANGUAGE_RUSSIAN) {
-				PutStr(2, 10, rus_blockage_Alarm);
-			} else {
-				LCD_DisplayString(2, 10, "Tube Blocked!");
-			}
+			LCD_DisplayString(2, 10, "Tube Blocked!");
+			LCD_DisplayString(4, 10, "Check canister");
 			break;
 			
 		case ERROR_LIQUID_FULL:
-			if (language == LANGUAGE_RUSSIAN) {
-				PutStr(2, 10, rus_liquid_full);
-			} else {
-				LCD_DisplayString(2, 10, "Tank Full!");
-			}
+			LCD_DisplayString(2, 10, "Tank Full!");
+			LCD_DisplayString(4, 10, "Empty canister");
 			break;
 			
 		case ERROR_BATTERY_LOW:
-			if (language == LANGUAGE_RUSSIAN) {
-				PutStr(2, 10, rus_battery_low);
-			} else {
-				LCD_DisplayString(2, 10, "Low Battery!");
-			}
+			LCD_DisplayString(2, 10, "Low Battery!");
+			LCD_DisplayString(4, 10, "Charge device");
+			break;
+			
+		case ERROR_OVERPRESSURE:
+			LCD_DisplayString(2, 10, "Over Pressure!");
+			LCD_DisplayString(4, 10, "Check system");
 			break;
 			
 		default:
+			LCD_DisplayString(2, 10, "Unknown Error");
 			break;
 	}
 }

@@ -40,11 +40,10 @@ void LCD_DisplayStartup(void);
 
 /**
  * 函数: LCD_DisplayMode
- * 功能: 显示工作模式
+ * 功能: 显示工作模式（仅英语）
  * 参数: mode - 工作模式
- *       language - 语言（0=俄语，1=英语）
  */
-void LCD_DisplayMode(WorkMode_e mode, uint8_t language);
+void LCD_DisplayMode(WorkMode_e mode);
 
 /**
  * 函数: LCD_DisplayPressure
@@ -64,11 +63,10 @@ void LCD_DisplayBattery(uint8_t level, bool is_charging);
 
 /**
  * 函数: LCD_DisplayError
- * 功能: 显示故障信息
+ * 功能: 显示故障信息（仅英语）
  * 参数: error - 错误代码
- *       language - 语言
  */
-void LCD_DisplayError(ErrorCode_e error, uint8_t language);
+void LCD_DisplayError(ErrorCode_e error);
 
 /**
  * 函数: LCD_SetBacklight
