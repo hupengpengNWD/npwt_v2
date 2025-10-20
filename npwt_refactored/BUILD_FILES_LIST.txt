@@ -13,11 +13,15 @@ HAL/Src/hal_timer.c
 
 # Drivers层
 Drivers/Src/adc_driver.c
+Drivers/Src/flash_driver.c
+Drivers/Src/lcd_driver.c
+Drivers/Src/key_driver.c
 
 # Middleware层
 Middleware/Src/pressure_controller.c
 Middleware/Src/battery_manager.c
 Middleware/Src/fault_detector.c
+Middleware/Src/alarm_manager.c
 
 # Application层
 Application/Src/app_state_machine.c
@@ -37,11 +41,14 @@ HAL/Inc/hal_timer.h
 # Drivers层
 Drivers/Inc/adc_driver.h
 Drivers/Inc/flash_driver.h
+Drivers/Inc/lcd_driver.h
+Drivers/Inc/key_driver.h
 
 # Middleware层
 Middleware/Inc/pressure_controller.h
 Middleware/Inc/battery_manager.h
 Middleware/Inc/fault_detector.h
+Middleware/Inc/alarm_manager.h
 
 # Application层
 Application/Inc/app_state_machine.h
