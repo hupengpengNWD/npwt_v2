@@ -1,4 +1,7 @@
 #include  "include.h"	
+#include "system_manager.h"
+#include "global_compat.h"
+#include "hardware_abstraction.h"
 #include  "sys_cpu.h"
 #include  "BIOS_JLX1864G_139.h"
 #include  "npwt_con_ofile_load_00.h"

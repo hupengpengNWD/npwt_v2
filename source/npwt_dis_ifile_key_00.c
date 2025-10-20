@@ -1,4 +1,7 @@
 #include   "include.h"
+#include "system_manager.h"
+#include "global_compat.h"
+#include "hardware_abstraction.h"
 #include  "BIOS_JLX1864G_139.h"
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_ifile_key_00.h"
@@ -243,14 +246,14 @@ void  MODE_ProA(void)
 				if (key_start_tim<30)
 				{
 					mod_tim_cnta=0;
-					POWER_ON=0;
+					HAL_Power_Release();
 					key_start_tim=0;
 					return;
 				}
 				else
 				{
 					SYS_IniLcd();
-					POWER_ON=1;
+					HAL_Power_Hold();
 					DRV_EN=1;
 					VAL2 = 1;
 				}
@@ -383,7 +386,7 @@ void  MODE_ProA(void)
 			{
 				if(jx_phase_delay++ >= 12)
 				{
-					VAL2=0;
+					HAL_Valve2_Close();
 					if(jx_phase_delay >=75)
 					{
 						get_xx_delta(mod_seta_preh);
@@ -396,7 +399,7 @@ void  MODE_ProA(void)
 					}
 				}
 				else
-					VAL2=1;	
+					HAL_Valve2_Open();	
 
 		record_ds_turn=0;
 		flager_a &=~ERRB_DS;
@@ -1184,7 +1187,7 @@ void  MODE_Pro(void)
 				key_silent_flag = (key_silent_flag | language);
 				Write_One_Word(addr+16,key_silent_flag);
 				Write_One_Word(addr+18,mod_seta_prel);
-				POWER_ON=0;
+				HAL_Power_Release();
 			}
 		}
 	}

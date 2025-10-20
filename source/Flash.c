@@ -25,6 +25,9 @@
  ****************************************************************************/
 
 #include   "include.h"
+#include "system_manager.h"
+#include "global_compat.h"
+#include "hardware_abstraction.h"
 
 void Write_Cycle(void)
 {

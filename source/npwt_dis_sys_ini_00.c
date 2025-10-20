@@ -20,6 +20,9 @@
  ****************************************************************************/
 
 #include  "include.h"
+#include "system_manager.h"
+#include "global_compat.h"
+#include "hardware_abstraction.h"
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_sys_ini_00.h"
 #include  "npwt_con_ifile_adc.h"
@@ -208,13 +211,13 @@ void __interrupt() Isr(void)
 				// 判断是否允许开启气泵（排除间歇模式的低压阶段）
 				if(mod_jixa!=1)  // 非间歇模式
 				{
-					PUMP=1;  // 开启气泵
+					HAL_Pump_Start();  // 开启气泵
 				}
 				else  // 间歇模式
 				{
 					if((mod_jixa==1)&&(jx_current_phase==0))  // 间歇模式且在高压阶段
 					{
-						PUMP=1;  // 开启气泵
+						HAL_Pump_Start();  // 开启气泵
 					}
 				}
 			}
@@ -223,7 +226,7 @@ void __interrupt() Isr(void)
 		}
 		else  // 不允许气泵工作
 		{
-			PUMP=0;      // 关闭气泵
+			HAL_Pump_Stop();      // 关闭气泵
 			pwm_cnt1=0;  // 清零计数器
 		}
 	}

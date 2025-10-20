@@ -21,6 +21,9 @@
  ****************************************************************************/
 
 #include  "include.h"
+#include "system_manager.h"
+#include "global_compat.h"
+#include "hardware_abstraction.h"
 #include "npwt_con_over.h"
 #include  "npwt_con_ofile_load_00.h"
 #include  "npwt_dis_ifile_key_00.h"
@@ -215,7 +218,7 @@ void STAT_conNewa(void)
 		}
 		else
 		{
-			VAL2=1;
+			HAL_Valve2_Open();
 		}
 		return;
 	}
@@ -327,7 +330,7 @@ void STAT_conNewa(void)
 			if (gao_cnt>run_time) 
 			{
 				CLS_PwmA();
-				PUMP=0;
+				HAL_Pump_Stop();
 				open_bum=0;
 			}
 			if (gao_cnt>(run_time+JUDGE_YWM_AFTER_PUMP_STOP)) 

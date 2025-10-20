@@ -606,13 +606,13 @@ void main(void)
 	BEE_TWO=BEEGO;     // 蜂鸣器状态机初始化
 	GIE =1;            // 使能全局中断
 	PEIE =1;           // 使能外设中断
-	asm("clrwdt");     // 清除看门狗
+	HAL_Watchdog_Clear();     // 清除看门狗
 	clear_lqtimes();   // 清除泄漏次数记录
 	
 	/* ========== 主循环：20ms周期 ========== */
 	while (1)  // 主循环：永久运行
 	{
-		asm("clrwdt");  // 喂狗：防止看门狗复位
+		HAL_Watchdog_Clear();  // 喂狗：防止看门狗复位
 		
 		if (FLG_SYS_10MS)  // 每20ms执行一次（由定时器0中断设置）
 		{

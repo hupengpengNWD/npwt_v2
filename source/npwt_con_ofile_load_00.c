@@ -19,6 +19,9 @@
  ****************************************************************************/
 
 #include   "include.h"
+#include "system_manager.h"
+#include "global_compat.h"
+#include "hardware_abstraction.h"
 #include   "npwt_dis_main.h"
 
 #include  "npwt_con_ofile_load_00.h"
@@ -129,8 +132,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_WAT:
 	{
-		VAL1=0;
-		VAL2=0;
+		HAL_Valve1_Close();
+		HAL_Valve2_Close();
 		
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
@@ -163,8 +166,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_ZHT:
 	{
-		VAL1=0;
-		VAL2=0;
+		HAL_Valve1_Close();
+		HAL_Valve2_Close();
 		
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
@@ -180,8 +183,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_SET:
 	{
-		VAL1=0;
-		VAL2=0;
+		HAL_Valve1_Close();
+		HAL_Valve2_Close();
 		
 		flager_a &=~ERRA_LQ;
 		flager_a &=~ERRA_V;
@@ -201,8 +204,8 @@ void PRESS_ConA(void)
 	}
 	case MOD_OFF:
 	{
-		VAL1=0;
-		VAL2=0;
+		HAL_Valve1_Close();
+		HAL_Valve2_Close();
 		CLS_PwmA();
 		break;
 	}
