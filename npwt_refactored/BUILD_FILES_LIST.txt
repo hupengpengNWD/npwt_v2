@@ -1,0 +1,76 @@
+# 新架构编译文件清单
+# 用于MPLAB X项目配置
+
+## 源文件（必需）
+
+# Core层
+Core/Src/main.c
+
+# HAL层
+HAL/Src/hal_gpio.c
+HAL/Src/hal_adc.c
+HAL/Src/hal_timer.c
+
+# Drivers层
+Drivers/Src/adc_driver.c
+
+# Middleware层
+Middleware/Src/pressure_controller.c
+Middleware/Src/battery_manager.c
+Middleware/Src/fault_detector.c
+
+# Application层
+Application/Src/app_state_machine.c
+
+## 头文件（必需）
+
+# Core层
+Core/Inc/system_config.h
+Core/Inc/system_types.h
+Core/Inc/config_bits.h
+
+# HAL层
+HAL/Inc/hal_gpio.h
+HAL/Inc/hal_adc.h
+HAL/Inc/hal_timer.h
+
+# Drivers层
+Drivers/Inc/adc_driver.h
+Drivers/Inc/flash_driver.h
+
+# Middleware层
+Middleware/Inc/pressure_controller.h
+Middleware/Inc/battery_manager.h
+Middleware/Inc/fault_detector.h
+
+# Application层
+Application/Inc/app_state_machine.h
+
+## 包含路径
+
+-I ../npwt_refactored/Core/Inc
+-I ../npwt_refactored/HAL/Inc
+-I ../npwt_refactored/Drivers/Inc
+-I ../npwt_refactored/Middleware/Inc
+-I ../npwt_refactored/Application/Inc
+
+## 外部依赖（从旧项目）
+
+# LCD驱动（如需LCD功能）
+../source/BIOS_JLX1864G_139.c
+
+# 字库文件（如需中文显示）
+../source/ziku/6X12.c
+../source/ziku/8X16.c
+../source/ziku/BIOS_ZK_DAW.c
+../source/ziku/BIOS_ZK_X1.c
+
+---
+
+## 编译设置
+
+MCU: PIC18F46J11
+Compiler: XC8
+Optimization: -O1
+Warnings: All
+
