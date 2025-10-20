@@ -32,31 +32,25 @@
 #include "npwt_dis_main.h"
 #include "npwt_con_ifile_adc.h"
 
-unsigned short   fall_cnta0 ;
+/****************************************************************************
+ * 【架构重构】
+ * 所有全局变量已移至 system_manager.c 的结构体中
+ * 通过 global_compat.h 的兼容层宏访问：
+ *   - fall_cnta0, fall_stata, con_flg_falla, gao_cnt, BOX_FQ_TURNS → g_flags
+ *   - adc_ps00, con_hi_delta, con_lo_delta → g_pressure
+ *   - scan_dusai_time, record_ds, record_ds_turn, twenty_seconds → g_fault
+ ****************************************************************************/
 
-unsigned char    fall_stata ;
-
-unsigned char    con_flg_falla ;
-unsigned short   gao_cnt ;
-unsigned char    good_check=0 ;
-unsigned char    nggood_check=0 ;
-unsigned short   BOX_FQ_TURNS ;
-
-unsigned short   tim_tima=0 ;
-
-unsigned short   adc_ps00;
-
-unsigned char    det300 = 10;
-unsigned char    det00 ;
-unsigned short con_hi_delta = 0;
-unsigned short con_lo_delta = 0;
-
-/* 调试和记录相关 */
-/* 调试和记录相关 */
-unsigned short debug_times = 0;      // 调试计数器
-unsigned short debug_thirtys = 0;    // 30秒调试计数
-unsigned short debug_air=0;          // 调试用气压值
-unsigned char  debug=0;              // 调试标志
+/* 局部静态变量 */
+static unsigned char good_check=0;
+static unsigned char nggood_check=0;
+static unsigned short tim_tima=0;
+static unsigned char det300 = 10;
+static unsigned char det00;
+static unsigned short debug_times = 0;
+static unsigned short debug_thirtys = 0;
+static unsigned short debug_air=0;
+static unsigned char debug=0;
 
 /**
  * 函数: CONTR_fallaNew
