@@ -63,14 +63,15 @@ Application/Inc/app_state_machine.h
 
 ## 外部依赖（从旧项目）
 
-# LCD驱动（如需LCD功能）
+# LCD BIOS驱动（仅ASCII字符显示）
 ../source/BIOS_JLX1864G_139.c
 
-# 字库文件（如需中文显示）
-../source/ziku/6X12.c
-../source/ziku/8X16.c
-../source/ziku/BIOS_ZK_DAW.c
-../source/ziku/BIOS_ZK_X1.c
+# 字库文件（仅英语ASCII字符）
+../source/ziku/6X12.c    # ASCII 6x12字体
+../source/ziku/8X16.c    # ASCII 8x16字体
+
+# 注意：无需俄语字库（BIOS_ZK_DAW.c, BIOS_ZK_X1.c）
+#       新架构仅支持英语显示
 
 ---
 
