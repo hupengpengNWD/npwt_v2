@@ -241,7 +241,7 @@ bool Flash_SaveSystemSettings(SystemState_t *sys) {
 bool Flash_LoadSystemSettings(SystemState_t *sys) {
     if (sys == NULL) return false;
     
-    FlashConfig_t config;
+    FlashConfig_t config = {0};
     
     // 从Flash读取
     if (!Flash_ReadConfig(&config)) {
