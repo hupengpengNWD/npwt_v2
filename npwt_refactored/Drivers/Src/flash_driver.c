@@ -20,7 +20,7 @@
 
 #include "../Inc/flash_driver.h"
 #include "../../Core/Inc/system_config.h"
-#include <pic18f46j11.h>
+#include "../../Core/Inc/mcu_config.h"  // 包含 <xc.h> 寄存器定义
 #include <string.h>
 
 /**
@@ -221,5 +221,45 @@ bool Flash_EraseConfig(void)
 {
 	Flash_EraseBlock(FLASH_CONFIG_ADDRESS);
 	return true;
+}
+
+/****************************************************************************
+ * Flash系统配置保存/加载函数
+ ****************************************************************************/
+
+/**
+ * 保存系统配置到Flash
+ */
+bool Flash_SaveSystemSettings(SystemState_t *sys) {
+    if (sys == NULL) return false;
+    
+    // 准备要保存的数据（使用现有FlashConfig_t结构）
+    FlashConfig_t config;
+    config.pressure_setting = sys->pressure.target_pressure;
+    config.calibration_k1 = 1.0f;  // 默认校准系数
+    config.calibration_k2 = 0.0f;  // 默认校准系数
+    config.usage_hours = (uint16_t)(sys->uptime_ms / 3600000);  // 转换为小时
+    
+    // 写入Flash
+    return Flash_WriteConfig(&config);
+}
+
+/**
+ * 从Flash加载系统配置
+ */
+bool Flash_LoadSystemSettings(SystemState_t *sys) {
+    if (sys == NULL) return false;
+    
+    FlashConfig_t config;
+    
+    // 从Flash读取
+    if (!Flash_ReadConfig(&config)) {
+        return false;
+    }
+    
+    // 恢复配置到系统状态
+    sys->pressure.target_pressure = config.pressure_setting;
+    
+    return true;
 }
 

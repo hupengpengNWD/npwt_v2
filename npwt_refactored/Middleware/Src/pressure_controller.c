@@ -15,63 +15,90 @@
 #include "../../Drivers/Inc/adc_driver.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Core/Inc/system_config.h"
+#include "../Inc/realtime_tasks.h"
+
+/* 全局压力控制实例（供中断访问） */
+static PressureControl_t *g_pressure_ctrl = NULL;
 
 /**
  * 函数: PressureController_Init
  * 功能: 初始化压力控制器
  */
-void PressureController_Init(PressureData_t *data)
+void PressureController_Init(PressureControl_t *ctrl)
 {
-	data->target_pressure = PRESSURE_DEFAULT;
-	data->current_pressure = 0;
-	data->upper_threshold = 0;
-	data->lower_threshold = 0;
-	data->adc_zero = 0;
-	data->calibration_k = 2.75f;  // 默认校准系数
-	data->is_stable = false;
+	ctrl->target_pressure = PRESSURE_DEFAULT;
+	ctrl->current_pressure = 0;
+	ctrl->control_enabled = false;
+	ctrl->calibration_k = 2.75f;
 	
-	/* 计算初始阈值 */
-	PressureController_CalculateThresholds(data);
+	/* 保存全局指针供中断使用 */
+	g_pressure_ctrl = ctrl;
 }
 
 /**
  * 函数: PressureController_SetTarget
  * 功能: 设置目标压力
  */
-void PressureController_SetTarget(PressureData_t *data, uint16_t target)
+void PressureController_SetTarget(PressureControl_t *ctrl, uint16_t target)
 {
-	/* 限幅检查 */
 	if (target < PRESSURE_MIN) target = PRESSURE_MIN;
 	if (target > PRESSURE_MAX) target = PRESSURE_MAX;
 	
-	data->target_pressure = target;
-	
-	/* 重新计算阈值 */
-	PressureController_CalculateThresholds(data);
+	ctrl->target_pressure = target;
 }
 
 /**
- * 函数: PressureController_CalculateThresholds
- * 功能: 计算动态阈值
- * 
- * 阈值策略：
- *   下阈值 = 目标 - 10%
- *   上阈值 = 目标 + (5%~10%，压力越高，容差越小)
+ * 函数: PressureController_Execute
+ * 功能: 执行压力控制算法（每5ms在中断中调用）
+ * 说明: 
+ *   实现双位控制（Bang-Bang）算法
+ *   根据当前压力和目标压力，控制阀门和气泵PWM
  */
-void PressureController_CalculateThresholds(PressureData_t *data)
+void PressureController_Execute(void)
 {
-	uint16_t target = data->target_pressure;
+	if (g_pressure_ctrl == NULL || !g_pressure_ctrl->control_enabled) {
+		return;
+	}
 	
-	/* 计算下阈值：10% */
-	data->lower_threshold = target - (target / 10);
+	/* 读取最新ADC值并转换为压力 */
+	uint16_t adc_value = ADC_GetLatestPressure();
+	g_pressure_ctrl->current_pressure = ADC_ConvertToMmHg(
+		adc_value, 
+		0,  // 零点（应从系统配置读取）
+		g_pressure_ctrl->calibration_k
+	);
 	
-	/* 计算上阈值：根据压力段调整 */
-	if (target > 200) {
-		data->upper_threshold = target + (target / 20);         // +5%
-	} else if (target >= 80) {
-		data->upper_threshold = target + (target / 20) + 4;    // +5% + 4mmHg
-	} else {
-		data->upper_threshold = target + (target / 10) + 2;    // +10% + 2mmHg
+	/* 计算压力偏差 */
+	int16_t error = g_pressure_ctrl->target_pressure - g_pressure_ctrl->current_pressure;
+	
+	/* 计算动态阈值（10%目标压力，最小5mmHg） */
+	uint16_t threshold = g_pressure_ctrl->target_pressure / 10;
+	if (threshold < 5) threshold = 5;
+	
+	/* 双位控制逻辑 */
+	if (error > threshold) {
+		/* 压力不足：关闭排气阀，开启气泵 */
+		HAL_Valve2_Close();
+		RealtimeTasks_SetPumpEnable(true);
+		
+		/* 根据压力段设置PWM占空比 */
+		if (error > threshold * 3) {
+			RealtimeTasks_SetPWMDuty(8);  // 80%
+		} else if (error > threshold * 2) {
+			RealtimeTasks_SetPWMDuty(6);  // 60%
+		} else {
+			RealtimeTasks_SetPWMDuty(4);  // 40%
+		}
+	}
+	else if (error < -threshold) {
+		/* 压力过高：开启排气阀，关闭气泵 */
+		HAL_Valve2_Open();
+		RealtimeTasks_SetPumpEnable(false);
+	}
+	else {
+		/* 压力在范围内：关闭阀门和气泵 */
+		HAL_Valve2_Close();
+		RealtimeTasks_SetPumpEnable(false);
 	}
 }
 

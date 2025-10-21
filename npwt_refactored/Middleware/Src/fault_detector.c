@@ -188,3 +188,84 @@ void FaultDetector_ClearError(FaultData_t *data, ErrorCode_e error)
 	}
 }
 
+/**
+ * 函数: FaultDetector_Check
+ * 功能: 故障检测（主循环调用）
+ * 说明: 简化的检测接口，用于main.c调用
+ */
+void FaultDetector_Check(FaultDetector_t *fault, PressureControl_t *pressure)
+{
+	static uint16_t check_timer = 0;
+	
+	/* 检测液位满 */
+	uint16_t liquid_level = ADC_ReadLiquid();
+	if (liquid_level > 800)  // 阈值
+	{
+		fault->liquid_full = true;
+		fault->current_error = ERROR_LIQUID_FULL;
+		return;
+	}
+	else
+	{
+		fault->liquid_full = false;
+	}
+	
+	/* 检测压力相关故障（每1秒检测一次） */
+	if (check_timer++ >= 50)  // 1秒
+	{
+		check_timer = 0;
+		
+		if (pressure->control_enabled)
+		{
+			int16_t error = pressure->target_pressure - pressure->current_pressure;
+			
+			/* 检测过压 */
+			if (error < -20)
+			{
+				fault->overpressure = true;
+				fault->current_error = ERROR_OVERPRESSURE;
+				return;
+			}
+			
+			/* 检测泄漏：压力偏差持续较大 */
+			static uint8_t leakage_count = 0;
+			if (error > 15 && error < 40)
+			{
+				leakage_count++;
+				if (leakage_count > 10)  // 10秒
+				{
+					fault->leakage_detected = true;
+					fault->current_error = ERROR_LEAKAGE;
+					return;
+				}
+			}
+			else
+			{
+				leakage_count = 0;
+				fault->leakage_detected = false;
+			}
+			
+			/* 检测堵塞：压力偏差持续很大 */
+			static uint8_t blockage_count = 0;
+			if (error > 40)
+			{
+				blockage_count++;
+				if (blockage_count > 30)  // 30秒
+				{
+					fault->blockage_detected = true;
+					fault->current_error = ERROR_BLOCKAGE;
+					return;
+				}
+			}
+			else
+			{
+				blockage_count = 0;
+				fault->blockage_detected = false;
+			}
+		}
+	}
+	
+	/* 无故障 */
+	fault->current_error = ERROR_NONE;
+}
+

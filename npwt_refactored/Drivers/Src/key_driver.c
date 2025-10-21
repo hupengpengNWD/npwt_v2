@@ -17,7 +17,7 @@
 
 #include "../Inc/key_driver.h"
 #include "../../Core/Inc/system_config.h"
-#include <pic18f46j11.h>
+#include "../../HAL/Inc/hal_gpio.h"  // 包含 mcu_config.h → <xc.h> 寄存器定义
 
 /* 按键GPIO读取宏 */
 #define GET_KEY_PORT()  (PORTB & 0b00111100)  // 读取RB2-RB5

@@ -12,7 +12,7 @@
 #ifndef HAL_ADC_H
 #define HAL_ADC_H
 
-#include <stdint.h>
+#include "../../Core/Inc/mcu_config.h"  // 包含MCU硬件定义
 
 /****************************************************************************
  * ADC通道定义

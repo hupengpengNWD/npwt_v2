@@ -73,3 +73,24 @@ uint16_t ADC_ConvertToMmHg(uint16_t adc_value, uint16_t zero_point, float k)
 	return (uint16_t)pressure;
 }
 
+/* 最新压力采样值（中断更新） */
+static uint16_t g_latest_pressure_sample = 0;
+
+/**
+ * 函数: ADC_SamplePressure
+ * 功能: 快速采样压力（在中断中调用）
+ */
+void ADC_SamplePressure(void)
+{
+	g_latest_pressure_sample = HAL_ADC_Read(ADC_CHANNEL_PRESSURE);
+}
+
+/**
+ * 函数: ADC_GetLatestPressure
+ * 功能: 获取最新压力采样值
+ */
+uint16_t ADC_GetLatestPressure(void)
+{
+	return g_latest_pressure_sample;
+}
+

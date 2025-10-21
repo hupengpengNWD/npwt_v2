@@ -65,31 +65,7 @@
  ****************************************************************************/
 #define LANGUAGE_ENGLISH_ONLY   1  // 仅英语模式，无需俄语支持
 
-/****************************************************************************
- * 工作模式定义
- ****************************************************************************/
-typedef enum {
-	MODE_INIT = 0,              // 系统初始化
-	MODE_STANDBY,               // 待机
-	MODE_CONTINUOUS,            // 连续模式
-	MODE_INTERMITTENT,          // 间歇模式
-	MODE_PAUSE,                 // 暂停
-	MODE_ERROR,                 // 故障
-	MODE_SHUTDOWN               // 关机
-} WorkMode_e;
-
-/****************************************************************************
- * 错误代码定义
- ****************************************************************************/
-typedef enum {
-	ERROR_NONE = 0,
-	ERROR_LEAKAGE,              // 泄漏
-	ERROR_BLOCKAGE,             // 堵塞
-	ERROR_LIQUID_FULL,          // 液位满
-	ERROR_BATTERY_LOW,          // 低电
-	ERROR_OVERPRESSURE,         // 过压
-	ERROR_SENSOR_FAULT          // 传感器故障
-} ErrorCode_e;
+/* 注意：工作模式和错误代码枚举已移至 system_enums.h */
 
 #endif /* SYSTEM_CONFIG_H */
 

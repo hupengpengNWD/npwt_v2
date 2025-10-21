@@ -13,8 +13,7 @@
 #ifndef HAL_GPIO_H
 #define HAL_GPIO_H
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "../../Core/Inc/mcu_config.h"  // 包含MCU硬件定义
 
 /****************************************************************************
  * GPIO引脚定义（PIC18F46J11）
@@ -89,6 +88,15 @@ static inline void HAL_Pump_Start(void)
 static inline void HAL_Pump_Stop(void)
 {
 	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, false);
+}
+
+static inline void HAL_Pump_Enable(bool enable)
+{
+	if (enable) {
+		HAL_Pump_Start();
+	} else {
+		HAL_Pump_Stop();
+	}
 }
 
 /* 电磁阀控制 */

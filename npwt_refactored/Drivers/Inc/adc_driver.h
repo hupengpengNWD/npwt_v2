@@ -55,5 +55,18 @@ uint16_t ADC_ReadLiquid(void);
  */
 uint16_t ADC_ConvertToMmHg(uint16_t adc_value, uint16_t zero_point, float k);
 
+/**
+ * 函数: ADC_SamplePressure
+ * 功能: 快速采样压力（在中断中调用）
+ */
+void ADC_SamplePressure(void);
+
+/**
+ * 函数: ADC_GetLatestPressure
+ * 功能: 获取最新压力采样值
+ * 返回: 最新的ADC值
+ */
+uint16_t ADC_GetLatestPressure(void);
+
 #endif /* ADC_DRIVER_H */
 

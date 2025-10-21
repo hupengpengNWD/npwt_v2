@@ -14,6 +14,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "system_enums.h"  // 必须先包含枚举定义
 
 /****************************************************************************
  * 压力控制器数据结构
@@ -26,7 +27,34 @@ typedef struct {
 	uint16_t adc_zero;              // 零点校准值
 	float    calibration_k;         // 校准系数
 	bool     is_stable;             // 压力是否稳定
+	bool     control_enabled;       // 控制使能
 } PressureData_t;
+
+/* 为了兼容旧接口 */
+typedef PressureData_t PressureControl_t;
+
+/****************************************************************************
+ * 间歇模式控制数据
+ ****************************************************************************/
+typedef struct {
+	IntermittentPhase_e current_phase;  // 当前阶段
+	uint16_t high_pressure;             // 高压目标值（mmHg）
+	uint16_t low_pressure;              // 低压目标值（mmHg）
+	uint16_t high_time;                 // 高压持续时间（分钟）
+	uint16_t low_time;                  // 低压持续时间（分钟）
+	uint16_t stop_time;                 // 停顿时间（分钟）
+	uint16_t phase_timer;               // 阶段计时器（秒）
+} IntermittentControl_t;
+
+/****************************************************************************
+ * 系统设置数据
+ ****************************************************************************/
+typedef struct {
+	SettingItem_e current_item;     // 当前设置项
+	uint8_t  cursor_position;       // 光标位置
+	uint16_t continuous_time;       // 连续模式时间（分钟）
+	bool     is_in_setting_mode;    // 是否在设置模式
+} SystemSettings_t;
 
 /****************************************************************************
  * 电池管理器数据结构
@@ -88,18 +116,56 @@ typedef struct {
 /* 注意：语言选项已移除，新架构仅支持英语显示 */
 
 /****************************************************************************
+ * 故障检测器数据（新定义）
+ ****************************************************************************/
+typedef struct {
+	ErrorCode_e current_error;      // 当前故障
+	bool     leakage_detected;      // 泄漏检测
+	bool     blockage_detected;     // 堵塞检测
+	bool     liquid_full;           // 液位满
+	bool     sensor_error;          // 传感器故障
+	bool     overpressure;          // 过压
+	uint16_t leakage_count;         // 泄漏次数
+} FaultDetector_t;
+
+/* 注意：FaultData_t 已在上面定义，不需要 typedef */
+
+/****************************************************************************
+ * 电池管理器数据（新定义）
+ ****************************************************************************/
+typedef struct {
+	uint8_t  level;                 // 电量等级：0-4
+	uint8_t  percentage;            // 电量百分比：0-100
+	uint16_t voltage_adc;           // 电压ADC值
+	bool     is_charging;           // 是否充电中
+	bool     is_low;                // 是否低电
+} BatteryManager_t;
+
+/* 注意：BatteryData_t 已在上面定义，不需要 typedef */
+
+/****************************************************************************
  * 系统状态结构
  ****************************************************************************/
 typedef struct {
-	WorkMode_e      mode;           // 当前工作模式
-	PressureData_t  pressure;       // 压力数据
-	BatteryData_t   battery;        // 电池数据
-	FaultData_t     fault;          // 故障数据
+	WorkMode_e           current_mode;      // 当前工作模式
+	WorkMode_e           previous_mode;     // 上一个模式（用于暂停恢复）
+	PressureControl_t    pressure;          // 压力控制
+	IntermittentControl_t intermittent;     // 间歇模式控制
+	BatteryManager_t     battery;           // 电池管理
+	FaultDetector_t      fault;             // 故障检测
+	SystemSettings_t     settings;          // 系统设置
+	uint32_t             uptime_ms;         // 系统运行时间（毫秒）
+	uint16_t             idle_time_sec;     // 空闲时间（秒）
+	uint16_t             idle_timer_sec;    // 空闲计时器
+	bool                 idle_timeout_flag; // 空闲超时标志
+	
+	/* 以下为兼容旧结构 */
 	AlarmData_t     alarm;          // 报警数据
 	PumpData_t      pump;           // 气泵数据
 	UIData_t        ui;             // UI数据
-	uint32_t        uptime_ms;      // 系统运行时间
 	bool            system_ready;   // 系统就绪标志
+	bool            mute_enabled;   // 静音使能
+	bool            key_locked;     // 按键锁定
 } SystemState_t;
 
 /****************************************************************************

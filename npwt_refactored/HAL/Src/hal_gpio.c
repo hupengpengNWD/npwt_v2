@@ -11,7 +11,6 @@
 
 #include "../../Core/Inc/system_config.h"
 #include "../Inc/hal_gpio.h"
-#include <pic18f46j11.h>
 
 /**
  * 函数: HAL_GPIO_Init

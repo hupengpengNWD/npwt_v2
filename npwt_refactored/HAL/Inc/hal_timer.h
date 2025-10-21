@@ -12,8 +12,7 @@
 #ifndef HAL_TIMER_H
 #define HAL_TIMER_H
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "../../Core/Inc/mcu_config.h"  // 包含MCU硬件定义
 
 /****************************************************************************
  * 定时器操作函数
@@ -55,6 +54,26 @@ static inline void HAL_Watchdog_Clear(void)
 {
 	asm("clrwdt");
 }
+
+/**
+ * 函数: HAL_Timer_ISR
+ * 功能: Timer0中断服务程序（在主中断中调用）
+ */
+void HAL_Timer_ISR(void);
+
+/**
+ * 函数: HAL_Timer3_ISR
+ * 功能: Timer3中断服务程序（在主中断中调用）
+ */
+void HAL_Timer3_ISR(void);
+
+/**
+ * 函数: HAL_Timer3_RegisterCallback
+ * 功能: 注册Timer3回调函数
+ * 说明: 允许中间件层注册回调，在中断中执行
+ */
+void HAL_Timer3_RegisterCallback_1ms(void (*callback)(void));
+void HAL_Timer3_RegisterCallback_5ms(void (*callback)(void));
 
 #endif /* HAL_TIMER_H */
 

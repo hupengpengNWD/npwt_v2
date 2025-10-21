@@ -47,5 +47,14 @@ void AppStateMachine_SetMode(SystemState_t *state, WorkMode_e mode);
  */
 WorkMode_e AppStateMachine_GetMode(const SystemState_t *state);
 
+/**
+ * 函数: AppStateMachine_HandleKey
+ * 功能: 处理按键事件（根据当前模式分发按键）
+ * 参数: sys - 系统状态指针
+ *       key - 按键值
+ *       event - 按键事件
+ */
+void AppStateMachine_HandleKey(SystemState_t *sys, KeyValue_e key, KeyEvent_e event);
+
 #endif /* APP_STATE_MACHINE_H */
 

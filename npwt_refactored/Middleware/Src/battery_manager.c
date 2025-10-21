@@ -12,7 +12,7 @@
 #include "../Inc/battery_manager.h"
 #include "../../Drivers/Inc/adc_driver.h"
 #include "../../Core/Inc/system_config.h"
-#include <pic18f46j11.h>
+#include "../../Core/Inc/mcu_config.h"  // 包含 PORTCbits 寄存器定义
 
 /**
  * 函数: BatteryManager_Init

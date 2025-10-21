@@ -54,5 +54,21 @@ bool Flash_ReadConfig(FlashConfig_t *config);
  */
 bool Flash_EraseConfig(void);
 
+/**
+ * 函数: Flash_SaveSystemSettings
+ * 功能: 保存系统设置到Flash
+ * 参数: sys - 系统状态结构指针
+ * 返回: true=成功, false=失败
+ */
+bool Flash_SaveSystemSettings(SystemState_t *sys);
+
+/**
+ * 函数: Flash_LoadSystemSettings
+ * 功能: 从Flash加载系统设置
+ * 参数: sys - 系统状态结构指针
+ * 返回: true=成功, false=失败或CRC错误
+ */
+bool Flash_LoadSystemSettings(SystemState_t *sys);
+
 #endif /* FLASH_DRIVER_H */
 

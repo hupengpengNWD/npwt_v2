@@ -34,9 +34,31 @@ void LCD_Clear(void);
 
 /**
  * 函数: LCD_DisplayStartup
- * 功能: 显示开机画面
+ * 功能: 显示开机画面（显示Logo）
  */
 void LCD_DisplayStartup(void);
+
+/**
+ * 函数: LCD_DisplayVersion
+ * 功能: 显示版本信息画面
+ */
+void LCD_DisplayVersion(void);
+
+/**
+ * 函数: LCD_DisplayImage
+ * 功能: 显示全屏图片
+ * 参数: image_data - 图片数据指针（1024字节，128x64）
+ */
+void LCD_DisplayImage(const uint8_t *image_data);
+
+/**
+ * 函数: LCD_DisplayBatteryIcon
+ * 功能: 在指定位置显示电池图标
+ * 参数: page - 页（0-7）
+ *       column - 列（0-127）
+ *       battery_percent - 电量百分比（0-100）
+ */
+void LCD_DisplayBatteryIcon(uint8_t page, uint8_t column, uint8_t battery_percent);
 
 /**
  * 函数: LCD_DisplayMode

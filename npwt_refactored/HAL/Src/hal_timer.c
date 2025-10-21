@@ -12,7 +12,6 @@
 
 #include "../Inc/hal_timer.h"
 #include "../../Core/Inc/system_config.h"
-#include <pic18f46j11.h>
 
 /* 系统滴答计数器 */
 static volatile uint32_t g_system_tick_ms = 0;
@@ -44,12 +43,12 @@ void HAL_Timer_Init(void)
  */
 void HAL_PWM_Init(void)
 {
-	/* Timer3配置：16位模式 */
-	T3CON = 0b00110000;  // 1:8预分频，关闭Timer3
+	/* Timer3配置：16位模式，1ms定时 */
+	T3CON = 0b00110001;  // 1:8预分频，启动Timer3
 	
-	/* 设置周期 */
-	TMR3H = 0;
-	TMR3L = 0;
+	/* 设置初值：1ms @ 32MHz, 预分频1:8 */
+	TMR3H = 0xfc;  // 重载值
+	TMR3L = 0x17;
 	
 	/* 使能Timer3中断 */
 	PIE2bits.TMR3IE = 1;
@@ -84,12 +83,73 @@ uint32_t HAL_Timer_GetTick(void)
  */
 void HAL_Timer_ISR(void)
 {
+	/* Timer0中断：20ms系统滴答 */
 	if (INTCONbits.TMR0IF)
 	{
 		INTCONbits.TMR0IF = 0;  // 清除标志
-		TMR0 = 156;             // 重载初值
+		TMR0H = 0xd8;           // 重载初值（与旧代码一致）
+		TMR0L = 0xef;
 		
 		g_system_tick_ms += SYSTEM_TICK_MS;  // 累加20ms
+	}
+}
+
+/* 中断回调函数（由中间件层注册） */
+static void (*g_timer3_callback_1ms)(void) = NULL;   // 1ms回调
+static void (*g_timer3_callback_5ms)(void) = NULL;   // 5ms回调
+
+/* 内部计数器 */
+static uint8_t g_timer3_1ms_count = 0;
+
+/**
+ * 函数: HAL_Timer3_RegisterCallback
+ * 功能: 注册Timer3回调函数
+ */
+void HAL_Timer3_RegisterCallback_1ms(void (*callback)(void))
+{
+	g_timer3_callback_1ms = callback;
+}
+
+void HAL_Timer3_RegisterCallback_5ms(void (*callback)(void))
+{
+	g_timer3_callback_5ms = callback;
+}
+
+/**
+ * 函数: HAL_Timer3_ISR
+ * 功能: Timer3中断服务程序（每1ms）
+ * 说明: 
+ *   按照分层架构设计：
+ *   - HAL层只负责硬件定时和回调触发
+ *   - 具体业务逻辑由Middleware层通过回调实现
+ */
+void HAL_Timer3_ISR(void)
+{
+	/* Timer3中断：1ms定时 */
+	if (PIR2 & 0x02)  // TMR3IF
+	{
+		PIR2 = PIR2 & (~0x02);  // 清除中断标志
+		TMR3H = 0xfc;           // 重载定时器值（1ms）
+		TMR3L = 0x17;
+		
+		/* 调用1ms回调（如果已注册） */
+		if (g_timer3_callback_1ms != NULL)
+		{
+			g_timer3_callback_1ms();
+		}
+		
+		/* 5ms计数 */
+		g_timer3_1ms_count++;
+		if (g_timer3_1ms_count >= 5)
+		{
+			g_timer3_1ms_count = 0;
+			
+			/* 调用5ms回调（如果已注册） */
+			if (g_timer3_callback_5ms != NULL)
+			{
+				g_timer3_callback_5ms();
+			}
+		}
 	}
 }
 

@@ -17,18 +17,7 @@
 #include <stdbool.h>
 #include "../../Core/Inc/system_types.h"
 
-/****************************************************************************
- * 报警类型定义
- ****************************************************************************/
-typedef enum {
-	ALARM_TYPE_NONE = 0,        // 无报警
-	ALARM_TYPE_BATTERY_LOW,     // 低电报警
-	ALARM_TYPE_BATTERY_CRITICAL,// 严重低电
-	ALARM_TYPE_LEAKAGE,         // 泄漏报警
-	ALARM_TYPE_BLOCKAGE,        // 堵塞报警
-	ALARM_TYPE_LIQUID_FULL,     // 液位满报警
-	ALARM_TYPE_ERROR            // 一般错误
-} AlarmType_e;
+/* 注意：AlarmType_e 已在 system_enums.h 中定义 */
 
 /****************************************************************************
  * 报警管理器函数
@@ -75,6 +64,13 @@ void AlarmManager_CancelMute(AlarmData_t *data);
  * 功能: 播放蜂鸣器（内部调用）
  */
 void AlarmManager_PlayBeep(AlarmData_t *data);
+
+/**
+ * 函数: AlarmManager_Beep
+ * 功能: 播放指定次数的蜂鸣音（用于按键音和提示音）
+ * 参数: times - 蜂鸣次数（1=短音, 2=双音, 3=三音）
+ */
+void AlarmManager_Beep(uint8_t times);
 
 #endif /* ALARM_MANAGER_H */
 

@@ -16,6 +16,7 @@
  ****************************************************************************/
 
 #include "../Inc/alarm_manager.h"
+#include "../Inc/alarm_state_machine.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Core/Inc/system_config.h"
 
@@ -292,6 +293,117 @@ void AlarmManager_CancelMute(AlarmData_t *data)
 	{
 		data->is_muted = false;
 		data->mute_timer = 0;
+	}
+}
+
+/**
+ * 函数: AlarmManager_Process
+ * 功能: 报警处理（主循环调用）
+ */
+void AlarmManager_Process(FaultDetector_t *fault)
+{
+	static uint8_t beep_counter = 0;
+	static uint8_t beep_state = 0;
+	
+	/* 检查是否有故障 */
+	if (fault->current_error == ERROR_NONE)
+	{
+		HAL_Buzzer_Off();
+		HAL_LED_Yellow_Off();
+		beep_counter = 0;
+		beep_state = 0;
+		return;
+	}
+	
+	/* 根据故障类型产生报警音 */
+	beep_counter++;
+	
+	switch (fault->current_error)
+	{
+		case ERROR_LEAKAGE:
+		case ERROR_BLOCKAGE:
+			/* 快速双音：嘀嘀-停-嘀嘀 */
+			if (beep_counter < 5) {
+				HAL_Buzzer_On();
+				HAL_LED_Yellow_On();
+			} else if (beep_counter < 10) {
+				HAL_Buzzer_Off();
+			} else if (beep_counter < 15) {
+				HAL_Buzzer_On();
+			} else if (beep_counter < 60) {
+				HAL_Buzzer_Off();
+				HAL_LED_Yellow_Off();
+			} else {
+				beep_counter = 0;
+			}
+			break;
+			
+		case ERROR_LIQUID_FULL:
+			/* 连续长音 */
+			if (beep_counter < 30) {
+				HAL_Buzzer_On();
+				HAL_LED_Yellow_On();
+			} else if (beep_counter < 40) {
+				HAL_Buzzer_Off();
+				HAL_LED_Yellow_Off();
+			} else {
+				beep_counter = 0;
+			}
+			break;
+			
+		case ERROR_BATTERY_LOW:
+			/* 慢速单音 */
+			if (beep_counter < 5) {
+				HAL_Buzzer_On();
+				HAL_LED_Yellow_On();
+			} else if (beep_counter < 100) {
+				HAL_Buzzer_Off();
+				HAL_LED_Yellow_Off();
+			} else {
+				beep_counter = 0;
+			}
+			break;
+			
+		default:
+			HAL_Buzzer_Off();
+			break;
+	}
+}
+
+/**
+ * 函数: AlarmManager_Beep
+ * 功能: 发出按键音（短"嘀"声）
+ */
+void AlarmManager_Beep(uint8_t count)
+{
+	static uint8_t beep_count_remain = 0;
+	static uint8_t beep_timer = 0;
+	
+	/* 启动按键音 */
+	if (count > 0 && beep_count_remain == 0)
+	{
+		beep_count_remain = count;
+		beep_timer = 0;
+	}
+	
+	/* 播放按键音（在主循环中被多次调用） */
+	if (beep_count_remain > 0)
+	{
+		if (beep_timer < 2)  // 响40ms
+		{
+			HAL_Buzzer_On();
+			beep_timer++;
+		}
+		else if (beep_timer < 5)  // 停60ms
+		{
+			HAL_Buzzer_Off();
+			beep_timer++;
+		}
+		else  // 完成一次
+		{
+			beep_count_remain--;
+			beep_timer = 0;
+		}
 	}
 }
 
