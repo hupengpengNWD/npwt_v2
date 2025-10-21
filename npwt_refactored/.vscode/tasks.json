@@ -38,7 +38,7 @@
             "args": [
                 "-P18F46J11",
                 "-TPPK3",
-                "-FNWPT_VR.X/dist/default/production/NWPT_VR.X.production.hex",
+                "-F${workspaceFolder}/NWPT_VR.X/dist/default/production/NWPT_VR.X.production.hex",
                 "-M",
                 "-OL"
             ],

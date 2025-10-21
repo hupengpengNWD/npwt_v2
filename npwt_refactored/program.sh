@@ -13,8 +13,11 @@ NC='\033[0m' # No Color
 # MPLAB IPE 命令行工具路径
 IPECMD="/Applications/microchip/mplabx/v5.40/mplab_platform/mplab_ipe/bin/ipecmd.sh"
 
-# 固件文件路径
-HEX_FILE="NWPT_VR.X/dist/default/production/NWPT_VR.X.production.hex"
+# 获取脚本所在目录的绝对路径
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# 固件文件路径（使用绝对路径）
+HEX_FILE="${SCRIPT_DIR}/NWPT_VR.X/dist/default/production/NWPT_VR.X.production.hex"
 
 echo ""
 echo "========================================"
@@ -24,6 +27,7 @@ echo ""
 
 # 步骤1：编译
 echo -e "${YELLOW}🔨 步骤1：编译固件...${NC}"
+cd "${SCRIPT_DIR}"
 make -C NWPT_VR.X clean > /dev/null 2>&1
 make -C NWPT_VR.X
 
@@ -62,7 +66,7 @@ if [ $? -eq 0 ]; then
     
     # 显示内存使用情况
     echo "📊 内存使用统计："
-    make -C NWPT_VR.X 2>&1 | grep -A 3 "Memory Summary"
+    cd "${SCRIPT_DIR}" && make -C NWPT_VR.X 2>&1 | grep -A 3 "Memory Summary"
 else
     echo ""
     echo -e "${RED}❌ 下载失败！${NC}"
