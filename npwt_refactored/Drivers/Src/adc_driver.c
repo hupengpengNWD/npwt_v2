@@ -15,11 +15,16 @@
 
 /**
  * 函数: ADC_Driver_Init
- * 功能: 初始化ADC驱动
+ * 功能: 初始化ADC驱动（驱动层数据结构初始化）
+ * 
+ * 注意：
+ *   HAL层硬件初始化（HAL_ADC_Init）由 main.c 中统一调用
+ *   驱动层只初始化自己的数据结构和业务逻辑
  */
 void ADC_Driver_Init(void)
 {
-	HAL_ADC_Init();
+	/* 当前驱动层没有额外的数据结构需要初始化 */
+	/* HAL_ADC_Init() 已在 main.c 中调用，避免重复 */
 }
 
 /**
