@@ -25,6 +25,7 @@
 #include "../../Middleware/Inc/battery_manager.h"
 #include "../../Middleware/Inc/fault_detector.h"
 #include "../../Middleware/Inc/alarm_manager.h"
+#include "../../Middleware/Inc/alarm_state_machine.h"
 #include "../../Middleware/Inc/realtime_tasks.h"
 #include "../../Middleware/Inc/intermittent_controller.h"
 #include "../../Application/Inc/app_state_machine.h"
@@ -32,6 +33,7 @@
 #include "../../Application/Inc/app_display.h"
 #include "../../Application/Inc/app_settings.h"
 #include "../../Application/Inc/app_selftest.h"
+#include "../../Application/Inc/ui_enhancements.h"
 
 /****************************************************************************
  * 系统状态（全局单例）
@@ -82,11 +84,11 @@ static void System_InitModules(void)
 {
 	/* 初始化中间件层 */
 	PressureController_Init(&g_system.pressure);
-	/* 注意：BatteryManager 和 FaultDetector 使用结构体初始化，不需要 Init 函数 */
-	/* 电池和故障检测器在首次 Update 时自动初始化 */
+	BatteryManager_Init(&g_system.battery);           // ← 初始化电池管理器
+	FaultDetector_Init(&g_system.fault);              // ← 初始化故障检测器
 	IntermittentController_Init(&g_system.intermittent);
 	
-	/* 首次电池检测 */
+	/* 首次电池检测（使用 Update 函数初始化电池状态） */
 	BatteryManager_Update(&g_system.battery);
 	
 	/* 初始化实时任务（注册Timer3中断回调） */
@@ -215,11 +217,14 @@ void main(void)
 				}
 			}
 			
-			/* 7. 声音报警处理 */
-			AlarmManager_Update(&g_system.alarm, &g_system.battery, &g_system.fault);
+		/* 7. 声音报警处理 */
+		AlarmManager_Update(&g_system.alarm, &g_system.battery, &g_system.fault);
 			
-			/* 8. 电池管理（每1秒） */
-			static uint16_t battery_timer = 0;
+		/* 9. UI增强功能更新 */
+		UIEnhancements_Update(&g_system);
+		
+		/* 10. 电池管理（每1秒） */
+		static uint16_t battery_timer = 0;
 			if (battery_timer++ >= BATTERY_CHECK_INTERVAL)
 			{
 				battery_timer = 0;
@@ -230,16 +235,16 @@ void main(void)
 				}
 			}
 			
-			/* 9. 空闲检测（每1秒） */
-			static uint16_t idle_timer = 0;
+		/* 11. 空闲检测（每1秒） */
+		static uint16_t idle_timer = 0;
 			if (idle_timer++ >= 50)  // 1秒
 			{
 				idle_timer = 0;
 				System_CheckIdle(&g_system);
 			}
 			
-			/* 10. 排气控制（泄漏补偿） */
-			System_VentControl(&g_system);
+		/* 12. 排气控制（泄漏补偿） */
+		System_VentControl(&g_system);
 		}
 	}
 }

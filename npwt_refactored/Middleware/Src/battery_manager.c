@@ -20,11 +20,13 @@
  */
 void BatteryManager_Init(BatteryData_t *data)
 {
-	data->level = 0;
-	data->voltage_adc = 0;
-	data->is_charging = false;
-	data->is_low = false;
-	data->shutdown_timer = 0;
+	if (data != NULL) {
+		data->level = 0;
+		data->voltage_adc = 0;
+		data->is_charging = false;
+		data->is_low = false;
+		data->shutdown_timer = 0;
+	}
 }
 
 /**

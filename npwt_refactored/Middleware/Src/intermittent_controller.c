@@ -8,6 +8,7 @@
 #include "../Inc/intermittent_controller.h"
 #include "../Inc/pressure_controller.h"
 #include "../../Core/Inc/system_config.h"
+#include "../../Core/Inc/mcu_config.h"
 
 /* 全局变量（供中断访问） */
 IntermittentPhase_e g_intermittent_phase = INTERMITTENT_PHASE_HIGH;
@@ -34,12 +35,14 @@ void IntermittentController_Init(IntermittentControl_t *ctrl)
  */
 void IntermittentController_Start(IntermittentControl_t *ctrl)
 {
-	ctrl->current_phase = INTERMITTENT_PHASE_HIGH;
-	ctrl->phase_timer = 0;
-	
-	/* 更新全局变量供中断使用 */
-	g_intermittent_phase = INTERMITTENT_PHASE_HIGH;
-	g_is_intermittent_mode = true;
+	if (ctrl != NULL) {
+		ctrl->current_phase = INTERMITTENT_PHASE_HIGH;
+		ctrl->phase_timer = 0;
+		
+		/* 更新全局变量供中断使用 */
+		g_intermittent_phase = INTERMITTENT_PHASE_HIGH;
+		g_is_intermittent_mode = true;
+	}
 }
 
 /**

@@ -49,7 +49,6 @@ static void LCD_Delay(uint16_t ms);
 static void LCD_SendCommand(uint8_t cmd);
 static void LCD_SendData(uint8_t data);
 static void LCD_SetPosition(uint8_t page, uint8_t column);
-static void LCD_ClearBlock(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
 
 /****************************************************************************
  * 旧BIOS兼容函数（用于编译通过，实际可能未使用）
@@ -175,21 +174,6 @@ void LCD_Clear(void) {
     }
 }
 
-/**
- * 清除指定区域
- */
-static void LCD_ClearBlock(uint8_t x, uint8_t y, uint8_t width, uint8_t height) {
-    uint8_t page_start = (6 - x);
-    uint8_t col_start = (122 - y);
-    uint8_t page_end = page_start + ((height + 7) / 8);
-    
-    for (uint8_t page = page_start; page < page_end && page < 8; page++) {
-        LCD_SetPosition(page, col_start);
-        for (uint8_t col = 0; col < width; col++) {
-            LCD_SendData(0x00);
-        }
-    }
-}
 
 /**
  * 函数: LCD_DisplayNumber
@@ -221,7 +205,7 @@ void LCD_DisplayNumber(uint8_t page, uint8_t column, uint16_t number) {
         // 第一行
         LCD_SetPosition(page, current_col);
         for (uint8_t j = 0; j < 6; j++) {
-            uint16_t data = arry_dig[offset + j] | (arry_dig[offset + j + 6] << 8);
+            uint16_t data = (uint16_t)arry_dig[offset + j] | ((uint16_t)arry_dig[offset + j + 6] << 8);
             data = (data << 3) & 0xFF;
             LCD_SendData((uint8_t)data);
         }
@@ -229,7 +213,7 @@ void LCD_DisplayNumber(uint8_t page, uint8_t column, uint16_t number) {
         // 第二行
         LCD_SetPosition(page + 1, current_col);
         for (uint8_t j = 0; j < 6; j++) {
-            uint16_t data = (arry_dig[offset + j + 6] << 8) | arry_dig[offset + j];
+            uint16_t data = ((uint16_t)arry_dig[offset + j + 6] << 8) | (uint16_t)arry_dig[offset + j];
             data = (data << 3) >> 8;
             LCD_SendData((uint8_t)data);
         }
@@ -259,7 +243,7 @@ void LCD_DisplayString(uint8_t page, uint8_t column, const char *str) {
             // 第一行
             LCD_SetPosition(page, current_col);
             for (uint8_t i = 0; i < 6; i++) {
-                uint16_t data = arry_char[offset + i] | (arry_char[offset + i + 6] << 8);
+                uint16_t data = (uint16_t)arry_char[offset + i] | ((uint16_t)arry_char[offset + i + 6] << 8);
                 data = (data >> 3) & 0xFF;
                 LCD_SendData((uint8_t)data);
             }
@@ -267,7 +251,7 @@ void LCD_DisplayString(uint8_t page, uint8_t column, const char *str) {
             // 第二行
             LCD_SetPosition(page + 1, current_col);
             for (uint8_t i = 0; i < 6; i++) {
-                uint16_t data = (arry_char[offset + i + 6] << 8) | arry_char[offset + i];
+                uint16_t data = ((uint16_t)arry_char[offset + i + 6] << 8) | (uint16_t)arry_char[offset + i];
                 data = (data >> 3) >> 8;
                 LCD_SendData((uint8_t)data);
             }
@@ -279,35 +263,6 @@ void LCD_DisplayString(uint8_t page, uint8_t column, const char *str) {
     }
 }
 
-/**
- * 函数: LCD_DisplayLargeNumber
- * 功能: 显示大数字（32x15字体）
- */
-void LCD_DisplayLargeNumber(uint8_t num, uint8_t x, uint8_t y) {
-    if (num > 9) return;
-    
-    uint16_t offset = num * 45;
-    uint8_t page = (6 - x);
-    uint8_t col = (122 - y);
-    
-    // 第一行（15字节）
-    LCD_SetPosition(page, col);
-    for (uint16_t i = 0; i < 15; i++) {
-        LCD_SendData(arry_dig22[offset + i]);
-    }
-    
-    // 第二行（15字节）
-    LCD_SetPosition(page + 1, col);
-    for (uint16_t i = 15; i < 30; i++) {
-        LCD_SendData(arry_dig22[offset + i]);
-    }
-    
-    // 第三行（15字节）
-    LCD_SetPosition(page + 2, col);
-    for (uint16_t i = 30; i < 45; i++) {
-        LCD_SendData(arry_dig22[offset + i]);
-    }
-}
 
 /**
  * 函数: LCD_DisplayPressure
@@ -342,21 +297,6 @@ void LCD_DisplayMode(WorkMode_e mode) {
     }
 }
 
-/**
- * 函数: LCD_DisplayImage
- * 功能: 显示128x64全屏图片（与头文件声明匹配）
- */
-void LCD_DisplayImage(const uint8_t *image_data) {
-    if (image_data == NULL) return;
-    
-    uint16_t index = 0;
-    for (uint8_t page = 0; page < 8; page++) {
-        LCD_SetPosition(page, 0);
-        for (uint8_t col = 0; col < 128; col++) {
-            LCD_SendData(image_data[index++]);
-        }
-    }
-}
 
 /**
  * 函数: LCD_DisplayStartup
@@ -369,13 +309,6 @@ void LCD_DisplayStartup(void) {
     LCD_DisplayString(3, 30, "NPWT V1 0");
 }
 
-/**
- * 函数: LCD_DisplayVersion
- * 功能: 显示版本信息
- */
-void LCD_DisplayVersion(void) {
-    LCD_DisplayString(4, 30, "V1 0 2025");
-}
 
 /**
  * 函数: LCD_DisplayBatteryIcon
@@ -388,18 +321,6 @@ void LCD_DisplayBatteryIcon(uint8_t page, uint8_t column, uint8_t battery_percen
     LCD_DisplayNumber(page, column + 20, battery_percent);
 }
 
-/**
- * 函数: LCD_DisplayBattery
- * 功能: 显示电池电量（与头文件声明匹配）
- */
-void LCD_DisplayBattery(uint8_t level, bool is_charging) {
-    uint8_t percent = level * 25;  // 0-4 映射到 0-100
-    LCD_DisplayBatteryIcon(0, 100, percent);
-    
-    if (is_charging) {
-        LCD_DisplayString(0, 90, "CHG");
-    }
-}
 
 /**
  * 函数: LCD_SetBacklight

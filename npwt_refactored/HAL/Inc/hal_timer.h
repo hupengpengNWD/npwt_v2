@@ -50,10 +50,7 @@ void HAL_PWM_SetDuty(uint8_t duty);
  * 函数: HAL_Watchdog_Clear
  * 功能: 清除看门狗
  */
-static inline void HAL_Watchdog_Clear(void)
-{
-	asm("clrwdt");
-}
+void HAL_Watchdog_Clear(void);
 
 /**
  * 函数: HAL_Timer_ISR

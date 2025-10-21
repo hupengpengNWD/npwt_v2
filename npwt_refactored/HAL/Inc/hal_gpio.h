@@ -76,92 +76,33 @@ bool HAL_GPIO_ReadPin(volatile uint8_t *port, uint8_t pin);
 void HAL_GPIO_TogglePin(volatile uint8_t *port, uint8_t pin);
 
 /****************************************************************************
- * 高层GPIO控制接口（内联函数，零开销）
+ * GPIO高层控制接口（普通函数声明，消除inline警告）
  ****************************************************************************/
 
 /* 气泵控制 */
-static inline void HAL_Pump_Start(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, true);
-}
-
-static inline void HAL_Pump_Stop(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, false);
-}
-
-static inline void HAL_Pump_Enable(bool enable)
-{
-	if (enable) {
-		HAL_Pump_Start();
-	} else {
-		HAL_Pump_Stop();
-	}
-}
+void HAL_Pump_Start(void);
+void HAL_Pump_Stop(void);
+void HAL_Pump_Enable(bool enable);
 
 /* 电磁阀控制 */
-static inline void HAL_Valve1_Open(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE1_PORT, HAL_GPIO_VALVE1_PIN, true);
-}
-
-static inline void HAL_Valve1_Close(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE1_PORT, HAL_GPIO_VALVE1_PIN, false);
-}
-
-static inline void HAL_Valve2_Open(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE2_PORT, HAL_GPIO_VALVE2_PIN, true);
-}
-
-static inline void HAL_Valve2_Close(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE2_PORT, HAL_GPIO_VALVE2_PIN, false);
-}
+void HAL_Valve1_Open(void);
+void HAL_Valve1_Close(void);
+void HAL_Valve2_Open(void);
+void HAL_Valve2_Close(void);
 
 /* LED控制 */
-static inline void HAL_LED_Green_On(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_GREEN_PORT, HAL_GPIO_LED_GREEN_PIN, true);
-}
-
-static inline void HAL_LED_Green_Off(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_GREEN_PORT, HAL_GPIO_LED_GREEN_PIN, false);
-}
-
-static inline void HAL_LED_Yellow_On(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_YELLOW_PORT, HAL_GPIO_LED_YELLOW_PIN, true);
-}
-
-static inline void HAL_LED_Yellow_Off(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_YELLOW_PORT, HAL_GPIO_LED_YELLOW_PIN, false);
-}
+void HAL_LED_Green_On(void);
+void HAL_LED_Green_Off(void);
+void HAL_LED_Yellow_On(void);
+void HAL_LED_Yellow_Off(void);
 
 /* 蜂鸣器控制 */
-static inline void HAL_Buzzer_On(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_BUZZER_PORT, HAL_GPIO_BUZZER_PIN, true);
-}
-
-static inline void HAL_Buzzer_Off(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_BUZZER_PORT, HAL_GPIO_BUZZER_PIN, false);
-}
+void HAL_Buzzer_On(void);
+void HAL_Buzzer_Off(void);
 
 /* 电源控制 */
-static inline void HAL_Power_Hold(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_POWER_PORT, HAL_GPIO_POWER_PIN, true);
-}
-
-static inline void HAL_Power_Release(void)
-{
-	HAL_GPIO_WritePin(&HAL_GPIO_POWER_PORT, HAL_GPIO_POWER_PIN, false);
-}
+void HAL_Power_Hold(void);
+void HAL_Power_Release(void);
 
 #endif /* HAL_GPIO_H */
 

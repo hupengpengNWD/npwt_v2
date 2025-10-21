@@ -21,10 +21,12 @@
  ****************************************************************************/
 
 /**
- * 函数: FaultDetector_ClearLeakageCounters
- * 功能: 清除泄漏检测计数器
+ * 函数: FaultDetector_Init
+ * 功能: 初始化故障检测器
  */
-void FaultDetector_ClearLeakageCounters(FaultData_t *data);
+void FaultDetector_Init(FaultData_t *data);
+
+/* 注意：FaultDetector_ClearLeakageCounters 已删除，在 Init 中已完成初始化 */
 
 /**
  * 函数: FaultDetector_Update

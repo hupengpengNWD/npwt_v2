@@ -19,20 +19,19 @@
  */
 void AlarmStateMachine_Init(AlarmStateMachine_t *machine)
 {
-	if (machine == NULL)
-		return;
-	
-	/* 初始化状态 */
-	machine->current_state = BEE_STATE_GO;
-	machine->audio_basic = 0;
-	machine->audio_period = 0;
-	machine->speaker_delay = 0;
-	machine->speaker_state = false;
-	machine->mute_enabled = false;
-	machine->max_beep_time = MAX_BEE_TIME;
-	
-	/* 关闭蜂鸣器 */
-	HAL_Buzzer_Off();
+	if (machine != NULL) {
+		/* 初始化状态 */
+		machine->current_state = BEE_STATE_GO;
+		machine->audio_basic = 0;
+		machine->audio_period = 0;
+		machine->speaker_delay = 0;
+		machine->speaker_state = false;
+		machine->mute_enabled = false;
+		machine->max_beep_time = MAX_BEE_TIME;
+		
+		/* 关闭蜂鸣器 */
+		HAL_Buzzer_Off();
+	}
 }
 
 /**
@@ -42,30 +41,28 @@ void AlarmStateMachine_Init(AlarmStateMachine_t *machine)
  */
 void AlarmStateMachine_Process(AlarmStateMachine_t *machine)
 {
-	if (machine == NULL)
-		return;
-	
-	/* 超时保护：防止蜂鸣器一直响 */
-	if (machine->speaker_state && machine->speaker_delay++ > machine->max_beep_time)
-	{
-		machine->speaker_delay = 15;
-		machine->audio_period = 0;
-		machine->current_state = BEE_STATE_TWO;
-		HAL_Buzzer_Off();
-		machine->speaker_state = false;
-		return;
-	}
-	
-	/* 如果静音，直接关闭蜂鸣器 */
-	if (machine->mute_enabled)
-	{
-		HAL_Buzzer_Off();
-		machine->speaker_state = false;
-		return;
-	}
-	
-	/* 状态机控制蜂鸣器的响铃模式 */
-	switch (machine->current_state)
+	if (machine != NULL) {
+		/* 超时保护：防止蜂鸣器一直响 */
+		if (machine->speaker_state && machine->speaker_delay++ > machine->max_beep_time)
+		{
+			machine->speaker_delay = 15;
+			machine->audio_period = 0;
+			machine->current_state = BEE_STATE_TWO;
+			HAL_Buzzer_Off();
+			machine->speaker_state = false;
+			return;
+		}
+		
+		/* 如果静音，直接关闭蜂鸣器 */
+		if (machine->mute_enabled)
+		{
+			HAL_Buzzer_Off();
+			machine->speaker_state = false;
+			return;
+		}
+		
+		/* 状态机控制蜂鸣器的响铃模式 */
+		switch (machine->current_state)
 	{
 		default:
 			HAL_Buzzer_Off();
@@ -116,6 +113,7 @@ void AlarmStateMachine_Process(AlarmStateMachine_t *machine)
 			break;
 		}
 	}
+	}
 }
 
 /**
@@ -124,13 +122,12 @@ void AlarmStateMachine_Process(AlarmStateMachine_t *machine)
  */
 void AlarmStateMachine_Start(AlarmStateMachine_t *machine)
 {
-	if (machine == NULL)
-		return;
-	
-	machine->current_state = BEE_STATE_GO;
-	machine->audio_basic = 0;
-	machine->audio_period = 0;
-	machine->speaker_delay = 0;
+	if (machine != NULL) {
+		machine->current_state = BEE_STATE_GO;
+		machine->audio_basic = 0;
+		machine->audio_period = 0;
+		machine->speaker_delay = 0;
+	}
 }
 
 /**
@@ -139,15 +136,14 @@ void AlarmStateMachine_Start(AlarmStateMachine_t *machine)
  */
 void AlarmStateMachine_Stop(AlarmStateMachine_t *machine)
 {
-	if (machine == NULL)
-		return;
-	
-	machine->current_state = BEE_STATE_END;
-	HAL_Buzzer_Off();
-	machine->speaker_state = false;
-	machine->audio_basic = 0;
-	machine->audio_period = 0;
-	machine->speaker_delay = 0;
+	if (machine != NULL) {
+		machine->current_state = BEE_STATE_END;
+		HAL_Buzzer_Off();
+		machine->speaker_state = false;
+		machine->audio_basic = 0;
+		machine->audio_period = 0;
+		machine->speaker_delay = 0;
+	}
 }
 
 /**
@@ -156,15 +152,14 @@ void AlarmStateMachine_Stop(AlarmStateMachine_t *machine)
  */
 void AlarmStateMachine_SetMute(AlarmStateMachine_t *machine, bool mute)
 {
-	if (machine == NULL)
-		return;
-	
-	machine->mute_enabled = mute;
-	
-	if (mute)
-	{
-		HAL_Buzzer_Off();
-		machine->speaker_state = false;
+	if (machine != NULL) {
+		machine->mute_enabled = mute;
+		
+		if (mute)
+		{
+			HAL_Buzzer_Off();
+			machine->speaker_state = false;
+		}
 	}
 }
 

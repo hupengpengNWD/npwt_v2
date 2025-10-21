@@ -75,3 +75,91 @@ void HAL_GPIO_TogglePin(volatile uint8_t *port, uint8_t pin)
 	*port ^= (1 << pin);
 }
 
+/****************************************************************************
+ * GPIO高层控制函数实现
+ ****************************************************************************/
+
+/* 气泵控制 */
+void HAL_Pump_Start(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, true);
+}
+
+void HAL_Pump_Stop(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, false);
+}
+
+void HAL_Pump_Enable(bool enable)
+{
+	if (enable) {
+		HAL_Pump_Start();
+	} else {
+		HAL_Pump_Stop();
+	}
+}
+
+/* 电磁阀控制 */
+void HAL_Valve1_Open(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_VALVE1_PORT, HAL_GPIO_VALVE1_PIN, true);
+}
+
+void HAL_Valve1_Close(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_VALVE1_PORT, HAL_GPIO_VALVE1_PIN, false);
+}
+
+void HAL_Valve2_Open(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_VALVE2_PORT, HAL_GPIO_VALVE2_PIN, true);
+}
+
+void HAL_Valve2_Close(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_VALVE2_PORT, HAL_GPIO_VALVE2_PIN, false);
+}
+
+/* LED控制 */
+void HAL_LED_Green_On(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_LED_GREEN_PORT, HAL_GPIO_LED_GREEN_PIN, true);
+}
+
+void HAL_LED_Green_Off(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_LED_GREEN_PORT, HAL_GPIO_LED_GREEN_PIN, false);
+}
+
+void HAL_LED_Yellow_On(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_LED_YELLOW_PORT, HAL_GPIO_LED_YELLOW_PIN, true);
+}
+
+void HAL_LED_Yellow_Off(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_LED_YELLOW_PORT, HAL_GPIO_LED_YELLOW_PIN, false);
+}
+
+/* 蜂鸣器控制 */
+void HAL_Buzzer_On(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_BUZZER_PORT, HAL_GPIO_BUZZER_PIN, true);
+}
+
+void HAL_Buzzer_Off(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_BUZZER_PORT, HAL_GPIO_BUZZER_PIN, false);
+}
+
+/* 电源控制 */
+void HAL_Power_Hold(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_POWER_PORT, HAL_GPIO_POWER_PIN, true);
+}
+
+void HAL_Power_Release(void)
+{
+	HAL_GPIO_WritePin(&HAL_GPIO_POWER_PORT, HAL_GPIO_POWER_PIN, false);
+}
+

@@ -35,11 +35,6 @@ bool AppSelftest_Run(SystemState_t *sys);
  */
 void AppSelftest_Stop(SystemState_t *sys);
 
-/**
- * 函数: AppSelftest_IsPass
- * 功能: 判断自检是否通过
- */
-bool AppSelftest_IsPass(const SystemState_t *sys);
 
 #endif /* APP_SELFTEST_H */
 

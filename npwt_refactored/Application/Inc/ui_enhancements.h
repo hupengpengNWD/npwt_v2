@@ -71,5 +71,11 @@ void UIEnhancements_ClearLeakageCounters(UIEnhancements_t *ui);
  */
 void UIEnhancements_UpdateLeakageCount(UIEnhancements_t *ui);
 
+/**
+ * 函数: UIEnhancements_Update
+ * 功能: 更新UI增强功能（在主循环中调用）
+ */
+void UIEnhancements_Update(void *system_state);
+
 #endif /* UI_ENHANCEMENTS_H */
 

@@ -213,15 +213,6 @@ bool Flash_ReadConfig(FlashConfig_t *config)
 	return true;
 }
 
-/**
- * 函数: Flash_EraseConfig
- * 功能: 擦除Flash配置区
- */
-bool Flash_EraseConfig(void)
-{
-	Flash_EraseBlock(FLASH_CONFIG_ADDRESS);
-	return true;
-}
 
 /****************************************************************************
  * Flash系统配置保存/加载函数

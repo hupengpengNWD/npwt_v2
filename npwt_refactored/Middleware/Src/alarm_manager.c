@@ -265,12 +265,14 @@ void AlarmManager_Update(AlarmData_t *data,
  */
 void AlarmManager_SetMute(AlarmData_t *data, bool mute)
 {
-	data->is_muted = mute;
-	
-	if (mute)
-	{
-		data->mute_timer = 0;
-		HAL_Buzzer_Off();
+	if (data != NULL) {
+		data->is_muted = mute;
+		
+		if (mute)
+		{
+			data->mute_timer = 0;
+			HAL_Buzzer_Off();
+		}
 	}
 }
 

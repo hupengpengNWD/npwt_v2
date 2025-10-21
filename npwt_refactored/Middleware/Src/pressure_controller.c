@@ -48,12 +48,11 @@ void PressureController_SetTarget(PressureControl_t *ctrl, uint16_t target)
 }
 
 /**
- * 函数: PressureController_Execute
- * 功能: 执行压力控制算法（每5ms在中断中调用）
- * 说明: 
- *   实现双位控制（Bang-Bang）算法
- *   根据当前压力和目标压力，控制阀门和气泵PWM
+ * 函数: PressureController_Execute [已废弃]
+ * 说明: 此函数已被 PressureController_Update() 替代
+ *       保留实现仅供参考，不会被调用
  */
+#if 0  // 已废弃，不再使用
 void PressureController_Execute(void)
 {
 	if (g_pressure_ctrl == NULL || !g_pressure_ctrl->control_enabled) {
@@ -68,29 +67,31 @@ void PressureController_Execute(void)
 		g_pressure_ctrl->calibration_k
 	);
 	
-	/* 计算压力偏差 */
-	int16_t error = g_pressure_ctrl->target_pressure - g_pressure_ctrl->current_pressure;
+	/* 计算压力偏差（使用 int32_t 避免溢出） */
+	int32_t error = (int32_t)g_pressure_ctrl->target_pressure - (int32_t)g_pressure_ctrl->current_pressure;
 	
 	/* 计算动态阈值（10%目标压力，最小5mmHg） */
 	uint16_t threshold = g_pressure_ctrl->target_pressure / 10;
 	if (threshold < 5) threshold = 5;
 	
-	/* 双位控制逻辑 */
-	if (error > threshold) {
+	/* 双位控制逻辑（将 threshold 转换为有符号以避免符号转换警告） */
+	int32_t threshold_signed = (int32_t)threshold;
+	
+	if (error > threshold_signed) {
 		/* 压力不足：关闭排气阀，开启气泵 */
 		HAL_Valve2_Close();
 		RealtimeTasks_SetPumpEnable(true);
 		
 		/* 根据压力段设置PWM占空比 */
-		if (error > threshold * 3) {
+		if (error > threshold_signed * 3) {
 			RealtimeTasks_SetPWMDuty(8);  // 80%
-		} else if (error > threshold * 2) {
+		} else if (error > threshold_signed * 2) {
 			RealtimeTasks_SetPWMDuty(6);  // 60%
 		} else {
 			RealtimeTasks_SetPWMDuty(4);  // 40%
 		}
 	}
-	else if (error < -threshold) {
+	else if (error < -threshold_signed) {
 		/* 压力过高：开启排气阀，关闭气泵 */
 		HAL_Valve2_Open();
 		RealtimeTasks_SetPumpEnable(false);
@@ -101,6 +102,7 @@ void PressureController_Execute(void)
 		RealtimeTasks_SetPumpEnable(false);
 	}
 }
+#endif  // 结束废弃代码
 
 /**
  * 函数: PressureController_Update

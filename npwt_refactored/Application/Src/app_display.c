@@ -7,6 +7,7 @@
 
 #include "../Inc/app_display.h"
 #include "../../Drivers/Inc/lcd_driver.h"
+#include "../../Drivers/Inc/lcd_ui_elements.h"  // 图标显示函数
 
 /**
  * 函数: AppDisplay_Update
@@ -15,7 +16,7 @@
 void AppDisplay_Update(SystemState_t *sys)
 {
 	static uint8_t display_refresh_count = 0;
-	static uint8_t last_mode = MODE_INIT;
+	static WorkMode_e last_mode = MODE_INIT;  // 使用正确的enum类型
 	
 	/* 模式切换时清屏 */
 	if (sys->current_mode != last_mode)
@@ -41,11 +42,15 @@ void AppDisplay_Update(SystemState_t *sys)
 				LCD_DisplayString(2, 90, "mmHg");
 				LCD_DisplayString(4, 10, "Press OK to start");
 				
-				/* 显示静音状态 */
-				if (sys->alarm.is_muted)
-				{
-					LCD_DisplayString(5, 0, "[MUTED]");
-				}
+			/* 显示静音状态 */
+			if (sys->alarm.is_muted)
+			{
+				LCD_DisplayMuteIcon(5, 0);  // 使用图标显示
+			}
+			else
+			{
+				LCD_ClearMuteIcon(5, 0);  // 清除图标
+			}
 				
 				LCD_DisplayBatteryIcon(6, 102, sys->battery.percentage);
 			}
@@ -61,17 +66,21 @@ void AppDisplay_Update(SystemState_t *sys)
 					sys->pressure.current_pressure
 				);
 				
-				/* 显示运行时间 */
-				uint16_t runtime_min = sys->uptime_ms / 60000;
-				LCD_DisplayString(5, 0, "Time:");
-				LCD_DisplayNumber(5, 50, runtime_min);
-				LCD_DisplayString(5, 90, "min");
+			/* 显示运行时间 */
+			uint32_t runtime_min = sys->uptime_ms / 60000UL;
+			LCD_DisplayString(5, 0, "Time:");
+			LCD_DisplayNumber(5, 50, (uint16_t)runtime_min);
+			LCD_DisplayString(5, 90, "min");
 				
-				/* 显示锁定状态 */
-				if (sys->ui.is_locked)
-				{
-					LCD_DisplayString(6, 0, "[LOCK]");
-				}
+			/* 显示锁定状态 */
+			if (sys->ui.is_locked)
+			{
+				LCD_DisplayLockIcon(6, 0);  // 使用图标显示
+			}
+			else
+			{
+				LCD_ClearLockIcon(6, 0);  // 清除图标
+			}
 				
 				LCD_DisplayBatteryIcon(6, 102, sys->battery.percentage);
 			}

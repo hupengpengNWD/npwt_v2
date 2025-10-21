@@ -47,26 +47,11 @@ void Key_Init(KeyData_t *data);
  */
 KeyValue_e Key_Scan(KeyData_t *data);
 
-/**
- * 函数: Key_GetEvent
- * 功能: 获取按键事件
- * 返回: 按键事件类型
+/* 注意：以下接口已删除，直接访问 KeyData_t 结构体成员：
+ * - Key_GetEvent()      → data->event
+ * - Key_IsLongPress()   → data->is_long_press
+ * - Key_GetIdleTime()   → data->idle_time
  */
-KeyEvent_e Key_GetEvent(const KeyData_t *data);
-
-/**
- * 函数: Key_IsLongPress
- * 功能: 判断是否长按
- * 返回: true=长按, false=短按或未按
- */
-bool Key_IsLongPress(const KeyData_t *data);
-
-/**
- * 函数: Key_GetIdleTime
- * 功能: 获取按键空闲时间
- * 返回: 空闲时间（毫秒）
- */
-uint32_t Key_GetIdleTime(const KeyData_t *data);
 
 #endif /* KEY_DRIVER_H */
 

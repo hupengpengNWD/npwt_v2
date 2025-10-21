@@ -138,30 +138,6 @@ KeyValue_e Key_Scan(KeyData_t *data)
 	return data->current_key;
 }
 
-/**
- * 函数: Key_GetEvent
- * 功能: 获取按键事件
- */
-KeyEvent_e Key_GetEvent(const KeyData_t *data)
-{
-	return data->event;
-}
-
-/**
- * 函数: Key_IsLongPress
- * 功能: 判断是否长按
- */
-bool Key_IsLongPress(const KeyData_t *data)
-{
-	return data->is_long_press;
-}
-
-/**
- * 函数: Key_GetIdleTime
- * 功能: 获取按键空闲时间
- */
-uint32_t Key_GetIdleTime(const KeyData_t *data)
-{
-	return (uint32_t)data->idle_time * SYSTEM_TICK_MS;
-}
+/* 注意：Key_GetEvent, Key_IsLongPress, Key_GetIdleTime 等接口已删除
+ * 这些功能现在直接在 app_input.c 中通过访问 KeyData_t 结构体实现 */
 

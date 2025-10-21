@@ -34,4 +34,4 @@ MP_AS_DIR="/Applications/microchip/xc8/v3.00/bin"
 MP_LD_DIR="/Applications/microchip/xc8/v3.00/bin"
 MP_AR_DIR="/Applications/microchip/xc8/v3.00/bin"
 # MP_BC_DIR is not defined
-DFP_DIR=/Applications/microchip/mplabx/v5.40/packs/Microchip/PIC18F-J_DFP/1.3.35
+DFP_DIR=/Applications/microchip/mplabx/v5.40/packs/Microchip/PIC18F-J_DFP/1.1.24

@@ -98,14 +98,6 @@ void AppStateMachine_SetMode(SystemState_t *state, WorkMode_e mode)
 	state->current_mode = mode;
 }
 
-/**
- * 函数: AppStateMachine_GetMode
- * 功能: 获取当前模式
- */
-WorkMode_e AppStateMachine_GetMode(const SystemState_t *state)
-{
-	return state->current_mode;
-}
 
 /****************************************************************************
  * 状态处理函数实现

@@ -21,10 +21,12 @@
  ****************************************************************************/
 
 /**
- * 函数: BatteryManager_FirstCheck
- * 功能: 电池首次检测（开机初始化）
+ * 函数: BatteryManager_Init
+ * 功能: 初始化电池管理器
  */
-void BatteryManager_FirstCheck(BatteryData_t *data);
+void BatteryManager_Init(BatteryData_t *data);
+
+/* 注意：BatteryManager_FirstCheck 已删除，使用 BatteryManager_Update 代替 */
 
 /**
  * 函数: BatteryManager_Update

@@ -61,25 +61,36 @@ typedef struct {
  ****************************************************************************/
 typedef struct {
 	uint8_t  level;                 // 电量等级：0-4
+	uint8_t  percentage;            // 电量百分比：0-100
 	uint16_t voltage_adc;           // 电压ADC值
 	bool     is_charging;           // 是否充电中
 	bool     is_low;                // 是否低电
 	uint16_t shutdown_timer;        // 关机倒计时
 } BatteryData_t;
 
+/* 电池管理器类型别名（必须在 SystemState_t 之前定义） */
+typedef BatteryData_t BatteryManager_t;
+
 /****************************************************************************
  * 故障检测器数据结构
  ****************************************************************************/
 typedef struct {
 	ErrorCode_e active_error;       // 当前故障
+	ErrorCode_e current_error;      // 当前故障（别名）
 	bool     leakage_detected;      // 泄漏检测
 	bool     blockage_detected;     // 堵塞检测
 	bool     liquid_full;           // 液位满
+	bool     sensor_error;          // 传感器故障
+	bool     overpressure;          // 过压故障
 	uint16_t leakage_timer;         // 泄漏计时器
+	uint16_t leakage_count;         // 泄漏次数计数
 	uint32_t blockage_timer;        // 堵塞计时器
 	uint16_t pressure_history[8];   // 压力历史记录
 	uint8_t  history_index;         // 历史记录索引
 } FaultData_t;
+
+/* 故障检测器类型别名（必须在 SystemState_t 之前定义） */
+typedef FaultData_t FaultDetector_t;
 
 /****************************************************************************
  * 报警管理器数据结构
@@ -87,7 +98,7 @@ typedef struct {
 typedef struct {
 	bool     is_muted;              // 是否静音
 	uint16_t mute_timer;            // 静音计时器
-	uint8_t  alarm_type;            // 报警类型
+	AlarmType_e alarm_type;         // 报警类型（使用枚举类型，避免精度丢失）
 	uint16_t beep_counter;          // 蜂鸣计数器
 	bool     beep_active;           // 蜂鸣器是否激活
 } AlarmData_t;
@@ -115,33 +126,7 @@ typedef struct {
 
 /* 注意：语言选项已移除，新架构仅支持英语显示 */
 
-/****************************************************************************
- * 故障检测器数据（新定义）
- ****************************************************************************/
-typedef struct {
-	ErrorCode_e current_error;      // 当前故障
-	bool     leakage_detected;      // 泄漏检测
-	bool     blockage_detected;     // 堵塞检测
-	bool     liquid_full;           // 液位满
-	bool     sensor_error;          // 传感器故障
-	bool     overpressure;          // 过压
-	uint16_t leakage_count;         // 泄漏次数
-} FaultDetector_t;
-
-/* 注意：FaultData_t 已在上面定义，不需要 typedef */
-
-/****************************************************************************
- * 电池管理器数据（新定义）
- ****************************************************************************/
-typedef struct {
-	uint8_t  level;                 // 电量等级：0-4
-	uint8_t  percentage;            // 电量百分比：0-100
-	uint16_t voltage_adc;           // 电压ADC值
-	bool     is_charging;           // 是否充电中
-	bool     is_low;                // 是否低电
-} BatteryManager_t;
-
-/* 注意：BatteryData_t 已在上面定义，不需要 typedef */
+/* 注意：FaultDetector_t 和 BatteryManager_t 类型别名定义在下方 */
 
 /****************************************************************************
  * 系统状态结构
@@ -180,6 +165,7 @@ typedef struct {
 } FlashConfig_t;
 
 /* 注意：语言设置已移除，仅支持英语 */
+/* 注意：BatteryManager_t 和 FaultDetector_t 别名已在上方定义 */
 
 #endif /* SYSTEM_TYPES_H */
 

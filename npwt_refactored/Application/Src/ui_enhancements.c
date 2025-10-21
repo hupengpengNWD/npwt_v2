@@ -19,19 +19,18 @@
  */
 void UIEnhancements_Init(UIEnhancements_t *ui)
 {
-	if (ui == NULL)
-		return;
-	
-	/* 初始化泄漏显示 */
-	ui->leakage_display.leakage_times = 0;
-	ui->leakage_display.show_times = 0;
-	ui->leakage_display.step = 0;
-	ui->leakage_display.buzzer_key_press_count = 0;
-	
-	/* 初始化其他UI状态 */
-	ui->language_selection_active = false;
-	ui->ask_dialog_active = false;
-	ui->current_language = 0;  // 默认英语
+	if (ui != NULL) {
+		/* 初始化泄漏显示 */
+		ui->leakage_display.leakage_times = 0;
+		ui->leakage_display.show_times = 0;
+		ui->leakage_display.step = 0;
+		ui->leakage_display.buzzer_key_press_count = 0;
+		
+		/* 初始化其他UI状态 */
+		ui->language_selection_active = false;
+		ui->ask_dialog_active = false;
+		ui->current_language = 0;  // 默认英语
+	}
 }
 
 /**
@@ -41,43 +40,42 @@ void UIEnhancements_Init(UIEnhancements_t *ui)
  */
 void UIEnhancements_ShowLeakage(UIEnhancements_t *ui)
 {
-	if (ui == NULL)
-		return;
-	
-	LeakageDisplay_t *display = &ui->leakage_display;
-	
-	if (display->step == 0)
-	{
-		/* 步骤0：检测按键，显示泄漏次数 */
-		LCD_Clear();
-		LCD_DisplayString(0, 20, "Leakage Count:");
-		LCD_DisplayNumber(2, 40, display->leakage_times);
-		LCD_DisplayString(4, 10, "Press any key to continue");
+	if (ui != NULL) {
+		LeakageDisplay_t *display = &ui->leakage_display;
 		
-		/* 实际按键检测（需要集成Key_Scan()） */
-		/* 这里应该调用真实的按键扫描函数 */
-		uint8_t key_pressed = 0;  // 实际应用中应该从Key_Scan()获取
-		if (key_pressed) {
-			display->buzzer_key_press_count++;
-		}
-		if (display->buzzer_key_press_count > PRESS_KEY_BUZ_SHOWLQ_TIME)
+		if (display->step == 0)
 		{
-			display->step = 1;
+			/* 步骤0：检测按键，显示泄漏次数 */
+			LCD_Clear();
+			LCD_DisplayString(0, 20, "Leakage Count:");
+			LCD_DisplayNumber(2, 40, display->leakage_times);
+			LCD_DisplayString(4, 10, "Press any key to continue");
+			
+			/* 实际按键检测（需要集成Key_Scan()） */
+			/* 这里应该调用真实的按键扫描函数 */
+			uint8_t key_pressed = 0;  // 实际应用中应该从Key_Scan()获取
+			if (key_pressed) {
+				display->buzzer_key_press_count++;
+			}
+			if (display->buzzer_key_press_count > PRESS_KEY_BUZ_SHOWLQ_TIME)
+			{
+				display->step = 1;
+			}
 		}
-	}
-	else if (display->step == 1)
-	{
-		/* 步骤1：显示详细信息 */
-		LCD_Clear();
-		LCD_DisplayString(0, 10, "Leakage Details:");
-		LCD_DisplayString(2, 20, "Count:");
-		LCD_DisplayNumber(2, 60, display->leakage_times);
-		LCD_DisplayString(4, 20, "Detection:");
-		LCD_DisplayString(4, 80, "Active");
-		
-		/* 显示完成后重置 */
-		display->step = 0;
-		display->show_times = 9;  // 显示9次后结束
+		else if (display->step == 1)
+		{
+			/* 步骤1：显示详细信息 */
+			LCD_Clear();
+			LCD_DisplayString(0, 10, "Leakage Details:");
+			LCD_DisplayString(2, 20, "Count:");
+			LCD_DisplayNumber(2, 60, display->leakage_times);
+			LCD_DisplayString(4, 20, "Detection:");
+			LCD_DisplayString(4, 80, "Active");
+			
+			/* 显示完成后重置 */
+			display->step = 0;
+			display->show_times = 9;  // 显示9次后结束
+		}
 	}
 }
 
@@ -88,16 +86,15 @@ void UIEnhancements_ShowLeakage(UIEnhancements_t *ui)
  */
 void UIEnhancements_ShowAskDialog(UIEnhancements_t *ui)
 {
-	if (ui == NULL)
-		return;
-	
-	LCD_Clear();
-	LCD_DisplayString(0, 20, "System Question");
-	LCD_DisplayString(2, 10, "Continue operation?");
-	LCD_DisplayString(4, 20, "OK: Yes");
-	LCD_DisplayString(5, 20, "CANCEL: No");
-	
-	ui->ask_dialog_active = true;
+	if (ui != NULL) {
+		LCD_Clear();
+		LCD_DisplayString(0, 20, "System Question");
+		LCD_DisplayString(2, 10, "Continue operation?");
+		LCD_DisplayString(4, 20, "OK: Yes");
+		LCD_DisplayString(5, 20, "CANCEL: No");
+		
+		ui->ask_dialog_active = true;
+	}
 }
 
 /**
@@ -107,17 +104,16 @@ void UIEnhancements_ShowAskDialog(UIEnhancements_t *ui)
  */
 void UIEnhancements_ShowLanguageSelection(UIEnhancements_t *ui)
 {
-	if (ui == NULL)
-		return;
-	
-	LCD_Clear();
-	LCD_DisplayString(0, 20, "Language Selection");
-	LCD_DisplayString(2, 30, "English Only");
-	LCD_DisplayString(4, 20, "Russian removed");
-	LCD_DisplayString(6, 20, "Press OK to continue");
-	
-	ui->language_selection_active = true;
-	ui->current_language = 0;  // 强制英语
+	if (ui != NULL) {
+		LCD_Clear();
+		LCD_DisplayString(0, 20, "Language Selection");
+		LCD_DisplayString(2, 30, "English Only");
+		LCD_DisplayString(4, 20, "Russian removed");
+		LCD_DisplayString(6, 20, "Press OK to continue");
+		
+		ui->language_selection_active = true;
+		ui->current_language = 0;  // 强制英语
+	}
 }
 
 /**
@@ -126,13 +122,12 @@ void UIEnhancements_ShowLanguageSelection(UIEnhancements_t *ui)
  */
 void UIEnhancements_ClearLeakageCounters(UIEnhancements_t *ui)
 {
-	if (ui == NULL)
-		return;
-	
-	ui->leakage_display.leakage_times = 0;
-	ui->leakage_display.show_times = 0;
-	ui->leakage_display.step = 0;
-	ui->leakage_display.buzzer_key_press_count = 0;
+	if (ui != NULL) {
+		ui->leakage_display.leakage_times = 0;
+		ui->leakage_display.show_times = 0;
+		ui->leakage_display.step = 0;
+		ui->leakage_display.buzzer_key_press_count = 0;
+	}
 }
 
 /**
@@ -141,9 +136,20 @@ void UIEnhancements_ClearLeakageCounters(UIEnhancements_t *ui)
  */
 void UIEnhancements_UpdateLeakageCount(UIEnhancements_t *ui)
 {
-	if (ui == NULL)
-		return;
-	
-	ui->leakage_display.leakage_times++;
+	if (ui != NULL) {
+		ui->leakage_display.leakage_times++;
+	}
+}
+
+/**
+ * 函数: UIEnhancements_Update
+ * 功能: 主循环更新函数（处理所有UI增强逻辑）
+ */
+void UIEnhancements_Update(void *system_state)
+{
+	/* 简化实现：仅作为占位符 */
+	/* 实际应用中，这里会处理泄漏显示、询问对话框等 */
+	/* 由于这些功能触发条件复杂，暂时不自动调用 */
+	(void)system_state;
 }
 

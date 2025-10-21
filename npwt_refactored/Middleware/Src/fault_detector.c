@@ -11,6 +11,7 @@
 #include "../Inc/fault_detector.h"
 #include "../../Drivers/Inc/adc_driver.h"
 #include "../../Core/Inc/system_config.h"
+#include "../../Core/Inc/mcu_config.h"
 
 /* 故障检测阈值 */
 #define LEAKAGE_TIMEOUT_CYCLES      3000    // 泄漏检测超时：60秒
@@ -24,17 +25,19 @@
  */
 void FaultDetector_Init(FaultData_t *data)
 {
-	data->active_error = ERROR_NONE;
-	data->leakage_detected = false;
-	data->blockage_detected = false;
-	data->liquid_full = false;
-	data->leakage_timer = 0;
-	data->blockage_timer = 0;
-	data->history_index = 0;
-	
-	/* 清空压力历史记录 */
-	for (uint8_t i = 0; i < 8; i++) {
-		data->pressure_history[i] = 0;
+	if (data != NULL) {
+		data->active_error = ERROR_NONE;
+		data->leakage_detected = false;
+		data->blockage_detected = false;
+		data->liquid_full = false;
+		data->leakage_timer = 0;
+		data->blockage_timer = 0;
+		data->history_index = 0;
+		
+		/* 清空压力历史记录 */
+		for (uint8_t i = 0; i < 8; i++) {
+			data->pressure_history[i] = 0;
+		}
 	}
 }
 
@@ -164,7 +167,7 @@ ErrorCode_e FaultDetector_GetActiveError(const FaultData_t *data)
  */
 void FaultDetector_ClearError(FaultData_t *data, ErrorCode_e error)
 {
-	if (data->active_error == error)
+	if (data != NULL && data->active_error == error)
 	{
 		data->active_error = ERROR_NONE;
 		
@@ -195,77 +198,80 @@ void FaultDetector_ClearError(FaultData_t *data, ErrorCode_e error)
  */
 void FaultDetector_Check(FaultDetector_t *fault, PressureControl_t *pressure)
 {
-	static uint16_t check_timer = 0;
-	
-	/* 检测液位满 */
-	uint16_t liquid_level = ADC_ReadLiquid();
-	if (liquid_level > 800)  // 阈值
-	{
-		fault->liquid_full = true;
-		fault->current_error = ERROR_LIQUID_FULL;
-		return;
-	}
-	else
-	{
-		fault->liquid_full = false;
-	}
-	
-	/* 检测压力相关故障（每1秒检测一次） */
-	if (check_timer++ >= 50)  // 1秒
-	{
-		check_timer = 0;
+	if (fault != NULL && pressure != NULL) {
+		static uint16_t check_timer = 0;
 		
+		/* 检测液位满 */
+		uint16_t liquid_level = ADC_ReadLiquid();
+		if (liquid_level > 800)  // 阈值
+		{
+			fault->liquid_full = true;
+			fault->current_error = ERROR_LIQUID_FULL;
+			return;
+		}
+		else
+		{
+			fault->liquid_full = false;
+		}
+		
+		/* 检测压力相关故障（每1秒检测一次） */
+		if (check_timer++ >= 50)  // 1秒
+		{
+			check_timer = 0;
+			
 		if (pressure->control_enabled)
 		{
-			int16_t error = pressure->target_pressure - pressure->current_pressure;
-			
-			/* 检测过压 */
-			if (error < -20)
-			{
-				fault->overpressure = true;
-				fault->current_error = ERROR_OVERPRESSURE;
-				return;
-			}
-			
-			/* 检测泄漏：压力偏差持续较大 */
-			static uint8_t leakage_count = 0;
-			if (error > 15 && error < 40)
-			{
-				leakage_count++;
-				if (leakage_count > 10)  // 10秒
+			/* 使用 int32_t 避免溢出（uint16_t 相减可能超出 int16_t 范围） */
+			int32_t error = (int32_t)pressure->target_pressure - (int32_t)pressure->current_pressure;
+				
+				/* 检测过压 */
+				if (error < -20)
 				{
-					fault->leakage_detected = true;
-					fault->current_error = ERROR_LEAKAGE;
+					fault->overpressure = true;
+					fault->current_error = ERROR_OVERPRESSURE;
 					return;
 				}
-			}
-			else
-			{
-				leakage_count = 0;
-				fault->leakage_detected = false;
-			}
-			
-			/* 检测堵塞：压力偏差持续很大 */
-			static uint8_t blockage_count = 0;
-			if (error > 40)
-			{
-				blockage_count++;
-				if (blockage_count > 30)  // 30秒
+				
+				/* 检测泄漏：压力偏差持续较大 */
+				static uint8_t leakage_count = 0;
+				if (error > 15 && error < 40)
 				{
-					fault->blockage_detected = true;
-					fault->current_error = ERROR_BLOCKAGE;
-					return;
+					leakage_count++;
+					if (leakage_count > 10)  // 10秒
+					{
+						fault->leakage_detected = true;
+						fault->current_error = ERROR_LEAKAGE;
+						return;
+					}
 				}
-			}
-			else
-			{
-				blockage_count = 0;
-				fault->blockage_detected = false;
+				else
+				{
+					leakage_count = 0;
+					fault->leakage_detected = false;
+				}
+				
+				/* 检测堵塞：压力偏差持续很大 */
+				static uint8_t blockage_count = 0;
+				if (error > 40)
+				{
+					blockage_count++;
+					if (blockage_count > 30)  // 30秒
+					{
+						fault->blockage_detected = true;
+						fault->current_error = ERROR_BLOCKAGE;
+						return;
+					}
+				}
+				else
+				{
+					blockage_count = 0;
+					fault->blockage_detected = false;
+				}
 			}
 		}
+		
+		/* 无故障 */
+		fault->current_error = ERROR_NONE;
 	}
-	
-	/* 无故障 */
-	fault->current_error = ERROR_NONE;
 }
 

@@ -216,7 +216,7 @@ void AppSettings_Display(const SystemState_t *sys)
 {
 	const SystemSettings_t *settings = &sys->settings;
 	
-	static uint8_t last_item = SETTING_NONE;
+	static SettingItem_e last_item = SETTING_NONE;  // 使用正确的enum类型
 	
 	/* 切换设置项时清屏 */
 	if (settings->current_item != last_item)

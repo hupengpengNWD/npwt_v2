@@ -78,6 +78,15 @@ uint32_t HAL_Timer_GetTick(void)
 }
 
 /**
+ * 函数: HAL_Watchdog_Clear
+ * 功能: 清除看门狗
+ */
+void HAL_Watchdog_Clear(void)
+{
+	asm("clrwdt");
+}
+
+/**
  * 函数: HAL_Timer_ISR
  * 功能: 定时器中断服务程序（由主ISR调用）
  */
