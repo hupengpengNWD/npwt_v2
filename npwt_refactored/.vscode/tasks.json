@@ -1,0 +1,77 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "编译 NWPT",
+            "type": "shell",
+            "command": "make",
+            "args": ["-C", "NWPT_VR.X"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "清理并编译",
+            "type": "shell",
+            "command": "make -C NWPT_VR.X clean && make -C NWPT_VR.X",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "下载到 PICkit3",
+            "type": "shell",
+            "command": "/Applications/microchip/mplabx/v5.40/mplab_platform/mplab_ipe/bin/ipecmd.sh",
+            "args": [
+                "-P18F46J11",
+                "-TPPK3",
+                "-FNWPT_VR.X/dist/default/production/NWPT_VR.X.production.hex",
+                "-M",
+                "-OL"
+            ],
+            "dependsOn": "编译 NWPT",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "编译并下载",
+            "type": "shell",
+            "command": "./program.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "清理编译输出",
+            "type": "shell",
+            "command": "make",
+            "args": ["-C", "NWPT_VR.X", "clean"],
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
+

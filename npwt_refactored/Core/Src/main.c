@@ -64,7 +64,6 @@ static void System_InitHardware(void)
 	HAL_PWM_Init();
 	
 	/* 初始化驱动层 - 初始化驱动层自己的数据结构和逻辑 */
-	ADC_Driver_Init();    // 注意：不再重复调用 HAL_ADC_Init()
 	Flash_Init();
 	LCD_Driver_Init();
 	Key_Init(&g_key_data);
