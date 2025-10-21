@@ -72,10 +72,11 @@ void UIEnhancements_ClearLeakageCounters(UIEnhancements_t *ui);
 void UIEnhancements_UpdateLeakageCount(UIEnhancements_t *ui);
 
 /**
- * 函数: UIEnhancements_Update
- * 功能: 更新UI增强功能（在主循环中调用）
+ * 注意：UIEnhancements_Update 函数已删除
+ * 
+ * 原因：在旧工程中，UI增强功能不是集中调用的，而是分散在各显示函数中。
+ * 重构后，这些功能已整合到 AppDisplay_Update() 中，无需单独的Update函数。
  */
-void UIEnhancements_Update(void *system_state);
 
 #endif /* UI_ENHANCEMENTS_H */
 

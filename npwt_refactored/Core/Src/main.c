@@ -33,7 +33,7 @@
 #include "../../Application/Inc/app_display.h"
 #include "../../Application/Inc/app_settings.h"
 #include "../../Application/Inc/app_selftest.h"
-#include "../../Application/Inc/ui_enhancements.h"
+/* ui_enhancements 已整合到 app_display，无需单独包含 */
 
 /****************************************************************************
  * 系统状态（全局单例）
@@ -219,11 +219,10 @@ void main(void)
 			
 		/* 7. 声音报警处理 */
 		AlarmManager_Update(&g_system.alarm, &g_system.battery, &g_system.fault);
-			
-		/* 9. UI增强功能更新 */
-		UIEnhancements_Update(&g_system);
 		
-		/* 10. 电池管理（每1秒） */
+		/* 注意：UI增强功能已整合到 AppDisplay_Update() 中，无需单独调用 */
+		
+		/* 9. 电池管理（每1秒） */
 		static uint16_t battery_timer = 0;
 			if (battery_timer++ >= BATTERY_CHECK_INTERVAL)
 			{

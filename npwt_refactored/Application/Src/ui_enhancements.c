@@ -142,14 +142,16 @@ void UIEnhancements_UpdateLeakageCount(UIEnhancements_t *ui)
 }
 
 /**
- * 函数: UIEnhancements_Update
- * 功能: 主循环更新函数（处理所有UI增强逻辑）
+ * 注意：UIEnhancements_Update 函数已删除
+ * 
+ * 原因：
+ *   在旧工程中，UI增强功能（show_lq, DISP_ask, DISP_LANGUAGE）
+ *   不是通过统一的Update函数调用的，而是分散在各个显示函数中按需调用：
+ *   - show_lq() 在 DISP_LixA() 中调用（连续模式显示时）
+ *   - DISP_ask() 在待机模式首次显示时调用
+ *   - DISP_LANGUAGE() 在首次开机时调用
+ * 
+ *   重构后，这些功能已整合到 AppDisplay_Update() 中，
+ *   无需单独的轮询Update函数。
  */
-void UIEnhancements_Update(void *system_state)
-{
-	/* 简化实现：仅作为占位符 */
-	/* 实际应用中，这里会处理泄漏显示、询问对话框等 */
-	/* 由于这些功能触发条件复杂，暂时不自动调用 */
-	(void)system_state;
-}
 

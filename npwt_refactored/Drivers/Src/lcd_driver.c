@@ -300,25 +300,63 @@ void LCD_DisplayMode(WorkMode_e mode) {
 
 /**
  * 函数: LCD_DisplayStartup
- * 功能: 显示开机Logo
+ * 功能: 显示开机Logo（全屏128x64图片）
  */
 void LCD_DisplayStartup(void) {
     LCD_Clear();
-    // 显示Logo（需要从lcd_images.h获取）
-    // LCD_DisplayImage(logo_data);
-    LCD_DisplayString(3, 30, "NPWT V1 0");
+    
+    /* 显示Logo全屏图片（8页 × 128列 = 1024字节） */
+    uint16_t index = 0;
+    for (uint8_t page = 0; page < 8; page++) {
+        LCD_SetPosition(page, 0);
+        for (uint8_t col = 0; col < 128; col++) {
+            LCD_SendData(LOGO_STARTUP_IMAGE[index++]);
+        }
+    }
 }
 
 
 /**
  * 函数: LCD_DisplayBatteryIcon
- * 功能: 显示电池图标（与头文件声明匹配）
+ * 功能: 显示电池图标（24x16像素，根据电量百分比选择不同图标）
  */
 void LCD_DisplayBatteryIcon(uint8_t page, uint8_t column, uint8_t battery_percent) {
-    // 根据电量百分比显示电池图标
-    // 简化实现：显示"BAT"文字
-    LCD_DisplayString(page, column, "BAT");
-    LCD_DisplayNumber(page, column + 20, battery_percent);
+    /* 根据电量百分比选择对应的电池图标（0-4级）*/
+    const uint8_t *icon_data;
+    
+    if (battery_percent >= 80) {
+        icon_data = LCD_GetBatteryIcon(4);  // 满电
+    } else if (battery_percent >= 60) {
+        icon_data = LCD_GetBatteryIcon(3);  // 3/4电量
+    } else if (battery_percent >= 40) {
+        icon_data = LCD_GetBatteryIcon(2);  // 1/2电量
+    } else if (battery_percent >= 20) {
+        icon_data = LCD_GetBatteryIcon(1);  // 1/4电量
+    } else {
+        icon_data = LCD_GetBatteryIcon(0);  // 低电
+    }
+    
+    /* 显示电池图标（24列 × 2页 = 48字节）*/
+    uint8_t n = (116 - column);
+    uint8_t j = n >> 4;
+    uint8_t k = n & 0x0F;
+    uint8_t i = (6 - page);
+    
+    /* 显示第一页（上半部分） */
+    LCD_SendCommand(0xB0 + i);
+    LCD_SendCommand(0x10 + j);
+    LCD_SendCommand(0x00 + k);
+    for (uint8_t idx = 0; idx < 24; idx++) {
+        LCD_SendData(icon_data[idx]);
+    }
+    
+    /* 显示第二页（下半部分） */
+    LCD_SendCommand(0xB0 + i + 1);
+    LCD_SendCommand(0x10 + j);
+    LCD_SendCommand(0x00 + k);
+    for (uint8_t idx = 24; idx < 48; idx++) {
+        LCD_SendData(icon_data[idx]);
+    }
 }
 
 
@@ -333,10 +371,52 @@ void LCD_SetBacklight(bool on) {
 
 /**
  * 函数: LCD_DisplayError
- * 功能: 显示错误信息
+ * 功能: 显示错误信息（参考旧代码 DISP_Erra 实现）
  */
 void LCD_DisplayError(ErrorCode_e error) {
-    LCD_Clear();
-    LCD_DisplayString(2, 20, "ERROR");
-    LCD_DisplayNumber(3, 20, (uint16_t)error);
+    /* 只在错误改变时才清屏（避免闪烁） */
+    static ErrorCode_e last_error = ERROR_NONE;
+    if (error != last_error) {
+        LCD_Clear();
+        last_error = error;
+    }
+    
+    /* 根据错误类型显示对应信息 */
+    switch (error) {
+        case ERROR_LIQUID_FULL:
+            LCD_DisplayString(3, 13, "Canister Full");
+            break;
+            
+        case ERROR_LEAKAGE:
+            LCD_DisplayString(3, 24, "Leak  Alarm");
+            break;
+            
+        case ERROR_BLOCKAGE:
+            LCD_DisplayString(3, 24, "Blockage  Alarm");
+            break;
+            
+        case ERROR_PUMP:
+            LCD_DisplayString(3, 24, "Pump  Error");
+            break;
+            
+        case ERROR_BATTERY_LOW:
+        case ERROR_BATTERY_CRITICAL:
+            LCD_DisplayString(3, 20, "Battery  Low");
+            break;
+            
+        case ERROR_SENSOR:
+            LCD_DisplayString(3, 20, "Sensor  Error");
+            break;
+            
+        case ERROR_OVERPRESSURE:
+            LCD_DisplayString(3, 15, "Over Pressure");
+            break;
+            
+        case ERROR_VALVE:
+            LCD_DisplayString(3, 20, "Valve  Error");
+            break;
+            
+        default:
+            break;
+    }
 }
