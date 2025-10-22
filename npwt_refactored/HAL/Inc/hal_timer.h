@@ -36,7 +36,7 @@ uint32_t HAL_Timer_GetTick(void);
  * 20ms系统滴答标志（与未重构工程的FLG_SYS_10MS一致）
  * 由Timer0中断设置，主循环清除
  */
-extern volatile bool g_system_tick_flag;
+extern volatile uint8_t g_system_tick_flag;
 
 /**
  * 函数: HAL_PWM_Init

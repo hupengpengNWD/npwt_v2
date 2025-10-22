@@ -17,7 +17,7 @@
 static volatile uint32_t g_system_tick_ms = 0;
 
 /* 20ms系统滴答标志（与未重构工程的FLG_SYS_10MS一致） */
-volatile bool g_system_tick_flag = false;
+volatile uint8_t g_system_tick_flag = 0;
 
 /**
  * 函数: HAL_Timer_Init
@@ -89,7 +89,7 @@ void HAL_Timer_ISR(void)
 		TMR0L = 0xef;
 		
 		g_system_tick_ms += SYSTEM_TICK_MS;  // 累加20ms
-		g_system_tick_flag = true;           // 设置标志位（与未重构工程的FLG_SYS_10MS一致）
+		g_system_tick_flag = 1;              // 设置标志位（与未重构工程的FLG_SYS_10MS一致）
 	}
 }
 

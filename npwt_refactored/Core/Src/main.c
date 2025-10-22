@@ -142,10 +142,10 @@ void main(void)
 	/* 4. 初始化功能模块 */
 	System_InitModules();
 	
-	/* 5. 启动Timer3并使能全局中断（与未重构工程一致） */
-	T3CONbits.TMR3ON = 1; // 启动Timer3（关键！与未重构工程的 T3ON=1 一致）
-	INTCONbits.GIE = 1;   // 全局中断使能
-	INTCONbits.PEIE = 1;  // 外设中断使能
+	/* 5. 启动Timer3并使能全局中断（与未重构工程完全一致的写法） */
+	T3CONbits.TMR3ON = 1; // 启动Timer3（T3ON=1）
+	GIE = 1;              // 使能全局中断（直接赋值，与未重构工程一致）
+	PEIE = 1;             // 使能外设中断（直接赋值，与未重构工程一致）
 	
 	/* ========== 主循环 ========== */
 	
@@ -157,7 +157,7 @@ void main(void)
 		/* 等待20ms系统滴答（与未重构工程完全一致的方式） */
 		if (g_system_tick_flag)  // 由Timer0中断每20ms设置一次
 		{
-			g_system_tick_flag = false;  // 清除标志
+			g_system_tick_flag = 0;  // 清除标志
 			
 			/* 更新系统运行时间 */
 			g_system.uptime_ms += SYSTEM_TICK_MS;
