@@ -142,7 +142,8 @@ void main(void)
 	/* 4. 初始化功能模块 */
 	System_InitModules();
 	
-	/* 5. 使能全局中断 */
+	/* 5. 启动Timer3并使能全局中断（与未重构工程一致） */
+	T3CONbits.TMR3ON = 1; // 启动Timer3（关键！与未重构工程的 T3ON=1 一致）
 	INTCONbits.GIE = 1;   // 全局中断使能
 	INTCONbits.PEIE = 1;  // 外设中断使能
 	
