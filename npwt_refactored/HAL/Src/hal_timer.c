@@ -21,16 +21,18 @@ volatile unsigned char FLG_SYS_10MS = 0;
 
 /**
  * 函数: HAL_Timer_Init
- * 功能: 初始化Timer0为20ms定时器（与未重构工程完全一致）
+ * 功能: 初始化Timer0为10ms定时器
+ * 说明: Fosc=32MHz, Timer0时钟=Fosc/4=8MHz, 预分频1:8
+ *       10ms需要: 8MHz/8 × 0.01s = 10000计数
+ *       初值 = 65536 - 10000 = 55536 = 0xD8F0
  */
 void HAL_Timer_Init(void)
 {
-	/* 完全按照未重构工程 SYS_TMR0_Ini() 的寄存器值 */
-	INTCON = 0x20;      // 使能Timer0中断，禁用其他中断
-	INTCON2 = 0x80;     // Timer0时钟源和边沿配置
-	TMR0H = 0xd8;       // 高字节初值
-	TMR0L = 0xef;       // 低字节初值
-	T0CON = 0x83;       // 使能Timer0，16位模式，预分频1:16
+	INTCON = 0x20;      // 使能Timer0中断
+	INTCON2 = 0x80;     // 
+	TMR0H = 0xD8;       // 高字节初值
+	TMR0L = 0xF0;       // 低字节初值
+	T0CON = 0x82;       // 使能Timer0，16位模式，预分频1:8
 }
 
 /**
@@ -81,14 +83,16 @@ void HAL_Watchdog_Clear(void)
 
 /**
  * 函数: HAL_Timer1_Init
- * 功能: 初始化Timer1
+ * 功能: 初始化Timer1为10ms定时器
+ * 说明: Fosc=32MHz, Timer1时钟=Fosc/4=8MHz, 预分频1:8
+ *       10ms需要: 8MHz/8 × 0.01s = 10000计数
+ *       初值 = 65536 - 10000 = 55536 = 0xD8F0
  */
 void HAL_Timer1_Init(void)
 {
-	/* Timer1配置 - 16位定时器 */
-	T1CON = 0x00;           // 停止Timer1，1:1预分频
-	TMR1H = 0x00;           // 初值高字节
-	TMR1L = 0x00;           // 初值低字节
+	T1CON = 0x30;           // 16位读写，1:8预分频，内部时钟
+	TMR1H = 0xD8;           // 初值高字节
+	TMR1L = 0xF0;           // 初值低字节
 	
 	/* 使能Timer1中断 */
 	PIE1bits.TMR1IE = 1;    // 使能Timer1中断
@@ -100,7 +104,7 @@ void HAL_Timer1_Init(void)
 
 /**
  * 函数: HAL_Timer1_ISR
- * 功能: Timer1中断服务程序
+ * 功能: Timer1中断服务程序（10ms）
  */
 void HAL_Timer1_ISR(void)
 {
@@ -108,11 +112,11 @@ void HAL_Timer1_ISR(void)
 	{
 		PIR1bits.TMR1IF = 0;  // 清除中断标志
 		
-		/* 重载Timer1初值 */
-		TMR1H = 0x00;
-		TMR1L = 0x00;
+		/* 重载Timer1初值（10ms） */
+		TMR1H = 0xD8;
+		TMR1L = 0xF0;
 		
-		/* 在这里添加Timer1中断处理逻辑 */
+		/* 在这里添加10ms周期任务 */
 	}
 }
 
@@ -155,19 +159,19 @@ void HAL_Timer2_ISR(void)
 
 /**
  * 函数: HAL_Timer_ISR
- * 功能: 定时器中断服务程序（由主ISR调用）
+ * 功能: Timer0中断服务程序（10ms）
  */
 void HAL_Timer_ISR(void)
 {
-	/* Timer0中断：20ms系统滴答 */
+	/* Timer0中断：10ms系统滴答 */
 	if (INTCONbits.TMR0IF)
 	{
 		INTCONbits.TMR0IF = 0;  // 清除标志
-		TMR0H = 0xd8;           // 重载初值（与未重构工程一致）
-		TMR0L = 0xef;
+		TMR0H = 0xD8;           // 重载初值（10ms）
+		TMR0L = 0xF0;
 		
-		g_system_tick_ms += SYSTEM_TICK_MS;  // 累加20ms
-		FLG_SYS_10MS = 1;                    // 设置标志位（与未重构工程完全一致）
+		g_system_tick_ms += 10;  // 累加10ms
+		FLG_SYS_10MS = 1;        // 设置10ms标志位
 	}
 }
 

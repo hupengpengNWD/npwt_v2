@@ -30,13 +30,13 @@ void main(void)
 	/* 2. 初始化GPIO */
 	HAL_GPIO_Init();
 	
-	/* 3. 初始化Timer1 */
-	HAL_Timer1_Init();
+	/* 3. 初始化定时器 */
+	HAL_Timer_Init();     // Timer0: 10ms
+	HAL_Timer1_Init();    // Timer1: 10ms
+	HAL_PWM_Init();       // Timer3: 1ms
 	
-	/* 4. 初始化Timer2 */
-	HAL_Timer2_Init();
-	
-	/* 5. 使能全局中断 */
+	/* 4. 使能全局中断 */
+	T3CONbits.TMR3ON = 1; // 启动Timer3
 	GIE = 1;
 	PEIE = 1;
 	asm("clrwdt");
@@ -47,8 +47,14 @@ void main(void)
 		/* 喂狗 */
 		asm("clrwdt");
 		
-		/* 测试：翻转LED指示定时器工作 */
-		/* 可以在这里添加测试代码 */
+		/* 测试：10ms任务 */
+		if (FLG_SYS_10MS)
+		{
+			FLG_SYS_10MS = 0;
+			
+			/* 翻转绿色LED指示10ms周期正常 */
+			LATCbits.LATC4 ^= 1;
+		}
 	}
 }
 
@@ -57,9 +63,12 @@ void main(void)
  ****************************************************************************/
 void __interrupt() ISR(void)
 {
-	/* Timer1中断处理 */
-	HAL_Timer1_ISR();
+	/* Timer3中断处理（1ms） */
+	HAL_Timer3_ISR();
 	
-	/* Timer2中断处理 */
-	HAL_Timer2_ISR();
+	/* Timer0中断处理（10ms） */
+	HAL_Timer_ISR();
+	
+	/* Timer1中断处理（10ms） */
+	HAL_Timer1_ISR();
 }
