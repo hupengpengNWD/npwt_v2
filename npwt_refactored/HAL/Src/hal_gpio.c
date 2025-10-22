@@ -31,11 +31,10 @@ void HAL_GPIO_Init(void)
 	/* 配置PORTC：气泵、LED、蜂鸣器、电源 */
 	TRISC = 0b00000011;   // RC0,1=输入（电池状态），RC2-7=输出
 	PORTC = 0;
+	LATC = 0;             // 所有输出清零（包括RC2/POWER_ON）
 	
-	/* 重要：初始化LATC时保持POWER_ON=1（或使用当前值） */
-	/* 因为系统能运行到这里，说明POWER_ON已经为1（硬件自锁） */
-	/* 如果清零LATC会导致RC2=0，系统立即断电！ */
-	LATC = 0b00000100;    // bit2(RC2/POWER_ON)=1，其他=0
+	/* 注意：此时RC2=0，硬件电路依靠用户按住按钮继续供电 */
+	/* 开机检测逻辑会在1秒后设置POWER_ON=1 */
 	
 	/* 配置PORTD：LCD数据线 */
 	LATD = 0;

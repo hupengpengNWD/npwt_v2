@@ -127,17 +127,14 @@ void main(void)
 {
 	/* ========== 系统初始化 ========== */
 	
-	/* 0. 第一优先级：立即设置电源自锁！ */
-	/* 必须在任何初始化之前就设置POWER_ON=1 */
-	/* 配置RC2为输出并设置为高电平 */
-	TRISCbits.TRISC2 = 0;  // RC2设为输出
-	LATCbits.LATC2 = 1;    // POWER_ON = 1，立即自锁电源
-	
 	/* 1. 清除看门狗 */
 	HAL_Watchdog_Clear();
 	
 	/* 2. 初始化硬件 */
 	System_InitHardware();
+	
+	/* 注意：不在这里设置POWER_ON，让开机检测逻辑决定 */
+	/* 硬件电路设计：按钮按下时保持供电，直到开机检测完成 */
 	
 	/* 3. 加载配置 */
 	System_LoadConfig();
