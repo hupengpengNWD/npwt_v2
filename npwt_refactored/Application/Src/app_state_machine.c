@@ -279,49 +279,77 @@ static void State_Error_Handler(SystemState_t *state)
 
 /**
  * 状态: 关机
+ * 功能: 保存配置并断电
+ * 
+ * 逻辑（与未重构工程一致）：
+ *   1. 立即停止所有工作
+ *   2. 清屏显示关机信息
+ *   3. 等待1秒（50个周期）
+ *   4. 保存配置到Flash
+ *   5. 关闭LCD和背光
+ *   6. 断电（POWER_ON = 0）
  */
 static void State_Shutdown_Handler(SystemState_t *state)
 {
-	/* 显示保存提示 */
-	LCD_Clear();
-	LCD_DisplayString(2, 20, "Saving...");
+	static uint16_t shutdown_timer = 0;
+	static bool flash_saved = false;
 	
-	/* 保存所有系统设置到Flash */
-	Flash_SaveSystemSettings(state);
-	
-	/* 延迟一下，让显示可见 */
-	for (uint16_t i = 0; i < 25; i++)  // 0.5秒
+	/* 阶段1：立即关闭外设（只执行一次） */
+	if (shutdown_timer == 0)
 	{
-		HAL_Watchdog_Clear();
+		/* 停止所有工作 */
+		HAL_Pump_Stop();
+		HAL_Pump_Enable(false);
+		HAL_Valve1_Close();
+		HAL_Valve2_Close();
+		HAL_Buzzer_Off();
+		HAL_LED_Green_Off();
+		HAL_LED_Yellow_Off();
+		
+		/* 清屏并显示关机信息 */
+		LCD_Clear();
+		/* 不同于未重构工程，这里可以显示友好的关机信息 */
+		/* 未重构工程在低电量时会显示警告，正常关机则关闭LCD */
 	}
 	
-	/* 显示关机提示 */
-	LCD_DisplayString(4, 20, "Goodbye!");
+	shutdown_timer++;
 	
-	/* 关闭所有外设 */
-	HAL_Pump_Enable(false);
-	HAL_Valve1_Close();
-	HAL_Valve2_Close();
-	HAL_Buzzer_Off();
-	HAL_LED_Green_Off();
-	HAL_LED_Yellow_Off();
-	
-	/* 延迟一下 */
-	for (uint16_t i = 0; i < 50; i++)  // 1秒
+	/* 阶段2：等待1秒后保存配置（50个周期 = 1秒） */
+	if (shutdown_timer >= 50 && !flash_saved)
 	{
-		HAL_Watchdog_Clear();
+		/* 检查电池电量（与未重构工程一致） */
+		if (!state->battery.is_low)  // 电量足够
+		{
+			/* 保存配置到Flash */
+			Flash_SaveSystemSettings(state);
+		}
+		/* 电量过低时不保存，避免Flash写入失败 */
+		
+		flash_saved = true;
+		
+		/* 关闭背光 */
+		LCD_SetBacklight(false);
+		
+		/* 关闭LCD显示 */
+		LCD_Clear();
+		/* TODO: 添加 LCD_PowerOff() 如果有的话 */
 	}
 	
-	/* 关闭LCD和背光 */
-	LCD_Clear();
-	LCD_SetBacklight(false);
-	
-	/* 释放电源 */
-	HAL_Power_Release();
-	
-	/* 进入死循环等待断电 */
-	while(1) {
-		HAL_Watchdog_Clear();
+	/* 阶段3：再等待0.2秒后断电（60个周期） */
+	if (shutdown_timer >= 60)
+	{
+		/* 释放电源自锁 */
+		HAL_Power_Release();  // POWER_ON = 0
+		
+		/* 复位计时器（实际不会执行到，因为已断电） */
+		shutdown_timer = 0;
+		flash_saved = false;
+		
+		/* 进入死循环等待断电（如果POWER_ON没有生效） */
+		while(1)
+		{
+			HAL_Watchdog_Clear();
+		}
 	}
 }
 
