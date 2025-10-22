@@ -31,7 +31,11 @@ void HAL_GPIO_Init(void)
 	/* 配置PORTC：气泵、LED、蜂鸣器、电源 */
 	TRISC = 0b00000011;   // RC0,1=输入（电池状态），RC2-7=输出
 	PORTC = 0;
-	LATC = 0;
+	
+	/* 重要：初始化LATC时保持POWER_ON=1（或使用当前值） */
+	/* 因为系统能运行到这里，说明POWER_ON已经为1（硬件自锁） */
+	/* 如果清零LATC会导致RC2=0，系统立即断电！ */
+	LATC = 0b00000100;    // bit2(RC2/POWER_ON)=1，其他=0
 	
 	/* 配置PORTD：LCD数据线 */
 	LATD = 0;
@@ -155,11 +159,13 @@ void HAL_Buzzer_Off(void)
 /* 电源控制 */
 void HAL_Power_Hold(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_POWER_PORT, HAL_GPIO_POWER_PIN, true);
+	/* 直接操作LAT寄存器（输出锁存器），与未重构工程一致 */
+	LATCbits.LATC2 = 1;  // POWER_ON = 1，保持电源
 }
 
 void HAL_Power_Release(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_POWER_PORT, HAL_GPIO_POWER_PIN, false);
+	/* 直接操作LAT寄存器（输出锁存器），与未重构工程一致 */
+	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源
 }
 

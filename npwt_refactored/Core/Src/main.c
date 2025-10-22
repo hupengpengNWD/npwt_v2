@@ -133,6 +133,11 @@ void main(void)
 	/* 2. 初始化硬件 */
 	System_InitHardware();
 	
+	/* 重要：立即设置POWER_ON=1，防止硬件初始化后断电 */
+	/* 因为 HAL_GPIO_Init() 会将 LATC 清零，可能导致 RC2=0 */
+	/* 此时用户应该还在按住确认键，我们需要快速设置自锁 */
+	LATCbits.LATC2 = 1;  // POWER_ON = 1，立即自锁电源
+	
 	/* 3. 加载配置 */
 	System_LoadConfig();
 	
