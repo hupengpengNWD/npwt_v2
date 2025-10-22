@@ -14,6 +14,7 @@
 #include "../Inc/system_enums.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../HAL/Inc/hal_timer.h"
+#include "../../Middleware/Inc/soft_timer.h"
 
 /****************************************************************************
  * 全局变量
@@ -125,17 +126,67 @@ void PowerControl_Update(void)
 }
 
 /****************************************************************************
- * 新组件测试区域
+ * 软件定时器测试区域
  ****************************************************************************/
 
-/**
- * 函数: NewComponent_Test
- * 功能: 新组件测试函数
- * 说明: 在这里添加新组件的测试代码
- */
-void NewComponent_Test(void)
+/* 测试定时器句柄 */
+static SoftTimerHandle_t g_test_timer1 = 0;
+static SoftTimerHandle_t g_test_timer2 = 0;
+static uint32_t g_test_counter = 0;
+
+/* 测试回调函数1：单次定时器 */
+void TestCallback1(void* user_data)
 {
-	// TODO: 在这里添加新组件的测试代码
+	// 翻转RC4 LED（绿色）
+	LATCbits.LATC4 ^= 1;
+	g_test_counter++;
+}
+
+/* 测试回调函数2：周期定时器 */
+void TestCallback2(void* user_data)
+{
+	// 翻转RC6（背光）
+	LATCbits.LATC6 ^= 1;
+}
+
+/**
+ * 函数: SoftTimer_Test
+ * 功能: 软件定时器测试函数
+ * 说明: 测试软件定时器的各种功能
+ */
+void SoftTimer_Test(void)
+{
+	static uint32_t test_timer = 0;
+	static bool test_initialized = false;
+	
+	/* 初始化测试（只执行一次） */
+	if (!test_initialized) {
+		// 创建单次定时器：1秒后执行
+		g_test_timer1 = SoftTimer_Create(SOFT_TIMER_MODE_ONCE, 1000, TestCallback1, NULL);
+		
+		// 创建周期定时器：500ms周期
+		g_test_timer2 = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 500, TestCallback2, NULL);
+		
+		// 启动定时器
+		if (g_test_timer1 != 0) {
+			SoftTimer_Start(g_test_timer1);
+		}
+		if (g_test_timer2 != 0) {
+			SoftTimer_Start(g_test_timer2);
+		}
+		
+		test_initialized = true;
+	}
+	
+	/* 每5秒重新启动单次定时器 */
+	test_timer++;
+	if (test_timer >= 500) {  // 5秒
+		test_timer = 0;
+		
+		if (g_test_timer1 != 0) {
+			SoftTimer_Start(g_test_timer1);  // 重新启动
+		}
+	}
 }
 
 /****************************************************************************
@@ -159,7 +210,10 @@ void main(void)
 	HAL_Timer1_Init();    // Timer1: 10ms
 	HAL_PWM_Init();       // Timer3: 1ms
 	
-	/* 4. 使能全局中断 */
+	/* 4. 初始化软件定时器模块 */
+	SoftTimer_Init();
+	
+	/* 5. 使能全局中断 */
 	T3CONbits.TMR3ON = 1; // 启动Timer3
 	GIE = 1;
 	PEIE = 1;
@@ -179,11 +233,8 @@ void main(void)
 			/* 步骤1：电源控制更新 */
 			PowerControl_Update();
 			
-			/* 新组件测试 */
-			NewComponent_Test();
-			
-			/* 测试：翻转绿色LED指示主循环正常 */
-			LATCbits.LATC4 ^= 1;
+			/* 软件定时器测试 */
+			SoftTimer_Test();
 		}
 	}
 }
@@ -201,12 +252,15 @@ void __interrupt() ISR(void)
 		FLG_SYS_10MS = 1;
 	}
 	
-	/* Timer1中断：10ms */
+	/* Timer1中断：10ms - 软件定时器tick更新 */
 	if (TMR1IF)
 	{
 		TMR1IF = 0;
 		TMR1H = 0x0B;
 		TMR1L = 0xDC;
+		
+		/* 更新软件定时器 */
+		SoftTimer_TickUpdate();
 	}
 	
 	/* Timer3中断：1ms */
