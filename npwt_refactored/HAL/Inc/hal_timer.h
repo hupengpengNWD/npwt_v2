@@ -26,6 +26,30 @@
 void HAL_Timer_Init(void);
 
 /**
+ * 函数: HAL_Timer1_Init
+ * 功能: 初始化Timer1
+ */
+void HAL_Timer1_Init(void);
+
+/**
+ * 函数: HAL_Timer1_ISR
+ * 功能: Timer1中断服务程序
+ */
+void HAL_Timer1_ISR(void);
+
+/**
+ * 函数: HAL_Timer2_Init
+ * 功能: 初始化Timer2
+ */
+void HAL_Timer2_Init(void);
+
+/**
+ * 函数: HAL_Timer2_ISR
+ * 功能: Timer2中断服务程序
+ */
+void HAL_Timer2_ISR(void);
+
+/**
  * 函数: HAL_Timer_GetTick
  * 功能: 获取系统运行时间
  * 返回: 系统运行的毫秒数

@@ -75,6 +75,84 @@ void HAL_Watchdog_Clear(void)
 	asm("clrwdt");
 }
 
+/****************************************************************************
+ * Timer1 相关函数
+ ****************************************************************************/
+
+/**
+ * 函数: HAL_Timer1_Init
+ * 功能: 初始化Timer1
+ */
+void HAL_Timer1_Init(void)
+{
+	/* Timer1配置 - 16位定时器 */
+	T1CON = 0x00;           // 停止Timer1，1:1预分频
+	TMR1H = 0x00;           // 初值高字节
+	TMR1L = 0x00;           // 初值低字节
+	
+	/* 使能Timer1中断 */
+	PIE1bits.TMR1IE = 1;    // 使能Timer1中断
+	PIR1bits.TMR1IF = 0;    // 清除中断标志
+	
+	/* 启动Timer1 */
+	T1CONbits.TMR1ON = 1;
+}
+
+/**
+ * 函数: HAL_Timer1_ISR
+ * 功能: Timer1中断服务程序
+ */
+void HAL_Timer1_ISR(void)
+{
+	if (PIR1bits.TMR1IF)
+	{
+		PIR1bits.TMR1IF = 0;  // 清除中断标志
+		
+		/* 重载Timer1初值 */
+		TMR1H = 0x00;
+		TMR1L = 0x00;
+		
+		/* 在这里添加Timer1中断处理逻辑 */
+	}
+}
+
+/****************************************************************************
+ * Timer2 相关函数
+ ****************************************************************************/
+
+/**
+ * 函数: HAL_Timer2_Init
+ * 功能: 初始化Timer2
+ */
+void HAL_Timer2_Init(void)
+{
+	/* Timer2配置 - 8位定时器 */
+	T2CON = 0x00;           // 停止Timer2，1:1预分频和后分频
+	PR2 = 0xFF;             // 周期寄存器
+	TMR2 = 0x00;            // 初值
+	
+	/* 使能Timer2中断 */
+	PIE1bits.TMR2IE = 1;    // 使能Timer2中断
+	PIR1bits.TMR2IF = 0;    // 清除中断标志
+	
+	/* 启动Timer2 */
+	T2CONbits.TMR2ON = 1;
+}
+
+/**
+ * 函数: HAL_Timer2_ISR
+ * 功能: Timer2中断服务程序
+ */
+void HAL_Timer2_ISR(void)
+{
+	if (PIR1bits.TMR2IF)
+	{
+		PIR1bits.TMR2IF = 0;  // 清除中断标志
+		
+		/* 在这里添加Timer2中断处理逻辑 */
+	}
+}
+
 /**
  * 函数: HAL_Timer_ISR
  * 功能: 定时器中断服务程序（由主ISR调用）
