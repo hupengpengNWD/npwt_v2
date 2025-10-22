@@ -362,11 +362,20 @@ void LCD_DisplayBatteryIcon(uint8_t page, uint8_t column, uint8_t battery_percen
 
 /**
  * 函数: LCD_SetBacklight
- * 功能: 设置背光（简化实现）
+ * 功能: 设置背光（与未重构工程一致）
  */
-void LCD_SetBacklight(bool on) {
-    // PIC18F46J11没有硬件背光控制，这里是空实现
-    (void)on;
+void LCD_SetBacklight(bool on)
+{
+    /* 未重构工程：SetBlk() 设置 RC6=1 */
+    /* 背光控制在 RC6 (Pin 17) */
+    if (on)
+    {
+        LATCbits.LATC6 = 1;  // 打开背光
+    }
+    else
+    {
+        LATCbits.LATC6 = 0;  // 关闭背光
+    }
 }
 
 /**
