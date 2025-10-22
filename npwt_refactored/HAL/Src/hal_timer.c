@@ -16,8 +16,8 @@
 /* 系统滴答计数器 */
 static volatile uint32_t g_system_tick_ms = 0;
 
-/* 20ms系统滴答标志（与未重构工程的FLG_SYS_10MS一致） */
-volatile uint8_t g_system_tick_flag = 0;
+/* 20ms系统滴答标志（与未重构工程完全一致的变量名） */
+volatile unsigned char FLG_SYS_10MS = 0;
 
 /**
  * 函数: HAL_Timer_Init
@@ -89,7 +89,7 @@ void HAL_Timer_ISR(void)
 		TMR0L = 0xef;
 		
 		g_system_tick_ms += SYSTEM_TICK_MS;  // 累加20ms
-		g_system_tick_flag = 1;              // 设置标志位（与未重构工程的FLG_SYS_10MS一致）
+		FLG_SYS_10MS = 1;                    // 设置标志位（与未重构工程完全一致）
 	}
 }
 

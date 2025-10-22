@@ -33,10 +33,10 @@ void HAL_Timer_Init(void);
 uint32_t HAL_Timer_GetTick(void);
 
 /**
- * 20ms系统滴答标志（与未重构工程的FLG_SYS_10MS一致）
+ * 20ms系统滴答标志（与未重构工程完全一致，使用相同的变量名）
  * 由Timer0中断设置，主循环清除
  */
-extern volatile uint8_t g_system_tick_flag;
+extern volatile unsigned char FLG_SYS_10MS;
 
 /**
  * 函数: HAL_PWM_Init

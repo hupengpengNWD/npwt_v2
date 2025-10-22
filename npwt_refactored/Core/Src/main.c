@@ -155,9 +155,9 @@ void main(void)
 		HAL_Watchdog_Clear();
 		
 		/* 等待20ms系统滴答（与未重构工程完全一致的方式） */
-		if (g_system_tick_flag)  // 由Timer0中断每20ms设置一次
+		if (FLG_SYS_10MS)  // 由Timer0中断每20ms设置一次
 		{
-			g_system_tick_flag = 0;  // 清除标志
+			FLG_SYS_10MS = 0;  // 清除标志
 			
 			/* 更新系统运行时间 */
 			g_system.uptime_ms += SYSTEM_TICK_MS;
