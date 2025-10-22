@@ -19,14 +19,14 @@
 #include <string.h>
 
 /****************************************************************************
- * LCD硬件控制引脚定义
+ * LCD硬件控制引脚定义（与未重构工程完全一致）
  ****************************************************************************/
-#define LCD_CS   LATCbits.LATC0
-#define LCD_RS   LATCbits.LATC1  
-#define LCD_RD   LATCbits.LATC2
-#define LCD_WR   LATCbits.LATC3
-#define LCD_RES  LATCbits.LATC4
-#define LCD_DATA LATD
+#define LCD_CS   LATEbits.LATE2  // PORTE Pin 2 (片选)
+#define LCD_RS   LATAbits.LATA7  // PORTA Pin 7 (寄存器选择)
+#define LCD_RD   LATEbits.LATE0  // PORTE Pin 0 (读信号)
+#define LCD_WR   LATEbits.LATE1  // PORTE Pin 1 (写信号)
+#define LCD_RES  LATAbits.LATA6  // PORTA Pin 6 (复位)
+#define LCD_DATA LATD            // PORTD (8位数据总线)
 
 /****************************************************************************
  * LCD命令定义
