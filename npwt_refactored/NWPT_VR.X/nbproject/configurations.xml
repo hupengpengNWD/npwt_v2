@@ -71,6 +71,7 @@
         <itemPath>../Middleware/Inc/intermittent_controller.h</itemPath>
         <itemPath>../Middleware/Inc/pressure_controller.h</itemPath>
         <itemPath>../Middleware/Inc/realtime_tasks.h</itemPath>
+        <itemPath>../Middleware/Inc/soft_timer.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Src" projectFiles="true">
         <itemPath>../Middleware/Src/alarm_manager.c</itemPath>
@@ -80,6 +81,7 @@
         <itemPath>../Middleware/Src/intermittent_controller.c</itemPath>
         <itemPath>../Middleware/Src/pressure_controller.c</itemPath>
         <itemPath>../Middleware/Src/realtime_tasks.c</itemPath>
+        <itemPath>../Middleware/Src/soft_timer.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
@@ -233,6 +235,7 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

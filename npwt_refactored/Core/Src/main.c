@@ -15,6 +15,7 @@
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../HAL/Inc/hal_timer.h"
 #include "../../Middleware/Inc/soft_timer.h"
+#include "../../Drivers/Inc/lcd_driver.h"
 
 /****************************************************************************
  * 全局变量
@@ -134,19 +135,19 @@ static SoftTimerHandle_t g_test_timer1 = 0;
 static SoftTimerHandle_t g_test_timer2 = 0;
 static uint32_t g_test_counter = 0;
 
-/* 测试回调函数1：单次定时器 */
+/* 测试回调函数1：周期定时器 - 每200ms翻转RC4电平 */
 void TestCallback1(void* user_data)
 {
-	// 翻转RC4 LED（绿色）
-	LATCbits.LATC4 ^= 1;
+	// 翻转RC4 LED（绿色）- 使用HAL函数
+	HAL_GPIO_TogglePin(&PORTC, 4);
 	g_test_counter++;
 }
 
-/* 测试回调函数2：周期定时器 */
+/* 测试回调函数2：单次定时器 - 5秒后关闭背光 */
 void TestCallback2(void* user_data)
 {
-	// 翻转RC6（背光）
-	LATCbits.LATC6 ^= 1;
+	// 关闭LCD背光
+	LCD_SetBacklight(false);
 }
 
 /**
@@ -161,11 +162,11 @@ void SoftTimer_Test(void)
 	
 	/* 初始化测试（只执行一次） */
 	if (!test_initialized) {
-		// 创建单次定时器：1秒后执行
-		g_test_timer1 = SoftTimer_Create(SOFT_TIMER_MODE_ONCE, 1000, TestCallback1, NULL);
+		// 创建周期定时器：200ms周期翻转RC4
+		g_test_timer1 = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 200, TestCallback1, NULL);
 		
-		// 创建周期定时器：500ms周期
-		g_test_timer2 = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 500, TestCallback2, NULL);
+		// 创建单次定时器：5秒后关闭背光
+		g_test_timer2 = SoftTimer_Create(SOFT_TIMER_MODE_ONCE, 5000, TestCallback2, NULL);
 		
 		// 启动定时器
 		if (g_test_timer1 != 0) {
@@ -178,13 +179,17 @@ void SoftTimer_Test(void)
 		test_initialized = true;
 	}
 	
-	/* 每5秒重新启动单次定时器 */
+	/* 每10秒重新启动单次定时器（关闭背光） */
 	test_timer++;
-	if (test_timer >= 500) {  // 5秒
+	if (test_timer >= 1000) {  // 10秒
 		test_timer = 0;
 		
-		if (g_test_timer1 != 0) {
-			SoftTimer_Start(g_test_timer1);  // 重新启动
+		// 重新开启背光
+		LCD_SetBacklight(true);
+		
+		// 重新启动单次定时器（5秒后关闭背光）
+		if (g_test_timer2 != 0) {
+			SoftTimer_Start(g_test_timer2);
 		}
 	}
 }
@@ -248,7 +253,7 @@ void __interrupt() ISR(void)
 	if (T0IF)
 	{
 		T0IF = 0;
-		TMR0 = 0x0BDC;  // 重装定时器值
+		TMR0 = 0xD8F0;  // 重装定时器值（与初始化一致）
 		FLG_SYS_10MS = 1;
 	}
 	
@@ -256,8 +261,8 @@ void __interrupt() ISR(void)
 	if (TMR1IF)
 	{
 		TMR1IF = 0;
-		TMR1H = 0x0B;
-		TMR1L = 0xDC;
+		TMR1H = 0xD8;  // 重装定时器值（与初始化一致）
+		TMR1L = 0xF0;
 		
 		/* 更新软件定时器 */
 		SoftTimer_TickUpdate();
