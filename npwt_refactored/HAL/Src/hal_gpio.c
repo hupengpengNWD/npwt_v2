@@ -18,38 +18,29 @@
  */
 void HAL_GPIO_Init(void)
 {
-	/* 配置PORTA：ADC输入和音频控制 */
-	TRISA = 0b00110111;   // RA0,1,2,4,5=输入，RA3,5=输出
-	LATA = 0;
-	PORTA = 0;
+	/* 完全按照未重构工程 SYS_IO_Ini() 的写法 */
+	TRISA  =  0b00110111;
+	LATA  =  0;
+	PORTA  =  0;
 	
-	/* 配置PORTB：电磁阀输出和按键输入 */
-	TRISB = 0b11111100;   // RB0,1=输出（阀门），RB2-7=输入（按键）
-	PORTB = 0;
-	LATB = 0;
+	TRISB  =  0b11111100;
+	PORTB  =  0;
+	LATB  =  0;
 	
-	/* 配置PORTC：气泵、LED、蜂鸣器、电源 */
-	TRISC = 0b00000011;   // RC0,1=输入（电池状态），RC2-7=输出
-	PORTC = 0;
-	LATC = 0;             // 所有输出清零（包括RC2/POWER_ON）
+	TRISC  =  0b00000011;
+	PORTC  =  0;
+	LATC  =  0;
 	
-	/* 注意：此时RC2=0，硬件电路依靠用户按住按钮继续供电 */
-	/* 开机检测逻辑会在1秒后设置POWER_ON=1 */
+	LATD  =  0;
+	TRISD  =  0;
+	PORTD  =  0;
 	
-	/* 配置PORTD：LCD数据线 */
-	LATD = 0;
-	TRISD = 0;            // 全部输出
-	PORTD = 0;
+	LATE  =  0;
+	TRISE  =  0;
+	PORTE  =  0;
 	
-	/* 配置PORTE：LCD控制线 */
-	LATE = 0;
-	TRISE = 0;            // 全部输出
-	PORTE = 0;
-	
-	/* 配置模拟输入控制寄存器（与未重构工程一致） */
-	/* 注意：在GPIO初始化时先禁用，后续ADC_Init会重新配置AN0 */
-	ANCON0 = 0xff;        // 禁用所有模拟输入（改用数字IO）
-	ANCON1 = 0xff;        // 禁用所有模拟输入
+	ANCON0  =  0xff;
+	ANCON1  =  0xff;
 }
 
 /**

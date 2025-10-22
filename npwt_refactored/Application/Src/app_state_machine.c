@@ -120,6 +120,14 @@ static void State_Init_Handler(SystemState_t *state)
 	static uint16_t init_timer = 0;
 	static uint16_t key_hold_time = 0;
 	static bool power_on_confirmed = false;
+	static bool logo_displayed = false;
+	
+	/* 第一次进入时显示Logo（在中断使能后才显示，避免长延时） */
+	if (!logo_displayed)
+	{
+		LCD_DisplayStartup();  // 显示开机Logo
+		logo_displayed = true;
+	}
 	
 	init_timer++;
 	
@@ -203,6 +211,7 @@ static void State_Init_Handler(SystemState_t *state)
 		init_timer = 0;
 		key_hold_time = 0;
 		power_on_confirmed = false;
+		logo_displayed = false;
 	}
 }
 

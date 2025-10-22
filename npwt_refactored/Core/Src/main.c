@@ -68,8 +68,8 @@ static void System_InitHardware(void)
 	LCD_Driver_Init();
 	Key_Init(&g_key_data);
 	
-	/* 显示开机Logo */
-	LCD_DisplayStartup();
+	/* 注意：不在这里显示开机Logo，移到主循环中显示 */
+	/* 因为LCD操作有延时，应该在中断使能后执行 */
 	
 	/* 初始化报警管理器 */
 	AlarmManager_Init(&g_system.alarm);
