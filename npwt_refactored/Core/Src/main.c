@@ -127,16 +127,17 @@ void main(void)
 {
 	/* ========== 系统初始化 ========== */
 	
+	/* 0. 第一优先级：立即设置电源自锁！ */
+	/* 必须在任何初始化之前就设置POWER_ON=1 */
+	/* 配置RC2为输出并设置为高电平 */
+	TRISCbits.TRISC2 = 0;  // RC2设为输出
+	LATCbits.LATC2 = 1;    // POWER_ON = 1，立即自锁电源
+	
 	/* 1. 清除看门狗 */
 	HAL_Watchdog_Clear();
 	
 	/* 2. 初始化硬件 */
 	System_InitHardware();
-	
-	/* 重要：立即设置POWER_ON=1，防止硬件初始化后断电 */
-	/* 因为 HAL_GPIO_Init() 会将 LATC 清零，可能导致 RC2=0 */
-	/* 此时用户应该还在按住确认键，我们需要快速设置自锁 */
-	LATCbits.LATC2 = 1;  // POWER_ON = 1，立即自锁电源
 	
 	/* 3. 加载配置 */
 	System_LoadConfig();
