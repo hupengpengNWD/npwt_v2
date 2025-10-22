@@ -66,14 +66,12 @@ void BIOS_JLX12864_TRANS_DAT(int data) {
  ****************************************************************************/
 
 /**
- * 延时函数
+ * 延时函数（与未重构工程BIOS_JLX12864_DELAY完全一致）
  */
 static void LCD_Delay(uint16_t ms) {
-    for (uint16_t i = 0; i < ms; i++) {
-        for (uint16_t j = 0; j < 100; j++) {
-            __asm("nop");
-        }
-    }
+    uint16_t j, k;
+    for (j = 0; j < ms; j++) 
+        for (k = 0; k < 10; k++);  // 内层循环10次，不是100次！
 }
 
 /**
