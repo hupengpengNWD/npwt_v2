@@ -17,12 +17,10 @@
  */
 void HAL_ADC_Init(void)
 {
-	/* 配置ADC寄存器 */
-	ADCON0 = 0b00000001;  // 使能ADC，选择AN0
-	ADCON1 = 0b00001110;  // 配置AN0为模拟输入，其他为数字IO
-	
-	/* 注意：PIC18F46J11 没有ADCON2寄存器，采样时间由ADCON0控制 */
-	/* XC8编译器会自动处理采样时间 */
+	/* 完全按照未重构工程 SYS_ADCini() 的寄存器值 */
+	ADCON0 = 0x01;   // 使能ADC，选择通道AN0
+	ADCON1 = 0xbe;   // 右对齐，参考电压VDD/VSS
+	ANCON0 = 0x01;   // AN0配置为模拟输入
 }
 
 /**

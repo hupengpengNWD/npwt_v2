@@ -126,10 +126,11 @@ static void State_Init_Handler(SystemState_t *state)
 	/* 阶段1：按键检测阶段（前50个周期 = 1秒） */
 	if (init_timer <= 50)
 	{
-		/* 检测确认键是否按下（直接读取GPIO） */
-		/* 注意：使用与 key_driver.c 相同的方式读取 */
-		uint8_t key_port = PORTB & 0x3C;
-		if (key_port == 0x38)  // KEY_CONFIRM = 0x38 (RB2=0)
+		/* 检测确认键是否按下（与未重构工程完全一致的方式） */
+		/* GET_KEY_VAL = PORTB & 0x3C */
+		/* KEY_C = 0x38 (RB2=0，即确认键) */
+		uint8_t key_port = (PORTB & 0x3C);
+		if (key_port == 0x38)  // 确认键按下
 		{
 			key_hold_time++;
 		}

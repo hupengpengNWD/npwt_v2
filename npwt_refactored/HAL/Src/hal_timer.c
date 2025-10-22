@@ -18,23 +18,16 @@ static volatile uint32_t g_system_tick_ms = 0;
 
 /**
  * 函数: HAL_Timer_Init
- * 功能: 初始化Timer0为20ms定时器
+ * 功能: 初始化Timer0为20ms定时器（与未重构工程完全一致）
  */
 void HAL_Timer_Init(void)
 {
-	/* Timer0配置：8位模式，1:256预分频 */
-	T0CON = 0b11000111;  // 使能，8位，预分频1:256
-	
-	/* 计算初值：20ms @ 32MHz */
-	/* Tout = 4 * prescaler * (256-TMR0) / Fosc */
-	/* 20ms = 4 * 256 * (256-TMR0) / 32000000 */
-	/* TMR0 = 256 - 625 = -369（溢出） */
-	/* 实际使用：156（实验调整值） */
-	TMR0 = 156;
-	
-	/* 使能Timer0中断 */
-	INTCONbits.TMR0IE = 1;  // 使能Timer0中断
-	INTCONbits.TMR0IF = 0;  // 清除中断标志
+	/* 完全按照未重构工程 SYS_TMR0_Ini() 的寄存器值 */
+	INTCON = 0x20;      // 使能Timer0中断，禁用其他中断
+	INTCON2 = 0x80;     // Timer0时钟源和边沿配置
+	TMR0H = 0xd8;       // 高字节初值
+	TMR0L = 0xef;       // 低字节初值
+	T0CON = 0x83;       // 使能Timer0，16位模式，预分频1:16
 }
 
 /**
@@ -43,16 +36,9 @@ void HAL_Timer_Init(void)
  */
 void HAL_PWM_Init(void)
 {
-	/* Timer3配置：16位模式，1ms定时 */
-	T3CON = 0b00110001;  // 1:8预分频，启动Timer3
-	
-	/* 设置初值：1ms @ 32MHz, 预分频1:8 */
-	TMR3H = 0xfc;  // 重载值
-	TMR3L = 0x17;
-	
-	/* 使能Timer3中断 */
-	PIE2bits.TMR3IE = 1;
-	PIR2bits.TMR3IF = 0;
+	/* 完全按照未重构工程 SYS_TMR3_Ini() 的寄存器值 */
+	T3CON = 0x34;           // Timer3配置（与未重构工程一致）
+	PIE2 = PIE2 | 0x02;     // 使能Timer3中断（不影响其他中断位）
 }
 
 /**

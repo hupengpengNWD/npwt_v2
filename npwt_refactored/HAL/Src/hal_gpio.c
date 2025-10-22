@@ -45,6 +45,11 @@ void HAL_GPIO_Init(void)
 	LATE = 0;
 	TRISE = 0;            // 全部输出
 	PORTE = 0;
+	
+	/* 配置模拟输入控制寄存器（与未重构工程一致） */
+	/* 注意：在GPIO初始化时先禁用，后续ADC_Init会重新配置AN0 */
+	ANCON0 = 0xff;        // 禁用所有模拟输入（改用数字IO）
+	ANCON1 = 0xff;        // 禁用所有模拟输入
 }
 
 /**
@@ -158,13 +163,11 @@ void HAL_Buzzer_Off(void)
 /* 电源控制 */
 void HAL_Power_Hold(void)
 {
-	/* 直接操作LAT寄存器（输出锁存器），与未重构工程一致 */
-	LATCbits.LATC2 = 1;  // POWER_ON = 1，保持电源
+	LATCbits.LATC2 = 1;  // POWER_ON = 1，保持电源（与未重构工程一致）
 }
 
 void HAL_Power_Release(void)
 {
-	/* 直接操作LAT寄存器（输出锁存器），与未重构工程一致 */
-	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源
+	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源（与未重构工程一致）
 }
 
