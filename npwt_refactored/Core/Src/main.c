@@ -37,6 +37,7 @@ typedef enum {
 static PowerState_e power_state = POWER_STATE_INIT;
 static uint16_t init_timer = 0;
 static uint16_t key_hold_timer = 0;
+static uint16_t shutdown_key_timer = 0;  // 关机按键计时器
 
 /**
  * 函数: PowerControl_Update
@@ -92,8 +93,24 @@ void PowerControl_Update(void)
 	
 	case POWER_STATE_RUNNING:
 	{
-		// 运行中，电源已自锁
-		// 后续添加关机检测
+		/* 运行中，检测关机按键（长按确认键） */
+		uint8_t key = PORTB & 0x3C;
+		
+		if (key == 0x38)  // 确认键按下
+		{
+			shutdown_key_timer++;
+			
+			/* 长按2秒（200个10ms周期）触发关机 */
+			if (shutdown_key_timer >= 200)
+			{
+				power_state = POWER_STATE_SHUTDOWN;
+				shutdown_key_timer = 0;
+			}
+		}
+		else
+		{
+			shutdown_key_timer = 0;  // 松开按键，复位计时器
+		}
 		break;
 	}
 	
