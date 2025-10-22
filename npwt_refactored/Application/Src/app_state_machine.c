@@ -105,21 +105,99 @@ void AppStateMachine_SetMode(SystemState_t *state, WorkMode_e mode)
 
 /**
  * 状态: 初始化
+ * 功能: 开机检测和初始化
+ * 
+ * 逻辑（与未重构工程一致）：
+ *   1. 前50个周期（1秒）检测确认键是否持续按下
+ *   2. 累计按键时间必须 ≥ 30个周期（600ms）
+ *   3. 按键时间足够 → 开机成功，POWER_ON=1
+ *   4. 按键时间不足 → 关机，复位计时器，重新检测
+ *   5. 开机后显示LOGO和版本号
+ *   6. 350个周期（7秒）后进入待机模式
  */
 static void State_Init_Handler(SystemState_t *state)
 {
-	/* 显示开机画面 */
-	/* 检查启动按键 */
-	/* 初始化完成后转入待机模式 */
-	
 	static uint16_t init_timer = 0;
+	static uint16_t key_hold_time = 0;
+	static bool power_on_confirmed = false;
 	
-	if (init_timer++ >= 100)  // 2秒后完成初始化
+	init_timer++;
+	
+	/* 阶段1：按键检测阶段（前50个周期 = 1秒） */
+	if (init_timer <= 50)
 	{
-		HAL_Power_Hold();  // 保持电源
+		/* 检测确认键是否按下（直接读取GPIO） */
+		/* 注意：使用与 key_driver.c 相同的方式读取 */
+		uint8_t key_port = PORTB & 0x3C;
+		if (key_port == 0x38)  // KEY_CONFIRM = 0x38 (RB2=0)
+		{
+			key_hold_time++;
+		}
+		else
+		{
+			key_hold_time = 0;  // 松开按键，计时器清零
+		}
+	}
+	/* 阶段2：判断是否开机（第51个周期） */
+	else if (init_timer == 51)
+	{
+		if (key_hold_time < 30)  // 按键时间不足（< 600ms）
+		{
+			/* 开机失败：关机，复位，重新检测 */
+			HAL_Power_Release();  // POWER_ON = 0
+			init_timer = 0;
+			key_hold_time = 0;
+			power_on_confirmed = false;
+			return;
+		}
+		else  // 按键时间足够（≥ 600ms）
+		{
+			/* 开机成功 */
+			HAL_Power_Hold();  // POWER_ON = 1
+			power_on_confirmed = true;
+			
+			/* LCD已在 System_InitHardware() 中初始化，这里只需打开背光 */
+			LCD_SetBacklight(true);
+			
+			/* 使能驱动 */
+			HAL_Valve2_Open();  // 打开VAL2（与未重构工程一致）
+			
+			/* 蜂鸣器提示（短促一声） */
+			HAL_Buzzer_On();
+		}
+	}
+	/* 阶段3：显示开机画面（51~250周期 = 1~5秒） */
+	else if (init_timer > 51 && init_timer <= 250 && power_on_confirmed)
+	{
+		/* 关闭蜂鸣器（在62个周期后，约1.24秒） */
+		if (init_timer > 62)
+		{
+			HAL_Buzzer_Off();
+		}
+		
+		/* 显示开机LOGO（已在 LCD_DisplayStartup 中显示） */
+		/* 注意：开机画面只显示一次，在 main.c 的初始化中已调用 */
+	}
+	/* 阶段4：显示版本号（250~350周期 = 5~7秒） */
+	else if (init_timer > 250 && init_timer <= 350 && power_on_confirmed)
+	{
+		/* 可以在这里显示版本号 */
+		/* LCD_DisplayVersion(); */
+	}
+	/* 阶段5：完成初始化，进入待机模式（350周期 = 7秒后） */
+	else if (init_timer >= 350 && power_on_confirmed)
+	{
+		/* 清屏 */
+		LCD_Clear();
+		
+		/* 进入待机模式 */
 		AppStateMachine_SetMode(state, MODE_STANDBY);
 		state->system_ready = true;
+		
+		/* 复位计时器 */
 		init_timer = 0;
+		key_hold_time = 0;
+		power_on_confirmed = false;
 	}
 }
 
