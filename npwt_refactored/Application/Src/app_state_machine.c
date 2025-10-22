@@ -153,14 +153,15 @@ static void State_Init_Handler(SystemState_t *state)
 		else  // 按键时间足够（≥ 600ms）
 		{
 			/* 开机成功 */
-			HAL_Power_Hold();  // POWER_ON = 1
+			HAL_Power_Hold();  // POWER_ON = 1 (RC2 = 1)
 			power_on_confirmed = true;
 			
 			/* LCD已在 System_InitHardware() 中初始化，这里只需打开背光 */
 			LCD_SetBacklight(true);
 			
-			/* 使能驱动 */
-			HAL_Valve2_Open();  // 打开VAL2（与未重构工程一致）
+			/* 使能驱动（与未重构工程一致）*/
+			LATCbits.LATC3 = 1;    // DRV_EN = 1
+			HAL_Valve2_Open();     // VAL2 = 1
 			
 			/* 蜂鸣器提示（短促一声） */
 			HAL_Buzzer_On();

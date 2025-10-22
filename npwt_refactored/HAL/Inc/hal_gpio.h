@@ -17,33 +17,38 @@
 
 /****************************************************************************
  * GPIO引脚定义（PIC18F46J11）
+ * 与未重构工程完全一致
  ****************************************************************************/
-
-/* 气泵控制 */
-#define HAL_GPIO_PUMP_PORT      PORTC
-#define HAL_GPIO_PUMP_PIN       2
 
 /* 电磁阀控制 */
 #define HAL_GPIO_VALVE1_PORT    PORTB
-#define HAL_GPIO_VALVE1_PIN     0
+#define HAL_GPIO_VALVE1_PIN     0  // RB0 (Pin 33) - VAL1
 
 #define HAL_GPIO_VALVE2_PORT    PORTB
-#define HAL_GPIO_VALVE2_PIN     1
+#define HAL_GPIO_VALVE2_PIN     1  // RB1 (Pin 34) - VAL2
+
+/* 电源控制（电源自锁）- 最重要！ */
+#define HAL_GPIO_POWER_PORT     PORTC
+#define HAL_GPIO_POWER_PIN      2  // RC2 (Pin 13) - POWER_ON 自锁信号
+
+/* 驱动使能 */
+#define HAL_GPIO_DRV_EN_PORT    PORTC
+#define HAL_GPIO_DRV_EN_PIN     3  // RC3 (Pin 14) - DRV_EN
 
 /* LED指示灯 */
 #define HAL_GPIO_LED_GREEN_PORT PORTC
-#define HAL_GPIO_LED_GREEN_PIN  3
+#define HAL_GPIO_LED_GREEN_PIN  4  // RC4 (Pin 15) - 绿色LED (GRE)
 
 #define HAL_GPIO_LED_YELLOW_PORT PORTC
-#define HAL_GPIO_LED_YELLOW_PIN  4
+#define HAL_GPIO_LED_YELLOW_PIN  5  // RC5 (Pin 16) - 黄色LED (YEL)
 
-/* 蜂鸣器 */
-#define HAL_GPIO_BUZZER_PORT    PORTC
-#define HAL_GPIO_BUZZER_PIN     5
+/* 气泵控制 */
+#define HAL_GPIO_PUMP_PORT      PORTC
+#define HAL_GPIO_PUMP_PIN       7  // RC7 (Pin 18) - 气泵控制
 
-/* 电源控制 */
-#define HAL_GPIO_POWER_PORT     PORTC
-#define HAL_GPIO_POWER_PIN      6
+/* 蜂鸣器（在PORTA上，不是PORTC！） */
+#define HAL_GPIO_BUZZER_PORT    PORTA
+#define HAL_GPIO_BUZZER_PIN     3  // RA3 (Pin 5) - SPEAK 蜂鸣器
 
 /****************************************************************************
  * GPIO操作函数
