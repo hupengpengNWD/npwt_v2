@@ -164,13 +164,10 @@ void main(void)
 			/* 更新系统运行时间 */
 			g_system.uptime_ms += SYSTEM_TICK_MS;
 			
-			/* 1. 按键扫描与处理 */
-			/* 注意：在 MODE_INIT 模式也需要扫描按键（用于开机检测） */
-			Key_Scan(&g_key_data);
-			
-			/* 但只在非 INIT 模式时处理按键输入 */
+			/* 1. 按键扫描与处理（与未重构工程一致：MOD_SYS时不扫描） */
 			if (g_system.current_mode != MODE_INIT)
 			{
+				Key_Scan(&g_key_data);
 				AppInput_Process(&g_system, &g_key_data);
 			}
 			
