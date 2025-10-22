@@ -4,15 +4,20 @@
  * 
  * 说明: 
  *   实现按键扫描、消抖、长按检测
- *   按键连接到PORTB的RB2-RB5
+ *   按键连接到PORTB的RB2-RB5（低电平有效）
  * 
- * 按键映射（低电平有效）:
- *   RB2 = 上键
- *   RB3 = 下键
- *   RB4 = 确认键
- *   RB5 = 取消键
+ * 按键映射（与未重构工程一致）:
+ *   RB2 = 确认键 (KEY_CONFIRM / KEY_OK)    → 0x38 (bit2=0)
+ *   RB3 = 上键   (KEY_UP)                  → 0x34 (bit3=0)
+ *   RB4 = 下键   (KEY_DOWN)                → 0x2C (bit4=0)
+ *   RB5 = 取消/静音键 (KEY_CANCEL / KEY_MUTE) → 0x1C (bit5=0)
+ * 
+ * 注意：
+ *   - PORTB bit0-1 用于电磁阀输出（VAL1/VAL2），不参与按键扫描
+ *   - 读取时使用掩码 0x3C 屏蔽 bit0-1
  * 
  * 创建日期: 2025-10-20
+ * 修改日期: 2025-10-22 - 修正按键映射，与未重构工程一致
  ****************************************************************************/
 
 #include "../Inc/key_driver.h"
@@ -20,14 +25,14 @@
 #include "../../HAL/Inc/hal_gpio.h"  // 包含 mcu_config.h → <xc.h> 寄存器定义
 
 /* 按键GPIO读取宏 */
-#define GET_KEY_PORT()  (PORTB & 0b00111100)  // 读取RB2-RB5
+#define GET_KEY_PORT()  (PORTB & 0x3C)  // 读取RB2-RB5（屏蔽bit0-1）
 
-/* 按键值定义（低电平有效） */
-#define KEY_PORT_UP      0b00111011  // RB2=0
-#define KEY_PORT_DOWN    0b00110111  // RB3=0
-#define KEY_PORT_CONFIRM 0b00101111  // RB4=0
-#define KEY_PORT_CANCEL  0b00011111  // RB5=0
-#define KEY_PORT_NONE    0b00111111  // 全部=1
+/* 按键值定义（低电平有效，与未重构工程一致） */
+#define KEY_PORT_UP      0x34  // 0b00110100 RB3=0（上键）
+#define KEY_PORT_DOWN    0x2C  // 0b00101100 RB4=0（下键）
+#define KEY_PORT_CONFIRM 0x38  // 0b00111000 RB2=0（确认/OK键）
+#define KEY_PORT_CANCEL  0x1C  // 0b00011100 RB5=0（取消/静音键）
+#define KEY_PORT_NONE    0x3C  // 0b00111100 全部=1（无按键）
 
 /* 消抖次数 */
 #define KEY_DEBOUNCE_COUNT  5
