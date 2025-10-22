@@ -154,13 +154,10 @@ void main(void)
 		/* 喂狗 */
 		HAL_Watchdog_Clear();
 		
-		/* 等待20ms系统滴答 */
-		static uint32_t last_tick = 0;
-		uint32_t current_tick = HAL_Timer_GetTick();
-		
-		if ((current_tick - last_tick) >= SYSTEM_TICK_MS)
+		/* 等待20ms系统滴答（与未重构工程完全一致的方式） */
+		if (g_system_tick_flag)  // 由Timer0中断每20ms设置一次
 		{
-			last_tick = current_tick;
+			g_system_tick_flag = false;  // 清除标志
 			
 			/* 更新系统运行时间 */
 			g_system.uptime_ms += SYSTEM_TICK_MS;
