@@ -45,33 +45,20 @@
  * PIC18F46J11 配置位设置
  * 
  * 说明：
- *   只配置必需的配置位（XINST），其他使用默认值
- *   详细配置应在MPLAB X项目属性中设置
+ *   配置位已在 config_bits.h 中完整定义
+ *   该文件与未重构工程的配置完全一致
+ *   包含所有必要的配置：振荡器、看门狗、电源管理等
+ * 
+ * 重要配置说明：
+ *   - OSC = INTOSCPLL：使用内部振荡器+PLL（32MHz）
+ *   - WDTEN = ON：看门狗使能
+ *   - WDTPS = 16384：看门狗分频比
+ *   - XINST = OFF：禁用扩展指令集（XC8要求）
+ *   - CP0 = OFF：代码保护禁用
  ****************************************************************************/
 
-/* 必须禁用扩展指令集（XC8编译器不支持） */
-#pragma config XINST = OFF
-
-/* 看门狗定时器配置 */
-#pragma config WDTEN = ON          // 看门狗定时器使能
-#pragma config WDTPS = 128         // 看门狗分频：1:128
-
-/* 振荡器配置 */
-#pragma config OSC = HS            // 高速晶振模式（8MHz）
-#pragma config FCMEN = ON          // 故障安全时钟监控使能
-#pragma config IESO = ON           // 内外部振荡器切换使能
-
-/* 堆栈和调试 */
-#pragma config STVREN = ON         // 堆栈溢出复位使能
-#pragma config DEBUG = OFF         // 调试禁用（生产环境）
-
-/* 代码保护禁用 */
-#pragma config CP0 = OFF           // 代码保护禁用
-
-/* 
- * 注意：其余配置位（如 WRT, EBTR 等）在 PIC18F46J11 上不可用或名称不同
- * 请在 MPLAB X 项目属性 -> Configuration Bits 中检查和配置
- */
+/* 配置位在 config_bits.h 中定义 */
+#include "config_bits.h"
 
 #endif /* MCU_CONFIG_H */
 
