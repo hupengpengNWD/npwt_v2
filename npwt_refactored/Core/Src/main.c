@@ -24,7 +24,10 @@ void main(void)
 {
 	/* ========== 系统初始化 ========== */
 	
-	/* 1. 清除看门狗 */
+	/* 1. 初始化振荡器（与未重构工程SYS_OSC_Ini完全一致） */
+	OSCCON = 0b01110000;    // 内部振荡器，8MHz
+	OSCTUNE = OSCTUNE | 0x40; // 使能4×PLL → 32MHz
+	while (!(OSCCON & 0x08)); // 等待振荡器稳定
 	asm("clrwdt");
 	
 	/* 2. 初始化GPIO */
