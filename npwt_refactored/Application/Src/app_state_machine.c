@@ -157,6 +157,9 @@ static void State_Init_Handler(SystemState_t *state)
 			HAL_Power_Hold();  // POWER_ON = 1 (RC2 = 1)
 			power_on_confirmed = true;
 			
+			/* 测试：点亮绿色LED，确认执行到这里 */
+			LATCbits.LATC4 = 1;    // 绿色LED亮
+			
 			/* LCD已在 System_InitHardware() 中初始化，这里只需打开背光 */
 			LCD_SetBacklight(true);
 			
