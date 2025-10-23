@@ -233,11 +233,8 @@ void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, vo
         
         case KEY_MACHINE_EVENT_LONG_PRESS:
         {
-            // 长按1秒 - 开机（仅在关机状态下有效）
-            if (g_power_state == POWER_STATE_OFF) {
-                PowerOn();
-                // 状态更新已在PowerOn()函数中完成
-            }
+            // 长按1秒 - 已删除开机逻辑，现在只在断电情况下长按确认键通电
+            // 通电后立即在main函数中完成电源自锁和开机
             break;
         }
         

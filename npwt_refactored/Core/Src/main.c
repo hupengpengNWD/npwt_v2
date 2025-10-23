@@ -18,6 +18,7 @@
 #include "../../Middleware/Inc/key_machine.h"
 #include "../../Drivers/Inc/lcd_driver.h"
 #include "../../Application/Inc/app_button.h"
+#include "../../Application/Inc/app_beep.h"
 #include <stddef.h> // For NULL
 
 /****************************************************************************
@@ -103,6 +104,10 @@ void main(void)
     /* 2.1 立即设置RC2为高电平，确保电源自锁 */
     HAL_Power_Hold();  // LATCbits.LATC2 = 1
     
+    /* 2.2 立即打开LCD背光并设置电源状态为开机 */
+    LCD_SetBacklight(true);
+    AppButton_SetPowerState(1); // POWER_STATE_ON = 1
+    
     /* 3. 初始化定时器 */
     HAL_Timer_Init();     // Timer0: 10ms
     HAL_Timer1_Init();    // Timer1: 10ms
@@ -116,6 +121,9 @@ void main(void)
     
     /* 6. 初始化按键应用层 */
     AppButton_Init();
+    
+    /* 6.1 初始化蜂鸣器应用层 */
+    AppBeep_Init();
     
     /* 7. 创建电源按键 */
     KeyMachinePtr_t power_key = AppButton_GetPowerKeyInstance();
@@ -160,8 +168,29 @@ void main(void)
         AppButton_SetKeyProcessTimer(key_process_timer);
     }
     
-    /* 8.1 初始化电源状态（在定时器启动后，中断使能前） */
-    AppButton_SetPowerState(0); // POWER_STATE_OFF = 0
+    /* 8.1 创建蜂鸣器处理定时器（每10ms执行一次） */
+    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppBeep_BeepProcessCallback, NULL);
+    if (beep_process_timer != 0) {
+        SoftTimer_Start(beep_process_timer);
+        AppBeep_SetBeepProcessTimer(beep_process_timer);
+    }
+    
+    /* 8.2 创建蜂鸣器控制实例 */
+    PushPullPtr_t buzzer = AppBeep_GetBuzzerInstance();
+    PushPull_Initialize(buzzer, 
+                       AppBeep_GetBuzzerConfig(), 
+                       AppBeep_GetBuzzerSeqLength(), 
+                       AppBeep_GetBuzzerSeqCount(),
+                       AppBeep_BuzzerCallback, 
+                       NULL);
+    PushPull_SetDriverInterface(buzzer, 
+                               (void*)0x1234, 
+                               AppBeep_BuzzerWriteHigh, 
+                               AppBeep_BuzzerWriteLow, 
+                               AppBeep_BuzzerToggle);
+    
+    /* 8.3 开始蜂鸣器2秒周期循环 */
+    AppBeep_StartBeep();
     
     /* 9. 使能全局中断 */
     T3CONbits.TMR3ON = 1; // 启动Timer3
