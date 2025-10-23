@@ -36,11 +36,11 @@
 #define HAL_GPIO_DRV_EN_PIN     3  // RC3 (Pin 14) - DRV_EN
 
 /* LED指示灯 */
-#define HAL_GPIO_LED_GREEN_PORT PORTC
-#define HAL_GPIO_LED_GREEN_PIN  4  // RC4 (Pin 15) - 绿色LED (GRE)
+#define HAL_GPIO_LED_WHITE_PORT PORTC
+#define HAL_GPIO_LED_WHITE_PIN  6  // RC6 (Pin 17) - 白色LED背光 (WHITE)
 
 #define HAL_GPIO_LED_YELLOW_PORT PORTC
-#define HAL_GPIO_LED_YELLOW_PIN  5  // RC5 (Pin 16) - 黄色LED (YEL)
+#define HAL_GPIO_LED_YELLOW_PIN  4  // RC4 (Pin 15) - 黄色LED (YEL)
 
 /* 气泵控制 */
 #define HAL_GPIO_PUMP_PORT      PORTC
@@ -60,26 +60,6 @@
  */
 void HAL_GPIO_Init(void);
 
-/**
- * 函数: HAL_GPIO_WritePin
- * 功能: 写GPIO引脚
- * 参数: pin - 引脚编号, state - 1或0
- */
-void HAL_GPIO_WritePin(volatile uint8_t *port, uint8_t pin, bool state);
-
-/**
- * 函数: HAL_GPIO_ReadPin
- * 功能: 读GPIO引脚
- * 返回: true=高电平, false=低电平
- */
-bool HAL_GPIO_ReadPin(volatile uint8_t *port, uint8_t pin);
-
-/**
- * 函数: HAL_GPIO_TogglePin
- * 功能: 翻转GPIO引脚
- */
-void HAL_GPIO_TogglePin(volatile uint8_t *port, uint8_t pin);
-
 /****************************************************************************
  * GPIO高层控制接口（普通函数声明，消除inline警告）
  ****************************************************************************/
@@ -96,10 +76,11 @@ void HAL_Valve2_Open(void);
 void HAL_Valve2_Close(void);
 
 /* LED控制 */
-void HAL_LED_Green_On(void);
-void HAL_LED_Green_Off(void);
+void HAL_LED_White_On(void);
+void HAL_LED_White_Off(void);
 void HAL_LED_Yellow_On(void);
 void HAL_LED_Yellow_Off(void);
+void HAL_LED_Yellow_Toggle(void);
 
 /* 蜂鸣器控制 */
 void HAL_Buzzer_On(void);

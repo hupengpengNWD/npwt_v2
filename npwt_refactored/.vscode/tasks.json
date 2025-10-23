@@ -2,14 +2,27 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "编译 NWPT",
+            "label": "智能编译 (推荐)",
             "type": "shell",
-            "command": "make",
-            "args": ["-C", "NWPT_VR.X"],
+            "command": "./smart_build.sh",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "编译 NWPT",
+            "type": "shell",
+            "command": "make",
+            "args": ["-C", "NWPT_VR.X"],
+            "group": "build",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -70,6 +83,32 @@
             "command": "make",
             "args": ["-C", "NWPT_VR.X", "clean"],
             "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "更新 compile_commands.json",
+            "type": "shell",
+            "command": "./update_compile_commands.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "生成 compile_commands.json (clangd)",
+            "type": "shell",
+            "command": "./generate_compile_commands_clangd.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
             "problemMatcher": []
         }
     ]

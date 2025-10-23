@@ -1,10 +1,10 @@
 /****************************************************************************
  * 文件名: main.c
- * 功能: 主程序入口（新组件测试版本）
+ * 功能: 主程序入口（基于按键状态机的电源控制版本）
  * 
  * 说明: 
- *   用于测试新组件功能
- *   基于步骤1的电源控制功能
+ *   使用key_machine组件实现电源控制
+ *   长按1秒开机，长按3秒关机
  * 
  * 创建日期: 2025-10-22
  ****************************************************************************/
@@ -15,7 +15,10 @@
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../HAL/Inc/hal_timer.h"
 #include "../../Middleware/Inc/soft_timer.h"
+#include "../../Middleware/Inc/key_machine.h"
 #include "../../Drivers/Inc/lcd_driver.h"
+#include "../../Application/Inc/app_button.h"
+#include <stddef.h> // For NULL
 
 /****************************************************************************
  * 全局变量
@@ -25,254 +28,192 @@ extern volatile unsigned char FLG_SYS_10MS;
 /* 系统状态 */
 static SystemState_t g_system;
 
+
 /****************************************************************************
- * 电源控制模块（保留步骤1的功能）
+ * 电源控制函数
  ****************************************************************************/
-
-/* 电源控制状态 */
-typedef enum {
-	POWER_STATE_INIT,      // 初始化，检测按键
-	POWER_STATE_RUNNING,   // 运行中，电源已自锁
-	POWER_STATE_SHUTDOWN   // 关机
-} PowerState_e;
-
-static PowerState_e power_state = POWER_STATE_INIT;
-static uint16_t init_timer = 0;
-static uint16_t key_hold_timer = 0;
-static uint16_t shutdown_key_timer = 0;  // 关机按键计时器
 
 /**
- * 函数: PowerControl_Update
- * 功能: 电源控制更新（每10ms调用）
+ * @name      PowerOn
+ * @brief     开机操作 - 拉高RC2保持MOSFET导通
+ * @param     无
+ * @retval    无
  */
-void PowerControl_Update(void)
+void PowerOn(void)
 {
-	switch (power_state)
-	{
-	case POWER_STATE_INIT:
-	{
-		init_timer++;
-		
-		/* 前50个周期（500ms）检测按键 */
-		if (init_timer <= 50)
-		{
-			uint8_t key = PORTB & 0x3C;
-			if (key == 0x38)  // 确认键按下
-			{
-				key_hold_timer++;
-			}
-			else
-			{
-				key_hold_timer = 0;
-			}
-		}
-		/* 第51个周期判断 */
-		else if (init_timer == 51)
-		{
-			if (key_hold_timer < 30)  // 按键不足300ms
-			{
-				// 开机失败，复位
-				HAL_Power_Release();
-				init_timer = 0;
-				key_hold_timer = 0;
-			}
-			else  // 按键足够
-			{
-				// 开机成功
-				HAL_Power_Hold();
-				LATCbits.LATC6 = 1;  // 背光
-				power_state = POWER_STATE_RUNNING;
-			}
-		}
-		/* 7秒后仍未开机，复位 */
-		else if (init_timer >= 700)
-		{
-			init_timer = 0;
-			key_hold_timer = 0;
-		}
-		break;
-	}
-	
-	case POWER_STATE_RUNNING:
-	{
-		/* 运行中，检测关机按键（长按确认键） */
-		uint8_t key = PORTB & 0x3C;
-		
-		if (key == 0x38)  // 确认键按下
-		{
-			shutdown_key_timer++;
-			
-			/* 长按2秒（200个10ms周期）触发关机 */
-			if (shutdown_key_timer >= 200)
-			{
-				power_state = POWER_STATE_SHUTDOWN;
-				shutdown_key_timer = 0;
-			}
-		}
-		else
-		{
-			shutdown_key_timer = 0;  // 松开按键，复位计时器
-		}
-		break;
-	}
-	
-	case POWER_STATE_SHUTDOWN:
-	{
-		// 关机处理
-		HAL_Power_Release();
-		while(1) { asm("clrwdt"); }
-		break;
-	}
-	}
-}
-
-/****************************************************************************
- * 软件定时器测试区域
- ****************************************************************************/
-
-/* 测试定时器句柄 */
-static SoftTimerHandle_t g_test_timer1 = 0;
-static SoftTimerHandle_t g_test_timer2 = 0;
-static uint32_t g_test_counter = 0;
-
-/* 测试回调函数1：周期定时器 - 每200ms翻转RC4电平 */
-void TestCallback1(void* user_data)
-{
-	// 翻转RC4 LED（绿色）- 使用HAL函数
-	HAL_GPIO_TogglePin(&PORTC, 4);
-	g_test_counter++;
-}
-
-/* 测试回调函数2：单次定时器 - 5秒后关闭背光 */
-void TestCallback2(void* user_data)
-{
-	// 关闭LCD背光
-	LCD_SetBacklight(false);
+    // 拉高RC2保持MOSFET导通（使用HAL函数）
+    HAL_Power_Hold();  // LATCbits.LATC2 = 1
+    
+    // 开启背光
+    LCD_SetBacklight(true);
+    
+    // 更新状态
+    // 注意：电源状态现在由app_button模块管理
+    // 状态更新在AppButton_PowerKeyCallback中处理
+    // 但为了保持与备份文件的一致性，这里也更新状态
+    AppButton_SetPowerState(1); // POWER_STATE_ON = 1
 }
 
 /**
- * 函数: SoftTimer_Test
- * 功能: 软件定时器测试函数
- * 说明: 测试软件定时器的各种功能
+ * @name      PowerOff
+ * @brief     关机操作 - 释放RC2让MOSFET断开
+ * @param     无
+ * @retval    无
  */
-void SoftTimer_Test(void)
+void PowerOff(void)
 {
-	static uint32_t test_timer = 0;
-	static bool test_initialized = false;
-	
-	/* 初始化测试（只执行一次） */
-	if (!test_initialized) {
-		// 创建周期定时器：200ms周期翻转RC4
-		g_test_timer1 = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 200, TestCallback1, NULL);
-		
-		// 创建单次定时器：5秒后关闭背光
-		g_test_timer2 = SoftTimer_Create(SOFT_TIMER_MODE_ONCE, 5000, TestCallback2, NULL);
-		
-		// 启动定时器
-		if (g_test_timer1 != 0) {
-			SoftTimer_Start(g_test_timer1);
-		}
-		if (g_test_timer2 != 0) {
-			SoftTimer_Start(g_test_timer2);
-		}
-		
-		test_initialized = true;
-	}
-	
-	/* 每10秒重新启动单次定时器（关闭背光） */
-	test_timer++;
-	if (test_timer >= 1000) {  // 10秒
-		test_timer = 0;
-		
-		// 重新开启背光
-		LCD_SetBacklight(true);
-		
-		// 重新启动单次定时器（5秒后关闭背光）
-		if (g_test_timer2 != 0) {
-			SoftTimer_Start(g_test_timer2);
-		}
-	}
+//     释放RC2让MOSFET断开（使用HAL函数）
+    HAL_Power_Release();  // LATCbits.LATC2 = 0
+    
+    // 关闭背光
+    LCD_SetBacklight(false);
+    
+    // 更新状态
+    // 注意：电源状态现在由app_button模块管理
+    // 状态更新在AppButton_PowerKeyCallback中处理
+    // 但为了保持与备份文件的一致性，这里也更新状态
+    AppButton_SetPowerState(0); // POWER_STATE_OFF = 0
+    
+    // 进入死循环等待断电
+    while(1) { 
+        // 看门狗已禁用，无需喂狗
+    }
 }
 
+
 /****************************************************************************
- * 主函数
+ * @name      main
+ * @brief     主函数 - 系统初始化和主循环
+ * @param     无
+ * @retval    无
  ****************************************************************************/
 void main(void)
 {
-	/* ========== 系统初始化 ========== */
-	
-	/* 1. 初始化振荡器（与未重构工程SYS_OSC_Ini完全一致） */
-	OSCCON = 0b01110000;    // 内部振荡器，8MHz
-	OSCTUNE = OSCTUNE | 0x40; // 使能4×PLL → 32MHz
-	while (!(OSCCON & 0x08)); // 等待振荡器稳定
-	asm("clrwdt");
-	
-	/* 2. 初始化GPIO */
-	HAL_GPIO_Init();
-	
-	/* 3. 初始化定时器 */
-	HAL_Timer_Init();     // Timer0: 10ms
-	HAL_Timer1_Init();    // Timer1: 10ms
-	HAL_PWM_Init();       // Timer3: 1ms
-	
-	/* 4. 初始化软件定时器模块 */
-	SoftTimer_Init();
-	
-	/* 5. 使能全局中断 */
-	T3CONbits.TMR3ON = 1; // 启动Timer3
-	GIE = 1;
-	PEIE = 1;
-	asm("clrwdt");
-	
-	/* ========== 主循环 ========== */
-	while (1)
-	{
-		/* 喂狗 */
-		asm("clrwdt");
-		
-		/* 10ms任务 */
-		if (FLG_SYS_10MS)
-		{
-			FLG_SYS_10MS = 0;
-			
-			/* 步骤1：电源控制更新 */
-			PowerControl_Update();
-			
-			/* 软件定时器测试 */
-			SoftTimer_Test();
-		}
-	}
+    /* ========== 系统初始化 ========== */
+    
+    /* 1. 初始化振荡器（与未重构工程SYS_OSC_Ini完全一致） */
+    OSCCON = 0b01110000;    // 内部振荡器，8MHz
+    OSCTUNE = OSCTUNE | 0x40; // 使能4×PLL → 32MHz
+    while (!(OSCCON & 0x08)); // 等待振荡器稳定
+    asm("clrwdt");
+    
+    /* 2. 初始化GPIO */
+    HAL_GPIO_Init();
+    
+    /* 2.1 立即设置RC2为高电平，确保电源自锁 */
+    HAL_Power_Hold();  // LATCbits.LATC2 = 1
+    
+    /* 3. 初始化定时器 */
+    HAL_Timer_Init();     // Timer0: 10ms
+    HAL_Timer1_Init();    // Timer1: 10ms
+    HAL_PWM_Init();       // Timer3: 1ms
+    
+    /* 4. 初始化软件定时器模块 */
+    SoftTimer_Init();
+    
+    /* 5. 初始化按键管理器 */
+    KeyManager_Init();
+    
+    /* 6. 初始化按键应用层 */
+    AppButton_Init();
+    
+    /* 7. 创建电源按键 */
+    KeyMachinePtr_t power_key = AppButton_GetPowerKeyInstance();
+    const KeyConfig_t* power_key_config = AppButton_GetPowerKeyConfig();
+    KeyMachine_Initialize(power_key, power_key_config, AppButton_PowerKeyCallback, NULL);
+    KeyMachine_SetDriverInterface(power_key, (void*)0x1234, AppButton_PowerKeyReadLevel);
+    
+    // 注册到按键管理器
+    KeyManager_RegisterStaticKey(power_key);
+    
+    /* 7.1 创建上键 */
+    KeyMachinePtr_t up_key = AppButton_GetUpKeyInstance();
+    const KeyConfig_t* up_key_config = AppButton_GetUpKeyConfig();
+    KeyMachine_Initialize(up_key, up_key_config, AppButton_UpKeyCallback, NULL);
+    KeyMachine_SetDriverInterface(up_key, (void*)0x1234, AppButton_UpKeyReadLevel);
+    
+    // 注册到按键管理器
+    KeyManager_RegisterStaticKey(up_key);
+    
+    /* 7.2 创建下键 */
+    KeyMachinePtr_t down_key = AppButton_GetDownKeyInstance();
+    const KeyConfig_t* down_key_config = AppButton_GetDownKeyConfig();
+    KeyMachine_Initialize(down_key, down_key_config, AppButton_DownKeyCallback, NULL);
+    KeyMachine_SetDriverInterface(down_key, (void*)0x1234, AppButton_DownKeyReadLevel);
+    
+    // 注册到按键管理器
+    KeyManager_RegisterStaticKey(down_key);
+    
+    /* 7.3 创建取消/静音键 */
+    KeyMachinePtr_t cancel_key = AppButton_GetCancelKeyInstance();
+    const KeyConfig_t* cancel_key_config = AppButton_GetCancelKeyConfig();
+    KeyMachine_Initialize(cancel_key, cancel_key_config, AppButton_CancelKeyCallback, NULL);
+    KeyMachine_SetDriverInterface(cancel_key, (void*)0x1234, AppButton_CancelKeyReadLevel);
+    
+    // 注册到按键管理器
+    KeyManager_RegisterStaticKey(cancel_key);
+    
+    /* 8. 创建按键处理定时器（每10ms执行一次） */
+    SoftTimerHandle_t key_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppButton_KeyProcessCallback, NULL);
+    if (key_process_timer != 0) {
+        SoftTimer_Start(key_process_timer);
+        AppButton_SetKeyProcessTimer(key_process_timer);
+    }
+    
+    /* 8.1 初始化电源状态（在定时器启动后，中断使能前） */
+    AppButton_SetPowerState(0); // POWER_STATE_OFF = 0
+    
+    /* 9. 使能全局中断 */
+    T3CONbits.TMR3ON = 1; // 启动Timer3
+    GIE = 1;
+    PEIE = 1;
+    
+    /* ========== 主循环 ========== */
+    while (1)
+    {
+        /* 10ms任务 */
+        if (FLG_SYS_10MS)
+        {
+            FLG_SYS_10MS = 0;
+            
+            /* 软件定时器处理（按键处理已由定时器自动处理） */
+            // 这里可以添加其他10ms任务
+        }
+    }
 }
 
 /****************************************************************************
- * 中断服务程序
+ * @name      ISR
+ * @brief     中断服务程序 - 处理定时器中断
+ * @param     无
+ * @retval    无
  ****************************************************************************/
 void __interrupt() ISR(void)
 {
-	/* Timer0中断：10ms系统滴答 */
-	if (T0IF)
-	{
-		T0IF = 0;
-		TMR0 = 0xD8F0;  // 重装定时器值（与初始化一致）
-		FLG_SYS_10MS = 1;
-	}
-	
-	/* Timer1中断：10ms - 软件定时器tick更新 */
-	if (TMR1IF)
-	{
-		TMR1IF = 0;
-		TMR1H = 0xD8;  // 重装定时器值（与初始化一致）
-		TMR1L = 0xF0;
-		
-		/* 更新软件定时器 */
-		SoftTimer_TickUpdate();
-	}
-	
-	/* Timer3中断：1ms */
-	if (TMR3IF)
-	{
-		TMR3IF = 0;
-		TMR3H = 0xFC;
-		TMR3L = 0x18;
-	}
+    /* Timer0中断：10ms系统滴答 */
+    if (T0IF)
+    {
+        T0IF = 0;
+        TMR0 = 0xD8F0;  // 重装定时器值（与初始化一致）
+        FLG_SYS_10MS = 1;
+    }
+    
+    /* Timer1中断：10ms - 软件定时器tick更新 */
+    if (TMR1IF)
+    {
+        TMR1IF = 0;
+        TMR1H = 0xD8;  // 重装定时器值（与初始化一致）
+        TMR1L = 0xF0;
+        
+        /* 更新软件定时器 */
+        SoftTimer_TickUpdate();
+    }
+    
+    /* Timer3中断：1ms */
+    if (TMR3IF)
+    {
+        TMR3IF = 0;
+        TMR3H = 0xFC;
+        TMR3L = 0x18;
+    }
 }

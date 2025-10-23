@@ -43,37 +43,6 @@ void HAL_GPIO_Init(void)
 	ANCON1  =  0xff;
 }
 
-/**
- * 函数: HAL_GPIO_WritePin
- * 功能: 写GPIO引脚
- */
-void HAL_GPIO_WritePin(volatile uint8_t *port, uint8_t pin, bool state)
-{
-	if (state) {
-		*port |= (1 << pin);   // 置位
-	} else {
-		*port &= ~(1 << pin);  // 清零
-	}
-}
-
-/**
- * 函数: HAL_GPIO_ReadPin
- * 功能: 读GPIO引脚
- */
-bool HAL_GPIO_ReadPin(volatile uint8_t *port, uint8_t pin)
-{
-	return (*port & (1 << pin)) != 0;
-}
-
-/**
- * 函数: HAL_GPIO_TogglePin
- * 功能: 翻转GPIO引脚
- */
-void HAL_GPIO_TogglePin(volatile uint8_t *port, uint8_t pin)
-{
-	*port ^= (1 << pin);
-}
-
 /****************************************************************************
  * GPIO高层控制函数实现
  ****************************************************************************/
@@ -81,74 +50,75 @@ void HAL_GPIO_TogglePin(volatile uint8_t *port, uint8_t pin)
 /* 气泵控制 */
 void HAL_Pump_Start(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, true);
+	LATCbits.LATC7 = 1;  // 气泵启动
 }
 
 void HAL_Pump_Stop(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_PUMP_PORT, HAL_GPIO_PUMP_PIN, false);
+	LATCbits.LATC7 = 0;  // 气泵停止
 }
 
 void HAL_Pump_Enable(bool enable)
 {
-	if (enable) {
-		HAL_Pump_Start();
-	} else {
-		HAL_Pump_Stop();
-	}
+	LATCbits.LATC7 = enable ? 1 : 0;  // 气泵使能控制
 }
 
 /* 电磁阀控制 */
 void HAL_Valve1_Open(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE1_PORT, HAL_GPIO_VALVE1_PIN, true);
+	LATBbits.LATB0 = 1;  // 电磁阀1打开
 }
 
 void HAL_Valve1_Close(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE1_PORT, HAL_GPIO_VALVE1_PIN, false);
+	LATBbits.LATB0 = 0;  // 电磁阀1关闭
 }
 
 void HAL_Valve2_Open(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE2_PORT, HAL_GPIO_VALVE2_PIN, true);
+	LATBbits.LATB1 = 1;  // 电磁阀2打开
 }
 
 void HAL_Valve2_Close(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_VALVE2_PORT, HAL_GPIO_VALVE2_PIN, false);
+	LATBbits.LATB1 = 0;  // 电磁阀2关闭
 }
 
 /* LED控制 */
-void HAL_LED_Green_On(void)
+void HAL_LED_White_On(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_GREEN_PORT, HAL_GPIO_LED_GREEN_PIN, true);
+	LATCbits.LATC6 = 1;  // 白色LED背光开启
 }
 
-void HAL_LED_Green_Off(void)
+void HAL_LED_White_Off(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_GREEN_PORT, HAL_GPIO_LED_GREEN_PIN, false);
+	LATCbits.LATC6 = 0;  // 白色LED背光关闭
 }
 
 void HAL_LED_Yellow_On(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_YELLOW_PORT, HAL_GPIO_LED_YELLOW_PIN, true);
+	LATCbits.LATC4 = 1;  // 黄色LED开启
 }
 
 void HAL_LED_Yellow_Off(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_LED_YELLOW_PORT, HAL_GPIO_LED_YELLOW_PIN, false);
+	LATCbits.LATC4 = 0;  // 黄色LED关闭
+}
+
+void HAL_LED_Yellow_Toggle(void)
+{
+	LATCbits.LATC4 ^= 1;  // 黄色LED翻转
 }
 
 /* 蜂鸣器控制 */
 void HAL_Buzzer_On(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_BUZZER_PORT, HAL_GPIO_BUZZER_PIN, true);
+	LATAbits.LATA3 = 1;  // 蜂鸣器开启
 }
 
 void HAL_Buzzer_Off(void)
 {
-	HAL_GPIO_WritePin(&HAL_GPIO_BUZZER_PORT, HAL_GPIO_BUZZER_PIN, false);
+	LATAbits.LATA3 = 0;  // 蜂鸣器关闭
 }
 
 /* 电源控制 */

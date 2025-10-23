@@ -57,7 +57,7 @@
  ****************************************************************************/
 
 /* CONFIG1L - 看门狗和堆栈配置 */
-#pragma config WDTEN = ON           // 看门狗定时器使能
+#pragma config WDTEN = OFF          // 看门狗定时器禁用（开发阶段）
 #pragma config STVREN = ON          // 堆栈溢出/下溢复位使能
 #pragma config XINST = OFF          // 扩展指令集禁用（XC8要求）
 

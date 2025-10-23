@@ -1,0 +1,27 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c"
+    },
+    "search.exclude": {
+        "**/NWPT_VR.X/build/**": true,
+        "**/NWPT_VR.X/dist/**": true,
+        "**/NWPT_VR.X/nbproject/private/**": true,
+        "**/.vscode/browse.vc.db*": true
+    },
+    "files.exclude": {
+        "**/NWPT_VR.X/build/**": true,
+        "**/NWPT_VR.X/dist/**": true,
+        "**/NWPT_VR.X/nbproject/private/**": true
+    },
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm"
+    ],
+    "clangd.path": "clangd"
+}

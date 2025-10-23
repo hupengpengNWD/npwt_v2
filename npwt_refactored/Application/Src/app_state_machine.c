@@ -317,7 +317,7 @@ static void State_Shutdown_Handler(SystemState_t *state)
 		HAL_Valve1_Close();
 		HAL_Valve2_Close();
 		HAL_Buzzer_Off();
-		HAL_LED_Green_Off();
+		HAL_LED_White_Off();
 		HAL_LED_Yellow_Off();
 		
 		/* 清屏并显示关机信息 */

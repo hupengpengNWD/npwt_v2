@@ -9,6 +9,7 @@
         <itemPath>../Application/Inc/app_settings.h</itemPath>
         <itemPath>../Application/Inc/app_state_machine.h</itemPath>
         <itemPath>../Application/Inc/ui_enhancements.h</itemPath>
+        <itemPath>../Application/Inc/app_button.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Src" projectFiles="true">
         <itemPath>../Application/Src/app_display.c</itemPath>
@@ -17,6 +18,7 @@
         <itemPath>../Application/Src/app_settings.c</itemPath>
         <itemPath>../Application/Src/app_state_machine.c</itemPath>
         <itemPath>../Application/Src/ui_enhancements.c</itemPath>
+        <itemPath>../Application/Src/app_button.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="f2" displayName="Core" projectFiles="true">
@@ -72,6 +74,7 @@
         <itemPath>../Middleware/Inc/pressure_controller.h</itemPath>
         <itemPath>../Middleware/Inc/realtime_tasks.h</itemPath>
         <itemPath>../Middleware/Inc/soft_timer.h</itemPath>
+        <itemPath>../Middleware/Inc/key_machine.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Src" projectFiles="true">
         <itemPath>../Middleware/Src/alarm_manager.c</itemPath>
@@ -82,6 +85,7 @@
         <itemPath>../Middleware/Src/pressure_controller.c</itemPath>
         <itemPath>../Middleware/Src/realtime_tasks.c</itemPath>
         <itemPath>../Middleware/Src/soft_timer.c</itemPath>
+        <itemPath>../Middleware/Src/key_machine.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">

@@ -50,7 +50,7 @@ void AlarmManager_Init(AlarmData_t *data)
 	
 	/* 关闭蜂鸣器和LED */
 	HAL_Buzzer_Off();
-	HAL_LED_Green_Off();
+	HAL_LED_White_Off();
 	HAL_LED_Yellow_Off();
 }
 
@@ -222,11 +222,11 @@ void AlarmManager_Update(AlarmData_t *data,
 		static uint16_t led_timer = 0;
 		if (led_timer++ < 25)
 		{
-			HAL_LED_Green_On();
+			HAL_LED_White_On();
 		}
 		else if (led_timer < 50)
 		{
-			HAL_LED_Green_Off();
+			HAL_LED_White_Off();
 		}
 		else
 		{
@@ -236,7 +236,7 @@ void AlarmManager_Update(AlarmData_t *data,
 	else
 	{
 		/* 无报警，LED常亮 */
-		HAL_LED_Green_On();
+		HAL_LED_White_On();
 	}
 	
 	/* 播放蜂鸣器 */
