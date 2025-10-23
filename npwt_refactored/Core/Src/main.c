@@ -29,6 +29,23 @@ extern volatile unsigned char FLG_SYS_10MS;
 /* 系统状态 */
 static SystemState_t g_system;
 
+/****************************************************************************
+ * 外部函数声明
+ ****************************************************************************/
+extern void PowerOn(void);
+extern void PowerOff(void);
+
+/****************************************************************************
+ * 本地函数声明
+ ****************************************************************************/
+/**
+ * @name      LED_ToggleCallback
+ * @brief     黄色LED翻转定时器回调函数
+ * @param     user_data - 用户数据
+ * @retval    无
+ */
+void LED_ToggleCallback(void* user_data);
+
 
 /****************************************************************************
  * 电源控制函数
@@ -81,6 +98,19 @@ void PowerOff(void)
     }
 }
 
+/****************************************************************************
+ * @name      LED_ToggleCallback
+ * @brief     黄色LED翻转定时器回调函数
+ * @param     user_data - 用户数据
+ * @retval    无
+ ****************************************************************************/
+void LED_ToggleCallback(void* user_data)
+{
+    (void)user_data;
+    
+    // 翻转黄色LED（RC4）
+    HAL_LED_Yellow_Toggle();
+}
 
 /****************************************************************************
  * @name      main
@@ -168,8 +198,8 @@ void main(void)
         AppButton_SetKeyProcessTimer(key_process_timer);
     }
     
-    /* 8.1 创建蜂鸣器处理定时器（每10ms执行一次） */
-    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppBeep_BeepProcessCallback, NULL);
+    /* 8.1 创建蜂鸣器处理定时器（每50ms执行一次，避免与按键处理冲突） */
+    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 50, AppBeep_BeepProcessCallback, NULL);
     if (beep_process_timer != 0) {
         SoftTimer_Start(beep_process_timer);
         AppBeep_SetBeepProcessTimer(beep_process_timer);
@@ -188,9 +218,15 @@ void main(void)
                                AppBeep_BuzzerWriteHigh, 
                                AppBeep_BuzzerWriteLow, 
                                AppBeep_BuzzerToggle);
-    
-    /* 8.3 开始蜂鸣器2秒周期循环 */
+//    
+//    /* 8.3 开始蜂鸣器2秒周期循环 */
     AppBeep_StartBeep();
+    
+    /* 8.4 创建黄色LED翻转定时器（每1秒执行一次） */
+    SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);
+    if (led_toggle_timer != 0) {
+        SoftTimer_Start(led_toggle_timer);
+    }
     
     /* 9. 使能全局中断 */
     T3CONbits.TMR3ON = 1; // 启动Timer3

@@ -301,8 +301,7 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         case KEY_MACHINE_EVENT_ULTRA_LONG_PRESS:
         {
             // 长按3秒 - 特殊功能
-            // 测试：翻转RC4（黄色LED）
-            HAL_LED_Yellow_Toggle();
+            // TODO: 实现具体功能
             break;
         }
         
@@ -317,8 +316,6 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         {
             // 单击 - 确认性点击操作（按下时间 ≥ 50ms）
             // TODO: 实现具体功能
-            // 测试：翻转RC4（黄色LED）
-            HAL_LED_Yellow_Toggle();
             break;
         }
         
@@ -358,8 +355,6 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
         {
             // 长按1秒 - 快速减少数值
             // TODO: 实现具体功能
-            // 测试：翻转RC4（黄色LED）
-            HAL_LED_Yellow_Toggle();
             break;
         }
         
@@ -427,8 +422,6 @@ void AppButton_CancelKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, v
         {
             // 长按3秒 - 语言切换等特殊功能
             // TODO: 实现具体功能
-            // 测试：翻转RC4（黄色LED）
-            HAL_LED_Yellow_Toggle();
             break;
         }
         

@@ -21,10 +21,10 @@ static PushPull_t g_buzzer_instance;           // 蜂鸣器控制实例
 static PushPullPtr_t g_buzzer = NULL;           // 蜂鸣器控制指针
 static SoftTimerHandle_t g_beep_process_timer = 0; // 蜂鸣器处理定时器句柄
 
-// 2秒周期循环时序：开1秒，关1秒
+// 2秒周期循环时序：开1秒，关1秒（转换为tick数，50ms为单位）
 static const uint16_t g_buzzer_seq_array[] = {
-    1000,  // 开1秒
-    1000   // 关1秒
+    20,  // 开1秒 = 1000ms / 50ms = 20 ticks
+    20   // 关1秒 = 1000ms / 50ms = 20 ticks
 };
 
 /****************************************************************************
@@ -165,7 +165,7 @@ void AppBeep_BuzzerToggle(void* gpio_drv_ptr)
 
 /**
  * @name      AppBeep_BeepProcessCallback
- * @brief     蜂鸣器处理定时器回调函数
+ * @brief     蜂鸣器处理定时器回调函数（安全版本）
  * @param     user_data - 用户数据
  * @retval    无
  */
@@ -173,10 +173,23 @@ void AppBeep_BeepProcessCallback(void* user_data)
 {
     (void)user_data;
     
-    // 处理蜂鸣器状态机
-    if (g_buzzer) {
-        PushPull_FSM(g_buzzer);
+    // 安全检查：确保蜂鸣器实例有效
+    if (g_buzzer == NULL) {
+        return;
     }
+    
+    // 安全检查：确保时序数组有效
+    if (g_buzzer->seq_array == NULL || g_buzzer->seq_length == 0) {
+        return;
+    }
+    
+    // 安全检查：确保索引在有效范围内
+    if (g_buzzer->seq_index >= g_buzzer->seq_length) {
+        g_buzzer->seq_index = 0;  // 重置索引
+    }
+    
+    // 处理蜂鸣器状态机
+    PushPull_FSM(g_buzzer);
 }
 
 /**
@@ -204,6 +217,8 @@ void AppBeep_StartBeep(void)
                             g_buzzer_seq_array, 
                             AppBeep_GetBuzzerSeqLength(), 
                             AppBeep_GetBuzzerSeqCount());
+        // 确保设置为序列模式
+        PushPull_SetMode(g_buzzer, PUSHPULL_MODE_SEQUENCE);
     }
 }
 

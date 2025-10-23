@@ -27,7 +27,7 @@ void PushPull_Polling(void* arg) {
  * @remark   
  */
 void PushPull_RunSequence(PushPullPtr_t ptr, PushPullState_e state) {
-    if (ptr->state == state) {
+    if (ptr == NULL || ptr->state == state) {
         return;
     }
 
@@ -36,14 +36,18 @@ void PushPull_RunSequence(PushPullPtr_t ptr, PushPullState_e state) {
             if (ptr->write_low && ptr->gpio_drv_ptr) {
                 ptr->write_low(ptr->gpio_drv_ptr);
                 ptr->state = PUSHPULL_STATE_LOW;
-                ptr->callback(ptr, PUSHPULL_EVENT_STATE_CHANGE, ptr->callback_arg);
+                if (ptr->callback) {
+                    ptr->callback(ptr, PUSHPULL_EVENT_STATE_CHANGE, ptr->callback_arg);
+                }
             }
             break;
         case PUSHPULL_STATE_HIGH:
             if (ptr->write_high && ptr->gpio_drv_ptr) {
                 ptr->write_high(ptr->gpio_drv_ptr);
                 ptr->state = PUSHPULL_STATE_HIGH;
-                ptr->callback(ptr, PUSHPULL_EVENT_STATE_CHANGE, ptr->callback_arg);
+                if (ptr->callback) {
+                    ptr->callback(ptr, PUSHPULL_EVENT_STATE_CHANGE, ptr->callback_arg);
+                }
             }
             break;
         default:
@@ -59,18 +63,26 @@ void PushPull_RunSequence(PushPullPtr_t ptr, PushPullState_e state) {
  * @remark   
  */
 void PushPull_FSM(PushPullPtr_t ptr) {
+    if (ptr == NULL || ptr->seq_array == NULL || ptr->run_sequence == NULL) {
+        return;
+    }
+    
     if (ptr->tick >= ptr->seq_array[ptr->seq_index]) {
         ptr->tick = 0;
         ptr->run_sequence(ptr, (ptr->seq_index % 2) ? PUSHPULL_STATE_LOW : PUSHPULL_STATE_HIGH);
         ptr->seq_index++;
         if (ptr->seq_index >= ptr->seq_length) {
             ptr->seq_index = 0;
-            ptr->seq_count--;
-            if (ptr->seq_count == 0) {
-                if (ptr->callback) {
-                    ptr->callback(ptr, PUSHPULL_EVENT_SEQUENCE_DONE, ptr->callback_arg);
+            // 修复无限循环逻辑：只有当seq_count > 0时才递减
+            if (ptr->seq_count > 0) {
+                ptr->seq_count--;
+                if (ptr->seq_count == 0) {
+                    if (ptr->callback) {
+                        ptr->callback(ptr, PUSHPULL_EVENT_SEQUENCE_DONE, ptr->callback_arg);
+                    }
                 }
             }
+            // seq_count = 0 表示无限循环，不需要特殊处理
         }
     } else {
         ptr->tick++;
@@ -138,6 +150,10 @@ void PushPull_Initialize(PushPullPtr_t ptr,
                         uint32_t seq_count,
                         void (*callback)(struct pushpull*, PushPullEvent_e, void*), 
                         void* arg) {
+    if (ptr == NULL) {
+        return;
+    }
+    
     ptr->seq_index = 0;
     ptr->tick = 0;
     ptr->mode = seq_array && seq_length > 0 && seq_count > 0 ? PUSHPULL_MODE_SEQUENCE : PUSHPULL_MODE_MANUAL;
@@ -148,6 +164,9 @@ void PushPull_Initialize(PushPullPtr_t ptr,
     ptr->callback = callback;
     ptr->callback_arg = arg;
     ptr->next = NULL;
+    
+    // 初始化函数指针
+    PushPull_Configure(ptr);
 }
 
 /**
