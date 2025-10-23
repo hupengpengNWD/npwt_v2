@@ -10,6 +10,7 @@
  ****************************************************************************/
 
 #include "../Inc/app_button.h"
+#include "../Inc/app_beep.h"
 #include "../../Core/Inc/system_enums.h"
 #include "../../Drivers/Inc/lcd_driver.h"
 #include <stddef.h>
@@ -314,8 +315,8 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         
         case KEY_MACHINE_EVENT_CLICK:
         {
-            // 单击 - 确认性点击操作（按下时间 ≥ 50ms）
-            // TODO: 实现具体功能
+            // 单击 - 切换到下一个蜂鸣器二维模式
+            AppBeep_SwitchToNext2DMode();
             break;
         }
         
@@ -374,8 +375,7 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
         
         case KEY_MACHINE_EVENT_CLICK:
         {
-            // 单击 - 确认性点击操作
-            // TODO: 实现具体功能
+            // 单击 - 下键功能已删除，只保留上键切换蜂鸣器模式
             break;
         }
         

@@ -43,6 +43,22 @@ PushPullPtr_t AppBeep_GetBuzzerInstance(void);
 const uint16_t* AppBeep_GetBuzzerConfig(void);
 
 /**
+ * @name      AppBeep_GetBuzzer2DConfig
+ * @brief     获取蜂鸣器二维时序配置数组
+ * @param     无
+ * @retval    const uint16_t** - 二维时序数组指针
+ */
+const uint16_t** AppBeep_GetBuzzer2DConfig(void);
+
+/**
+ * @name      AppBeep_GetBuzzer2DCount
+ * @brief     获取蜂鸣器二维数组行数
+ * @param     无
+ * @retval    uint32_t - 二维数组行数
+ */
+uint32_t AppBeep_GetBuzzer2DCount(void);
+
+/**
  * @name      AppBeep_GetBuzzerSeqLength
  * @brief     获取蜂鸣器时序数组长度
  * @param     无
@@ -115,6 +131,24 @@ void AppBeep_SetBeepProcessTimer(SoftTimerHandle_t timer_handle);
  * @retval    无
  */
 void AppBeep_StartBeep(void);
+
+/**
+ * @name      AppBeep_StartBeep2D
+ * @brief     开始蜂鸣器二维时序模式
+ * @param     无
+ * @retval    无
+ */
+void AppBeep_StartBeep2D(void);
+
+
+
+/**
+ * @name      AppBeep_SwitchToNext2DMode
+ * @brief     切换到下一个二维模式
+ * @param     无
+ * @retval    无
+ */
+void AppBeep_SwitchToNext2DMode(void);
 
 /**
  * @name      AppBeep_StopBeep

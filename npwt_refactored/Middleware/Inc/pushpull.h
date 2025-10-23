@@ -54,28 +54,31 @@ typedef struct pushpull {
     PushPullMode_e mode;           /*!< 工作模式 */
     PushPullState_e state;         /*!< 当前状态 */
     uint32_t tick;                 /*!< 当前计时 */
-    const uint16_t* seq_array;     /*!< 时序数组（毫秒） */
-    uint32_t seq_length;           /*!< 数组长度 */
     uint32_t seq_index;            /*!< 当前索引 */
-    uint32_t seq_count;            /*!< 剩余重复次数 */
     PushPullCallback_t callback;   /*!< 回调函数 */
     void* callback_arg;            /*!< 回调参数 */
     void* gpio_drv_ptr;            /*!< 指向底层GPIO硬件驱动的指针 */
     struct pushpull* next;         /*!< 链表指针 */
+    
+    // 二维数组支持
+    const uint16_t** seq_2d_array; /*!< 二维时序数组指针 */
+    uint32_t seq_2d_count;         /*!< 二维数组行数 */
+    uint32_t seq_2d_index;         /*!< 当前使用的行索引 */
+    uint32_t seq_2d_repeat_count;  /*!< 当前行的重复次数 */
     
     // 驱动层函数指针接口
     PushPullWriteHighFunc_t write_high;   /*!< 写高电平函数指针 */ 
     PushPullWriteLowFunc_t write_low;     /*!< 写低电平函数指针 */
     PushPullToggleFunc_t toggle;          /*!< 翻转引脚函数指针 */
 
-    void (*initialize)(struct pushpull*, const uint16_t*, uint32_t, uint32_t, void (*)(struct pushpull*, PushPullEvent_e, void*), void*);
+    void (*initialize)(struct pushpull*, void (*)(struct pushpull*, PushPullEvent_e, void*), void*);
     void (*configure)(struct pushpull*);
     void (*set_high)(struct pushpull*);
     void (*set_low)(struct pushpull*);
     void (*run_sequence)(struct pushpull*, PushPullState_e);
     void (*fsm)(struct pushpull*);
     void (*set_mode)(struct pushpull*, PushPullMode_e);
-    void (*set_sequence)(struct pushpull*, const uint16_t*, uint32_t, uint32_t);
+    void (*set_2d_sequence)(struct pushpull*, const uint16_t**, uint32_t, uint32_t);
 } PushPull_t, *PushPullPtr_t;
 #pragma pack()
 
@@ -83,17 +86,11 @@ typedef struct pushpull {
  * @name      PushPull_Initialize
  * @brief     初始化蜂鸣器控制结构体
  * @param     ptr - 蜂鸣器控制指针
- * @param     seq_array - 时序数组（毫秒）
- * @param     seq_length - 数组长度
- * @param     seq_count - 重复次数
  * @param     callback - 事件回调函数
  * @param     arg - 回调参数
  * @retval    无
  */
 void PushPull_Initialize(PushPullPtr_t ptr, 
-                        const uint16_t* seq_array, 
-                        uint32_t seq_length, 
-                        uint32_t seq_count,
                         void (*callback)(struct pushpull*, PushPullEvent_e, void*), 
                         void* arg);
 
@@ -131,19 +128,20 @@ void PushPull_FSM(PushPullPtr_t ptr);
  */
 void PushPull_SetMode(PushPullPtr_t ptr, PushPullMode_e mode);
 
+
 /**
- * @name      PushPull_SetSequence
- * @brief     动态设置时序序列
+ * @name      PushPull_Set2DSequence
+ * @brief     动态设置二维时序序列
  * @param     ptr - 蜂鸣器控制指针
- * @param     seq_array - 时序数组（毫秒）
- * @param     seq_length - 数组长度
- * @param     seq_count - 重复次数
+ * @param     seq_2d_array - 二维时序数组指针
+ * @param     seq_2d_count - 二维数组行数
+ * @param     seq_2d_repeat_count - 每行重复次数
  * @retval    无
  */
-void PushPull_SetSequence(PushPullPtr_t ptr, 
-                         const uint16_t* seq_array, 
-                         uint32_t seq_length, 
-                         uint32_t seq_count);
+void PushPull_Set2DSequence(PushPullPtr_t ptr, 
+                           const uint16_t** seq_2d_array, 
+                           uint32_t seq_2d_count, 
+                           uint32_t seq_2d_repeat_count);
 
 /**
  * @name      PushPull_SetDriverInterface

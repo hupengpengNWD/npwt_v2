@@ -22,10 +22,18 @@ static PushPullPtr_t g_buzzer = NULL;           // 蜂鸣器控制指针
 static SoftTimerHandle_t g_beep_process_timer = 0; // 蜂鸣器处理定时器句柄
 
 // 2秒周期循环时序：开1秒，关1秒（转换为tick数，50ms为单位）
-static const uint16_t g_buzzer_seq_array[] = {
-    20,  // 开1秒 = 1000ms / 50ms = 20 ticks
-    20   // 关1秒 = 1000ms / 50ms = 20 ticks
+// 二维时序数组：支持多种不同的蜂鸣器模式
+// 每行包含2个元素：[静音时间, 响铃时间] (单位：tick，50ms为单位)
+static const uint16_t g_buzzer_seq_2d_array[][2] = {
+    {3, 10},    // 模式0：静500ms，响150ms (500ms/50ms=10, 150ms/50ms=3)
+    {3, 20},    // 模式1：静1000ms，响150ms (1000ms/50ms=20, 150ms/50ms=3)
+    {3, 40},    // 模式2：静2000ms，响150ms (2000ms/50ms=40, 150ms/50ms=3)
+    {3, 60},    // 模式3：静3000ms，响150ms (3000ms/50ms=60, 150ms/50ms=3)
+    {3, 80},    // 模式4：静4000ms，响150ms (4000ms/50ms=80, 150ms/50ms=3)
+    {3, 100}    // 模式5：静5000ms，响150ms (5000ms/50ms=100, 150ms/50ms=3)
 };
+
+#define BUZZER_2D_COUNT   (sizeof(g_buzzer_seq_2d_array) / sizeof(g_buzzer_seq_2d_array[0]))
 
 /****************************************************************************
  * 函数实现
@@ -54,37 +62,38 @@ PushPullPtr_t AppBeep_GetBuzzerInstance(void)
     return g_buzzer;
 }
 
+
 /**
- * @name      AppBeep_GetBuzzerConfig
- * @brief     获取蜂鸣器配置参数
+ * @name      AppBeep_GetBuzzer2DConfig
+ * @brief     获取蜂鸣器二维时序配置数组
  * @param     无
- * @retval    const uint16_t* - 时序数组指针
+ * @retval    const uint16_t** - 二维时序数组指针
  */
-const uint16_t* AppBeep_GetBuzzerConfig(void)
+const uint16_t** AppBeep_GetBuzzer2DConfig(void)
 {
-    return g_buzzer_seq_array;
+    // 创建指针数组，指向二维数组的每一行
+    static const uint16_t* seq_pointers[BUZZER_2D_COUNT];
+    static bool initialized = false;
+    
+    if (!initialized) {
+        for (uint32_t i = 0; i < BUZZER_2D_COUNT; i++) {
+            seq_pointers[i] = g_buzzer_seq_2d_array[i];
+        }
+        initialized = true;
+    }
+    
+    return seq_pointers;
 }
 
 /**
- * @name      AppBeep_GetBuzzerSeqLength
- * @brief     获取蜂鸣器时序数组长度
+ * @name      AppBeep_GetBuzzer2DCount
+ * @brief     获取蜂鸣器二维数组行数
  * @param     无
- * @retval    uint32_t - 时序数组长度
+ * @retval    uint32_t - 二维数组行数
  */
-uint32_t AppBeep_GetBuzzerSeqLength(void)
+uint32_t AppBeep_GetBuzzer2DCount(void)
 {
-    return sizeof(g_buzzer_seq_array) / sizeof(g_buzzer_seq_array[0]);
-}
-
-/**
- * @name      AppBeep_GetBuzzerSeqCount
- * @brief     获取蜂鸣器重复次数
- * @param     无
- * @retval    uint32_t - 重复次数
- */
-uint32_t AppBeep_GetBuzzerSeqCount(void)
-{
-    return 0; // 0表示无限循环
+    return BUZZER_2D_COUNT;
 }
 
 /**
@@ -178,14 +187,14 @@ void AppBeep_BeepProcessCallback(void* user_data)
         return;
     }
     
-    // 安全检查：确保时序数组有效
-    if (g_buzzer->seq_array == NULL || g_buzzer->seq_length == 0) {
+    // 安全检查：确保二维时序数组有效
+    if (g_buzzer->seq_2d_array == NULL || g_buzzer->seq_2d_count == 0) {
         return;
     }
     
     // 安全检查：确保索引在有效范围内
-    if (g_buzzer->seq_index >= g_buzzer->seq_length) {
-        g_buzzer->seq_index = 0;  // 重置索引
+    if (g_buzzer->seq_2d_index >= g_buzzer->seq_2d_count) {
+        g_buzzer->seq_2d_index = 0;  // 重置索引
     }
     
     // 处理蜂鸣器状态机
@@ -203,24 +212,6 @@ void AppBeep_SetBeepProcessTimer(SoftTimerHandle_t timer_handle)
     g_beep_process_timer = timer_handle;
 }
 
-/**
- * @name      AppBeep_StartBeep
- * @brief     开始蜂鸣器2秒周期循环
- * @param     无
- * @retval    无
- */
-void AppBeep_StartBeep(void)
-{
-    if (g_buzzer) {
-        // 设置2秒周期循环序列
-        PushPull_SetSequence(g_buzzer, 
-                            g_buzzer_seq_array, 
-                            AppBeep_GetBuzzerSeqLength(), 
-                            AppBeep_GetBuzzerSeqCount());
-        // 确保设置为序列模式
-        PushPull_SetMode(g_buzzer, PUSHPULL_MODE_SEQUENCE);
-    }
-}
 
 /**
  * @name      AppBeep_StopBeep
@@ -235,5 +226,52 @@ void AppBeep_StopBeep(void)
         PushPull_SetMode(g_buzzer, PUSHPULL_MODE_MANUAL);
         HAL_Buzzer_Off();
         g_buzzer->state = PUSHPULL_STATE_LOW;
+    }
+}
+
+/**
+ * @name      AppBeep_StartBeep2D
+ * @brief     开始蜂鸣器二维时序模式
+ * @param     无
+ * @retval    无
+ */
+void AppBeep_StartBeep2D(void)
+{
+    if (g_buzzer) {
+        // 设置二维时序数组
+        PushPull_Set2DSequence(g_buzzer, 
+                             AppBeep_GetBuzzer2DConfig(), 
+                             AppBeep_GetBuzzer2DCount(), 
+                             0); // 每行无限循环
+        // 确保设置为序列模式
+        PushPull_SetMode(g_buzzer, PUSHPULL_MODE_SEQUENCE);
+    }
+}
+
+
+
+/**
+ * @name      AppBeep_SwitchToNext2DMode
+ * @brief     切换到下一个二维模式
+ * @param     无
+ * @retval    无
+ */
+void AppBeep_SwitchToNext2DMode(void)
+{
+    if (g_buzzer) {
+        // 确保是二维模式
+        if (g_buzzer->seq_2d_array == NULL) {
+            AppBeep_StartBeep2D();
+        }
+        
+        // 切换到下一个模式
+        g_buzzer->seq_2d_index++;
+        if (g_buzzer->seq_2d_index >= g_buzzer->seq_2d_count) {
+            g_buzzer->seq_2d_index = 0;
+        }
+        
+        // 重置当前模式的执行状态
+        g_buzzer->seq_index = 0;
+        g_buzzer->tick = 0;
     }
 }

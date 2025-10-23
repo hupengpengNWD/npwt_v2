@@ -208,9 +208,6 @@ void main(void)
     /* 8.2 创建蜂鸣器控制实例 */
     PushPullPtr_t buzzer = AppBeep_GetBuzzerInstance();
     PushPull_Initialize(buzzer, 
-                       AppBeep_GetBuzzerConfig(), 
-                       AppBeep_GetBuzzerSeqLength(), 
-                       AppBeep_GetBuzzerSeqCount(),
                        AppBeep_BuzzerCallback, 
                        NULL);
     PushPull_SetDriverInterface(buzzer, 
@@ -218,9 +215,9 @@ void main(void)
                                AppBeep_BuzzerWriteHigh, 
                                AppBeep_BuzzerWriteLow, 
                                AppBeep_BuzzerToggle);
-//    
-//    /* 8.3 开始蜂鸣器2秒周期循环 */
-    AppBeep_StartBeep();
+    
+    /* 8.3 开始蜂鸣器二维时序模式（支持多种模式切换） */
+    AppBeep_StartBeep2D();
     
     /* 8.4 创建黄色LED翻转定时器（每1秒执行一次） */
     SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);
