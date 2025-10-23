@@ -198,8 +198,8 @@ void main(void)
         AppButton_SetKeyProcessTimer(key_process_timer);
     }
     
-    /* 8.1 创建蜂鸣器处理定时器（每50ms执行一次，避免与按键处理冲突） */
-    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 50, AppBeep_BeepProcessCallback, NULL);
+    /* 8.1 创建蜂鸣器处理定时器（每20ms执行一次，避免与按键处理冲突） */
+    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, AppBeep_BeepProcessCallback, NULL);
     if (beep_process_timer != 0) {
         SoftTimer_Start(beep_process_timer);
         AppBeep_SetBeepProcessTimer(beep_process_timer);

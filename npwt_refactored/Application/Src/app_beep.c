@@ -21,16 +21,13 @@ static PushPull_t g_buzzer_instance;           // 蜂鸣器控制实例
 static PushPullPtr_t g_buzzer = NULL;           // 蜂鸣器控制指针
 static SoftTimerHandle_t g_beep_process_timer = 0; // 蜂鸣器处理定时器句柄
 
-// 2秒周期循环时序：开1秒，关1秒（转换为tick数，50ms为单位）
+// 2秒周期循环时序：开1秒，关1秒（转换为tick数，20ms为单位）
 // 二维时序数组：支持多种不同的蜂鸣器模式
-// 每行包含2个元素：[静音时间, 响铃时间] (单位：tick，50ms为单位)
+// 每行包含2个元素：[响铃时间, 静音时间] (单位：tick，20ms为单位)
 static const uint16_t g_buzzer_seq_2d_array[][2] = {
-    {3, 10},    // 模式0：静500ms，响150ms (500ms/50ms=10, 150ms/50ms=3)
-    {3, 20},    // 模式1：静1000ms，响150ms (1000ms/50ms=20, 150ms/50ms=3)
-    {3, 40},    // 模式2：静2000ms，响150ms (2000ms/50ms=40, 150ms/50ms=3)
-    {3, 60},    // 模式3：静3000ms，响150ms (3000ms/50ms=60, 150ms/50ms=3)
-    {3, 80},    // 模式4：静4000ms，响150ms (4000ms/50ms=80, 150ms/50ms=3)
-    {3, 100}    // 模式5：静5000ms，响150ms (5000ms/50ms=100, 150ms/50ms=3)
+    {8, 25},    // 模式0：响150ms，静500ms (150ms/20ms=8, 500ms/20ms=25)
+    {8, 150},   // 模式1：响150ms，静3000ms (150ms/20ms=8, 3000ms/20ms=150)
+    {8, 250}    // 模式2：响150ms，静5000ms (150ms/20ms=8, 5000ms/20ms=250)
 };
 
 #define BUZZER_2D_COUNT   (sizeof(g_buzzer_seq_2d_array) / sizeof(g_buzzer_seq_2d_array[0]))
