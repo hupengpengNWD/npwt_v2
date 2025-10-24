@@ -162,9 +162,8 @@ DisplayMode_e Display_GetMode(void)
  */
 void Display_Process(void)
 {
-    // 如果HAL层忙碌，等待
+    // 如果HAL层忙碌，直接返回（HAL_LCD_Process已在Timer3中断中调用）
     if (HAL_LCD_IsBusy()) {
-        HAL_LCD_Process();
         return;
     }
     
@@ -817,9 +816,9 @@ static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8
     for (uint8_t page = 0; page < pages; page++) {
         HAL_LCD_SetPositionNonBlocking(page, x);
         
-        // 等待LCD空闲
-        while (HAL_LCD_IsBusy()) {
-            HAL_LCD_Process();
+        // 检查LCD是否空闲（HAL_LCD_Process已在Timer3中断中调用）
+        if (HAL_LCD_IsBusy()) {
+            return; // 如果忙碌，等待下次中断处理
         }
         
         for (uint8_t col = 0; col < width; col++) {
@@ -895,9 +894,9 @@ static void Display_DrawChar(uint8_t x, uint8_t y, char ch, FontType_e font)
             HAL_LCD_SendDataNonBlocking(0x00);
         }
         
-        // 等待LCD空闲
-        while (HAL_LCD_IsBusy()) {
-            HAL_LCD_Process();
+        // 检查LCD是否空闲（HAL_LCD_Process已在Timer3中断中调用）
+        if (HAL_LCD_IsBusy()) {
+            return; // 如果忙碌，等待下次中断处理
         }
     }
 }
@@ -931,9 +930,9 @@ static void Display_DrawChinese(uint8_t x, uint8_t y, const uint8_t* chinese_dat
             HAL_LCD_SendDataNonBlocking(0x00);
         }
         
-        // 等待LCD空闲
-        while (HAL_LCD_IsBusy()) {
-            HAL_LCD_Process();
+        // 检查LCD是否空闲（HAL_LCD_Process已在Timer3中断中调用）
+        if (HAL_LCD_IsBusy()) {
+            return; // 如果忙碌，等待下次中断处理
         }
     }
     
@@ -952,9 +951,9 @@ static void Display_DrawChinese(uint8_t x, uint8_t y, const uint8_t* chinese_dat
             HAL_LCD_SendDataNonBlocking(0x00);
         }
         
-        // 等待LCD空闲
-        while (HAL_LCD_IsBusy()) {
-            HAL_LCD_Process();
+        // 检查LCD是否空闲（HAL_LCD_Process已在Timer3中断中调用）
+        if (HAL_LCD_IsBusy()) {
+            return; // 如果忙碌，等待下次中断处理
         }
     }
 }
