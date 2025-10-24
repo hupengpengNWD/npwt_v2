@@ -1,111 +1,142 @@
-/**
-  ******************************************************************************
-  * @file:    display.h
-  * @author:  Assistant
-  * @date:    2025-01-23
-  * @brief:   显示驱动层头文件
-  ******************************************************************************
-  * @attention
-  * 
-  ******************************************************************************
-  */
-
-#ifndef __DISPLAY_H
-#define __DISPLAY_H
+#ifndef __DISPLAY_H__
+#define __DISPLAY_H__
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "queue.h"
 
 /****************************************************************************
- * 工作模式枚举（Display模块专用）
+ * 显示模块类型定义
  ****************************************************************************/
+
+/**
+ * @brief 字体类型
+ */
 typedef enum {
-    DISPLAY_WORK_MODE_INIT = 0,          // 初始化模式
-    DISPLAY_WORK_MODE_STANDBY,           // 待机模式
-    DISPLAY_WORK_MODE_CONTINUOUS,        // 连续模式
-    DISPLAY_WORK_MODE_INTERMITTENT,      // 间歇模式
-    DISPLAY_WORK_MODE_PAUSE,             // 暂停模式
-    DISPLAY_WORK_MODE_SETTINGS,          // 设置模式
-    DISPLAY_WORK_MODE_SELFTEST,          // 自检模式
-    DISPLAY_WORK_MODE_ERROR,             // 故障模式
-    DISPLAY_WORK_MODE_SHUTDOWN           // 关机模式
+    DISPLAY_FONT_6X12 = 0,    // 6x12字体 (数字和字母)
+    DISPLAY_FONT_8X16 = 1,    // 8x16字体 (ASCII)
+    DISPLAY_FONT_16X32 = 2,   // 16x32字体 (大字体)
+    DISPLAY_FONT_40X80 = 3    // 40x80字体 (超大字体)
+} DisplayFontType_e;
+
+/**
+ * @brief 对齐方式
+ */
+typedef enum {
+    DISPLAY_ALIGN_LEFT = 0,   // 左对齐
+    DISPLAY_ALIGN_CENTER = 1, // 居中对齐
+    DISPLAY_ALIGN_RIGHT = 2   // 右对齐
+} DisplayAlignType_e;
+
+
+/**
+ * @brief 工作模式
+ */
+typedef enum {
+    DISPLAY_WORK_MODE_INIT = 0,        // 初始化
+    DISPLAY_WORK_MODE_STANDBY = 1,     // 待机
+    DISPLAY_WORK_MODE_CONTINUOUS = 2,   // 连续模式
+    DISPLAY_WORK_MODE_INTERMITTENT = 3, // 间歇模式
+    DISPLAY_WORK_MODE_PAUSE = 4,        // 暂停
+    DISPLAY_WORK_MODE_SETTINGS = 5,      // 设置
+    DISPLAY_WORK_MODE_SELFTEST = 6,      // 自检
+    DISPLAY_WORK_MODE_ERROR = 7,        // 错误
+    DISPLAY_WORK_MODE_SHUTDOWN = 8       // 关机
 } DisplayWorkMode_e;
 
-/****************************************************************************
- * 错误代码枚举（Display模块专用）
- ****************************************************************************/
+/**
+ * @brief 错误代码
+ */
 typedef enum {
-    DISPLAY_ERROR_NONE = 0,              // 无故障
-    DISPLAY_ERROR_LEAKAGE,               // 漏气
-    DISPLAY_ERROR_BLOCKAGE,               // 阻塞
-    DISPLAY_ERROR_OVERPRESSURE,           // 过压
-    DISPLAY_ERROR_BATTERY_LOW,            // 电池低电量
-    DISPLAY_ERROR_BATTERY_CRITICAL,       // 电池极低电量
-    DISPLAY_ERROR_LIQUID_FULL,            // 液满
-    DISPLAY_ERROR_SENSOR,                 // 传感器故障
-    DISPLAY_ERROR_PUMP,                   // 泵故障
-    DISPLAY_ERROR_VALVE                   // 阀门故障
+    DISPLAY_ERROR_NONE = 0,           // 无错误
+    DISPLAY_ERROR_LEAKAGE = 1,        // 泄漏
+    DISPLAY_ERROR_BLOCKAGE = 2,       // 堵塞
+    DISPLAY_ERROR_OVERPRESSURE = 3,    // 超压
+    DISPLAY_ERROR_BATTERY_LOW = 4,     // 电池低
+    DISPLAY_ERROR_BATTERY_CRITICAL = 5, // 电池严重不足
+    DISPLAY_ERROR_LIQUID_FULL = 6,     // 液体满
+    DISPLAY_ERROR_SENSOR = 7,          // 传感器错误
+    DISPLAY_ERROR_PUMP = 8,            // 泵错误
+    DISPLAY_ERROR_VALVE = 9            // 阀门错误
 } DisplayErrorCode_e;
 
-/****************************************************************************
- * 字体类型定义
- ****************************************************************************/
+/**
+ * @brief 显示事件类型
+ */
 typedef enum {
-    FONT_TYPE_ASCII_8X16 = 0,    // ASCII 8x16字体
-    FONT_TYPE_ASCII_6X12,        // ASCII 6x12字体
-    FONT_TYPE_DIGIT_12X12,       // 数字 12x12字体
-    FONT_TYPE_DIGIT_32X15,       // 大数字 32x15字体
-    FONT_TYPE_CHINESE_16X16      // 中文 16x16字体
-} FontType_e;
+    DISPLAY_EVENT_CLEAR = 0,              // 清屏
+    DISPLAY_EVENT_SHOW_STRING = 1,        // 显示字符串
+    DISPLAY_EVENT_SHOW_NUMBER = 2,        // 显示数字
+    DISPLAY_EVENT_SHOW_IMAGE = 3,         // 显示图像
+    DISPLAY_EVENT_SET_POSITION = 4,       // 设置位置
+    DISPLAY_EVENT_SET_BACKLIGHT = 5,      // 设置背光
+    DISPLAY_EVENT_SHOW_PRESSURE = 6,      // 显示压力
+    DISPLAY_EVENT_SHOW_WORK_MODE = 7,     // 显示工作模式
+    DISPLAY_EVENT_SHOW_ERROR = 8,         // 显示错误
+    DISPLAY_EVENT_SHOW_BATTERY_ICON = 9,  // 显示电池图标
+    DISPLAY_EVENT_SHOW_STARTUP_INTERFACE = 10 // 显示开机界面
+} DisplayEventType_e;
 
 /****************************************************************************
- * 对齐方式定义
+ * 显示事件结构体（避免union）
  ****************************************************************************/
-typedef enum {
-    ALIGN_LEFT = 0,     // 左对齐
-    ALIGN_CENTER,       // 居中对齐
-    ALIGN_RIGHT         // 右对齐
-} AlignType_e;
+
+/**
+ * @brief 显示事件结构体
+ */
+typedef struct {
+    DisplayEventType_e type;  // 事件类型
+    uint8_t x;                // X坐标
+    uint8_t y;                // Y坐标
+    
+    // 根据事件类型使用不同的数据字段
+    const char* str_data;     // 字符串数据
+    uint16_t number_data;     // 数字数据
+    const uint8_t* image_data; // 图像数据
+    bool bool_data;           // 布尔数据
+    uint8_t byte_data;        // 字节数据
+    
+    // 参数
+    DisplayFontType_e font;   // 字体
+    DisplayAlignType_e align; // 对齐方式
+    uint8_t image_width;      // 图像宽度
+    uint8_t image_height;     // 图像高度
+    DisplayWorkMode_e work_mode; // 工作模式
+    DisplayErrorCode_e error_code; // 错误代码
+    bool is_charging;         // 是否充电
+} DisplayEvent_t;
 
 /****************************************************************************
- * 显示状态机定义
+ * 显示模块接口
  ****************************************************************************/
-typedef enum {
-    DISPLAY_STATE_IDLE = 0,              // 空闲状态
-    DISPLAY_STATE_CLEARING,              // 清屏状态
-    DISPLAY_STATE_SHOWING_PRESSURE,      // 显示压力
-    DISPLAY_STATE_SHOWING_MODE,          // 显示模式
-    DISPLAY_STATE_SHOWING_BATTERY,       // 显示电池
-    DISPLAY_STATE_SHOWING_ERROR,         // 显示错误
-    DISPLAY_STATE_SHOWING_STRING,        // 显示字符串
-    DISPLAY_STATE_SHOWING_NUMBER,        // 显示数字
-    DISPLAY_STATE_SHOWING_IMAGE,         // 显示图像
-    DISPLAY_STATE_COMPLETE               // 完成状态
-} DisplayState_e;
-
-/****************************************************************************
- * 显示模式定义
- ****************************************************************************/
-typedef enum {
-    DISPLAY_MODE_NORMAL = 0,             // 正常显示模式
-    DISPLAY_MODE_TEST_ENGLISH,          // 测试英文显示
-    DISPLAY_MODE_TEST_CHINESE,          // 测试中文显示
-    DISPLAY_MODE_TEST_IMAGE,            // 测试图像显示
-    DISPLAY_MODE_ERROR,                 // 错误显示模式
-    DISPLAY_MODE_BATTERY_LOW             // 电池低电量模式
-} DisplayMode_e;
 
 /**
  * @name      Display_Init
- * @brief     初始化显示驱动
+ * @brief     初始化显示模块
  * @param     无
  * @retval    无
  */
 void Display_Init(void);
 
 /**
+ * @name      Display_Process
+ * @brief     处理显示队列（每1ms调用一次）
+ * @param     无
+ * @retval    无
+ */
+void Display_Process(void);
+
+/**
+ * @name      Display_IsBusy
+ * @brief     检查显示模块是否忙碌
+ * @param     无
+ * @retval    true-忙碌, false-空闲
+ */
+bool Display_IsBusy(void);
+
+/**
  * @name      Display_Clear
- * @brief     清空显示
+ * @brief     清屏
  * @param     无
  * @retval    无
  */
@@ -114,26 +145,12 @@ void Display_Clear(void);
 /**
  * @name      Display_SetBacklight
  * @brief     设置背光
- * @param     enable - true开启，false关闭
+ * @param     white_on - 白色背光是否开启
+ * @param     yellow_on - 黄色背光是否开启
  * @retval    无
  */
-void Display_SetBacklight(bool enable);
+void Display_SetBacklight(bool white_on, bool yellow_on);
 
-/**
- * @name      Display_SetMode
- * @brief     设置显示模式
- * @param     mode - 显示模式
- * @retval    无
- */
-void Display_SetMode(DisplayMode_e mode);
-
-/**
- * @name      Display_GetMode
- * @brief     获取当前显示模式
- * @param     无
- * @retval    当前显示模式
- */
-DisplayMode_e Display_GetMode(void);
 
 /**
  * @name      Display_ShowString
@@ -145,7 +162,7 @@ DisplayMode_e Display_GetMode(void);
  * @param     align - 对齐方式
  * @retval    无
  */
-void Display_ShowString(uint8_t x, uint8_t y, const char* str, FontType_e font, AlignType_e align);
+void Display_ShowString(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
 
 /**
  * @name      Display_ShowNumber
@@ -157,7 +174,7 @@ void Display_ShowString(uint8_t x, uint8_t y, const char* str, FontType_e font, 
  * @param     align - 对齐方式
  * @retval    无
  */
-void Display_ShowNumber(uint8_t x, uint8_t y, int32_t number, FontType_e font, AlignType_e align);
+void Display_ShowNumber(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e font, DisplayAlignType_e align);
 
 /**
  * @name      Display_ShowImage
@@ -172,55 +189,11 @@ void Display_ShowNumber(uint8_t x, uint8_t y, int32_t number, FontType_e font, A
 void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
 
 /**
- * @name      Display_TestEnglish
- * @brief     测试英文显示
- * @param     无
- * @retval    无
- */
-void Display_TestEnglish(void);
-
-/**
- * @name      Display_TestChinese
- * @brief     测试中文显示
- * @param     无
- * @retval    无
- */
-void Display_TestChinese(void);
-
-/**
- * @name      Display_TestImage
- * @brief     测试图像显示
- * @param     无
- * @retval    无
- */
-void Display_TestImage(void);
-
-/**
- * @name      Display_Process
- * @brief     非阻塞显示处理函数（状态机）
- * @param     无
- * @retval    无
- */
-void Display_Process(void);
-
-/**
- * @name      Display_IsBusy
- * @brief     检查显示是否忙碌
- * @param     无
- * @retval    true-忙碌，false-空闲
- */
-bool Display_IsBusy(void);
-
-/****************************************************************************
- * 专业显示接口
- ****************************************************************************/
-
-/**
  * @name      Display_ShowPressure
- * @brief     显示压力值（大数字）
+ * @brief     显示压力值
  * @param     x - X坐标
  * @param     y - Y坐标
- * @param     pressure - 压力值（mmHg）
+ * @param     pressure - 压力值
  * @param     show_unit - 是否显示单位
  * @retval    无
  */
@@ -237,17 +210,6 @@ void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_uni
 void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 
 /**
- * @name      Display_ShowBatteryIcon
- * @brief     显示电池图标
- * @param     x - X坐标
- * @param     y - Y坐标
- * @param     level - 电量等级（0-4）
- * @param     is_charging - 是否充电中
- * @retval    无
- */
-void Display_ShowBatteryIcon(uint8_t x, uint8_t y, uint8_t level, bool is_charging);
-
-/**
  * @name      Display_ShowError
  * @brief     显示错误信息
  * @param     x - X坐标
@@ -257,35 +219,16 @@ void Display_ShowBatteryIcon(uint8_t x, uint8_t y, uint8_t level, bool is_chargi
  */
 void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 
-/****************************************************************************
- * 界面模板接口
- ****************************************************************************/
-
 /**
- * @name      Display_ShowMainInterface
- * @brief     显示主界面
- * @param     pressure - 当前压力
- * @param     mode - 工作模式
- * @param     battery_level - 电池电量
+ * @name      Display_ShowBatteryIcon
+ * @brief     显示电池图标
+ * @param     x - X坐标
+ * @param     y - Y坐标
+ * @param     battery_level - 电池电量(0-100)
+ * @param     is_charging - 是否充电
  * @retval    无
  */
-void Display_ShowMainInterface(uint16_t pressure, DisplayWorkMode_e mode, uint8_t battery_level);
-
-/**
- * @name      Display_ShowErrorInterface
- * @brief     显示错误界面
- * @param     error - 错误代码
- * @retval    无
- */
-void Display_ShowErrorInterface(DisplayErrorCode_e error);
-
-/**
- * @name      Display_ShowBatteryLowInterface
- * @brief     显示电池低电量界面
- * @param     无
- * @retval    无
- */
-void Display_ShowBatteryLowInterface(void);
+void Display_ShowBatteryIcon(uint8_t x, uint8_t y, uint8_t battery_level, bool is_charging);
 
 /**
  * @name      Display_ShowStartupInterface
@@ -295,4 +238,29 @@ void Display_ShowBatteryLowInterface(void);
  */
 void Display_ShowStartupInterface(void);
 
-#endif /* __DISPLAY_H */
+/**
+ * @name      Display_ShowImageTest
+ * @brief     显示图片测试界面
+ * @param     无
+ * @retval    无
+ */
+void Display_ShowImageTest(void);
+
+/**
+ * @name      Display_ShowChineseTest
+ * @brief     显示中文测试界面
+ * @param     无
+ * @retval    无
+ */
+void Display_ShowChineseTest(void);
+
+/**
+ * @name      Display_ShowEnglishTest
+ * @brief     显示英文测试界面
+ * @param     无
+ * @retval    无
+ */
+void Display_ShowEnglishTest(void);
+
+
+#endif /* __DISPLAY_H__ */

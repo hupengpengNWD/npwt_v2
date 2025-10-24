@@ -111,7 +111,7 @@ void LCD_ProcessCallback(void)
     // LCD状态机处理（非阻塞轮询）
     HAL_LCD_Process();
     
-    // Display模块处理（非阻塞轮询）
+    // Display模块队列处理（非阻塞轮询）
     Display_Process();
 }
 
@@ -264,8 +264,6 @@ void main(void)
            {
                FLG_SYS_10MS = 0;
                
-               /* LCD处理已移至Timer3的1ms中断中，响应更快 */
-               /* HAL_LCD_Process() 和 Display_Process() 现在每1ms执行一次 */
            }
     }
 }

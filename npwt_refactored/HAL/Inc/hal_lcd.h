@@ -15,6 +15,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "../../Middleware/Inc/queue.h"
 
 /****************************************************************************
  * LCD硬件引脚定义
@@ -47,6 +48,27 @@
 #define HAL_LCD_PAGES     8   // 64/8 = 8页
 
 /****************************************************************************
+ * LCD事件类型定义
+ ****************************************************************************/
+typedef enum {
+    HAL_LCD_EVENT_SEND_COMMAND = 0,   // 发送命令
+    HAL_LCD_EVENT_SEND_DATA,          // 发送数据
+    HAL_LCD_EVENT_SET_POSITION,       // 设置位置
+    HAL_LCD_EVENT_CLEAR               // 清屏
+} HAL_LCD_EventType_e;
+
+/****************************************************************************
+ * LCD事件结构体
+ ****************************************************************************/
+typedef struct {
+    HAL_LCD_EventType_e type;         // 事件类型
+    uint8_t cmd;                      // 命令数据
+    uint8_t data;                     // 数据字节
+    uint8_t page;                     // 页地址
+    uint8_t column;                   // 列地址
+} HAL_LCD_Event_t;
+
+/****************************************************************************
  * LCD状态机定义
  ****************************************************************************/
 typedef enum {
@@ -57,6 +79,7 @@ typedef enum {
     HAL_LCD_STATE_CLEAR_PAGE,        // 清屏：设置页地址
     HAL_LCD_STATE_CLEAR_COLUMN,      // 清屏：设置列地址
     HAL_LCD_STATE_CLEAR_DATA,        // 清屏：发送数据
+    HAL_LCD_STATE_DELAY,             // 延时状态
     HAL_LCD_STATE_COMPLETE           // 完成状态
 } HAL_LCD_State_e;
 
@@ -66,11 +89,20 @@ typedef struct {
     uint32_t delay_duration_ms;       // 延时持续时间
     uint8_t clear_page;               // 清屏当前页
     uint8_t clear_column;             // 清屏当前列
-    uint8_t pending_cmd;              // 待发送的命令
-    uint8_t pending_data;             // 待发送的数据
-    uint8_t pending_page;             // 待设置页
-    uint8_t pending_column;           // 待设置列
     bool is_busy;                     // 是否忙碌
+    
+    // 当前操作的数据
+    uint8_t cmd;                      // 当前命令
+    uint8_t data;                     // 当前数据
+    uint8_t page;                     // 当前页地址
+    uint8_t column;                   // 当前列地址
+    
+    // 延时相关
+    uint32_t current_tick;            // 当前tick计数
+    HAL_LCD_State_e next_state;      // 延时后的下一个状态
+    
+    // 状态机步骤控制
+    uint8_t step_counter;             // 步骤计数器
 } HAL_LCD_Context_t;
 
 /****************************************************************************
@@ -151,12 +183,21 @@ void HAL_LCD_Process(void);
  */
 bool HAL_LCD_IsBusy(void);
 
+
 /**
- * @name      HAL_LCD_NonBlockingDelay
- * @brief     非阻塞延时检查
- * @param     duration_ms - 延时毫秒数
- * @retval    bool true-延时完成, false-延时未完成
+ * @name      HAL_LCD_GetQueueCount
+ * @brief     获取HAL_LCD队列中事件数量
+ * @param     无
+ * @retval    队列中事件数量
  */
-bool HAL_LCD_NonBlockingDelay(uint32_t duration_ms);
+uint8_t HAL_LCD_GetQueueCount(void);
+
+/**
+ * @name      HAL_LCD_ClearQueue
+ * @brief     清空HAL_LCD队列
+ * @param     无
+ * @retval    无
+ */
+void HAL_LCD_ClearQueue(void);
 
 #endif /* __HAL_LCD_H */
