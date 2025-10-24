@@ -15,7 +15,37 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "../../Core/Inc/system_enums.h"
+
+/****************************************************************************
+ * 工作模式枚举（Display模块专用）
+ ****************************************************************************/
+typedef enum {
+    DISPLAY_WORK_MODE_INIT = 0,          // 初始化模式
+    DISPLAY_WORK_MODE_STANDBY,           // 待机模式
+    DISPLAY_WORK_MODE_CONTINUOUS,        // 连续模式
+    DISPLAY_WORK_MODE_INTERMITTENT,      // 间歇模式
+    DISPLAY_WORK_MODE_PAUSE,             // 暂停模式
+    DISPLAY_WORK_MODE_SETTINGS,          // 设置模式
+    DISPLAY_WORK_MODE_SELFTEST,          // 自检模式
+    DISPLAY_WORK_MODE_ERROR,             // 故障模式
+    DISPLAY_WORK_MODE_SHUTDOWN           // 关机模式
+} DisplayWorkMode_e;
+
+/****************************************************************************
+ * 错误代码枚举（Display模块专用）
+ ****************************************************************************/
+typedef enum {
+    DISPLAY_ERROR_NONE = 0,              // 无故障
+    DISPLAY_ERROR_LEAKAGE,               // 漏气
+    DISPLAY_ERROR_BLOCKAGE,               // 阻塞
+    DISPLAY_ERROR_OVERPRESSURE,           // 过压
+    DISPLAY_ERROR_BATTERY_LOW,            // 电池低电量
+    DISPLAY_ERROR_BATTERY_CRITICAL,       // 电池极低电量
+    DISPLAY_ERROR_LIQUID_FULL,            // 液满
+    DISPLAY_ERROR_SENSOR,                 // 传感器故障
+    DISPLAY_ERROR_PUMP,                   // 泵故障
+    DISPLAY_ERROR_VALVE                   // 阀门故障
+} DisplayErrorCode_e;
 
 /****************************************************************************
  * 字体类型定义
@@ -204,7 +234,7 @@ void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_uni
  * @param     mode - 工作模式
  * @retval    无
  */
-void Display_ShowWorkMode(uint8_t x, uint8_t y, WorkMode_e mode);
+void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 
 /**
  * @name      Display_ShowBatteryIcon
@@ -225,7 +255,7 @@ void Display_ShowBatteryIcon(uint8_t x, uint8_t y, uint8_t level, bool is_chargi
  * @param     error - 错误代码
  * @retval    无
  */
-void Display_ShowError(uint8_t x, uint8_t y, ErrorCode_e error);
+void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 
 /****************************************************************************
  * 界面模板接口
@@ -239,7 +269,7 @@ void Display_ShowError(uint8_t x, uint8_t y, ErrorCode_e error);
  * @param     battery_level - 电池电量
  * @retval    无
  */
-void Display_ShowMainInterface(uint16_t pressure, WorkMode_e mode, uint8_t battery_level);
+void Display_ShowMainInterface(uint16_t pressure, DisplayWorkMode_e mode, uint8_t battery_level);
 
 /**
  * @name      Display_ShowErrorInterface
@@ -247,7 +277,7 @@ void Display_ShowMainInterface(uint16_t pressure, WorkMode_e mode, uint8_t batte
  * @param     error - 错误代码
  * @retval    无
  */
-void Display_ShowErrorInterface(ErrorCode_e error);
+void Display_ShowErrorInterface(DisplayErrorCode_e error);
 
 /**
  * @name      Display_ShowBatteryLowInterface

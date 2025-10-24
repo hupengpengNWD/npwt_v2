@@ -12,7 +12,6 @@
 
 #include "display.h"
 #include "../../HAL/Inc/hal_lcd.h"
-#include "../../Core/Inc/system_enums.h"
 #include <stddef.h>
 #include <string.h>
 
@@ -36,10 +35,10 @@ typedef struct {
     // 待显示的数据
     uint8_t pending_x, pending_y;           // 待显示位置
     uint16_t pending_pressure;              // 待显示压力
-    WorkMode_e pending_mode;                // 待显示模式
+    DisplayWorkMode_e pending_mode;         // 待显示模式
     uint8_t pending_battery_level;          // 待显示电池电量
     bool pending_battery_charging;          // 待显示电池充电状态
-    ErrorCode_e pending_error;               // 待显示错误
+    DisplayErrorCode_e pending_error;       // 待显示错误
     const char* pending_string;              // 待显示字符串
     int32_t pending_number;                 // 待显示数字
     FontType_e pending_font;                 // 待显示字体
@@ -66,9 +65,9 @@ static DisplayContext_t g_display_context = {0};
  ****************************************************************************/
 static void Display_StateMachine(void);
 static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit);
-static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, WorkMode_e mode);
+static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t level, bool is_charging);
-static void Display_ShowErrorInternal(uint8_t x, uint8_t y, ErrorCode_e error);
+static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, FontType_e font, AlignType_e align);
 static void Display_ShowNumberInternal(uint8_t x, uint8_t y, int32_t number, FontType_e font, AlignType_e align);
 static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
@@ -220,7 +219,7 @@ void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_uni
  * @param     mode - 工作模式
  * @retval    无
  */
-void Display_ShowWorkMode(uint8_t x, uint8_t y, WorkMode_e mode)
+void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode)
 {
     if (g_display_context.is_busy) {
         return; // 如果忙碌，忽略请求
@@ -264,7 +263,7 @@ void Display_ShowBatteryIcon(uint8_t x, uint8_t y, uint8_t level, bool is_chargi
  * @param     error - 错误代码
  * @retval    无
  */
-void Display_ShowError(uint8_t x, uint8_t y, ErrorCode_e error)
+void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error)
 {
     if (g_display_context.is_busy) {
         return; // 如果忙碌，忽略请求
@@ -289,7 +288,7 @@ void Display_ShowError(uint8_t x, uint8_t y, ErrorCode_e error)
  * @param     battery_level - 电池电量
  * @retval    无
  */
-void Display_ShowMainInterface(uint16_t pressure, WorkMode_e mode, uint8_t battery_level)
+void Display_ShowMainInterface(uint16_t pressure, DisplayWorkMode_e mode, uint8_t battery_level)
 {
     if (g_display_context.is_busy) {
         return; // 如果忙碌，忽略请求
@@ -315,7 +314,7 @@ void Display_ShowMainInterface(uint16_t pressure, WorkMode_e mode, uint8_t batte
  * @param     error - 错误代码
  * @retval    无
  */
-void Display_ShowErrorInterface(ErrorCode_e error)
+void Display_ShowErrorInterface(DisplayErrorCode_e error)
 {
     if (g_display_context.is_busy) {
         return; // 如果忙碌，忽略请求
@@ -634,24 +633,24 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
  * @param     mode - 工作模式
  * @retval    无
  */
-static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, WorkMode_e mode)
+static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode)
 {
     const char* mode_str = "Unknown";
     
     switch (mode) {
-        case MODE_STANDBY:
+        case DISPLAY_WORK_MODE_STANDBY:
             mode_str = "Standby";
             break;
-        case MODE_CONTINUOUS:
+        case DISPLAY_WORK_MODE_CONTINUOUS:
             mode_str = "Continuous";
             break;
-        case MODE_INTERMITTENT:
+        case DISPLAY_WORK_MODE_INTERMITTENT:
             mode_str = "Intermittent";
             break;
-        case MODE_PAUSE:
+        case DISPLAY_WORK_MODE_PAUSE:
             mode_str = "Pause";
             break;
-        case MODE_ERROR:
+        case DISPLAY_WORK_MODE_ERROR:
             mode_str = "Error";
             break;
         default:
@@ -695,30 +694,30 @@ static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t level,
  * @param     error - 错误代码
  * @retval    无
  */
-static void Display_ShowErrorInternal(uint8_t x, uint8_t y, ErrorCode_e error)
+static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error)
 {
     const char* error_str = "Unknown Error";
     
     switch (error) {
-        case ERROR_NONE:
+        case DISPLAY_ERROR_NONE:
             error_str = "No Error";
             break;
-        case ERROR_OVERPRESSURE:
+        case DISPLAY_ERROR_OVERPRESSURE:
             error_str = "Over Pressure";
             break;
-        case ERROR_LEAKAGE:
+        case DISPLAY_ERROR_LEAKAGE:
             error_str = "Leakage";
             break;
-        case ERROR_BATTERY_LOW:
+        case DISPLAY_ERROR_BATTERY_LOW:
             error_str = "Battery Low";
             break;
-        case ERROR_SENSOR:
+        case DISPLAY_ERROR_SENSOR:
             error_str = "Sensor Fault";
             break;
-        case ERROR_PUMP:
+        case DISPLAY_ERROR_PUMP:
             error_str = "Pump Fault";
             break;
-        case ERROR_VALVE:
+        case DISPLAY_ERROR_VALVE:
             error_str = "Valve Fault";
             break;
         default:
