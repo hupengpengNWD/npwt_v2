@@ -101,6 +101,21 @@ void PowerOff(void)
 }
 
 /****************************************************************************
+ * @name      LCD_ProcessCallback
+ * @brief     LCD处理定时器回调函数（1ms）
+ * @param     无
+ * @retval    无
+ ****************************************************************************/
+void LCD_ProcessCallback(void)
+{
+    // LCD状态机处理（非阻塞轮询）
+    HAL_LCD_Process();
+    
+    // Display模块处理（非阻塞轮询）
+    Display_Process();
+}
+
+/****************************************************************************
  * @name      LED_ToggleCallback
  * @brief     黄色LED翻转定时器回调函数
  * @param     user_data - 用户数据
@@ -144,6 +159,9 @@ void main(void)
     HAL_Timer_Init();     // Timer0: 10ms
     HAL_Timer1_Init();    // Timer1: 10ms
     HAL_PWM_Init();       // Timer3: 1ms
+    
+    /* 3.1 注册Timer3的1ms回调 - LCD处理 */
+    HAL_Timer3_RegisterCallback_1ms(LCD_ProcessCallback);
     
     /* 4. 初始化软件定时器模块 */
     SoftTimer_Init();
@@ -246,11 +264,8 @@ void main(void)
            {
                FLG_SYS_10MS = 0;
                
-               /* LCD状态机处理（非阻塞轮询） */
-               HAL_LCD_Process();
-               
-               /* Display模块处理（非阻塞轮询） */
-               Display_Process();
+               /* LCD处理已移至Timer3的1ms中断中，响应更快 */
+               /* HAL_LCD_Process() 和 Display_Process() 现在每1ms执行一次 */
            }
     }
 }
@@ -282,11 +297,6 @@ void __interrupt() ISR(void)
         SoftTimer_TickUpdate();
     }
     
-    /* Timer3中断：1ms */
-    if (TMR3IF)
-    {
-        TMR3IF = 0;
-        TMR3H = 0xFC;
-        TMR3L = 0x18;
-    }
+    /* Timer3中断：1ms - 调用HAL层处理 */
+    HAL_Timer3_ISR();
 }
