@@ -14,11 +14,13 @@
 #include "../Inc/system_enums.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../HAL/Inc/hal_timer.h"
+#include "../../HAL/Inc/hal_lcd.h"
 #include "../../Middleware/Inc/soft_timer.h"
 #include "../../Middleware/Inc/key_machine.h"
 #include "../../Drivers/Inc/lcd_driver.h"
 #include "../../Application/Inc/app_button.h"
 #include "../../Application/Inc/app_beep.h"
+#include "../../Middleware/Inc/display.h"
 #include <stddef.h> // For NULL
 
 /****************************************************************************
@@ -155,6 +157,12 @@ void main(void)
     /* 6.1 初始化蜂鸣器应用层 */
     AppBeep_Init();
     
+    /* 6.2 初始化Display模块 */
+    Display_Init();
+    
+    /* 6.3 显示开机界面 */
+    Display_ShowStartupInterface();
+    
     /* 7. 创建电源按键 */
     KeyMachinePtr_t power_key = AppButton_GetPowerKeyInstance();
     const KeyConfig_t* power_key_config = AppButton_GetPowerKeyConfig();
@@ -233,14 +241,17 @@ void main(void)
     /* ========== 主循环 ========== */
     while (1)
     {
-        /* 10ms任务 */
-        if (FLG_SYS_10MS)
-        {
-            FLG_SYS_10MS = 0;
-            
-            /* 软件定时器处理（按键处理已由定时器自动处理） */
-            // 这里可以添加其他10ms任务
-        }
+           /* 10ms任务 */
+           if (FLG_SYS_10MS)
+           {
+               FLG_SYS_10MS = 0;
+               
+               /* LCD状态机处理（非阻塞轮询） */
+               HAL_LCD_Process();
+               
+               /* Display模块处理（非阻塞轮询） */
+               Display_Process();
+           }
     }
 }
 

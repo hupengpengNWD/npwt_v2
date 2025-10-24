@@ -11,6 +11,7 @@
         <itemPath>../Application/Inc/app_settings.h</itemPath>
         <itemPath>../Application/Inc/app_state_machine.h</itemPath>
         <itemPath>../Application/Inc/ui_enhancements.h</itemPath>
+        <itemPath>../Application/Inc/app_ui.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
         <itemPath>../Core/Inc/mcu_config.h</itemPath>
@@ -30,6 +31,7 @@
         <itemPath>../HAL/Inc/hal_adc.h</itemPath>
         <itemPath>../HAL/Inc/hal_gpio.h</itemPath>
         <itemPath>../HAL/Inc/hal_timer.h</itemPath>
+        <itemPath>../HAL/Inc/hal_lcd.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middleware" projectFiles="true">
         <itemPath>../Middleware/Inc/alarm_manager.h</itemPath>
@@ -42,6 +44,8 @@
         <itemPath>../Middleware/Inc/pushpull.h</itemPath>
         <itemPath>../Middleware/Inc/realtime_tasks.h</itemPath>
         <itemPath>../Middleware/Inc/soft_timer.h</itemPath>
+        <itemPath>../Middleware/Inc/display.h</itemPath>
+        <itemPath>../Middleware/Inc/queue.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
@@ -54,6 +58,7 @@
         <itemPath>../Application/Src/app_settings.c</itemPath>
         <itemPath>../Application/Src/app_state_machine.c</itemPath>
         <itemPath>../Application/Src/ui_enhancements.c</itemPath>
+        <itemPath>../Application/Src/app_ui.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Code" projectFiles="true">
         <itemPath>../Core/Src/main.c</itemPath>
@@ -71,6 +76,7 @@
         <itemPath>../HAL/Src/hal_adc.c</itemPath>
         <itemPath>../HAL/Src/hal_gpio.c</itemPath>
         <itemPath>../HAL/Src/hal_timer.c</itemPath>
+        <itemPath>../HAL/Src/hal_lcd.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middeleware" projectFiles="true">
         <itemPath>../Middleware/Src/alarm_manager.c</itemPath>
@@ -83,6 +89,8 @@
         <itemPath>../Middleware/Src/pushpull.c</itemPath>
         <itemPath>../Middleware/Src/realtime_tasks.c</itemPath>
         <itemPath>../Middleware/Src/soft_timer.c</itemPath>
+        <itemPath>../Middleware/Src/display.c</itemPath>
+        <itemPath>../Middleware/Src/queue.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript" displayName="链接器文件" projectFiles="true">
