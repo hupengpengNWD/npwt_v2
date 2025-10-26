@@ -149,10 +149,11 @@ void HAL_LCD_Init(void)
     LCD_DATA = JLX12864G_ON; LCD_RD = 0; LCD_CS = 1;
     HAL_LCD_HardwareDelay(1);
     
-    // 初始化后清屏（直接硬件操作）
+    // 初始化后清屏（与未重构代码DISP_Clear完全一致）
     uint8_t page, column;
     
-    for (page = 0; page < HAL_LCD_PAGES; page++) {
+    // 清屏8页，每页132列（与未重构代码一致）
+    for (page = 0; page < 8; page++) {
         // 设置页地址
         LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0;
         LCD_DATA = 0xB0 + page; LCD_RD = 0; LCD_CS = 1;
@@ -164,8 +165,8 @@ void HAL_LCD_Init(void)
         LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0;
         LCD_DATA = 0x00; LCD_RD = 0; LCD_CS = 1;  // 列地址低4位
         
-        // 清空整页数据
-        for (column = 0; column < HAL_LCD_WIDTH; column++) {
+        // 清空整页数据（132列，与未重构代码一致）
+        for (column = 0; column < 132; column++) {
             LCD_CS = 0; LCD_RS = 1; LCD_RD = 1; LCD_WR = 0;
             LCD_DATA = 0x00; LCD_CS = 1; LCD_RD = 0;  // 发送0x00清空
         }
@@ -180,14 +181,8 @@ void HAL_LCD_Init(void)
  */
 void HAL_LCD_SetBacklight(bool enable)
 {
-    // 直接控制硬件，不需要队列
-    if (enable) {
-        // 开启背光
-        // 这里添加实际的硬件控制代码
-    } else {
-        // 关闭背光
-        // 这里添加实际的硬件控制代码
-    }
+    // 背光控制在main函数中处理，这里仅占位
+    (void)enable;
 }
 
 /**
@@ -286,25 +281,25 @@ void HAL_LCD_ClearNonBlocking(void)
  */
 void HAL_LCD_Process(void)
 {
-    HAL_LCD_Event_t event;
+    HAL_LCD_Event_t event = {0};
     
     // 如果当前有操作在进行，处理状态机
     if (g_lcd_context.is_busy) {
         // 处理当前状态机
         switch (g_lcd_context.state) {
-            case HAL_LCD_STATE_SEND_COMMAND:
+            case HAL_LCD_STATE_SEND_COMMAND:// 发送命令
                 HAL_LCD_SendCommandInternal(g_lcd_context.cmd);
                 break;
                 
-            case HAL_LCD_STATE_SEND_DATA:
+            case HAL_LCD_STATE_SEND_DATA:// 发送数据
                 HAL_LCD_SendDataInternal(g_lcd_context.data);
                 break;
                 
-            case HAL_LCD_STATE_SET_POSITION:
+            case HAL_LCD_STATE_SET_POSITION:// 设置位置
                 HAL_LCD_SetPositionInternal(g_lcd_context.page, g_lcd_context.column);
                 break;
                 
-            case HAL_LCD_STATE_DELAY:
+            case HAL_LCD_STATE_DELAY:// 延时状态
                 // 检查延时是否完成
                 if (HAL_LCD_IsDelayComplete()) {
                     // 延时完成，切换到下一个状态
@@ -552,10 +547,11 @@ static void HAL_LCD_SetPositionInternal(uint8_t page, uint8_t column)
  */
 static void HAL_LCD_ClearInternal(void)
 {
-    // 实际的硬件清屏代码（直接硬件操作，不通过队列）
+    // 实际的硬件清屏代码（与未重构代码DISP_Clear完全一致）
     uint8_t page, column;
     
-    for (page = 0; page < HAL_LCD_PAGES; page++) {
+    // 清屏8页，每页132列（与未重构代码一致）
+    for (page = 0; page < 8; page++) {
         // 设置页地址
         LCD_CS = 0;        // 片选有效
         LCD_RS = 0;        // 命令模式
@@ -582,8 +578,8 @@ static void HAL_LCD_ClearInternal(void)
         LCD_RD = 0;        // 读信号有效
         LCD_CS = 1;        // 片选无效
         
-        // 清空整页数据
-        for (column = 0; column < HAL_LCD_WIDTH; column++) {
+        // 清空整页数据（132列，与未重构代码一致）
+        for (column = 0; column < 132; column++) {
             LCD_CS = 0;        // 片选有效
             LCD_RS = 1;        // 数据模式
             LCD_RD = 1;        // 读信号无效

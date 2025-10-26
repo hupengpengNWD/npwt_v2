@@ -5,12 +5,6 @@
       <logicalFolder name="f1" displayName="Application" projectFiles="true">
         <itemPath>../Application/Inc/app_beep.h</itemPath>
         <itemPath>../Application/Inc/app_button.h</itemPath>
-        <itemPath>../Application/Inc/app_display.h</itemPath>
-        <itemPath>../Application/Inc/app_input.h</itemPath>
-        <itemPath>../Application/Inc/app_selftest.h</itemPath>
-        <itemPath>../Application/Inc/app_settings.h</itemPath>
-        <itemPath>../Application/Inc/app_state_machine.h</itemPath>
-        <itemPath>../Application/Inc/ui_enhancements.h</itemPath>
         <itemPath>../Application/Inc/app_ui.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
@@ -19,14 +13,6 @@
         <itemPath>../Core/Inc/system_enums.h</itemPath>
         <itemPath>../Core/Inc/system_types.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="f3" displayName="Drivers" projectFiles="true">
-        <itemPath>../Drivers/Inc/adc_driver.h</itemPath>
-        <itemPath>../Drivers/Inc/flash_driver.h</itemPath>
-        <itemPath>../Drivers/Inc/key_driver.h</itemPath>
-        <itemPath>../Drivers/Inc/lcd_driver.h</itemPath>
-        <itemPath>../Drivers/Inc/lcd_images.h</itemPath>
-        <itemPath>../Drivers/Inc/lcd_ui_elements.h</itemPath>
-      </logicalFolder>
       <logicalFolder name="f4" displayName="HAL" projectFiles="true">
         <itemPath>../HAL/Inc/hal_adc.h</itemPath>
         <itemPath>../HAL/Inc/hal_gpio.h</itemPath>
@@ -34,43 +20,21 @@
         <itemPath>../HAL/Inc/hal_lcd.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middleware" projectFiles="true">
-        <itemPath>../Middleware/Inc/alarm_manager.h</itemPath>
-        <itemPath>../Middleware/Inc/alarm_state_machine.h</itemPath>
-        <itemPath>../Middleware/Inc/battery_manager.h</itemPath>
-        <itemPath>../Middleware/Inc/fault_detector.h</itemPath>
-        <itemPath>../Middleware/Inc/intermittent_controller.h</itemPath>
         <itemPath>../Middleware/Inc/key_machine.h</itemPath>
-        <itemPath>../Middleware/Inc/pressure_controller.h</itemPath>
         <itemPath>../Middleware/Inc/pushpull.h</itemPath>
-        <itemPath>../Middleware/Inc/realtime_tasks.h</itemPath>
         <itemPath>../Middleware/Inc/soft_timer.h</itemPath>
-        <itemPath>../Middleware/Inc/display.h</itemPath>
         <itemPath>../Middleware/Inc/queue.h</itemPath>
+        <itemPath>../Middleware/Inc/display.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
       <logicalFolder name="f1" displayName="Application" projectFiles="true">
         <itemPath>../Application/Src/app_beep.c</itemPath>
         <itemPath>../Application/Src/app_button.c</itemPath>
-        <itemPath>../Application/Src/app_display.c</itemPath>
-        <itemPath>../Application/Src/app_input.c</itemPath>
-        <itemPath>../Application/Src/app_selftest.c</itemPath>
-        <itemPath>../Application/Src/app_settings.c</itemPath>
-        <itemPath>../Application/Src/app_state_machine.c</itemPath>
-        <itemPath>../Application/Src/ui_enhancements.c</itemPath>
         <itemPath>../Application/Src/app_ui.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Code" projectFiles="true">
         <itemPath>../Core/Src/main.c</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f3" displayName="Drivers" projectFiles="true">
-        <itemPath>../Drivers/Src/adc_driver.c</itemPath>
-        <itemPath>../Drivers/Src/flash_driver.c</itemPath>
-        <itemPath>../Drivers/Src/key_driver.c</itemPath>
-        <itemPath>../Drivers/Src/lcd_driver.c</itemPath>
-        <itemPath>../Drivers/Src/lcd_font_data.c</itemPath>
-        <itemPath>../Drivers/Src/lcd_ui_elements.c</itemPath>
-        <itemPath>../Drivers/Src/lcd_images.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="HAL" projectFiles="true">
         <itemPath>../HAL/Src/hal_adc.c</itemPath>
@@ -78,18 +42,14 @@
         <itemPath>../HAL/Src/hal_timer.c</itemPath>
         <itemPath>../HAL/Src/hal_lcd.c</itemPath>
       </logicalFolder>
+      <logicalFolder name="f6" displayName="Library" projectFiles="true">
+        <itemPath>../Library/lcd_font_data.c</itemPath>
+      </logicalFolder>
       <logicalFolder name="f5" displayName="Middeleware" projectFiles="true">
-        <itemPath>../Middleware/Src/alarm_manager.c</itemPath>
-        <itemPath>../Middleware/Src/alarm_state_machine.c</itemPath>
-        <itemPath>../Middleware/Src/battery_manager.c</itemPath>
-        <itemPath>../Middleware/Src/fault_detector.c</itemPath>
-        <itemPath>../Middleware/Src/intermittent_controller.c</itemPath>
-        <itemPath>../Middleware/Src/key_machine.c</itemPath>
-        <itemPath>../Middleware/Src/pressure_controller.c</itemPath>
         <itemPath>../Middleware/Src/pushpull.c</itemPath>
-        <itemPath>../Middleware/Src/realtime_tasks.c</itemPath>
         <itemPath>../Middleware/Src/soft_timer.c</itemPath>
         <itemPath>../Middleware/Src/display.c</itemPath>
+        <itemPath>../Middleware/Src/key_machine.c</itemPath>
         <itemPath>../Middleware/Src/queue.c</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -110,6 +70,7 @@
     <Elem>../HAL/Src</Elem>
     <Elem>../Middleware/Inc</Elem>
     <Elem>../Middleware/Src</Elem>
+    <Elem>../Library</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

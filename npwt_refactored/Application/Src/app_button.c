@@ -12,7 +12,7 @@
 #include "../Inc/app_button.h"
 #include "../Inc/app_beep.h"
 #include "../../Core/Inc/system_enums.h"
-#include "../../Drivers/Inc/lcd_driver.h"
+#include "../../HAL/Inc/hal_gpio.h"
 #include <stddef.h>
 
 /****************************************************************************
@@ -245,7 +245,7 @@ void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, vo
             if (g_power_state == POWER_STATE_ON) {
                 // 进入关机准备状态，关闭背光提示用户
                 g_power_state = POWER_STATE_SHUTDOWN_PREPARE;
-                LCD_SetBacklight(false);
+                HAL_LCD_Backlight_Off();
             }
             break;
         }

@@ -110,6 +110,17 @@ void HAL_LED_Yellow_Toggle(void)
 	LATCbits.LATC4 ^= 1;  // 黄色LED翻转
 }
 
+/* LCD背光控制 */
+void HAL_LCD_Backlight_On(void)
+{
+	LATCbits.LATC6 = 1;  // LCD背光开启（使用白色LED）
+}
+
+void HAL_LCD_Backlight_Off(void)
+{
+	LATCbits.LATC6 = 0;  // LCD背光关闭（使用白色LED）
+}
+
 /* 蜂鸣器控制 */
 void HAL_Buzzer_On(void)
 {

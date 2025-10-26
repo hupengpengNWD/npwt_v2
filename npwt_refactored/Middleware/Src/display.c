@@ -1,6 +1,5 @@
 #include "display.h"
 #include "hal_lcd.h"
-#include "lcd_images.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -105,7 +104,7 @@ void Display_Init(void)
  */
 void Display_Process(void)
 {
-    DisplayEvent_t event;
+    DisplayEvent_t event = {0};
     
     // 如果HAL层忙碌，直接返回
     if (HAL_LCD_IsBusy()) {

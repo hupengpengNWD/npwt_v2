@@ -23,6 +23,7 @@
                 <sourceRootElem>../HAL/Src</sourceRootElem>
                 <sourceRootElem>../Middleware/Inc</sourceRootElem>
                 <sourceRootElem>../Middleware/Src</sourceRootElem>
+                <sourceRootElem>../Library</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

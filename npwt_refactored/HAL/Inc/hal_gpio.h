@@ -82,6 +82,10 @@ void HAL_LED_Yellow_On(void);
 void HAL_LED_Yellow_Off(void);
 void HAL_LED_Yellow_Toggle(void);
 
+/* LCD背光控制 */
+void HAL_LCD_Backlight_On(void);
+void HAL_LCD_Backlight_Off(void);
+
 /* 蜂鸣器控制 */
 void HAL_Buzzer_On(void);
 void HAL_Buzzer_Off(void);

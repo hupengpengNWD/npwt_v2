@@ -17,7 +17,6 @@
 #include "../../HAL/Inc/hal_lcd.h"
 #include "../../Middleware/Inc/soft_timer.h"
 #include "../../Middleware/Inc/key_machine.h"
-#include "../../Drivers/Inc/lcd_driver.h"
 #include "../../Application/Inc/app_button.h"
 #include "../../Application/Inc/app_beep.h"
 #include "../../Middleware/Inc/display.h"
@@ -65,7 +64,7 @@ void PowerOn(void)
     HAL_Power_Hold();  // LATCbits.LATC2 = 1
     
     // 开启背光
-    LCD_SetBacklight(true);
+    HAL_LCD_Backlight_On();
     
     // 更新状态
     // 注意：电源状态现在由app_button模块管理
@@ -86,7 +85,7 @@ void PowerOff(void)
     HAL_Power_Release();  // LATCbits.LATC2 = 0
     
     // 关闭背光
-    LCD_SetBacklight(false);
+    HAL_LCD_Backlight_Off();
     
     // 更新状态
     // 注意：电源状态现在由app_button模块管理
@@ -152,7 +151,7 @@ void main(void)
     HAL_Power_Hold();  // LATCbits.LATC2 = 1
     
     /* 2.2 立即打开LCD背光并设置电源状态为开机 */
-    LCD_SetBacklight(true);
+    HAL_LCD_Backlight_On();
     AppButton_SetPowerState(1); // POWER_STATE_ON = 1
     
     /* 3. 初始化定时器 */
