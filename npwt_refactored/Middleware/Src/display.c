@@ -730,6 +730,8 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
 
     // 针对不同字模布局分别处理
     if (width == 8 && height == 16) {
+#if 0
+        // 原实现（保留，不删除）：上半写 page，下半写 page+1
         // ASCII 8x16：未重构工程按列字节直接写入，且列顺序为倒序（高列到低列）
         // 上半页：char_data[15]..char_data[8]
         HAL_LCD_SetPositionNonBlocking(page, column);
@@ -741,6 +743,19 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         for (int8_t idx = 7; idx >= 0; idx--) {
             HAL_LCD_SendDataNonBlocking(char_data[idx]);
         }
+#else
+        // 新实现：配合 HAL 的 page_hw = 6 - page 补偿，先写下半到 page，再写上半到 page+1
+        // 下半页：char_data[7]..char_data[0] → page
+        HAL_LCD_SetPositionNonBlocking(page, column);
+        for (int8_t idx = 7; idx >= 0; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+        // 上半页：char_data[15]..char_data[8] → page+1
+        HAL_LCD_SetPositionNonBlocking(page + 1, column);
+        for (int8_t idx = 15; idx >= 8; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+#endif
     } else {
         // 默认路径：6x12 自定义点阵（两页各 width 字节，带位移重组）
         HAL_LCD_SetPositionNonBlocking(page, column);
