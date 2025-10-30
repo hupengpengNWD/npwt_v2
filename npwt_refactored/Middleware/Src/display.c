@@ -705,7 +705,7 @@ static void Display_ShowStartupInterfaceInternal(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示开机信息
-    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(87, 6, "AAAAA", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************
@@ -730,7 +730,7 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
 
     // 针对不同字模布局分别处理
     if (width == 8 && height == 16) {
-#if 0
+#if 1 //hpp
         // 原实现（保留，不删除）：上半写 page，下半写 page+1
         // ASCII 8x16：未重构工程按列字节直接写入，且列顺序为倒序（高列到低列）
         // 上半页：char_data[15]..char_data[8]

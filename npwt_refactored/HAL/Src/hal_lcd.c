@@ -211,7 +211,7 @@ void HAL_LCD_SendDataNonBlocking(uint8_t data)
 void HAL_LCD_SetPositionNonBlocking(uint8_t page, uint8_t column)
 {
     // 原实现（自然坐标直接下发）—按用户要求整体屏蔽，保留做参考
-#if 0
+#if 1 //hpp
     g_lcd_context.step_counter = 0;
     LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0xB0 + page); LCD_RD = 0; LCD_CS = 1;
     LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0x10 + (column >> 4)); LCD_RD = 0; LCD_CS = 1;
