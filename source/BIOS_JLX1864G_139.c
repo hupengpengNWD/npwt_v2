@@ -7,8 +7,10 @@ extern unsigned char disp_set_flg;
 
 void BIOS_JLX12864_TRANS_CMD(int data)    
 { 
-	CS=0;  RS=0; 
-	RD=1;  WR=0; 
+	CS=0;  
+	RS=0; 
+	RD=1;  
+	WR=0; 
 	P1=data;  
 	RD=0;  
 	CS=1;  
@@ -16,10 +18,13 @@ void BIOS_JLX12864_TRANS_CMD(int data)
 
 void BIOS_JLX12864_TRANS_DAT(int data) 
 { 
-	CS=0;  RS=1; 
-	RD=1;  WR=0;  
+	CS=0;  
+	RS=1; 
+	RD=1;  
+	WR=0;  
 	P1=data; 
-	CS=1;  RD=0; 
+	CS=1;  
+	RD=0; 
 }  
 
 void BIOS_JLX12864_DELAY(int i)
@@ -34,14 +39,13 @@ void SYS_IniLcd(void)
 	RES=0;                  
 	BIOS_JLX12864_DELAY(200);    
 	RES=1;        
-	BIOS_JLX12864_DELAY(200);          
+	BIOS_JLX12864_DELAY(200); 
+
 	BIOS_JLX12864_TRANS_CMD(JLX12864G_RES);    
 	BIOS_JLX12864_DELAY(50);  
 
 	BIOS_JLX12864_TRANS_CMD(0xa2);    
-	
 	BIOS_JLX12864_TRANS_CMD(0xa1);   
-	
 	BIOS_JLX12864_TRANS_CMD(0xc0);   
 	
 	BIOS_JLX12864_TRANS_CMD(0x2c);    
@@ -53,7 +57,6 @@ void SYS_IniLcd(void)
 
 	BIOS_JLX12864_TRANS_CMD(0x25);    
 	BIOS_JLX12864_TRANS_CMD(0x81);    
-
 	BIOS_JLX12864_TRANS_CMD(0x0c); 
 
 	BIOS_JLX12864_DELAY(10); 

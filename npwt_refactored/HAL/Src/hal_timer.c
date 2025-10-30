@@ -170,7 +170,7 @@ void HAL_Timer_ISR(void)
 		TMR0H = 0xD8;           // 重载初值（10ms）
 		TMR0L = 0xF0;
 		
-		g_system_tick_ms += 10;  // 累加10ms
+		// g_system_tick_ms += 10;  // 累加10ms
 		FLG_SYS_10MS = 1;        // 设置10ms标志位
 	}
 }
@@ -213,6 +213,9 @@ void HAL_Timer3_ISR(void)
 		TMR3H = 0xfc;           // 重载定时器值（1ms）
 		TMR3L = 0x17;
 		
+		/* 系统心跳计数 */
+		g_system_tick_ms += 1;  
+
 		/* 调用1ms回调（如果已注册） */
 		if (g_timer3_callback_1ms != NULL)
 		{

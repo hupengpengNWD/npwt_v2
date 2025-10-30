@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "../../Middleware/Inc/queue.h"
+/* 队列模式已移除，不再依赖 queue.h */
 
 /****************************************************************************
  * LCD硬件引脚定义
@@ -47,26 +47,7 @@
 #define HAL_LCD_HEIGHT    64
 #define HAL_LCD_PAGES     8   // 64/8 = 8页
 
-/****************************************************************************
- * LCD事件类型定义
- ****************************************************************************/
-typedef enum {
-    HAL_LCD_EVENT_SEND_COMMAND = 0,   // 发送命令
-    HAL_LCD_EVENT_SEND_DATA,          // 发送数据
-    HAL_LCD_EVENT_SET_POSITION,       // 设置位置
-    HAL_LCD_EVENT_CLEAR               // 清屏
-} HAL_LCD_EventType_e;
-
-/****************************************************************************
- * LCD事件结构体
- ****************************************************************************/
-typedef struct {
-    HAL_LCD_EventType_e type;         // 事件类型
-    uint8_t cmd;                      // 命令数据
-    uint8_t data;                     // 数据字节
-    uint8_t page;                     // 页地址
-    uint8_t column;                   // 列地址
-} HAL_LCD_Event_t;
+/* 队列事件类型/结构已移除（同步直写模式） */
 
 /****************************************************************************
  * LCD状态机定义
@@ -184,20 +165,6 @@ void HAL_LCD_Process(void);
 bool HAL_LCD_IsBusy(void);
 
 
-/**
- * @name      HAL_LCD_GetQueueCount
- * @brief     获取HAL_LCD队列中事件数量
- * @param     无
- * @retval    队列中事件数量
- */
-uint8_t HAL_LCD_GetQueueCount(void);
-
-/**
- * @name      HAL_LCD_ClearQueue
- * @brief     清空HAL_LCD队列
- * @param     无
- * @retval    无
- */
-void HAL_LCD_ClearQueue(void);
+/* 同步模式：不再提供队列相关查询/清空接口 */
 
 #endif /* __HAL_LCD_H */

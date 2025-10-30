@@ -18,19 +18,19 @@ extern const unsigned char ASCII[];         // ASCII字模 8x16
  ****************************************************************************/
 
 typedef struct {
-    uint8_t width;
-    uint8_t height;
-    const unsigned char* digit_font;
-    const unsigned char* char_font;
-    const unsigned char* ascii_font;
+    uint8_t width;                   // 字体宽度（像素列数），渲染时的列步进
+    uint8_t height;                  // 字体高度（像素行数/页累计字节），用于按字形字节数定位
+    const unsigned char* digit_font; // 数字字库指针（'0'-'9' 等），为空表示不支持数字位图直取
+    const unsigned char* char_font;  // 字母/符号字库指针（自定义表，如 arry_char/arry_char2）
+    const unsigned char* ascii_font; // 标准 ASCII 字库指针（如 8x16 ASCII），为空表示该字体类型不走 ASCII 表
 } FontInfo_t;
 
 /****************************************************************************
  * 私有变量
  ****************************************************************************/
 
-static QueueHandle_t g_display_queue = 0;
-static uint8_t g_display_event_buffer[8 * sizeof(DisplayEvent_t)];
+static st_queue g_display_queue;              // 循环队列对象
+static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
 static const FontInfo_t g_font_info[] = {
@@ -79,21 +79,13 @@ void Display_Init(void)
     // 初始化HAL层LCD
     HAL_LCD_Init();
     
-    // 初始化显示队列
-    QueueConfig_t queue_config = {
-        .capacity = 8,
-        .element_size = sizeof(DisplayEvent_t),
-        .enable_blocking = false,
-        .timeout_ms = 0
-    };
-    g_display_queue = Queue_Create(&queue_config);
-    if (g_display_queue == 0xFF) {
-        // 队列创建失败，系统无法正常工作
-        while(1);  // 死循环，等待看门狗复位
-    }
+    // 初始化显示队列（容量8，物理长度=容量+1）
+    lib_queue_create(&g_display_queue);
+    g_display_queue.configure(&g_display_queue);
+    g_display_queue.initialize(&g_display_queue, 8 + 1, sizeof(DisplayEvent_t), g_display_queue_buffer);
     
     // 清屏
-    Display_Clear();
+    // Display_Clear();
 }
 
 /**
@@ -112,7 +104,7 @@ void Display_Process(void)
     }
     
     // 从队列中取出一个事件进行处理
-    if (Queue_Dequeue(g_display_queue, &event)) {
+    if (g_display_queue.get(&g_display_queue, &event, 1)) {
         Display_ProcessEvent(&event);
     }
 }
@@ -143,9 +135,7 @@ void Display_Clear(void)
     };
     
     // 将清屏事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -166,9 +156,7 @@ void Display_SetBacklight(bool white_on, bool yellow_on)
     };
     
     // 将设置背光事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 
@@ -194,9 +182,7 @@ void Display_ShowString(uint8_t x, uint8_t y, const char* str, DisplayFontType_e
     };
     
     // 将显示字符串事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -221,9 +207,7 @@ void Display_ShowNumber(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e
     };
     
     // 将显示数字事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -248,9 +232,7 @@ void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, cons
     };
     
     // 将显示图像事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -273,9 +255,7 @@ void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_uni
     };
     
     // 将显示压力事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -296,9 +276,7 @@ void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode)
     };
     
     // 将显示工作模式事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -319,9 +297,7 @@ void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error)
     };
     
     // 将显示错误事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -344,9 +320,7 @@ void Display_ShowBatteryIcon(uint8_t x, uint8_t y, uint8_t battery_level, bool i
     };
     
     // 将显示电池图标事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -364,9 +338,7 @@ void Display_ShowStartupInterface(void)
     };
     
     // 将显示开机界面事件加入队列
-    if (g_display_queue != 0) {
-        Queue_Enqueue(g_display_queue, &event);
-    }
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 
@@ -387,47 +359,47 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
     }
     
     switch (event->type) {
-        case DISPLAY_EVENT_CLEAR:
+        case DISPLAY_EVENT_CLEAR: // 清屏
             Display_ClearInternal();
             break;
             
-        case DISPLAY_EVENT_SHOW_STRING:
+        case DISPLAY_EVENT_SHOW_STRING: // 显示字符串
             Display_ShowStringInternal(event->x, event->y, event->str_data, event->font, event->align);
             break;
             
-        case DISPLAY_EVENT_SHOW_NUMBER:
+        case DISPLAY_EVENT_SHOW_NUMBER: // 显示数字
             Display_ShowNumberInternal(event->x, event->y, event->number_data, event->font, event->align);
             break;
             
-        case DISPLAY_EVENT_SHOW_IMAGE:
+        case DISPLAY_EVENT_SHOW_IMAGE: // 显示图像
             Display_ShowImageInternal(event->x, event->y, event->image_width, event->image_height, event->image_data);
             break;
             
-        case DISPLAY_EVENT_SET_POSITION:
+        case DISPLAY_EVENT_SET_POSITION: // 设置位置
             Display_SetPositionInternal(event->x, event->y);
             break;
             
-        case DISPLAY_EVENT_SET_BACKLIGHT:
+        case DISPLAY_EVENT_SET_BACKLIGHT: // 设置背光
             Display_SetBacklightInternal(event->bool_data, event->byte_data != 0);
             break;
             
-        case DISPLAY_EVENT_SHOW_PRESSURE:
+        case DISPLAY_EVENT_SHOW_PRESSURE: // 显示压力
             Display_ShowPressureInternal(event->x, event->y, event->number_data, event->bool_data);
             break;
             
-        case DISPLAY_EVENT_SHOW_WORK_MODE:
+        case DISPLAY_EVENT_SHOW_WORK_MODE: // 显示工作模式
             Display_ShowWorkModeInternal(event->x, event->y, event->work_mode);
             break;
             
-        case DISPLAY_EVENT_SHOW_ERROR:
+        case DISPLAY_EVENT_SHOW_ERROR: // 显示错误
             Display_ShowErrorInternal(event->x, event->y, event->error_code);
             break;
             
-        case DISPLAY_EVENT_SHOW_BATTERY_ICON:
+        case DISPLAY_EVENT_SHOW_BATTERY_ICON: // 显示电池图标
             Display_ShowBatteryIconInternal(event->x, event->y, event->byte_data, event->bool_data);
             break;
             
-        case DISPLAY_EVENT_SHOW_STARTUP_INTERFACE:
+        case DISPLAY_EVENT_SHOW_STARTUP_INTERFACE: // 显示开机界面
             Display_ShowStartupInterfaceInternal();
             break;
             
@@ -728,8 +700,7 @@ static void Display_ShowStartupInterfaceInternal(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示开机信息
-    Display_ShowStringInternal(0, 0, "NPWT SYSTEM", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 2, "INITIALIZING...", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************

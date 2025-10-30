@@ -222,7 +222,7 @@ void main(void)
         SoftTimer_Start(key_process_timer);
         AppButton_SetKeyProcessTimer(key_process_timer);
     }
-    
+#if 0    
     /* 8.1 创建蜂鸣器处理定时器（每20ms执行一次，避免与按键处理冲突） */
     SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, AppBeep_BeepProcessCallback, NULL);
     if (beep_process_timer != 0) {
@@ -249,7 +249,7 @@ void main(void)
     if (led_toggle_timer != 0) {
         SoftTimer_Start(led_toggle_timer);
     }
-    
+#endif    
     /* 9. 使能全局中断 */
     T3CONbits.TMR3ON = 1; // 启动Timer3
     GIE = 1;

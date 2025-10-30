@@ -23,8 +23,8 @@
         <itemPath>../Middleware/Inc/key_machine.h</itemPath>
         <itemPath>../Middleware/Inc/pushpull.h</itemPath>
         <itemPath>../Middleware/Inc/soft_timer.h</itemPath>
-        <itemPath>../Middleware/Inc/queue.h</itemPath>
         <itemPath>../Middleware/Inc/display.h</itemPath>
+        <itemPath>../Middleware/Inc/queue.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
