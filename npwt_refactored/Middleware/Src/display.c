@@ -35,7 +35,7 @@ static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
 // 字体信息表
 static const FontInfo_t g_font_info[] = {
     {6, 12, arry_dig, arry_char, NULL},           // DISPLAY_FONT_6X12
-    {8, 16, arry_digs12, arry_char2, ASCII},      // DISPLAY_FONT_8X16
+    {8, 16, arry_digs12, NULL, ASCII},            // DISPLAY_FONT_8X16 -> 仅走 ASCII[]
     {16, 32, arry_dig22, arry_char22, NULL},      // DISPLAY_FONT_16X32
     {40, 80, arry_dig40, NULL, NULL}              // DISPLAY_FONT_40X80
 };
@@ -466,28 +466,33 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
     // 遍历字符串中的每个字符
     while (*str) {
         uint8_t ch = *str;
-        
+
         if (ch >= '0' && ch <= '9') {
-            // 显示数字
-            Display_SendDigit(y, current_col, ch - '0', font);
-            current_col += font_info->width;  // 使用字体宽度
-        } else if (ch >= 'A' && ch <= 'Z') {
-            // 显示大写字母
-            Display_SendLetter(y, current_col, ch - 'A', font);
-            current_col += font_info->width;  // 使用字体宽度
-        } else if (ch >= 'a' && ch <= 'z') {
-            // 显示小写字母（转换为大写）
-            Display_SendLetter(y, current_col, ch - 'a', font);
-            current_col += font_info->width;  // 使用字体宽度
+            // 数字：优先数字字库，否则回退到ASCII
+            if (font_info->digit_font != NULL) {
+                Display_SendDigit(y, current_col, ch - '0', font);
+            } else if (font_info->ascii_font != NULL) {
+                Display_SendASCII(y, current_col, ch, font);
+            }
+            current_col += font_info->width;
+        } else if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+            // 字母：有字母字库用字母字库，否则回退到ASCII
+            if (font_info->char_font != NULL) {
+                uint8_t idx = (ch >= 'a') ? (uint8_t)(ch - 'a') : (uint8_t)(ch - 'A');
+                Display_SendLetter(y, current_col, idx, font);
+            } else if (font_info->ascii_font != NULL) {
+                Display_SendASCII(y, current_col, ch, font);
+            }
+            current_col += font_info->width;
         } else if (ch == ' ') {
-            // 空格
+            // 空格：前进一个字宽
             current_col += font_info->width;
         } else if (font_info->ascii_font != NULL) {
-            // 使用ASCII字体显示其他字符
+            // 其他可显示ASCII
             Display_SendASCII(y, current_col, ch, font);
             current_col += font_info->width;
         } else {
-            // 其他字符暂时跳过
+            // 不支持：占位前进
             current_col += font_info->width;
         }
         str++;
@@ -700,7 +705,7 @@ static void Display_ShowStartupInterfaceInternal(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示开机信息
-    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************
@@ -722,21 +727,34 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
     if (char_data == NULL) {
         return;
     }
-    
-    // 第一行（上半部分）
-    HAL_LCD_SetPositionNonBlocking(page, column);
-    for (uint8_t i = 0; i < width; i++) {
-        uint16_t data = (uint16_t)char_data[i] | ((uint16_t)char_data[i + width] << 8);
-        data = (data >> 3) & 0xFF;
-        HAL_LCD_SendDataNonBlocking((uint8_t)data);
-    }
-    
-    // 第二行（下半部分）
-    HAL_LCD_SetPositionNonBlocking(page + 1, column);
-    for (uint8_t i = 0; i < width; i++) {
-        uint16_t data = ((uint16_t)char_data[i + width] << 8) | (uint16_t)char_data[i];
-        data = (data >> 3) >> 8;
-        HAL_LCD_SendDataNonBlocking((uint8_t)data);
+
+    // 针对不同字模布局分别处理
+    if (width == 8 && height == 16) {
+        // ASCII 8x16：未重构工程按列字节直接写入，且列顺序为倒序（高列到低列）
+        // 上半页：char_data[15]..char_data[8]
+        HAL_LCD_SetPositionNonBlocking(page, column);
+        for (int8_t idx = 15; idx >= 8; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+        // 下半页：char_data[7]..char_data[0]
+        HAL_LCD_SetPositionNonBlocking(page + 1, column);
+        for (int8_t idx = 7; idx >= 0; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+    } else {
+        // 默认路径：6x12 自定义点阵（两页各 width 字节，带位移重组）
+        HAL_LCD_SetPositionNonBlocking(page, column);
+        for (uint8_t i = 0; i < width; i++) {
+            uint16_t data = (uint16_t)char_data[i] | ((uint16_t)char_data[i + width] << 8);
+            data = (data >> 3) & 0xFF;
+            HAL_LCD_SendDataNonBlocking((uint8_t)data);
+        }
+        HAL_LCD_SetPositionNonBlocking(page + 1, column);
+        for (uint8_t i = 0; i < width; i++) {
+            uint16_t data = ((uint16_t)char_data[i + width] << 8) | (uint16_t)char_data[i];
+            data = (data >> 3) >> 8;
+            HAL_LCD_SendDataNonBlocking((uint8_t)data);
+        }
     }
 }
 
