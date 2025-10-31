@@ -4,14 +4,9 @@
 #include <string.h>
 
 // 外部字体数据声明
-extern const unsigned char arry_dig[];      // 数字字模 6x12
-extern const unsigned char arry_char[];     // 字符字模 6x12
-extern const unsigned char arry_digs12[];   // 数字字模 8x16
-extern const unsigned char arry_char2[];    // 字符字模 8x16
-extern const unsigned char arry_dig22[];    // 数字字模 16x32
-extern const unsigned char arry_char22[];   // 字符字模 16x32
-extern const unsigned char arry_dig40[];    // 数字字模 40x80
-extern const unsigned char en_char_8x16[];     // ASCII字模 8x16（重命名）
+
+extern const unsigned char en_char_6x12[];    
+extern const unsigned char en_char_8x16[];     
 
 /****************************************************************************
  * 字体信息结构体
@@ -20,9 +15,8 @@ extern const unsigned char en_char_8x16[];     // ASCII字模 8x16（重命名�
 typedef struct {
     uint8_t width;                   // 字体宽度（像素列数），渲染时的列步进
     uint8_t height;                  // 字体高度（像素行数/页累计字节），用于按字形字节数定位
-    const unsigned char* digit_font; // 数字字库指针（'0'-'9' 等），为空表示不支持数字位图直取
-    const unsigned char* char_font;  // 字母/符号字库指针（自定义表，如 arry_char/arry_char2）
-    const unsigned char* ascii_font; // 标准 ASCII 字库指针（如 8x16 ASCII），为空表示该字体类型不走 ASCII 表
+    const unsigned char* char_font;  // 扩展字符字库指针（中文、俄文等非ASCII字符，如 arry_char/arry_char2）
+    const unsigned char* ascii_font; // ASCII字符字库指针（包含数字0-9、字母A-Z/a-z及符号，如 8x16 ASCII）
 } FontInfo_t;
 
 /****************************************************************************
@@ -34,10 +28,10 @@ static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
 static const FontInfo_t g_font_info[] = {
-    {6, 12, arry_dig, arry_char, NULL},           // DISPLAY_FONT_6X12
-    {8, 16, NULL, NULL, en_char_8x16},        // DISPLAY_FONT_8X16 
-    {16, 32, arry_dig22, arry_char22, NULL},      // DISPLAY_FONT_16X32
-    {40, 80, arry_dig40, NULL, NULL}              // DISPLAY_FONT_40X80
+    {6, 12, NULL, en_char_6x12},           
+    {8, 16, NULL, en_char_8x16},        
+    {16, 32, NULL, NULL},         
+    {40, 80, NULL, NULL}                
 };
 
 /****************************************************************************
@@ -59,9 +53,8 @@ static void Display_ShowStartupInterfaceInternal(void);
 
 // 字符处理辅助函数
 static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* char_data, uint8_t width, uint8_t height);
-static void Display_SendDigit(uint8_t page, uint8_t column, uint8_t digit, DisplayFontType_e font);
-static void Display_SendLetter(uint8_t page, uint8_t column, uint8_t letter, DisplayFontType_e font);
 static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, DisplayFontType_e font);
+static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code, DisplayFontType_e font);
 static const FontInfo_t* Display_GetFontInfo(DisplayFontType_e font);
 
 /****************************************************************************
@@ -467,32 +460,28 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
     while (*str) {
         uint8_t ch = *str;
 
-        if (ch >= '0' && ch <= '9') {
-            // 数字：优先数字字库，否则回退到ASCII
-            if (font_info->digit_font != NULL) {
-                Display_SendDigit(y, current_col, ch - '0', font);
-            } else if (font_info->ascii_font != NULL) {
+        // ASCII字符（0x20-0x7F）：数字、字母、符号等使用ASCII字库
+        if (ch >= 0x20 && ch <= 0x7F) {
+            if (font_info->ascii_font != NULL) {
                 Display_SendASCII(y, current_col, ch, font);
+                current_col += font_info->width;
+            } else {
+                // ASCII字库不可用，占位前进
+                current_col += font_info->width;
             }
-            current_col += font_info->width;
-        } else if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
-            // 字母：有字母字库用字母字库，否则回退到ASCII
+        }
+        // 非ASCII字符（0x80-0xFF）：中文、俄文等使用扩展字符字库
+        else if (ch >= 0x80) {
             if (font_info->char_font != NULL) {
-                uint8_t idx = (ch >= 'a') ? (uint8_t)(ch - 'a') : (uint8_t)(ch - 'A');
-                Display_SendLetter(y, current_col, idx, font);
-            } else if (font_info->ascii_font != NULL) {
-                Display_SendASCII(y, current_col, ch, font);
+                Display_SendCharFont(y, current_col, ch, font);
+                current_col += font_info->width;
+            } else {
+                // 扩展字符字库不可用，占位前进
+                current_col += font_info->width;
             }
-            current_col += font_info->width;
-        } else if (ch == ' ') {
-            // 空格：前进一个字宽
-            current_col += font_info->width;
-        } else if (font_info->ascii_font != NULL) {
-            // 其他可显示ASCII
-            Display_SendASCII(y, current_col, ch, font);
-            current_col += font_info->width;
-        } else {
-            // 不支持：占位前进
+        }
+        // 控制字符（0x00-0x1F）：占位前进（空格0x20已在ASCII分支处理）
+        else {
             current_col += font_info->width;
         }
         str++;
@@ -704,8 +693,11 @@ static void Display_ShowStartupInterfaceInternal(void)
     // 清屏
     HAL_LCD_ClearNonBlocking();
     
-    // 显示开机信息
-    Display_ShowStringInternal(0, 0, "12345", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 第一行：6x12 字体的 "AAAAA"（行坐标 0，占用 0-11 行，共 12 像素高）
+    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    
+    // 第二行：8x16 字体的 "AAAAA"（行坐标 12，紧跟第一行，占用 12-27 行，共 16 像素高）
+//    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************
@@ -728,6 +720,7 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         return;
     }
 
+#if 0 // 原实现（整体屏蔽保留）：为旧arry_char设计的重组逻辑，不支持标准ASCII字库
     // 坐标转换：Display层使用自然坐标（0=顶部），HAL层需要硬件坐标（6=顶部）
     uint8_t page_hw = (uint8_t)(6 - (page & 0x07));  // 软件页0→硬件页6，软件页6→硬件页0
     
@@ -760,6 +753,26 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
             HAL_LCD_SendDataNonBlocking((uint8_t)data);
         }
     }
+#else
+    // 新实现：支持标准ASCII字库格式（en_char_6x12, en_char_8x16等）
+    // 字库构造规则：char_data[0..(height/2-1)] = 下半部分，char_data[height/2..(height-1)] = 上半部分
+    // 坐标转换：Display层使用自然坐标（0=顶部），HAL层需要硬件坐标（6=顶部）
+    uint8_t page_hw = (uint8_t)(6 - (page & 0x07));  // 软件页0→硬件页6，软件页6→硬件页0
+    
+    uint8_t half_height = height / 2;  // 上下半部分的分界点
+    
+    // 先写上半部分：char_data[height-1]..char_data[half_height] → page_hw（倒序）
+    HAL_LCD_SetPositionNonBlocking(page_hw, column);
+    for (int8_t idx = (int8_t)(height - 1); idx >= (int8_t)half_height; idx--) {
+        HAL_LCD_SendDataNonBlocking(char_data[idx]);
+    }
+    
+    // 再写下半部分：char_data[half_height-1]..char_data[0] → page_hw+1（倒序）
+    HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
+    for (int8_t idx = (int8_t)(half_height - 1); idx >= 0; idx--) {
+        HAL_LCD_SendDataNonBlocking(char_data[idx]);
+    }
+#endif
 }
 
 /**
@@ -777,50 +790,33 @@ static const FontInfo_t* Display_GetFontInfo(DisplayFontType_e font)
 }
 
 /**
- * @name      Display_SendDigit
- * @brief     发送数字字符
+ * @name      Display_SendCharFont
+ * @brief     发送扩展字符（非ASCII字符，如中文、俄文等）
  * @param     page - 页地址
  * @param     column - 列地址
- * @param     digit - 数字(0-9)
+ * @param     char_code - 字符编码（0x80-0xFF）
  * @param     font - 字体类型
  * @retval    无
  */
-static void Display_SendDigit(uint8_t page, uint8_t column, uint8_t digit, DisplayFontType_e font)
+static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code, DisplayFontType_e font)
 {
-    if (digit > 9) {
-        return;
-    }
-    
-    const FontInfo_t* font_info = Display_GetFontInfo(font);
-    if (font_info->digit_font == NULL) {
-        return;
-    }
-    
-    uint16_t offset = digit * font_info->height;  // 每个数字的字节数
-    Display_SendCharData(page, column, &font_info->digit_font[offset], font_info->width, font_info->height);
-}
-
-/**
- * @name      Display_SendLetter
- * @brief     发送字母字符
- * @param     page - 页地址
- * @param     column - 列地址
- * @param     letter - 字母索引(0-25对应A-Z)
- * @param     font - 字体类型
- * @retval    无
- */
-static void Display_SendLetter(uint8_t page, uint8_t column, uint8_t letter, DisplayFontType_e font)
-{
-    if (letter > 25) {
-        return;
-    }
-    
     const FontInfo_t* font_info = Display_GetFontInfo(font);
     if (font_info->char_font == NULL) {
         return;
     }
     
-    uint16_t offset = letter * font_info->height;  // 每个字母的字节数
+    // 扩展字符索引计算（0x80-0xFF）
+    // 当前实现：假设从0x80开始连续存储，每个字符占用height字节
+    // 对于俄文（Cyrillic）：offset = (char_code - 0x80) * height
+    // 对于中文等：可能需要其他索引方式，这里先使用简单的连续索引
+    if (char_code < 0x80) {
+        // 非扩展字符：不应调用此函数
+        return;
+    }
+    
+    // 计算字符在字库中的偏移量
+    uint16_t offset = (char_code - 0x80) * font_info->height;
+    
     Display_SendCharData(page, column, &font_info->char_font[offset], font_info->width, font_info->height);
 }
 

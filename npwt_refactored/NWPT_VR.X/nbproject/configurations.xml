@@ -43,7 +43,8 @@
         <itemPath>../HAL/Src/hal_lcd.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f6" displayName="Library" projectFiles="true">
-        <itemPath>../Library/lcd_font_data_8X16.c</itemPath>
+        <itemPath>../Library/lcd_font_data_8x16.c</itemPath>
+        <itemPath>../Library/lcd_font_data_6x12.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middeleware" projectFiles="true">
         <itemPath>../Middleware/Src/pushpull.c</itemPath>
