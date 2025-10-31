@@ -25,6 +25,7 @@
         <itemPath>../Middleware/Inc/soft_timer.h</itemPath>
         <itemPath>../Middleware/Inc/display.h</itemPath>
         <itemPath>../Middleware/Inc/queue.h</itemPath>
+        <itemPath>../Middleware/Inc/fsm.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
@@ -52,6 +53,7 @@
         <itemPath>../Middleware/Src/display.c</itemPath>
         <itemPath>../Middleware/Src/key_machine.c</itemPath>
         <itemPath>../Middleware/Src/queue.c</itemPath>
+        <itemPath>../Middleware/Src/fsm.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript" displayName="链接器文件" projectFiles="true">

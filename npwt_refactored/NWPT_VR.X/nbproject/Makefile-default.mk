@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../Application/Src/app_beep.c ../Application/Src/app_button.c ../Application/Src/app_ui.c ../Core/Src/main.c ../HAL/Src/hal_adc.c ../HAL/Src/hal_gpio.c ../HAL/Src/hal_timer.c ../HAL/Src/hal_lcd.c ../Middleware/Src/pushpull.c ../Middleware/Src/soft_timer.c ../Middleware/Src/display.c ../Middleware/Src/key_machine.c ../Middleware/Src/queue.c ../Library/lcd_font_data_8x16.c ../Library/lcd_font_data_6x12.c
+SOURCEFILES_QUOTED_IF_SPACED=../Application/Src/app_beep.c ../Application/Src/app_button.c ../Application/Src/app_ui.c ../Core/Src/main.c ../HAL/Src/hal_adc.c ../HAL/Src/hal_gpio.c ../HAL/Src/hal_timer.c ../HAL/Src/hal_lcd.c ../Middleware/Src/pushpull.c ../Middleware/Src/soft_timer.c ../Middleware/Src/display.c ../Middleware/Src/key_machine.c ../Middleware/Src/queue.c ../Library/lcd_font_data_8x16.c ../Library/lcd_font_data_6x12.c ../Middleware/Src/fsm.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1263633898/app_beep.p1 ${OBJECTDIR}/_ext/1263633898/app_button.p1 ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ${OBJECTDIR}/_ext/959733021/main.p1 ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ${OBJECTDIR}/_ext/524563478/pushpull.p1 ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ${OBJECTDIR}/_ext/524563478/display.p1 ${OBJECTDIR}/_ext/524563478/key_machine.p1 ${OBJECTDIR}/_ext/524563478/queue.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1263633898/app_beep.p1.d ${OBJECTDIR}/_ext/1263633898/app_button.p1.d ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d ${OBJECTDIR}/_ext/959733021/main.p1.d ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d ${OBJECTDIR}/_ext/524563478/pushpull.p1.d ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d ${OBJECTDIR}/_ext/524563478/display.p1.d ${OBJECTDIR}/_ext/524563478/key_machine.p1.d ${OBJECTDIR}/_ext/524563478/queue.p1.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1263633898/app_beep.p1 ${OBJECTDIR}/_ext/1263633898/app_button.p1 ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ${OBJECTDIR}/_ext/959733021/main.p1 ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ${OBJECTDIR}/_ext/524563478/pushpull.p1 ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ${OBJECTDIR}/_ext/524563478/display.p1 ${OBJECTDIR}/_ext/524563478/key_machine.p1 ${OBJECTDIR}/_ext/524563478/queue.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ${OBJECTDIR}/_ext/524563478/fsm.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1263633898/app_beep.p1.d ${OBJECTDIR}/_ext/1263633898/app_button.p1.d ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d ${OBJECTDIR}/_ext/959733021/main.p1.d ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d ${OBJECTDIR}/_ext/524563478/pushpull.p1.d ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d ${OBJECTDIR}/_ext/524563478/display.p1.d ${OBJECTDIR}/_ext/524563478/key_machine.p1.d ${OBJECTDIR}/_ext/524563478/queue.p1.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d ${OBJECTDIR}/_ext/524563478/fsm.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1263633898/app_beep.p1 ${OBJECTDIR}/_ext/1263633898/app_button.p1 ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ${OBJECTDIR}/_ext/959733021/main.p1 ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ${OBJECTDIR}/_ext/524563478/pushpull.p1 ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ${OBJECTDIR}/_ext/524563478/display.p1 ${OBJECTDIR}/_ext/524563478/key_machine.p1 ${OBJECTDIR}/_ext/524563478/queue.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1
+OBJECTFILES=${OBJECTDIR}/_ext/1263633898/app_beep.p1 ${OBJECTDIR}/_ext/1263633898/app_button.p1 ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ${OBJECTDIR}/_ext/959733021/main.p1 ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ${OBJECTDIR}/_ext/524563478/pushpull.p1 ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ${OBJECTDIR}/_ext/524563478/display.p1 ${OBJECTDIR}/_ext/524563478/key_machine.p1 ${OBJECTDIR}/_ext/524563478/queue.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ${OBJECTDIR}/_ext/524563478/fsm.p1
 
 # Source Files
-SOURCEFILES=../Application/Src/app_beep.c ../Application/Src/app_button.c ../Application/Src/app_ui.c ../Core/Src/main.c ../HAL/Src/hal_adc.c ../HAL/Src/hal_gpio.c ../HAL/Src/hal_timer.c ../HAL/Src/hal_lcd.c ../Middleware/Src/pushpull.c ../Middleware/Src/soft_timer.c ../Middleware/Src/display.c ../Middleware/Src/key_machine.c ../Middleware/Src/queue.c ../Library/lcd_font_data_8x16.c ../Library/lcd_font_data_6x12.c
+SOURCEFILES=../Application/Src/app_beep.c ../Application/Src/app_button.c ../Application/Src/app_ui.c ../Core/Src/main.c ../HAL/Src/hal_adc.c ../HAL/Src/hal_gpio.c ../HAL/Src/hal_timer.c ../HAL/Src/hal_lcd.c ../Middleware/Src/pushpull.c ../Middleware/Src/soft_timer.c ../Middleware/Src/display.c ../Middleware/Src/key_machine.c ../Middleware/Src/queue.c ../Library/lcd_font_data_8x16.c ../Library/lcd_font_data_6x12.c ../Middleware/Src/fsm.c
 
 
 
@@ -214,6 +214,14 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1: ../Library/lcd_font_data_6x12
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
+${OBJECTDIR}/_ext/524563478/fsm.p1: ../Middleware/Src/fsm.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
+	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
+	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/fsm.p1 ../Middleware/Src/fsm.c 
+	@-${MV} ${OBJECTDIR}/_ext/524563478/fsm.d ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/fsm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
 else
 ${OBJECTDIR}/_ext/1263633898/app_beep.p1: ../Application/Src/app_beep.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
@@ -334,6 +342,14 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1: ../Library/lcd_font_data_6x12
 	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ../Library/lcd_font_data_6x12.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/_ext/524563478/fsm.p1: ../Middleware/Src/fsm.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
+	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
+	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/fsm.p1 ../Middleware/Src/fsm.c 
+	@-${MV} ${OBJECTDIR}/_ext/524563478/fsm.d ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/fsm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 
