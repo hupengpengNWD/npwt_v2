@@ -35,7 +35,7 @@ static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
 // 字体信息表
 static const FontInfo_t g_font_info[] = {
     {6, 12, arry_dig, arry_char, NULL},           // DISPLAY_FONT_6X12
-    {8, 16, arry_digs12, NULL, en_char_8x16},        // DISPLAY_FONT_8X16 
+    {8, 16, NULL, NULL, en_char_8x16},        // DISPLAY_FONT_8X16 
     {16, 32, arry_dig22, arry_char22, NULL},      // DISPLAY_FONT_16X32
     {40, 80, arry_dig40, NULL, NULL}              // DISPLAY_FONT_40X80
 };
@@ -705,7 +705,7 @@ static void Display_ShowStartupInterfaceInternal(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示开机信息
-    Display_ShowStringInternal(0, 0, "BBXCC", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "12345", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************
