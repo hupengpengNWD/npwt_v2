@@ -210,17 +210,10 @@ void HAL_LCD_SendDataNonBlocking(uint8_t data)
  */
 void HAL_LCD_SetPositionNonBlocking(uint8_t page, uint8_t column)
 {
-    // 原实现（自然坐标直接下发）—按用户要求整体屏蔽，保留做参考
-#if 1 //hpp
-    g_lcd_context.step_counter = 0;
-    LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0xB0 + page); LCD_RD = 0; LCD_CS = 1;
-    LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0x10 + (column >> 4)); LCD_RD = 0; LCD_CS = 1;
-    LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0x00 + (column & 0x0F)); LCD_RD = 0; LCD_CS = 1;
-#else
-    // 与未重构工程一致的反向补偿，且加入可视区左边界偏移修正以避免首列裁切：
-    // 1) 页：page_hw = 6 - page
-    // 2) 列：col_hw = 127 - column - OFFSET（OFFSET≈2~4，先取4，可按实机微调）
-    uint8_t page_hw = (uint8_t)(6 - (page & 0x07));
+    // 注意：page 参数此时已经是硬件坐标（由Display层转换后传入，6=顶部）
+    // 列坐标仍然需要反向补偿，且加入可视区左边界偏移修正以避免首列裁切：
+    // col_hw = 127 - column - OFFSET（OFFSET=8，可按实机微调）
+    uint8_t page_hw = page & 0x07;  // 直接使用，已经是硬件坐标
     const int8_t OFFSET = 8;
     int16_t col_hw  = (int16_t)127 - (int16_t)column - (int16_t)OFFSET;
     if (col_hw < 0)  col_hw = 0;
@@ -233,7 +226,6 @@ void HAL_LCD_SetPositionNonBlocking(uint8_t page, uint8_t column)
     LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0xB0 + page_hw); LCD_RD = 0; LCD_CS = 1;
     LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0x10 + col_high); LCD_RD = 0; LCD_CS = 1;
     LCD_CS = 0; LCD_RS = 0; LCD_RD = 1; LCD_WR = 0; LCD_DATA = (uint8_t)(0x00 + col_low); LCD_RD = 0; LCD_CS = 1;
-#endif
 }
 
 /**
