@@ -72,6 +72,9 @@ typedef struct fsm {
 
 /* 函数声明 */
 uint8_t fsm_create(st_fsm_ptr ptr);
+void fsm_poll(st_fsm_ptr ptr, st_fsm_event event);
+void fsm_initialize(st_fsm_ptr ptr);
+void fsm_configure(st_fsm_ptr ptr);
 
 #ifdef __cplusplus
 }

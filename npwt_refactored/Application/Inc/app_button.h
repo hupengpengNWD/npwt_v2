@@ -14,6 +14,23 @@
 
 #include "../../Middleware/Inc/key_machine.h"
 #include "../../Middleware/Inc/soft_timer.h"
+#include "../../Middleware/Inc/queue.h"
+
+/****************************************************************************
+ * 按键事件队列配置
+ ****************************************************************************/
+#define KEY_EVENT_QUEUE_LENGTH  8    // 按键事件队列长度（足够缓冲快速按键）
+
+/****************************************************************************
+ * 按键事件结构体定义
+ ****************************************************************************/
+/**
+ * @brief 按键事件结构体（用于app_button到app_ui的事件传递）
+ */
+typedef struct {
+    uint8_t key_id;                     // 按键ID: 0=OK/START, 1=UP, 2=DN, 3=CANCEL
+    KeyMachineEvent_e key_event;        // 按键事件类型
+} KeyEvent_t;
 
 /****************************************************************************
  * 函数声明
@@ -194,5 +211,13 @@ void AppButton_SetPowerState(uint8_t state);
  * @retval    无
  */
 void AppButton_SetKeyProcessTimer(SoftTimerHandle_t timer_handle);
+
+/**
+ * @name      AppButton_GetKeyEventQueue
+ * @brief     获取按键事件队列指针（供app_ui模块使用）
+ * @param     无
+ * @retval    st_queue_ptr - 按键事件队列指针，失败返回NULL
+ */
+st_queue_ptr AppButton_GetKeyEventQueue(void);
 
 #endif /* APP_BUTTON_H */

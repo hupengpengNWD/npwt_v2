@@ -13,6 +13,7 @@
 #include "../Inc/app_beep.h"
 #include "../../Core/Inc/system_enums.h"
 #include "../../HAL/Inc/hal_gpio.h"
+#include "../../Middleware/Inc/queue.h"
 #include <stddef.h>
 
 /****************************************************************************
@@ -93,9 +94,76 @@ static KeyConfig_t g_cancel_key_config = {
 /* 按键处理定时器句柄 */
 static SoftTimerHandle_t g_key_process_timer = 0;
 
+/* 按键事件队列 */
+static st_queue g_key_event_queue;
+static uint8_t g_key_event_queue_buffer[KEY_EVENT_QUEUE_LENGTH * sizeof(KeyEvent_t)];
+static bool g_key_event_queue_initialized = false;
+
 /****************************************************************************
  * 函数实现
  ****************************************************************************/
+
+/**
+ * @name      AppButton_InitKeyEventQueue
+ * @brief     初始化按键事件队列（内部函数）
+ * @param     无
+ * @retval    无
+ */
+static void AppButton_InitKeyEventQueue(void)
+{
+    if (g_key_event_queue_initialized == false) {
+        lib_queue_create(&g_key_event_queue);
+        g_key_event_queue.initialize(&g_key_event_queue,
+                                     KEY_EVENT_QUEUE_LENGTH,
+                                     sizeof(KeyEvent_t),
+                                     g_key_event_queue_buffer);
+        g_key_event_queue.configure(&g_key_event_queue);
+        g_key_event_queue_initialized = true;
+    }
+}
+
+/**
+ * @name      AppButton_GetKeyEventQueue
+ * @brief     获取按键事件队列指针（供app_ui模块使用）
+ * @param     无
+ * @retval    st_queue_ptr - 按键事件队列指针，失败返回NULL
+ */
+st_queue_ptr AppButton_GetKeyEventQueue(void)
+{
+    if (g_key_event_queue_initialized) {
+        return &g_key_event_queue;
+    }
+    return NULL;
+}
+
+/**
+ * @name      AppButton_PutKeyEvent
+ * @brief     将按键事件放入队列（内部函数）
+ * @param     key_id - 按键ID
+ * @param     event - 按键事件
+ * @retval    bool - true表示成功，false表示队列满
+ */
+static bool AppButton_PutKeyEvent(uint8_t key_id, KeyMachineEvent_e event)
+{
+    KeyEvent_t key_event = {
+        .key_id = key_id,
+        .key_event = event
+    };
+    
+    /* 确保队列已初始化 */
+    if (g_key_event_queue_initialized == false) {
+        AppButton_InitKeyEventQueue();
+    }
+    
+    /* 队列满时丢弃最旧的事件（保证新事件能进入） */
+    if (g_key_event_queue.full(&g_key_event_queue)) {
+        KeyEvent_t dummy;
+        g_key_event_queue.get(&g_key_event_queue, &dummy, sizeof(dummy));
+    }
+    
+    /* 放入新事件 */
+    return g_key_event_queue.put(&g_key_event_queue, &key_event, sizeof(key_event));
+}
 
 /**
  * @name      AppButton_Init
@@ -110,6 +178,10 @@ void AppButton_Init(void)
     g_up_key = &g_up_key_instance;
     g_down_key = &g_down_key_instance;
     g_cancel_key = &g_cancel_key_instance;
+    
+    // 初始化按键事件队列
+    AppButton_InitKeyEventQueue();
+    
     // 注意：电源状态初始化移到定时器启动后，中断使能前
 }
 
@@ -219,11 +291,27 @@ SoftTimerHandle_t AppButton_GetKeyProcessTimer(void)
  * @param     event - 按键事件
  * @param     arg - 回调参数
  * @retval    无
+ * 
+ * 功能说明：
+ * - 短按/单击：发送UI事件作为确认键（key_id=0）
+ * - 长按1秒：保留给未来可能的开机功能（不发送UI事件）
+ * - 长按3秒：进入关机准备状态（不发送UI事件，系统级操作）
+ * - 释放：如果在关机准备状态，执行关机（不发送UI事件，系统级操作）
  */
 void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void* arg)
 {
     (void)ptr;
     (void)arg;
+    
+    /* 对于普通操作事件（短按/单击），发送UI事件作为确认键 */
+    /* 注意：长按事件（LONG_PRESS、ULTRA_LONG_PRESS）和RELEASE事件不发送UI事件，
+     * 因为它们是电源控制相关的系统级操作
+     */
+    if (event == KEY_MACHINE_EVENT_CLICK || event == KEY_MACHINE_EVENT_SHORT_PRESS) {
+        /* 发送UI事件（key_id=0表示OK/确认键） */
+        AppButton_PutKeyEvent(0, event);
+        /* 注意：这里不return，继续执行后面的switch-case，以防有额外处理 */
+    }
     
     switch (event) {
         case KEY_MACHINE_EVENT_PRESS:
@@ -236,12 +324,14 @@ void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, vo
         {
             // 长按1秒 - 已删除开机逻辑，现在只在断电情况下长按确认键通电
             // 通电后立即在main函数中完成电源自锁和开机
+            // 注意：此事件不发送UI事件，保留给未来可能的开机功能
             break;
         }
         
         case KEY_MACHINE_EVENT_ULTRA_LONG_PRESS:
         {
             // 长按3秒 - 进入关机准备状态（仅在运行状态下有效）
+            // 注意：此事件不发送UI事件，因为这是系统级电源控制操作
             if (g_power_state == POWER_STATE_ON) {
                 // 进入关机准备状态，关闭背光提示用户
                 g_power_state = POWER_STATE_SHUTDOWN_PREPARE;
@@ -253,10 +343,19 @@ void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, vo
         case KEY_MACHINE_EVENT_RELEASE:
         {
             // 按键释放 - 如果在关机准备状态，则真正关机
+            // 注意：此事件不发送UI事件，因为这是系统级电源控制操作
             if (g_power_state == POWER_STATE_SHUTDOWN_PREPARE) {
                 PowerOff();
                 // 状态更新已在PowerOff()函数中完成
             }
+            break;
+        }
+        
+        case KEY_MACHINE_EVENT_CLICK:
+        case KEY_MACHINE_EVENT_SHORT_PRESS:
+        {
+            // 短按/单击事件已在函数开头发送UI事件
+            // 这里可以添加额外的处理逻辑（如果需要）
             break;
         }
         
@@ -278,6 +377,9 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
     (void)ptr;
     (void)arg;
     
+    /* 将按键事件放入队列（key_id=1表示上键） */
+    AppButton_PutKeyEvent(1, event);
+    
     switch (event) {
         case KEY_MACHINE_EVENT_PRESS:
         {
@@ -287,15 +389,13 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         
         case KEY_MACHINE_EVENT_SHORT_PRESS:
         {
-            // 短按 - 向上选择菜单项、增加数值
-            // TODO: 实现具体功能
+            // 短按 - 向上选择菜单项、增加数值（已通过AppUI_OnKeyEvent发送给UI模块）
             break;
         }
         
         case KEY_MACHINE_EVENT_LONG_PRESS:
         {
-            // 长按1秒 - 快速增加数值
-            // TODO: 实现具体功能
+            // 长按1秒 - 快速增加数值（已通过AppUI_OnKeyEvent发送给UI模块）
             break;
         }
         
@@ -309,14 +409,14 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         case KEY_MACHINE_EVENT_RELEASE:
         {
             // 按键释放
-            // TODO: 实现具体功能
             break;
         }
         
         case KEY_MACHINE_EVENT_CLICK:
         {
-            // 单击 - 切换到下一个蜂鸣器二维模式
+            // 单击 - 切换到下一个蜂鸣器二维模式（保留原功能）
             AppBeep_SwitchToNext2DMode();
+            // 同时发送UI事件（已在函数开头发送）
             break;
         }
         
@@ -338,6 +438,9 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
     (void)ptr;
     (void)arg;
     
+    /* 将按键事件放入队列（key_id=2表示下键） */
+    AppButton_PutKeyEvent(2, event);
+    
     switch (event) {
         case KEY_MACHINE_EVENT_PRESS:
         {
@@ -347,15 +450,13 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
         
         case KEY_MACHINE_EVENT_SHORT_PRESS:
         {
-            // 短按 - 向下选择菜单项、减少数值
-            // TODO: 实现具体功能
+            // 短按 - 向下选择菜单项、减少数值（已通过AppUI_OnKeyEvent发送给UI模块）
             break;
         }
         
         case KEY_MACHINE_EVENT_LONG_PRESS:
         {
-            // 长按1秒 - 快速减少数值
-            // TODO: 实现具体功能
+            // 长按1秒 - 快速减少数值（已通过AppUI_OnKeyEvent发送给UI模块）
             break;
         }
         
@@ -369,13 +470,12 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
         case KEY_MACHINE_EVENT_RELEASE:
         {
             // 按键释放
-            // TODO: 实现具体功能
             break;
         }
         
         case KEY_MACHINE_EVENT_CLICK:
         {
-            // 单击 - 下键功能已删除，只保留上键切换蜂鸣器模式
+            // 单击（已通过AppUI_OnKeyEvent发送给UI模块）
             break;
         }
         
@@ -397,6 +497,9 @@ void AppButton_CancelKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, v
     (void)ptr;
     (void)arg;
     
+    /* 将按键事件放入队列（key_id=0表示OK/确认键） */
+    AppButton_PutKeyEvent(0, event);
+    
     switch (event) {
         case KEY_MACHINE_EVENT_PRESS:
         {
@@ -406,8 +509,7 @@ void AppButton_CancelKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, v
         
         case KEY_MACHINE_EVENT_SHORT_PRESS:
         {
-            // 短按 - 取消操作、静音
-            // TODO: 实现具体功能
+            // 短按 - 确认/启动操作（已通过AppUI_OnKeyEvent发送给UI模块）
             break;
         }
         

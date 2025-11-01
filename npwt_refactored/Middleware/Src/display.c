@@ -6,6 +6,7 @@
 // 外部字体数据声明
 
 extern const unsigned char en_char_6x12[];    
+extern const unsigned char en_char_7x14[];    
 extern const unsigned char en_char_8x16[];     
 
 /****************************************************************************
@@ -29,6 +30,7 @@ static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
 // 字体信息表
 static const FontInfo_t g_font_info[] = {
     {6, 12, NULL, en_char_6x12},           
+    {7, 14, NULL, en_char_7x14},           
     {8, 16, NULL, en_char_8x16},        
     {16, 32, NULL, NULL},         
     {40, 80, NULL, NULL}                
@@ -554,11 +556,11 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
     snprintf(pressure_str, sizeof(pressure_str), "%d", pressure);
     
     // 显示压力值
-    Display_ShowStringInternal(x, y, pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, pressure_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     
     // 如果需要显示单位
     if (show_unit) {
-        Display_ShowStringInternal(x + 6, y, "kPa", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowStringInternal(x + 7, y, "kPa", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     }
 }
 
@@ -606,7 +608,7 @@ static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e
             break;
     }
     
-    Display_ShowStringInternal(x, y, mode_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, mode_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -656,7 +658,7 @@ static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e e
             break;
     }
     
-    Display_ShowStringInternal(x, y, error_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, error_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -674,11 +676,11 @@ static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t batter
     snprintf(battery_str, sizeof(battery_str), "%d%%", battery_level);
     
     // 显示电池电量
-    Display_ShowStringInternal(x, y, battery_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, battery_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     
     // 如果正在充电，显示充电图标
     if (is_charging) {
-        Display_ShowStringInternal(x + 4, y, "+", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowStringInternal(x + 4, y, "+", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     }
 }
 
@@ -693,11 +695,8 @@ static void Display_ShowStartupInterfaceInternal(void)
     // 清屏
     HAL_LCD_ClearNonBlocking();
     
-    // 第一行：6x12 字体的 "AAAAA"（行坐标 0，占用 0-11 行，共 12 像素高）
-    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    
-    // 第二行：8x16 字体的 "AAAAA"（行坐标 12，紧跟第一行，占用 12-27 行，共 16 像素高）
-//    Display_ShowStringInternal(0, 0, "AAAAA", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 显示 "-130 mmhg" 使用 6x12 字体（行坐标 0，占用 0-11 行，共 12 像素高）
+    Display_ShowStringInternal(0, 0, "-120 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************
@@ -739,7 +738,7 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         }
 
     } else {
-        // 默认路径：6x12 自定义点阵（两页各 width 字节，带位移重组）
+        // 默认路径：7x14 自定义点阵（两页各 width 字节，带位移重组）
         HAL_LCD_SetPositionNonBlocking(page_hw, column);
         for (uint8_t i = 0; i < width; i++) {
             uint16_t data = (uint16_t)char_data[i] | ((uint16_t)char_data[i + width] << 8);
@@ -754,7 +753,7 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         }
     }
 #else
-    // 新实现：支持标准ASCII字库格式（en_char_6x12, en_char_8x16等）
+    // 新实现：支持标准ASCII字库格式（en_char_7x14, en_char_8x16等）
     // 字库构造规则：char_data[0..(height/2-1)] = 下半部分，char_data[height/2..(height-1)] = 上半部分
     // 坐标转换：Display层使用自然坐标（0=顶部），HAL层需要硬件坐标（6=顶部）
     uint8_t page_hw = (uint8_t)(6 - (page & 0x07));  // 软件页0→硬件页6，软件页6→硬件页0
@@ -784,7 +783,7 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
 static const FontInfo_t* Display_GetFontInfo(DisplayFontType_e font)
 {
     if (font >= sizeof(g_font_info) / sizeof(g_font_info[0])) {
-        return &g_font_info[0];  // 默认返回6x12字体
+        return &g_font_info[0];  // 默认返回7x14字体
     }
     return &g_font_info[font];
 }
@@ -861,10 +860,10 @@ void Display_ShowImageTest(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示图片测试标题
-    Display_ShowStringInternal(0, 0, "IMAGE TEST", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "IMAGE TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     
     // 显示开机Logo图片 (128x64像素)
-    Display_ShowImageInternal(0, 12, 128, 64, LOGO_STARTUP_IMAGE);
+    Display_ShowImageInternal(0, 14, 128, 64, LOGO_STARTUP_IMAGE);
 }
 
 /**
@@ -879,13 +878,13 @@ void Display_ShowChineseTest(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示中文测试标题
-    Display_ShowStringInternal(0, 0, "CHINESE TEST", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "CHINESE TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     
     // 显示中文字符测试
-    Display_ShowStringInternal(0, 12, "Hello World", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 24, "NPWT System", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 36, "Test Mode", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 48, "Press Keys", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 14, "Hello World", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 28, "NPWT System", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 42, "Test Mode", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 56, "Press Keys", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -900,11 +899,11 @@ void Display_ShowEnglishTest(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示英文测试标题
-    Display_ShowStringInternal(0, 0, "ENGLISH TEST", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "ENGLISH TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     
     // 显示英文字符测试
-    Display_ShowStringInternal(0, 12, "ABCDEFGHIJK", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 24, "LMNOPQRSTUV", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 36, "WXYZ0123456", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 48, "789!@#$%^&*", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 14, "ABCDEFGHIJK", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 28, "LMNOPQRSTUV", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 42, "WXYZ0123456", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 56, "789!@#$%^&*", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }

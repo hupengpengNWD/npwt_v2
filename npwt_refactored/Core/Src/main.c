@@ -19,6 +19,7 @@
 #include "../../Middleware/Inc/key_machine.h"
 #include "../../Application/Inc/app_button.h"
 #include "../../Application/Inc/app_beep.h"
+#include "../../Application/Inc/app_ui.h"
 #include "../../Middleware/Inc/display.h"
 #include <stddef.h> // For NULL
 
@@ -177,8 +178,11 @@ void main(void)
     /* 6.2 初始化Display模块 */
     Display_Init();
     
-    /* 6.3 显示开机界面 */
-    Display_ShowStartupInterface();
+    /* 6.3 初始化UI模块（FSM状态机） */
+    AppUI_Init();
+    
+    /* 6.4 显示开机界面（由AppUI_Init内部处理） */
+//     Display_ShowStartupInterface(); // 已由AppUI模块处理
     
     /* 7. 创建电源按键 */
     KeyMachinePtr_t power_key = AppButton_GetPowerKeyInstance();
@@ -263,6 +267,8 @@ void main(void)
            {
                FLG_SYS_10MS = 0;
                
+               /* UI状态机处理（每10ms轮询一次） */
+               AppUI_Process();
            }
     }
 }

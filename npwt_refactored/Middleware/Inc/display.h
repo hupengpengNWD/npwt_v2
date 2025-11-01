@@ -23,10 +23,11 @@ extern const uint8_t LOGO_STARTUP_IMAGE[1024];
  * @brief 字体类型
  */
 typedef enum {
-    DISPLAY_FONT_6X12 = 0,    // 6x12字体 (数字和字母)
-    DISPLAY_FONT_8X16 = 1,    // 8x16字体 (ASCII)
-    DISPLAY_FONT_16X32 = 2,   // 16x32字体 (大字体)
-    DISPLAY_FONT_40X80 = 3    // 40x80字体 (超大字体)
+    DISPLAY_FONT_6X12 = 0,    // 6x12字体 (小字体)
+    DISPLAY_FONT_7X14 = 1,    // 7x14字体 (数字和字母)
+    DISPLAY_FONT_8X16 = 2,    // 8x16字体 (ASCII)
+    DISPLAY_FONT_16X32 = 3,   // 16x32字体 (大字体)
+    DISPLAY_FONT_40X80 = 4    // 40x80字体 (超大字体)
 } DisplayFontType_e;
 
 /**
