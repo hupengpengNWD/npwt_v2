@@ -14,8 +14,8 @@ extern const unsigned char icon_image_unlock_8x16[];
 extern const unsigned char icon_image_key1_16x16[];
 extern const unsigned char icon_image_key2_16x16[];
 extern const unsigned char icon_image_silent_16x16[];
-extern const unsigned char icon_image_intermittent_30x16[];
-extern const unsigned char icon_image_continuous_30x16[];     
+extern const unsigned char icon_image_intermittent_24x16[];
+extern const unsigned char icon_image_continuous_24x16[];     
 
 /****************************************************************************
  * 字体信息结构体
@@ -740,8 +740,8 @@ static void Display_ShowStartupInterfaceInternal(void)
 static const IconData_t g_icon_table[ICON_COUNT] = {
     {16, 16, icon_image_key1_16x16},           // ICON_KEY1
     {16, 16, icon_image_key2_16x16},           // ICON_KEY2
-    {30, 16, icon_image_continuous_30x16},    // ICON_CONTINUOUS
-    {30, 16, icon_image_intermittent_30x16},  // ICON_INTERMITTENT
+    {24, 16, icon_image_continuous_24x16},    // ICON_CONTINUOUS
+    {24, 16, icon_image_intermittent_24x16},  // ICON_INTERMITTENT
     {16, 16, icon_image_silent_16x16},        // ICON_SILENT
     {8, 16, icon_image_lock_8x16},            // ICON_LOCK
     {8, 16, icon_image_unlock_8x16}           // ICON_UNLOCK

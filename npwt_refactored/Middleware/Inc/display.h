@@ -223,8 +223,8 @@ typedef struct {
 typedef enum {
     ICON_KEY1 = 0,              // 按键图标1（16x16）- key2015的上半部分
     ICON_KEY2,                  // 按键图标2（16x16）- key2015的下半部分
-    ICON_CONTINUOUS,            // 连续模式图标（30x16）
-    ICON_INTERMITTENT,          // 间歇模式图标（30x16）
+    ICON_CONTINUOUS,            // 连续模式图标（24x16）
+    ICON_INTERMITTENT,          // 间歇模式图标（24x16）
     ICON_SILENT,                // 静音图标（16x16）
     ICON_LOCK,                  // 锁定图标（8x16）
     ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
