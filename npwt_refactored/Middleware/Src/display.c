@@ -4,10 +4,18 @@
 #include <string.h>
 
 // 外部字体数据声明
-
 extern const unsigned char en_char_6x12[];    
 extern const unsigned char en_char_7x14[];    
-extern const unsigned char en_char_8x16[];     
+extern const unsigned char en_char_8x16[];
+
+// 外部图标数据声明（在Library/lcd_icon_data.c中定义）
+extern const unsigned char icon_image_lock_8x16[];
+extern const unsigned char icon_image_unlock_8x16[];
+extern const unsigned char icon_image_key1_16x16[];
+extern const unsigned char icon_image_key2_16x16[];
+extern const unsigned char icon_image_silent_16x16[];
+extern const unsigned char icon_image_intermittent_30x16[];
+extern const unsigned char icon_image_continuous_30x16[];     
 
 /****************************************************************************
  * 字体信息结构体
@@ -52,6 +60,7 @@ static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e
 static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t battery_level, bool is_charging);
 static void Display_ShowStartupInterfaceInternal(void);
+static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type);
 
 // 字符处理辅助函数
 static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* char_data, uint8_t width, uint8_t height);
@@ -231,6 +240,27 @@ void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, cons
 }
 
 /**
+ * @name      Display_ShowIcon
+ * @brief     显示图标（使用队列）
+ * @param     x - X坐标（列）
+ * @param     y - Y坐标（页）
+ * @param     icon_type - 图标类型（IconType_e枚举值）
+ * @retval    无
+ */
+void Display_ShowIcon(uint8_t x, uint8_t y, uint8_t icon_type)
+{
+    DisplayEvent_t event = {
+        .type = DISPLAY_EVENT_SHOW_ICON,
+        .x = x,
+        .y = y,
+        .byte_data = icon_type  // 使用byte_data存储图标类型
+    };
+    
+    // 将显示图标事件加入队列
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
+}
+
+/**
  * @name      Display_ShowPressure
  * @brief     显示压力值
  * @param     x - X坐标
@@ -396,6 +426,10 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
             
         case DISPLAY_EVENT_SHOW_STARTUP_INTERFACE: // 显示开机界面
             Display_ShowStartupInterfaceInternal();
+            break;
+            
+        case DISPLAY_EVENT_SHOW_ICON: // 显示图标
+            Display_ShowIconInternal(event->x, event->y, (IconType_e)event->byte_data);
             break;
             
         default:
@@ -700,6 +734,59 @@ static void Display_ShowStartupInterfaceInternal(void)
 }
 
 /****************************************************************************
+ * 图标数据查找表（在display.c中定义）
+ ****************************************************************************/
+
+static const IconData_t g_icon_table[ICON_COUNT] = {
+    {16, 16, icon_image_key1_16x16},           // ICON_KEY1
+    {16, 16, icon_image_key2_16x16},           // ICON_KEY2
+    {30, 16, icon_image_continuous_30x16},    // ICON_CONTINUOUS
+    {30, 16, icon_image_intermittent_30x16},  // ICON_INTERMITTENT
+    {16, 16, icon_image_silent_16x16},        // ICON_SILENT
+    {8, 16, icon_image_lock_8x16},            // ICON_LOCK
+    {8, 16, icon_image_unlock_8x16}           // ICON_UNLOCK
+};
+
+/****************************************************************************
+ * 图标辅助函数
+ ****************************************************************************/
+
+/**
+ * @name      IconData_Get
+ * @brief     获取指定图标的数据信息（内部函数）
+ * @param     icon_type - 图标类型
+ * @retval    图标数据指针，如果类型无效返回NULL
+ */
+static const IconData_t* IconData_Get(IconType_e icon_type)
+{
+    if (icon_type >= ICON_COUNT) {
+        return NULL;
+    }
+    return &g_icon_table[icon_type];
+}
+
+/**
+ * @name      Display_ShowIconInternal
+ * @brief     内部显示图标函数
+ * @param     x - X坐标（列）
+ * @param     y - Y坐标（页）
+ * @param     icon_type - 图标类型
+ * @retval    无
+ */
+static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type)
+{
+    const IconData_t* icon_data = IconData_Get(icon_type);
+    
+    if (icon_data == NULL || icon_data->data == NULL) {
+        return;
+    }
+    
+    // 图标数据按照字符字模规则存储，可以直接使用Display_SendCharData显示
+    // 图标宽度不固定，但Display_SendCharData支持任意宽度
+    Display_SendCharData(y, x, icon_data->data, icon_data->width, icon_data->height);
+}
+
+/****************************************************************************
  * 字符处理辅助函数实现
  ****************************************************************************/
 
@@ -753,22 +840,23 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         }
     }
 #else
-    // 新实现：支持标准ASCII字库格式（en_char_7x14, en_char_8x16等）
-    // 字库构造规则：char_data[0..(height/2-1)] = 下半部分，char_data[height/2..(height-1)] = 上半部分
+    // 新实现：支持标准ASCII字库格式（en_char_7x14, en_char_8x16等）和图标数据
+    // 字库构造规则：char_data[0..(width-1)] = 下半部分，char_data[width..(2*width-1)] = 上半部分
+    // 对于16像素高的字符/图标：每列1字节，总字节数 = width * 2（下半部分width字节，上半部分width字节）
     // 坐标转换：Display层使用自然坐标（0=顶部），HAL层需要硬件坐标（6=顶部）
     uint8_t page_hw = (uint8_t)(6 - (page & 0x07));  // 软件页0→硬件页6，软件页6→硬件页0
     
-    uint8_t half_height = height / 2;  // 上下半部分的分界点
-    
-    // 先写上半部分：char_data[height-1]..char_data[half_height] → page_hw（倒序）
+    // 数据格式：char_data[0..(width-1)] = 下半部分（列0到列width-1，每列8像素）
+    //          char_data[width..(2*width-1)] = 上半部分（列0到列width-1，每列8像素）
+    // 先写上半部分：char_data[(2*width-1)]..char_data[width] → page_hw（倒序）
     HAL_LCD_SetPositionNonBlocking(page_hw, column);
-    for (int8_t idx = (int8_t)(height - 1); idx >= (int8_t)half_height; idx--) {
+    for (int16_t idx = (int16_t)(2 * width - 1); idx >= (int16_t)width; idx--) {
         HAL_LCD_SendDataNonBlocking(char_data[idx]);
     }
     
-    // 再写下半部分：char_data[half_height-1]..char_data[0] → page_hw+1（倒序）
+    // 再写下半部分：char_data[(width-1)]..char_data[0] → page_hw+1（倒序）
     HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
-    for (int8_t idx = (int8_t)(half_height - 1); idx >= 0; idx--) {
+    for (int16_t idx = (int16_t)(width - 1); idx >= 0; idx--) {
         HAL_LCD_SendDataNonBlocking(char_data[idx]);
     }
 #endif

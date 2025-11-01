@@ -85,7 +85,8 @@ typedef enum {
     DISPLAY_EVENT_SHOW_WORK_MODE = 7,     // 显示工作模式
     DISPLAY_EVENT_SHOW_ERROR = 8,         // 显示错误
     DISPLAY_EVENT_SHOW_BATTERY_ICON = 9,  // 显示电池图标
-    DISPLAY_EVENT_SHOW_STARTUP_INTERFACE = 10 // 显示开机界面
+    DISPLAY_EVENT_SHOW_STARTUP_INTERFACE = 10, // 显示开机界面
+    DISPLAY_EVENT_SHOW_ICON = 11         // 显示图标
 } DisplayEventType_e;
 
 /****************************************************************************
@@ -198,6 +199,47 @@ void Display_ShowNumber(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e
  * @retval    无
  */
 void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
+
+/****************************************************************************
+ * 图标数据结构
+ ****************************************************************************/
+
+/**
+ * @brief 图标数据信息结构体
+ */
+typedef struct {
+    uint8_t width;                      // 图标宽度（像素）
+    uint8_t height;                     // 图标高度（像素）
+    const unsigned char* data;          // 图标数据指针
+} IconData_t;
+
+/****************************************************************************
+ * 图标类型枚举
+ ****************************************************************************/
+
+/**
+ * @brief 图标类型枚举
+ */
+typedef enum {
+    ICON_KEY1 = 0,              // 按键图标1（16x16）- key2015的上半部分
+    ICON_KEY2,                  // 按键图标2（16x16）- key2015的下半部分
+    ICON_CONTINUOUS,            // 连续模式图标（30x16）
+    ICON_INTERMITTENT,          // 间歇模式图标（30x16）
+    ICON_SILENT,                // 静音图标（16x16）
+    ICON_LOCK,                  // 锁定图标（8x16）
+    ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
+    ICON_COUNT                  // 图标总数
+} IconType_e;
+
+/**
+ * @name      Display_ShowIcon
+ * @brief     显示图标
+ * @param     x - X坐标（列）
+ * @param     y - Y坐标（页）
+ * @param     icon_type - 图标类型（IconType_e枚举）
+ * @retval    无
+ */
+void Display_ShowIcon(uint8_t x, uint8_t y, uint8_t icon_type);
 
 /**
  * @name      Display_ShowPressure

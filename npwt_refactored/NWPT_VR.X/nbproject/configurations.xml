@@ -45,7 +45,9 @@
       </logicalFolder>
       <logicalFolder name="f6" displayName="Library" projectFiles="true">
         <itemPath>../Library/lcd_font_data_8x16.c</itemPath>
+        <itemPath>../Library/lcd_font_data_7x14.c</itemPath>
         <itemPath>../Library/lcd_font_data_6x12.c</itemPath>
+        <itemPath>../Library/lcd_icon_data.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middeleware" projectFiles="true">
         <itemPath>../Middleware/Src/pushpull.c</itemPath>
