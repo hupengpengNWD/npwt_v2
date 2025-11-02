@@ -200,51 +200,34 @@ static void AppUI_Display_SYS(void)
  */
 static void AppUI_Display_WAT(void)
 {
-    // 显示按键图标（key2015，包含上下两部分）
-    // 根据未重构工程：DISP_key2015(2,20)，显示在页2，列20
-    // key2015是16x16图标，分上下两部分显示：
-    // - key1显示在页2（上半部分，指向Settings）
-    // - key2显示在页3（下半部分，指向Therapy）
-//    Display_ShowString(0, 0, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowIcon(0, 0, ICON_INTERMITTENT);//显示图标时15才是0  
+
+//    Display_ShowIcon(0, 0, ICON_INTERMITTENT);//显示图标时15才是0  
+    
+    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+        Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
+    } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
+        Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
+    }
+    
     Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
-//    Display_ShowIcon(20, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
-//    Display_ShowString(37, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowIcon(32, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
+    Display_ShowString(48, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-//    Display_ShowIcon(20, 2, ICON_KEY2);   // 按键图标下半部分（页3，指向Therapy）
-//    Display_ShowIcon(20, 4, ICON_CONTINUOUS);   // 按键图标下半部分（页3，指向Therapy）
-//    Display_ShowIcon(20, 6, ICON_INTERMITTENT);   // 按键图标下半部分（页3，指向Therapy）
-    // 显示主菜单文字
-//    Display_ShowString(0, 3, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+   
+    Display_ShowIcon(35, 4, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
+    Display_ShowString(48, 4, "Therapy", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    // 显示"Therapy"文字，前面有" |       "前缀（根据未重构工程）
-//    Display_ShowString(0, 5, " |       Therapy", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    // 显示工作模式图标（连续或间歇）
-    // 根据未重构工程：DISP_lx(0,17) 或 DISP_jx(0,17)
-    // 位置：页0，列17
-//    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
-//        Display_ShowIcon(17, 0, ICON_CONTINUOUS);  // 连续模式图标
-//    } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
-//        Display_ShowIcon(17, 0, ICON_INTERMITTENT); // 间歇模式图标
-//    }
-    
-    // 显示目标压力值（根据未重构工程：显示在页0，列16开始）
-    // 使用6x12字体显示 "-125 mmHg"
-//    Display_ShowString(16, 0, "-125 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    
-    // 显示锁定图标（条件显示，根据未重构工程：DISP_Lock(6,108)，页6，列108）
-    // 注意：这里使用lock_flag判断，如果锁定则显示
-//    if (g_ui_context.lock_flag) {
-//        Display_ShowIcon(108, 6, ICON_LOCK);  // 锁定图标（8x16）
-//    }
+
+    if (g_ui_context.lock_flag) {
+        Display_ShowIcon(108, 6, ICON_LOCK);  // 锁定图标（8x16）
+    }
     
     // 显示静音图标（条件显示，根据未重构工程：DISP_Buz(6,25)，页6，列25）
-    // 注意：这里需要从系统状态获取mute_flg，暂时不显示
-    // if (mute_flg) {
-    //     Display_ShowIcon(25, 6, ICON_SILENT);  // 静音图标（16x16）
-    // }
+//     if (mute_flg) {
+//         Display_ShowIcon(25, 6, ICON_SILENT);  // 静音图标（16x16）
+//     }
 }
 
 /**
