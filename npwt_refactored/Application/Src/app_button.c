@@ -113,11 +113,11 @@ static void AppButton_InitKeyEventQueue(void)
 {
     if (g_key_event_queue_initialized == false) {
         lib_queue_create(&g_key_event_queue);
+        g_key_event_queue.configure(&g_key_event_queue);  // 先配置函数指针
         g_key_event_queue.initialize(&g_key_event_queue,
                                      KEY_EVENT_QUEUE_LENGTH,
                                      sizeof(KeyEvent_t),
-                                     g_key_event_queue_buffer);
-        g_key_event_queue.configure(&g_key_event_queue);
+                                     g_key_event_queue_buffer);  // 后初始化参数
         g_key_event_queue_initialized = true;
     }
 }
@@ -150,6 +150,8 @@ static bool AppButton_PutKeyEvent(uint8_t key_id, KeyMachineEvent_e event)
         .key_event = event
     };
     
+    uint8_t result = false;
+    
     /* 确保队列已初始化 */
     if (g_key_event_queue_initialized == false) {
         AppButton_InitKeyEventQueue();
@@ -162,7 +164,9 @@ static bool AppButton_PutKeyEvent(uint8_t key_id, KeyMachineEvent_e event)
     }
     
     /* 放入新事件 */
-    return g_key_event_queue.put(&g_key_event_queue, &key_event, sizeof(key_event));
+    result = g_key_event_queue.put(&g_key_event_queue, &key_event, sizeof(key_event));
+    
+    return result;
 }
 
 /**
@@ -376,7 +380,6 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
 {
     (void)ptr;
     (void)arg;
-    
     /* 将按键事件放入队列（key_id=1表示上键） */
     AppButton_PutKeyEvent(1, event);
     
@@ -497,8 +500,8 @@ void AppButton_CancelKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, v
     (void)ptr;
     (void)arg;
     
-    /* 将按键事件放入队列（key_id=0表示OK/确认键） */
-    AppButton_PutKeyEvent(0, event);
+    /* 将按键事件放入队列（key_id=3表示取消/静音键） */
+    AppButton_PutKeyEvent(3, event);
     
     switch (event) {
         case KEY_MACHINE_EVENT_PRESS:
