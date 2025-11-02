@@ -781,9 +781,14 @@ static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type)
         return;
     }
     
-    // 图标数据按照字符字模规则存储，可以直接使用Display_SendCharData显示
-    // 图标宽度不固定，但Display_SendCharData支持任意宽度
-    Display_SendCharData(y, x, icon_data->data, icon_data->width, icon_data->height);
+    uint8_t column_offset = 0; // hpp
+    if (icon_data->width == 24) {
+        column_offset = 17;
+    }
+    
+    // 图标数据按照字符字模规则存储，使用Display_SendCharData倒序写入
+    // 图标数据格式与字符相同（下半在前，上半在后），所以使用相同的倒序写入方式
+    Display_SendCharData(y, x+column_offset, icon_data->data, icon_data->width, icon_data->height);
 }
 
 /****************************************************************************

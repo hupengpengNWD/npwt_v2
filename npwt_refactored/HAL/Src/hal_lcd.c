@@ -214,7 +214,7 @@ void HAL_LCD_SetPositionNonBlocking(uint8_t page, uint8_t column)
     // 列坐标仍然需要反向补偿，且加入可视区左边界偏移修正以避免首列裁切：
     // col_hw = 127 - column - OFFSET（OFFSET=8，可按实机微调）
     uint8_t page_hw = page & 0x07;  // 直接使用，已经是硬件坐标
-    const int8_t OFFSET = 8;
+    const int8_t OFFSET = 6;
     int16_t col_hw  = (int16_t)127 - (int16_t)column - (int16_t)OFFSET;
     if (col_hw < 0)  col_hw = 0;
     if (col_hw > 131) col_hw = 131;

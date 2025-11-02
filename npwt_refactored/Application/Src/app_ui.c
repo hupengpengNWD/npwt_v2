@@ -205,12 +205,12 @@ static void AppUI_Display_WAT(void)
     // key2015是16x16图标，分上下两部分显示：
     // - key1显示在页2（上半部分，指向Settings）
     // - key2显示在页3（下半部分，指向Therapy）
-    Display_ShowString(0, 0, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-//    Display_ShowIcon(15, 0, ICON_CONTINUOUS);//显示图标时15才是0  
-//    Display_ShowString(24, 0, "-125 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+//    Display_ShowString(0, 0, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowIcon(0, 0, ICON_INTERMITTENT);//显示图标时15才是0  
+    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
-    Display_ShowIcon(20, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
-    Display_ShowString(37, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+//    Display_ShowIcon(20, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
+//    Display_ShowString(37, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
 //    Display_ShowIcon(20, 2, ICON_KEY2);   // 按键图标下半部分（页3，指向Therapy）
 //    Display_ShowIcon(20, 4, ICON_CONTINUOUS);   // 按键图标下半部分（页3，指向Therapy）
