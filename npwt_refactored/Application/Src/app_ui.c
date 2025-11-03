@@ -189,7 +189,7 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     
     ctx->current_state = UI_STATE_SYS;
     ctx->work_mode_backup = UI_STATE_LIX;  // 默认连续模式
-    // AppUI_Display_SYS();
+    AppUI_Display_SYS();
 }
 
 /**
@@ -203,8 +203,8 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_WAT;
-    // Display_Clear();
-    // AppUI_Display_WAT();
+    Display_Clear();
+    AppUI_Display_WAT();
 }
 
 /**
@@ -219,8 +219,8 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_LIX;
     ctx->work_mode_backup = UI_STATE_LIX;
-    // Display_Clear();
-    // AppUI_Display_LIX();
+    Display_Clear();
+    AppUI_Display_LIX();
 }
 
 /**
@@ -235,8 +235,8 @@ static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_JIX;
     ctx->work_mode_backup = UI_STATE_JIX;
-    // Display_Clear();
-    // AppUI_Display_JIX();
+    Display_Clear();
+    AppUI_Display_JIX();
 }
 
 /**
@@ -250,8 +250,8 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_ZHT;
-    // Display_Clear();
-    // AppUI_Display_ZHT();
+    Display_Clear();
+    AppUI_Display_ZHT();
 }
 
 /**
@@ -266,8 +266,8 @@ static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET;
     ctx->settings_sub_state = 0;  // 重置设置子状态
-    // Display_Clear();
-    // AppUI_Display_SET();
+    Display_Clear();
+    AppUI_Display_SET();
 }
 
 /**
@@ -522,8 +522,8 @@ void AppUI_Init(void)
  * 
  * 功能说明：
  * - 处理按键事件队列，转换为FSM事件
- * - 处理FSM事件队列，执行状态转换
- * - 检测状态变化，只在状态改变时刷新显示（避免不必要的重复刷新）
+ * - 处理FSM事件队列，执行状态转换（状态转换时的显示由状态入口函数处理）
+ * - 检测SET状态下work_mode_backup的变化，使用局部清除优化更新勾号位置
  */
 void AppUI_Process(void)
 {
@@ -562,44 +562,12 @@ void AppUI_Process(void)
         }
     }
     
-    /* 第三步：检测状态变化，只在状态改变时刷新显示 */
-    /* 使用静态变量保存上次显示的状态，初始值设为UI_STATE_COUNT确保第一次必定刷新 */
-    static UIState_e last_display_state = UI_STATE_COUNT;
+    /* 第三步：检测SET状态下work_mode_backup的变化（状态转换时的显示由状态入口函数处理） */
+    /* 使用静态变量保存上次的工作模式 */
     static UIState_e last_work_mode_backup = UI_STATE_COUNT;  // 保存上次的工作模式
     
-    if (g_ui_context.current_state != last_display_state) {
-        /* 状态变化：清屏并刷新显示 */
-        Display_Clear();
-        
-        switch (g_ui_context.current_state) {
-            case UI_STATE_SYS:
-                AppUI_Display_SYS();
-                break;
-            case UI_STATE_WAT:
-                AppUI_Display_WAT();
-                break;
-            case UI_STATE_LIX:
-                AppUI_Display_LIX();
-                break;
-            case UI_STATE_JIX:
-                AppUI_Display_JIX();
-                break;
-            case UI_STATE_ZHT:
-                AppUI_Display_ZHT();
-                break;
-            case UI_STATE_SET:
-                AppUI_Display_SET();
-                break;
-            default:
-                break;
-        }
-        
-        /* 更新备份状态 */
-        last_display_state = g_ui_context.current_state;
-        last_work_mode_backup = g_ui_context.work_mode_backup;  // 同步更新工作模式备份
-    }
-    else if (g_ui_context.current_state == UI_STATE_SET && 
-             g_ui_context.work_mode_backup != last_work_mode_backup) {
+    if (g_ui_context.current_state == UI_STATE_SET && 
+        g_ui_context.work_mode_backup != last_work_mode_backup) {
         /* SET状态下，work_mode_backup变化时使用局部清除优化 */
         
         // 只显示新的勾号位置（避免重绘整个界面）
@@ -610,7 +578,6 @@ void AppUI_Process(void)
             
         } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
             // 间歇模式选中：在第4行显示勾号
-            
             Display_ShowIcon(106, 4, ICON_TICK);
             Display_ClearRect(106, 2, 16, 16);
         }
