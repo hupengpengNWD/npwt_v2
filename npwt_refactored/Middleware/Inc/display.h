@@ -228,6 +228,7 @@ typedef enum {
     ICON_SILENT,                // 静音图标（16x16）
     ICON_LOCK,                  // 锁定图标（8x16）
     ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
+    ICON_TICK,                  // 勾号图标（16x16）
     ICON_COUNT                  // 图标总数
 } IconType_e;
 

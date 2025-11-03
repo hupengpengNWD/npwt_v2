@@ -14,6 +14,7 @@ extern const unsigned char icon_image_unlock_8x16[];
 extern const unsigned char icon_image_key1_16x16[];
 extern const unsigned char icon_image_key2_16x16[];
 extern const unsigned char icon_image_silent_16x16[];
+extern const unsigned char icon_image_tick_16x16[];
 extern const unsigned char icon_image_intermittent_24x16[];
 extern const unsigned char icon_image_continuous_24x16[];     
 
@@ -730,7 +731,7 @@ static void Display_ShowStartupInterfaceInternal(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示 "-130 mmhg" 使用 6x12 字体（行坐标 0，占用 0-11 行，共 12 像素高）
-    Display_ShowStringInternal(0, 0, "-120 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************
@@ -744,7 +745,8 @@ static const IconData_t g_icon_table[ICON_COUNT] = {
     {24, 16, icon_image_intermittent_24x16},  // ICON_INTERMITTENT
     {16, 16, icon_image_silent_16x16},        // ICON_SILENT
     {8, 16, icon_image_lock_8x16},            // ICON_LOCK
-    {8, 16, icon_image_unlock_8x16}           // ICON_UNLOCK
+    {8, 16, icon_image_unlock_8x16},          // ICON_UNLOCK
+    {16, 16, icon_image_tick_16x16}           // ICON_TICK
 };
 
 /****************************************************************************
