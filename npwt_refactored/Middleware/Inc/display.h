@@ -86,7 +86,8 @@ typedef enum {
     DISPLAY_EVENT_SHOW_ERROR = 8,         // 显示错误
     DISPLAY_EVENT_SHOW_BATTERY_ICON = 9,  // 显示电池图标
     DISPLAY_EVENT_SHOW_STARTUP_INTERFACE = 10, // 显示开机界面
-    DISPLAY_EVENT_SHOW_ICON = 11         // 显示图标
+    DISPLAY_EVENT_SHOW_ICON = 11,         // 显示图标
+    DISPLAY_EVENT_CLEAR_RECT = 12         // 局部清除
 } DisplayEventType_e;
 
 /****************************************************************************
@@ -147,12 +148,31 @@ void Display_Process(void);
 bool Display_IsBusy(void);
 
 /**
+ * @name      Display_ClearQueue
+ * @brief     清空显示队列（清除所有未处理的显示事件）
+ * @param     无
+ * @retval    无
+ */
+void Display_ClearQueue(void);
+
+/**
  * @name      Display_Clear
  * @brief     清屏
  * @param     无
  * @retval    无
  */
 void Display_Clear(void);
+
+/**
+ * @name      Display_ClearRect
+ * @brief     清除LCD矩形区域
+ * @param     x - 起始列坐标（软件坐标，0-127，0=左侧）
+ * @param     y - 起始页坐标（软件坐标，0-7，0=顶部）
+ * @param     width - 区域宽度（列数，1-128）
+ * @param     height - 区域高度（像素数，1-64）
+ * @retval    无
+ */
+void Display_ClearRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
 
 /**
  * @name      Display_SetBacklight

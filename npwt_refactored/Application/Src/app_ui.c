@@ -39,6 +39,7 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET(void* arg, st_fsm_event event);
+static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event);
 
 static void AppUI_Display_SYS(void);
 static void AppUI_Display_WAT(void);
@@ -57,31 +58,120 @@ static void AppUI_InitTimeoutCallback(void* user_data);
  ****************************************************************************/
 
 /* FSM状态转换表 */
-static const st_fsm_transition g_ui_transition_table[] = {
+//static const st_fsm_transition g_ui_transition_table[13] = {
+ const st_fsm_transition g_ui_transition_table[13] = {
     /* 当前状态      触发事件          动作函数              下一状态 */
     
     /* MOD_SYS (初始化模式) 状态转换 */
-    {UI_STATE_SYS,  UI_EVENT_TIMEOUT, AppUI_StateEntry_WAT,  UI_STATE_WAT},
+    [0] =
+    {
+        .current_state = UI_STATE_SYS,  
+        .trigger_event = UI_EVENT_TIMEOUT, 
+        .action_func   = AppUI_StateEntry_WAT,  
+        .next_state    = UI_STATE_WAT
+    },
     
     /* MOD_WAT (待机模式) 状态转换 */
-    {UI_STATE_WAT,  UI_EVENT_KEY_UP_LONG, AppUI_StateEntry_SET,  UI_STATE_SET},   // 上键长按 -> 设置
-    {UI_STATE_WAT,  UI_EVENT_KEY_START, AppUI_StateEntry_LIX,    UI_STATE_LIX},   // 启动键 -> 工作模式（默认连续）
+    [1] = 
+    {       
+        .current_state = UI_STATE_WAT, 
+        .trigger_event = UI_EVENT_MENU_UP, 
+        .action_func   = AppUI_StateEntry_SET,  
+        .next_state    = UI_STATE_SET
+    },  
+    
+    [2]=
+    {
+        .current_state = UI_STATE_WAT,  
+        .trigger_event = UI_EVENT_START,   
+        .action_func   = AppUI_StateEntry_LIX,  
+        .next_state    = UI_STATE_LIX
+    },   
     
     /* MOD_LIX (连续工作模式) 状态转换 */
-    {UI_STATE_LIX,  UI_EVENT_KEY_OK, AppUI_StateEntry_ZHT,       UI_STATE_ZHT},   // 确认键 -> 暂停
-    {UI_STATE_LIX,  UI_EVENT_KEY_UP_LONG, AppUI_StateEntry_SET, UI_STATE_SET},   // 上键长按 -> 设置
+    [3]=
+    {
+        
+        .current_state = UI_STATE_LIX,  
+        .trigger_event = UI_EVENT_CONFIRM, 
+        .action_func   = AppUI_StateEntry_ZHT,  
+        .next_state    = UI_STATE_ZHT
+    },  
+
+    [4]=
+    {
+        .current_state = UI_STATE_LIX,  
+        .trigger_event = UI_EVENT_SETTINGS, 
+        .action_func   = AppUI_StateEntry_SET, 
+        .next_state    = UI_STATE_SET
+    },   
     
     /* MOD_JIX (间歇工作模式) 状态转换 */
-    {UI_STATE_JIX,  UI_EVENT_KEY_OK, AppUI_StateEntry_ZHT,       UI_STATE_ZHT},   // 确认键 -> 暂停
-    {UI_STATE_JIX,  UI_EVENT_KEY_UP_LONG, AppUI_StateEntry_SET,  UI_STATE_SET},   // 上键长按 -> 设置
+    [5]=
+    {
+        .current_state = UI_STATE_JIX,  
+        .trigger_event = UI_EVENT_CONFIRM, 
+        .action_func   = AppUI_StateEntry_ZHT,   
+        .next_state    = UI_STATE_ZHT
+    },  
+
+    [6]=
+    {
+        .current_state = UI_STATE_JIX,  
+        .trigger_event = UI_EVENT_SETTINGS, 
+        .action_func   = AppUI_StateEntry_SET,  
+        .next_state    = UI_STATE_SET
+    }, 
     
     /* MOD_ZHT (暂停模式) 状态转换 */
-    {UI_STATE_ZHT,  UI_EVENT_KEY_OK, AppUI_StateEntry_WAT,       UI_STATE_WAT},   // 确认键 -> 返回工作模式（暂时返回待机）
-    {UI_STATE_ZHT,  UI_EVENT_KEY_UP_LONG, AppUI_StateEntry_SET,  UI_STATE_SET},   // 上键长按 -> 设置
+    [7]=
+    {
+        .current_state = UI_STATE_ZHT,  
+        .trigger_event = UI_EVENT_CONFIRM, 
+        .action_func   = AppUI_StateEntry_WAT,   
+        .next_state    = UI_STATE_WAT
+    },   
+    
+    [8]=
+    {
+        .current_state = UI_STATE_ZHT,  
+        .trigger_event = UI_EVENT_SETTINGS, 
+        .action_func   = AppUI_StateEntry_SET,  
+        .next_state    = UI_STATE_SET
+    },  
     
     /* MOD_SET (设置模式) 状态转换 */
-    {UI_STATE_SET,  UI_EVENT_KEY_UP_LONG, AppUI_StateEntry_ZHT, UI_STATE_ZHT},   // 上键长按 -> 退出设置（回到暂停）
-    {UI_STATE_SET,  UI_EVENT_KEY_OK, AppUI_StateEntry_SET,       UI_STATE_SET},   // 确认键 -> 进入下一设置项（暂时不变）
+    [9]=
+    {
+        .current_state = UI_STATE_SET,  
+        .trigger_event = UI_EVENT_SETTINGS, 
+        .action_func   = AppUI_StateEntry_ZHT, 
+        .next_state    = UI_STATE_ZHT
+    },  
+    
+    [10]=
+    {
+        .current_state = UI_STATE_SET,  
+        .trigger_event = UI_EVENT_CONFIRM, 
+        .action_func   = AppUI_StateEntry_SET,  
+        .next_state    = UI_STATE_SET
+    },   
+    
+    [11]=
+    {
+        .current_state = UI_STATE_SET,  
+        .trigger_event = UI_EVENT_MENU_UP, 
+        .action_func   = AppUI_SwitchWorkMode,  
+        .next_state    = UI_STATE_SET
+    },   
+    
+    [12]=
+    {
+        .current_state = UI_STATE_SET,  
+        .trigger_event = UI_EVENT_MENU_DOWN, 
+        .action_func   = AppUI_SwitchWorkMode,  
+        .next_state    = UI_STATE_SET
+    },   
 };
 
 /****************************************************************************
@@ -99,7 +189,7 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     
     ctx->current_state = UI_STATE_SYS;
     ctx->work_mode_backup = UI_STATE_LIX;  // 默认连续模式
-    AppUI_Display_SYS();
+    // AppUI_Display_SYS();
 }
 
 /**
@@ -113,8 +203,8 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_WAT;
-    Display_Clear();
-    AppUI_Display_WAT();
+    // Display_Clear();
+    // AppUI_Display_WAT();
 }
 
 /**
@@ -129,8 +219,8 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_LIX;
     ctx->work_mode_backup = UI_STATE_LIX;
-    Display_Clear();
-    AppUI_Display_LIX();
+    // Display_Clear();
+    // AppUI_Display_LIX();
 }
 
 /**
@@ -145,8 +235,8 @@ static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_JIX;
     ctx->work_mode_backup = UI_STATE_JIX;
-    Display_Clear();
-    AppUI_Display_JIX();
+    // Display_Clear();
+    // AppUI_Display_JIX();
 }
 
 /**
@@ -160,8 +250,8 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_ZHT;
-    Display_Clear();
-    AppUI_Display_ZHT();
+    // Display_Clear();
+    // AppUI_Display_ZHT();
 }
 
 /**
@@ -176,8 +266,28 @@ static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET;
     ctx->settings_sub_state = 0;  // 重置设置子状态
-    Display_Clear();
-    AppUI_Display_SET();
+    // Display_Clear();
+    // AppUI_Display_SET();
+}
+
+/**
+ * @name      AppUI_SwitchWorkMode
+ * @brief     切换工作模式（在设置界面中）
+ */
+static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 切换工作模式：连续 <-> 间歇
+    if (ctx->work_mode_backup == UI_STATE_LIX) {
+        ctx->work_mode_backup = UI_STATE_JIX;
+    } else if (ctx->work_mode_backup == UI_STATE_JIX) {
+        ctx->work_mode_backup = UI_STATE_LIX;
+    }
+    
+    // 注意：显示刷新由AppUI_Process统一处理，这里只需要更新work_mode_backup
+    // AppUI_Process会检测到work_mode_backup变化并自动刷新显示
 }
 
 /****************************************************************************
@@ -218,11 +328,10 @@ static void AppUI_Display_WAT(void)
     Display_ShowIcon(35, 4, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
     Display_ShowString(48, 4, "Therapy", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    
 
-    if (g_ui_context.lock_flag) {
-        Display_ShowIcon(108, 6, ICON_LOCK);  // 锁定图标（8x16）
-    }
+//    if (g_ui_context.lock_flag) {
+//        Display_ShowIcon(108, 6, ICON_LOCK);  // 锁定图标（8x16）
+//    }
     
     // 显示静音图标（条件显示，根据未重构工程：DISP_Buz(6,25)，页6，列25）
 //     if (mute_flg) {
@@ -278,10 +387,21 @@ static void AppUI_Display_ZHT(void)
  */
 static void AppUI_Display_SET(void)
 {
-    // 显示设置菜单（简化实现）
-    Display_ShowString(0, 0, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(0, 2, "Mode: Continuous", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(0, 3, "Pressure: -125", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    // 显示设置菜单
+    Display_ShowString(2, 0, "Mode", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowIcon(66, 0, ICON_KEY2);  
+    Display_ShowString(78, 0, "Switch", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(2, 2, "Continuous", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(1, 4, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 根据当前选中的模式显示勾号
+    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+        // 连续模式选中：在第2行显示勾号
+        Display_ShowIcon(106, 2, ICON_TICK); 
+    } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
+        // 间歇模式选中：在第4行显示勾号
+        Display_ShowIcon(106, 4, ICON_TICK); 
+    }
 }
 
 /****************************************************************************
@@ -296,21 +416,28 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
 {
     /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
     
-    if (key_event == KEY_MACHINE_EVENT_CLICK || key_event == KEY_MACHINE_EVENT_SHORT_PRESS) {
+    if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
         switch (key_id) {
-            case 0: return UI_EVENT_KEY_OK;      // OK键
-            case 1: return UI_EVENT_KEY_UP;      // 上键
-            case 2: return UI_EVENT_KEY_DN;      // 下键
+            case 1: return UI_EVENT_NONE;        // 上键长按 -> 不处理（已删除设置菜单功能）
+            case 2: return UI_EVENT_QUICK_DOWN;  // 下键长按 -> 快速向下
+            case 0: return UI_EVENT_START;       // 启动键长按 -> 启动治疗
             default: return UI_EVENT_NONE;
         }
     }
-    else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
+    else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+        // 长按释放事件：等效于原来的短按/单击，用于菜单选择和确认操作
         switch (key_id) {
-            case 1: return UI_EVENT_KEY_UP_LONG; // 上键长按
-            case 2: return UI_EVENT_KEY_DN_LONG; // 下键长按
-            case 0: return UI_EVENT_KEY_START;   // 启动键长按
+            case 0: return UI_EVENT_CONFIRM;     // OK键 -> 确认
+            case 1: return UI_EVENT_MENU_UP;     // 上键 -> 菜单向上
+            case 2: return UI_EVENT_MENU_DOWN;  // 下键 -> 菜单向下
+            case 3: return UI_EVENT_CONFIRM;     // 取消/静音键 -> 确认
             default: return UI_EVENT_NONE;
         }
+    }
+    else if (key_event == KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE) {
+        // 超长按释放事件：可用于特殊功能
+        // 当前暂不处理，返回NONE
+        return UI_EVENT_NONE;
     }
     
     return UI_EVENT_NONE;
@@ -329,6 +456,9 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
 static void AppUI_InitTimeoutCallback(void* user_data)
 {
     (void)user_data;
+    
+    /* 在状态转换前清空显示队列，确保新状态的显示事件能全部入队 */
+    Display_ClearQueue();
     
     /* 创建超时事件并放入FSM队列 */
     st_fsm_event fsm_event = {0};
@@ -435,6 +565,7 @@ void AppUI_Process(void)
     /* 第三步：检测状态变化，只在状态改变时刷新显示 */
     /* 使用静态变量保存上次显示的状态，初始值设为UI_STATE_COUNT确保第一次必定刷新 */
     static UIState_e last_display_state = UI_STATE_COUNT;
+    static UIState_e last_work_mode_backup = UI_STATE_COUNT;  // 保存上次的工作模式
     
     if (g_ui_context.current_state != last_display_state) {
         /* 状态变化：清屏并刷新显示 */
@@ -465,13 +596,28 @@ void AppUI_Process(void)
         
         /* 更新备份状态 */
         last_display_state = g_ui_context.current_state;
+        last_work_mode_backup = g_ui_context.work_mode_backup;  // 同步更新工作模式备份
     }
-    /* 注意：如果状态未变化，不执行显示刷新，避免不必要的重复渲染 */
-    /* 未来如需更新动态数据（如压力值、时间等），可以在这里添加：
-     * else {
-     *     AppUI_UpdateDynamicData();  // 只更新动态内容，不重新绘制整个界面
-     * }
-     */
+    else if (g_ui_context.current_state == UI_STATE_SET && 
+             g_ui_context.work_mode_backup != last_work_mode_backup) {
+        /* SET状态下，work_mode_backup变化时使用局部清除优化 */
+        
+        // 只显示新的勾号位置（避免重绘整个界面）
+        if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+            // 连续模式选中：在第2行显示勾号
+            Display_ClearRect(106, 4, 16, 16);
+            Display_ShowIcon(106, 2, ICON_TICK);
+            
+        } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
+            // 间歇模式选中：在第4行显示勾号
+            
+            Display_ShowIcon(106, 4, ICON_TICK);
+            Display_ClearRect(106, 2, 16, 16);
+        }
+        
+        last_work_mode_backup = g_ui_context.work_mode_backup;  // 更新备份
+    }
+    /* 注意：如果状态未变化且work_mode_backup也未变化，不执行显示刷新，避免不必要的重复渲染 */
 }
 
 /* 注意：AppUI_OnKeyEvent函数已移除，改为使用队列机制

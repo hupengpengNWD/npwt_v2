@@ -51,6 +51,7 @@ static const FontInfo_t g_font_info[] = {
 
 static void Display_ProcessEvent(const DisplayEvent_t* event);
 static void Display_ClearInternal(void);
+static void Display_ClearRectInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
 static void Display_SetPositionInternal(uint8_t x, uint8_t y);
 static void Display_SetBacklightInternal(bool white_on, bool yellow_on);
 static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
@@ -126,6 +127,18 @@ bool Display_IsBusy(void)
 }
 
 /**
+ * @name      Display_ClearQueue
+ * @brief     清空显示队列（清除所有未处理的显示事件）
+ * @param     无
+ * @retval    无
+ */
+void Display_ClearQueue(void)
+{
+    // 清空显示队列，移除所有未处理的事件
+    (void)g_display_queue.clears(&g_display_queue);  // 清空所有事件
+}
+
+/**
  * @name      Display_Clear
  * @brief     清屏
  * @param     无
@@ -140,6 +153,29 @@ void Display_Clear(void)
     };
     
     // 将清屏事件加入队列
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
+}
+
+/**
+ * @name      Display_ClearRect
+ * @brief     清除LCD矩形区域
+ * @param     x - 起始列坐标（软件坐标，0-127，0=左侧）
+ * @param     y - 起始页坐标（软件坐标，0-7，0=顶部）
+ * @param     width - 区域宽度（列数，1-128）
+ * @param     height - 区域高度（像素数，1-64）
+ * @retval    无
+ */
+void Display_ClearRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height)
+{
+    DisplayEvent_t event = {
+        .type = DISPLAY_EVENT_CLEAR_RECT,
+        .x = x,
+        .y = y,
+        .image_width = width,
+        .image_height = height
+    };
+    
+    // 将局部清除事件加入队列
     (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
@@ -389,6 +425,10 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
             Display_ClearInternal();
             break;
             
+        case DISPLAY_EVENT_CLEAR_RECT: // 局部清除
+            Display_ClearRectInternal(event->x, event->y, event->image_width, event->image_height);
+            break;
+            
         case DISPLAY_EVENT_SHOW_STRING: // 显示字符串
             Display_ShowStringInternal(event->x, event->y, event->str_data, event->font, event->align);
             break;
@@ -448,6 +488,47 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
 static void Display_ClearInternal(void)
 {
     HAL_LCD_ClearNonBlocking();
+}
+
+/**
+ * @name      Display_ClearRectInternal
+ * @brief     内部局部清除函数（使用写入空白数据方案，复用Display_SendCharData逻辑）
+ * @param     x - 起始列坐标（软件坐标，0-127）
+ * @param     y - 起始页坐标（软件坐标，0-7）
+ * @param     width - 区域宽度（列数）
+ * @param     height - 区域高度（像素数）
+ * @retval    无
+ */
+static void Display_ClearRectInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height)
+{
+    // 参数验证
+    if (width == 0 || height == 0) {
+        return;
+    }
+    if (y >= 8) {
+        return;
+    }
+    if (x >= 128) {
+        return;
+    }
+    
+    // 计算数据大小（Display_SendCharData期望的数据格式：固定为width*2字节）
+    // 数据格式：char_data[0..width-1] = 下半部分，char_data[width..2*width-1] = 上半部分
+    // 注意：Display_SendCharData内部会根据height参数自动处理跨页，外部只需要提供width*2字节数据
+    uint8_t data_size = width * 2;  // 固定数据大小：width*2字节（与页数无关）
+    
+    // 使用静态缓冲区（最大支持32字节，足够width=16的情况 = 16*2 = 32字节）
+    static uint8_t blank_data[32] = {0};  // 静态初始化为全0
+    
+    // 确保数据大小不超过缓冲区（最大32字节，即width最大支持16）
+    if (data_size > sizeof(blank_data)) {
+        return;  // 超出支持范围，返回
+    }
+    
+    // 使用Display_SendCharData写入空白数据（完全复用显示逻辑）
+    // 这会自动处理坐标转换、跨页处理、列坐标转换等所有细节
+    // Display_SendCharData期望参数：(page, column, data, width, height)
+    Display_SendCharData(y, x, blank_data, width, height);
 }
 
 /**
