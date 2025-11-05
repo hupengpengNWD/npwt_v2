@@ -50,6 +50,13 @@
 #define HAL_GPIO_BUZZER_PORT    PORTA
 #define HAL_GPIO_BUZZER_PIN     3  // RA3 (Pin 5) - SPEAK 蜂鸣器
 
+/* 电池状态输入（在PORTC上） */
+#define HAL_GPIO_BAT_GOOD_PORT  PORTC
+#define HAL_GPIO_BAT_GOOD_PIN   0  // RC0 (Pin 11) - BAT_GOOD 电池电量良好信号
+
+#define HAL_GPIO_BAT_CHARGE_PORT PORTC
+#define HAL_GPIO_BAT_CHARGE_PIN  1  // RC1 (Pin 12) - BAT_CHARGE 电池充电状态信号
+
 /****************************************************************************
  * GPIO操作函数
  ****************************************************************************/
@@ -93,6 +100,10 @@ void HAL_Buzzer_Off(void);
 /* 电源控制 */
 void HAL_Power_Hold(void);
 void HAL_Power_Release(void);
+
+/* 电池状态读取 */
+bool HAL_Battery_IsCharging(void);
+bool HAL_Battery_IsGood(void);
 
 #endif /* HAL_GPIO_H */
 

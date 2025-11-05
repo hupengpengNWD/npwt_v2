@@ -143,3 +143,17 @@ void HAL_Power_Release(void)
 	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源（与未重构工程一致）
 }
 
+/* 电池状态读取 */
+bool HAL_Battery_IsCharging(void)
+{
+	/* 参考未重构工程：BAT_CHARGE == BAT_CHARGING (0) 表示充电中 */
+	/* RC1 = 0 表示充电中，RC1 = 1 表示未充电 */
+	return (PORTCbits.RC1 == 0);
+}
+
+bool HAL_Battery_IsGood(void)
+{
+	/* 读取RC0引脚（BAT_GOOD） */
+	return (PORTCbits.RC0 == 1);
+}
+

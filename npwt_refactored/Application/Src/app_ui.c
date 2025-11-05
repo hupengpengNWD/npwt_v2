@@ -8,6 +8,7 @@
 
 #include "../Inc/app_ui.h"
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
+#include "../Inc/app_battery.h"   // 电池管理模块
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/key_machine.h"
@@ -585,6 +586,75 @@ void AppUI_Process(void)
         last_work_mode_backup = g_ui_context.work_mode_backup;  // 更新备份
     }
     /* 注意：如果状态未变化且work_mode_backup也未变化，不执行显示刷新，避免不必要的重复渲染 */
+    
+    /* 第四步：电池显示更新（参考未重构工程的实现） */
+    static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
+    static uint16_t battery_charge_blink_counter = 0; // 充电闪烁计数器（用于充电动画）
+    static uint8_t last_battery_level = 100;
+    static bool last_battery_charging = false;
+    
+    /* 获取当前电池信息 */
+    bool battery_changed = AppBattery_IsLevelChanged();
+    uint8_t current_battery_level = AppBattery_GetLevel();
+    bool current_battery_charging = AppBattery_IsCharging();
+    
+    /* 充电闪烁计数器递增（每10ms递增一次） */
+    if (current_battery_charging) {
+        battery_charge_blink_counter++;
+        if (battery_charge_blink_counter >= 125) {  // 125次 = 1.25秒，循环5个图标
+            battery_charge_blink_counter = 0;
+        }
+    } else {
+        battery_charge_blink_counter = 0;  // 非充电时重置
+    }
+    
+    /* 判断是否需要更新显示 */
+    bool need_update = false;
+    
+    if (battery_changed || 
+        current_battery_level != last_battery_level || 
+        current_battery_charging != last_battery_charging) {
+        /* 电池信息变化，立即更新显示 */
+        need_update = true;
+        last_battery_level = current_battery_level;
+        last_battery_charging = current_battery_charging;
+        battery_display_counter = 0;  // 重置计数器
+    } else if (current_battery_charging) {
+        /* 充电时，每20ms更新一次（实现闪烁动画，与未重构工程一致） */
+        if (++battery_display_counter >= 2) {  // 2次 = 20ms@10ms
+            need_update = true;
+            battery_display_counter = 0;
+        }
+    } else {
+        /* 非充电时，每1秒更新一次（降低刷新频率） */
+        if (++battery_display_counter >= 100) {  // 100次 = 1秒@10ms
+            need_update = true;
+            battery_display_counter = 0;
+        }
+    }
+    
+    /* 更新显示 */
+    if (need_update) {
+        uint8_t display_level = current_battery_level;
+        
+        /* 充电时实现闪烁效果（参考未重构工程：循环显示不同电量图标） */
+        if (current_battery_charging) {
+            /* 根据闪烁计数器选择显示的图标（每25次切换一个图标） */
+            uint8_t blink_phase = (uint8_t)(battery_charge_blink_counter / 25);  // 0-4
+            switch (blink_phase) {
+                case 0: display_level = 0; break;    // BAT0 (0%)
+                case 1: display_level = 25; break;  // BAT1 (25%)
+                case 2: display_level = 50; break;  // BAT2 (50%)
+                case 3: display_level = 75; break;  // BAT3 (75%)
+                case 4: display_level = 100; break; // BAT4 (100%)
+                default: display_level = current_battery_level; break;
+            }
+        }
+        
+        /* 显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
+        /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
+        Display_ShowBatteryIcon(102, 6, display_level, current_battery_charging);
+    }
 }
 
 /* 注意：AppUI_OnKeyEvent函数已移除，改为使用队列机制

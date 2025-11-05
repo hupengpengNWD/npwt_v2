@@ -20,6 +20,8 @@
 #include "../../Application/Inc/app_button.h"
 #include "../../Application/Inc/app_beep.h"
 #include "../../Application/Inc/app_ui.h"
+#include "../../Application/Inc/app_battery.h"
+#include "../../HAL/Inc/hal_adc.h"
 #include "../../Middleware/Inc/display.h"
 #include <stddef.h> // For NULL
 
@@ -130,6 +132,23 @@ void LED_ToggleCallback(void* user_data)
 }
 
 /****************************************************************************
+ * @name      BatteryADC_Callback
+ * @brief     电池ADC采集定时器回调函数（500ms）
+ * @param     user_data - 用户数据
+ * @retval    无
+ ****************************************************************************/
+void BatteryADC_Callback(void* user_data)
+{
+    (void)user_data;
+    
+    // 读取电池ADC（通道2，10次采样滤波）
+    uint16_t adc_value = HAL_ADC_ReadFiltered(ADC_CHANNEL_BATTERY, 10);
+    
+    // 更新电池管理模块
+    AppBattery_UpdateADC(adc_value);
+}
+
+/****************************************************************************
  * @name      main
  * @brief     主函数 - 系统初始化和主循环
  * @param     无
@@ -148,10 +167,13 @@ void main(void)
     /* 2. 初始化GPIO */
     HAL_GPIO_Init();
     
-    /* 2.1 立即设置RC2为高电平，确保电源自锁 */
+    /* 2.1 初始化ADC模块 */
+    HAL_ADC_Init();
+    
+    /* 2.2 立即设置RC2为高电平，确保电源自锁 */
     HAL_Power_Hold();  // LATCbits.LATC2 = 1
     
-    /* 2.2 立即打开LCD背光并设置电源状态为开机 */
+    /* 2.3 立即打开LCD背光并设置电源状态为开机 */
     HAL_LCD_Backlight_On();
     AppButton_SetPowerState(1); // POWER_STATE_ON = 1
     
@@ -178,7 +200,10 @@ void main(void)
     /* 6.2 初始化Display模块 */
     Display_Init();
     
-    /* 6.3 初始化UI模块（FSM状态机） */
+    /* 6.3 初始化电池管理模块 */
+    AppBattery_Init();
+    
+    /* 6.4 初始化UI模块（FSM状态机） */
     AppUI_Init();
     
     /* 6.4 显示开机界面（由AppUI_Init内部处理） */
@@ -226,7 +251,7 @@ void main(void)
         SoftTimer_Start(key_process_timer);
         AppButton_SetKeyProcessTimer(key_process_timer);
     }
-#if 0    
+#if 1    
     /* 8.1 创建蜂鸣器处理定时器（每20ms执行一次，避免与按键处理冲突） */
     SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, AppBeep_BeepProcessCallback, NULL);
     if (beep_process_timer != 0) {
@@ -252,6 +277,18 @@ void main(void)
     SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);
     if (led_toggle_timer != 0) {
         SoftTimer_Start(led_toggle_timer);
+    }
+    
+    /* 8.5 创建电池ADC采集定时器（每500ms执行一次） */
+    SoftTimerHandle_t battery_adc_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 500, BatteryADC_Callback, NULL);
+    if (battery_adc_timer != 0) {
+        SoftTimer_Start(battery_adc_timer);
+    }
+    
+    /* 8.6 创建电池处理定时器（每10ms执行一次） */
+    SoftTimerHandle_t battery_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppBattery_Process, NULL);
+    if (battery_process_timer != 0) {
+        SoftTimer_Start(battery_process_timer);
     }
 #endif    
     /* 9. 使能全局中断 */
