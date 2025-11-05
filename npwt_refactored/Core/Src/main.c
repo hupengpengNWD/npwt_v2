@@ -104,7 +104,7 @@ void PowerOff(void)
 
 /****************************************************************************
  * @name      LCD_ProcessCallback
- * @brief     LCD处理定时器回调函数（1ms）
+ * @brief     LCD处理定时器回调函数（5ms）
  * @param     无
  * @retval    无
  ****************************************************************************/
@@ -182,8 +182,8 @@ void main(void)
     HAL_Timer1_Init();    // Timer1: 10ms
     HAL_PWM_Init();       // Timer3: 1ms
     
-    /* 3.1 注册Timer3的1ms回调 - LCD处理 */
-    HAL_Timer3_RegisterCallback_1ms(LCD_ProcessCallback);
+    /* 3.1 注册Timer3的5ms回调 - LCD处理 */
+    HAL_Timer3_RegisterCallback_5ms(LCD_ProcessCallback);
     
     /* 4. 初始化软件定时器模块 */
     SoftTimer_Init();
