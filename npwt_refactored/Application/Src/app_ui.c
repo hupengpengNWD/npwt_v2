@@ -82,6 +82,7 @@ static void AppUI_Display_SET_Pressure(void);
 static void AppUI_Display_SET_HP_Pressure(void);
 static void AppUI_Display_SET_LP_Pressure(void);
 static void AppUI_Display_SET_Time(void);
+static void AppUI_RefreshPressureValue(void);  // 刷新连续模式压力值显示（局部刷新）
 
 static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event);
 
@@ -567,20 +568,21 @@ static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event)
     // 根据当前状态决定调整哪个压力值
     if (ctx->current_state == UI_STATE_SET_PRESSURE) {
         // 连续模式：调整pressure_high
-        ctx->pressure_high += PRESSURE_STEP;
+        ctx->pressure_high += ctx->pressure_step;  // 使用变量步长
         if (ctx->pressure_high > PRESSURE_HIGH_MAX) {
             ctx->pressure_high = PRESSURE_HIGH_MIN;
         }
-        AppUI_Display_SET_Pressure();
+        // 使用局部刷新函数，只刷新压力值区域，避免闪烁
+        AppUI_RefreshPressureValue();
     } else if (ctx->current_state == UI_STATE_SET_HP_PRESSURE) {
         // 间歇模式高压：调整pressure_high
-        ctx->pressure_high += PRESSURE_STEP;
+        ctx->pressure_high += ctx->pressure_step;  // 使用变量步长
         if (ctx->pressure_high > PRESSURE_HIGH_MAX) {
             ctx->pressure_high = PRESSURE_HIGH_MIN;
         }
         // 确保低压值不超过高压值
-        if (ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
-            ctx->pressure_low = ctx->pressure_high - PRESSURE_STEP;
+        if (ctx->pressure_low >= ctx->pressure_high - ctx->pressure_step) {
+            ctx->pressure_low = ctx->pressure_high - ctx->pressure_step;
             if (ctx->pressure_low < PRESSURE_LOW_MIN) {
                 ctx->pressure_low = PRESSURE_LOW_MIN;
             }
@@ -588,9 +590,9 @@ static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event)
         AppUI_Display_SET_HP_Pressure();
     } else if (ctx->current_state == UI_STATE_SET_LP_PRESSURE) {
         // 间歇模式低压：调整pressure_low
-        ctx->pressure_low += PRESSURE_STEP;
+        ctx->pressure_low += ctx->pressure_step;  // 使用变量步长
         if (ctx->pressure_low > PRESSURE_LOW_MAX || 
-            ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
+            ctx->pressure_low >= ctx->pressure_high - ctx->pressure_step) {
             ctx->pressure_low = PRESSURE_LOW_MIN;
         }
         AppUI_Display_SET_LP_Pressure();
@@ -609,22 +611,23 @@ static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event)
     // 根据当前状态决定调整哪个压力值
     if (ctx->current_state == UI_STATE_SET_PRESSURE) {
         // 连续模式：调整pressure_high
-        if (ctx->pressure_high > PRESSURE_STEP) {
-            ctx->pressure_high -= PRESSURE_STEP;
+        if (ctx->pressure_high > ctx->pressure_step) {
+            ctx->pressure_high -= ctx->pressure_step;  // 使用变量步长
         } else {
             ctx->pressure_high = PRESSURE_HIGH_MAX;
         }
-        AppUI_Display_SET_Pressure();
+        // 使用局部刷新函数，只刷新压力值区域，避免闪烁
+        AppUI_RefreshPressureValue();
     } else if (ctx->current_state == UI_STATE_SET_HP_PRESSURE) {
         // 间歇模式高压：调整pressure_high
-        if (ctx->pressure_high > PRESSURE_STEP) {
-            ctx->pressure_high -= PRESSURE_STEP;
+        if (ctx->pressure_high > ctx->pressure_step) {
+            ctx->pressure_high -= ctx->pressure_step;  // 使用变量步长
         } else {
             ctx->pressure_high = PRESSURE_HIGH_MAX;
         }
         // 确保低压值不超过高压值
-        if (ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
-            ctx->pressure_low = ctx->pressure_high - PRESSURE_STEP;
+        if (ctx->pressure_low >= ctx->pressure_high - ctx->pressure_step) {
+            ctx->pressure_low = ctx->pressure_high - ctx->pressure_step;
             if (ctx->pressure_low < PRESSURE_LOW_MIN) {
                 ctx->pressure_low = PRESSURE_LOW_MIN;
             }
@@ -632,14 +635,14 @@ static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event)
         AppUI_Display_SET_HP_Pressure();
     } else if (ctx->current_state == UI_STATE_SET_LP_PRESSURE) {
         // 间歇模式低压：调整pressure_low
-        if (ctx->pressure_low > PRESSURE_STEP) {
-            ctx->pressure_low -= PRESSURE_STEP;
+        if (ctx->pressure_low > ctx->pressure_step) {
+            ctx->pressure_low -= ctx->pressure_step;  // 使用变量步长
         } else {
             ctx->pressure_low = PRESSURE_LOW_MAX;
         }
         // 确保不超过高压值
-        if (ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
-            ctx->pressure_low = ctx->pressure_high - PRESSURE_STEP;
+        if (ctx->pressure_low >= ctx->pressure_high - ctx->pressure_step) {
+            ctx->pressure_low = ctx->pressure_high - ctx->pressure_step;
         }
         if (ctx->pressure_low < PRESSURE_LOW_MIN) {
             ctx->pressure_low = PRESSURE_LOW_MIN;
@@ -837,6 +840,34 @@ static void AppUI_Display_SET_Pressure(void)
 }
 
 /**
+ * @name      AppUI_RefreshPressureValue
+ * @brief     刷新连续模式压力值显示（局部刷新，只刷新压力值区域，不刷新"Pressure"文字）
+ * @note      用于压力值调整后的动态刷新，避免全屏刷新导致的闪烁
+ */
+static void AppUI_RefreshPressureValue(void)
+{
+    // 清除压力值显示区域（包括压力值和单位）
+    // 压力值起始位置：列48，页4
+    // 16x32字体最多3位数字：48列宽（16*3）
+    // 单位"mmHg"：32列宽（4字符*8），在压力值右侧，起始列约98（48+48+2间距）
+    // 单位结束列约130，但电池图标在列102（实际起始119），所以清除到列102之前
+    // 清除策略：由于Display_ClearRect单次最多支持16列宽，需要分段清除
+    
+    // 清除压力值区域（列48-96，高度32像素，4页）：分3次清除，每次16列
+    Display_ClearRect(48, 4, 16, 32);  // 第1段：列48-64
+    Display_ClearRect(64, 4, 16, 32);  // 第2段：列64-80
+    Display_ClearRect(80, 4, 16, 32);  // 第3段：列80-96
+    
+    // 清除单位区域（列96-102，高度16像素，2页，覆盖单位的前4列）
+    // 注意：Display_ClearRect限制最小宽度，这里使用16列清除，覆盖列96-112
+    // 虽然单位延伸到130列，但清除到102列足够避免与电池图标重叠时的显示问题
+    Display_ClearRect(96, 4, 16, 16);  // 单位区域前半部分，高度16像素（2页）
+    
+    // 重新显示压力值和单位
+    Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);
+}
+
+/**
  * @name      AppUI_Display_SET_HP_Pressure
  * @brief     显示间歇模式高压设置界面
  */
@@ -994,6 +1025,7 @@ void AppUI_Init(void)
     g_ui_context.time_high = TIME_HIGH_DEFAULT;
     g_ui_context.time_low = TIME_LOW_DEFAULT;
     g_ui_context.time_edit_high = true;  // 默认编辑高压时间
+    g_ui_context.pressure_step = 5;      // 压力调整步进值，默认5mmHg
     g_ui_context.user_data = NULL;
     
     /* 获取按键事件队列指针 */

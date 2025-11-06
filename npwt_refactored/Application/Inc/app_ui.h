@@ -27,31 +27,49 @@
  * @brief UI系统状态（对应未重构工程的mod_main_a）
  */
 typedef enum {
-    UI_STATE_SYS = 0,      // MOD_SYS: 系统初始化模式
-    UI_STATE_WAT = 1,      // MOD_WAT: 等待指令模式（待机）
-    UI_STATE_LIX = 2,      // MOD_LIX: 连续工作模式
-    UI_STATE_JIX = 3,      // MOD_JIX: 间歇工作模式
-    UI_STATE_SET = 4,      // MOD_SET: 参数设定模式
-    UI_STATE_ZHT = 5,      // MOD_ZHT: 暂停模式
-    UI_STATE_OFF = 7,      // MOD_OFF: 关机模式
-    UI_STATE_TK = 8,       // MOD_TK: 空闲超时模式
-    UI_STATE_COUNT         // 状态总数
+    UI_STATE_SYS = 0,              // MOD_SYS: 系统初始化模式
+    UI_STATE_WAT = 1,              // MOD_WAT: 等待指令模式（待机）
+    UI_STATE_LIX = 2,              // MOD_LIX: 连续工作模式
+    UI_STATE_JIX = 3,              // MOD_JIX: 间歇工作模式
+    UI_STATE_SET = 4,              // MOD_SET: 参数设定模式（模式选择界面）
+    UI_STATE_SET_PRESSURE = 9,     // 连续模式压力设置界面
+    UI_STATE_SET_HP_PRESSURE = 10, // 间歇模式高压设置界面
+    UI_STATE_SET_LP_PRESSURE = 11, // 间歇模式低压设置界面
+    UI_STATE_SET_TIME = 12,        // 间歇模式时间设置界面
+    UI_STATE_ZHT = 5,              // MOD_ZHT: 暂停模式
+    UI_STATE_OFF = 7,              // MOD_OFF: 关机模式
+    UI_STATE_TK = 8,               // MOD_TK: 空闲超时模式
+    UI_STATE_COUNT                 // 状态总数
 } UIState_e;
+
+/**
+ * @brief 设置模式子状态（已废弃，改为使用独立的FSM状态）
+ * @deprecated 现在使用UI_STATE_SET、UI_STATE_SET_PRESSURE等独立状态
+ */
+typedef enum {
+    SET_SUB_STATE_MODE_SELECT = 0,      // 模式选择界面（对应UI_STATE_SET）
+    SET_SUB_STATE_PRESSURE = 1,         // 压力设置界面（对应UI_STATE_SET_PRESSURE）
+    SET_SUB_STATE_HP_PRESSURE = 2,      // 高压设置界面（对应UI_STATE_SET_HP_PRESSURE）
+    SET_SUB_STATE_LP_PRESSURE = 3,      // 低压设置界面（对应UI_STATE_SET_LP_PRESSURE）
+    SET_SUB_STATE_TIME = 4,             // 时间设置界面（对应UI_STATE_SET_TIME）
+    SET_SUB_STATE_COUNT
+} SettingsSubState_e;
 
 /**
  * @brief UI事件类型（基于按键事件和系统事件）
  */
 typedef enum {
     UI_EVENT_NONE = 0,           // 无事件
-    UI_EVENT_KEY_OK = 1,        // 确认键按下（KEY_OK / KEY_C）
-    UI_EVENT_KEY_UP = 2,        // 上键按下
-    UI_EVENT_KEY_DN = 3,        // 下键按下
-    UI_EVENT_KEY_UP_LONG = 4,   // 上键长按（KEY_UPL）
-    UI_EVENT_KEY_DN_LONG = 5,   // 下键长按（KEY_DNL）
-    UI_EVENT_KEY_START = 6,     // 启动键按下
-    UI_EVENT_TIMEOUT = 7,       // 超时事件
-    UI_EVENT_UNLOCK = 8,        // 解锁事件
-    UI_EVENT_COUNT              // 事件总数
+    UI_EVENT_CONFIRM = 1,        // 确认/选择操作（原KEY_OK）
+    UI_EVENT_MENU_UP = 2,        // 菜单向上/增加操作（原KEY_UP）
+    UI_EVENT_MENU_DOWN = 3,      // 菜单向下/减少操作（原KEY_DN）
+    UI_EVENT_SETTINGS = 4,       // 设置菜单操作（原KEY_UP_LONG，进入/退出设置）
+    UI_EVENT_QUICK_DOWN = 5,     // 快速向下/快速减少（原KEY_DN_LONG）
+    UI_EVENT_START = 6,          // 启动治疗（原KEY_START）
+    UI_EVENT_TIMEOUT = 7,        // 超时事件
+    UI_EVENT_UNLOCK = 8,         // 解锁事件
+    UI_EVENT_CONFIRM_LONG = 9,   // 长按确认键释放（进入第二个设置界面）
+    UI_EVENT_COUNT               // 事件总数
 } UIEvent_e;
 
 /**
@@ -62,7 +80,13 @@ typedef struct {
     UIState_e last_state;           // 上次状态
     UIState_e work_mode_backup;     // 工作模式备份（连续/间歇）
     bool lock_flag;                 // 锁定标志
-    uint8_t settings_sub_state;    // 设置模式子状态
+    SettingsSubState_e settings_sub_state;  // 设置模式子状态
+    uint16_t pressure_high;         // 高压值（mmHg，连续模式使用，间歇模式也使用）
+    uint16_t pressure_low;          // 低压值（mmHg，仅间歇模式使用）
+    uint16_t time_high;             // 高压时间（分钟，仅间歇模式使用）
+    uint16_t time_low;              // 低压时间（分钟，仅间歇模式使用）
+    bool time_edit_high;            // 时间编辑标志：true=编辑高压时间，false=编辑低压时间
+    uint16_t pressure_step;         // 压力调整步进值（mmHg，默认5，可通过变量修改）
     void* user_data;                // 用户数据指针
 } UIContext_t;
 
