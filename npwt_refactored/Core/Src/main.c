@@ -23,6 +23,7 @@
 #include "../../Application/Inc/app_battery.h"
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../Middleware/Inc/display.h"
+#include "../../Middleware/Inc/pwm.h"
 #include <stddef.h> // For NULL
 
 /****************************************************************************
@@ -171,19 +172,27 @@ void main(void)
     HAL_ADC_Init();
     
     /* 2.2 立即设置RC2为高电平，确保电源自锁 */
-    HAL_Power_Hold();  // LATCbits.LATC2 = 1
+    HAL_Power_Hold();  // 保持总线电源
+    HAL_MotorPWR_Enable();  // 打开电机5V电源使能
     
     /* 2.3 立即打开LCD背光并设置电源状态为开机 */
     HAL_LCD_Backlight_On();
     AppButton_SetPowerState(1); // POWER_STATE_ON = 1
     
     /* 3. 初始化定时器 */
-    HAL_Timer_Init();     // Timer0: 10ms
+    HAL_Timer0_Init();     // Timer0: 10ms
     HAL_Timer1_Init();    // Timer1: 10ms
-    HAL_PWM_Init();       // Timer3: 1ms
+    HAL_Timer3_Init();       // Timer3: 1ms
     
     /* 3.1 注册Timer3的5ms回调 - LCD处理 */
     HAL_Timer3_RegisterCallback_5ms(LCD_ProcessCallback);
+    
+    /* 3.2 初始化PWM模块 */
+    PWM_Init();
+    
+    /* 3.3 测试PWM：设置50%占空比并启动（用于测试） */
+    PWM_SetDuty(500);    // 50%占空比
+    PWM_Start();         // 启动PWM
     
     /* 4. 初始化软件定时器模块 */
     SoftTimer_Init();
@@ -251,9 +260,9 @@ void main(void)
         SoftTimer_Start(key_process_timer);
         AppButton_SetKeyProcessTimer(key_process_timer);
     }
-#if 1    
+    
     /* 8.1 创建蜂鸣器处理定时器（每20ms执行一次，避免与按键处理冲突） */
-    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, AppBeep_BeepProcessCallback, NULL);
+    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, NULL, NULL);
     if (beep_process_timer != 0) {
         SoftTimer_Start(beep_process_timer);
         AppBeep_SetBeepProcessTimer(beep_process_timer);
@@ -290,7 +299,7 @@ void main(void)
     if (battery_process_timer != 0) {
         SoftTimer_Start(battery_process_timer);
     }
-#endif    
+  
     /* 9. 使能全局中断 */
     T3CONbits.TMR3ON = 1; // 启动Timer3
     GIE = 1;

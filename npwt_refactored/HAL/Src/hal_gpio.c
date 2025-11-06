@@ -143,6 +143,17 @@ void HAL_Power_Release(void)
 	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源（与未重构工程一致）
 }
 
+/* 电机电源使能控制 */
+void HAL_MotorPWR_Enable(void)
+{
+	LATCbits.LATC3 = 1;  // DRV_EN = 1，使能驱动（与未重构工程一致）
+}
+
+void HAL_MotorPWR_Disable(void)
+{
+	LATCbits.LATC3 = 0;  // DRV_EN = 0，禁用驱动
+}
+
 /* 电池状态读取 */
 bool HAL_Battery_IsCharging(void)
 {

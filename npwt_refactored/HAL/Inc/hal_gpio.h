@@ -101,6 +101,10 @@ void HAL_Buzzer_Off(void);
 void HAL_Power_Hold(void);
 void HAL_Power_Release(void);
 
+/* 电机电源使能控制 */
+void HAL_MotorPWR_Enable(void);
+void HAL_MotorPWR_Disable(void);
+
 /* 电池状态读取 */
 bool HAL_Battery_IsCharging(void);
 bool HAL_Battery_IsGood(void);
