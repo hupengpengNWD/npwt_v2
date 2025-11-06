@@ -7,6 +7,26 @@
  */
 
 #include "../Inc/app_ui.h"
+
+/****************************************************************************
+ * 常量定义（参考未重构工程）
+ ****************************************************************************/
+#define PRESSURE_HIGH_MAX     300    // 最大压力值（mmHg）
+#define PRESSURE_HIGH_MIN     20     // 最小压力值（mmHg）
+#define PRESSURE_LOW_MAX      100    // 最大低压值（mmHg）
+#define PRESSURE_LOW_MIN      10     // 最小低压值（mmHg）
+#define PRESSURE_STEP         10     // 压力调整步进值（mmHg）
+
+#define TIME_HIGH_MAX         99     // 最大高压时间（分钟）
+#define TIME_HIGH_MIN         1      // 最小高压时间（分钟）
+#define TIME_LOW_MAX          99     // 最大低压时间（分钟）
+#define TIME_LOW_MIN          1      // 最小低压时间（分钟）
+#define TIME_STEP             1      // 时间调整步进值（分钟）
+
+#define PRESSURE_SET_DEFAULT      125    // 默认压力值（mmHg，设置界面使用）
+#define PRESSURE_LOW_DEFAULT      40     // 默认低压值（mmHg）
+#define TIME_HIGH_DEFAULT         5      // 默认高压时间（分钟）
+#define TIME_LOW_DEFAULT          5      // 默认低压时间（分钟）
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../../Middleware/Inc/fsm.h"
@@ -40,7 +60,17 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_SET_SecondLevel(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event);
 static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event);
+static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event);
+static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event);
+static void AppUI_AdjustTimeUp(void* arg, st_fsm_event event);
+static void AppUI_AdjustTimeDown(void* arg, st_fsm_event event);
+static void AppUI_SwitchTimeEdit(void* arg, st_fsm_event event);
 
 static void AppUI_Display_SYS(void);
 static void AppUI_Display_WAT(void);
@@ -48,6 +78,10 @@ static void AppUI_Display_LIX(void);
 static void AppUI_Display_JIX(void);
 static void AppUI_Display_ZHT(void);
 static void AppUI_Display_SET(void);
+static void AppUI_Display_SET_Pressure(void);
+static void AppUI_Display_SET_HP_Pressure(void);
+static void AppUI_Display_SET_LP_Pressure(void);
+static void AppUI_Display_SET_Time(void);
 
 static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event);
 
@@ -59,8 +93,8 @@ static void AppUI_InitTimeoutCallback(void* user_data);
  ****************************************************************************/
 
 /* FSM状态转换表 */
-//static const st_fsm_transition g_ui_transition_table[13] = {
- const st_fsm_transition g_ui_transition_table[13] = {
+// 扩展状态转换表以支持设置子界面
+ const st_fsm_transition g_ui_transition_table[31] = {
     /* 当前状态      触发事件          动作函数              下一状态 */
     
     /* MOD_SYS (初始化模式) 状态转换 */
@@ -153,26 +187,167 @@ static void AppUI_InitTimeoutCallback(void* user_data);
     [10]=
     {
         .current_state = UI_STATE_SET,  
-        .trigger_event = UI_EVENT_CONFIRM, 
-        .action_func   = AppUI_StateEntry_SET,  
+        .trigger_event = UI_EVENT_MENU_UP, 
+        .action_func   = AppUI_SwitchWorkMode,  
         .next_state    = UI_STATE_SET
     },   
     
     [11]=
     {
         .current_state = UI_STATE_SET,  
-        .trigger_event = UI_EVENT_MENU_UP, 
-        .action_func   = AppUI_SwitchWorkMode,  
-        .next_state    = UI_STATE_SET
-    },   
-    
-    [12]=
-    {
-        .current_state = UI_STATE_SET,  
         .trigger_event = UI_EVENT_MENU_DOWN, 
         .action_func   = AppUI_SwitchWorkMode,  
         .next_state    = UI_STATE_SET
-    },   
+    },
+    
+    /* UI_STATE_SET -> 进入第二个设置界面（根据work_mode_backup选择） */
+    [12]=
+    {
+        .current_state = UI_STATE_SET,
+        .trigger_event = UI_EVENT_CONFIRM_LONG,
+        .action_func   = AppUI_StateEntry_SET_SecondLevel,  // 通用入口函数，内部根据work_mode_backup分发
+        .next_state    = UI_STATE_SET_PRESSURE  // 默认值，实际由动作函数决定
+    },
+    
+    /* UI_STATE_SET_PRESSURE 参数调整和状态转换 */
+    [14]=
+    {
+        .current_state = UI_STATE_SET_PRESSURE,
+        .trigger_event = UI_EVENT_MENU_UP,
+        .action_func   = AppUI_AdjustPressureUp,
+        .next_state    = UI_STATE_SET_PRESSURE  // 保持当前状态
+    },
+    
+    [15]=
+    {
+        .current_state = UI_STATE_SET_PRESSURE,
+        .trigger_event = UI_EVENT_MENU_DOWN,
+        .action_func   = AppUI_AdjustPressureDown,
+        .next_state    = UI_STATE_SET_PRESSURE  // 保持当前状态
+    },
+    
+    [16]=
+    {
+        .current_state = UI_STATE_SET_PRESSURE,
+        .trigger_event = UI_EVENT_CONFIRM,
+        .action_func   = AppUI_StateEntry_SET,
+        .next_state    = UI_STATE_SET
+    },
+    
+    [17]=
+    {
+        .current_state = UI_STATE_SET_PRESSURE,
+        .trigger_event = UI_EVENT_SETTINGS,
+        .action_func   = AppUI_StateEntry_ZHT,
+        .next_state    = UI_STATE_ZHT
+    },
+    
+    /* UI_STATE_SET_HP_PRESSURE 参数调整和状态转换 */
+    [18]=
+    {
+        .current_state = UI_STATE_SET_HP_PRESSURE,
+        .trigger_event = UI_EVENT_MENU_UP,
+        .action_func   = AppUI_AdjustPressureUp,
+        .next_state    = UI_STATE_SET_HP_PRESSURE  // 保持当前状态
+    },
+    
+    [19]=
+    {
+        .current_state = UI_STATE_SET_HP_PRESSURE,
+        .trigger_event = UI_EVENT_MENU_DOWN,
+        .action_func   = AppUI_AdjustPressureDown,
+        .next_state    = UI_STATE_SET_HP_PRESSURE  // 保持当前状态
+    },
+    
+    [20]=
+    {
+        .current_state = UI_STATE_SET_HP_PRESSURE,
+        .trigger_event = UI_EVENT_CONFIRM,
+        .action_func   = AppUI_StateEntry_SET_LP_Pressure,
+        .next_state    = UI_STATE_SET_LP_PRESSURE
+    },
+    
+    [21]=
+    {
+        .current_state = UI_STATE_SET_HP_PRESSURE,
+        .trigger_event = UI_EVENT_SETTINGS,
+        .action_func   = AppUI_StateEntry_ZHT,
+        .next_state    = UI_STATE_ZHT
+    },
+    
+    /* UI_STATE_SET_LP_PRESSURE 参数调整和状态转换 */
+    [22]=
+    {
+        .current_state = UI_STATE_SET_LP_PRESSURE,
+        .trigger_event = UI_EVENT_MENU_UP,
+        .action_func   = AppUI_AdjustPressureUp,
+        .next_state    = UI_STATE_SET_LP_PRESSURE  // 保持当前状态
+    },
+    
+    [23]=
+    {
+        .current_state = UI_STATE_SET_LP_PRESSURE,
+        .trigger_event = UI_EVENT_MENU_DOWN,
+        .action_func   = AppUI_AdjustPressureDown,
+        .next_state    = UI_STATE_SET_LP_PRESSURE  // 保持当前状态
+    },
+    
+    [24]=
+    {
+        .current_state = UI_STATE_SET_LP_PRESSURE,
+        .trigger_event = UI_EVENT_CONFIRM,
+        .action_func   = AppUI_StateEntry_SET_Time,
+        .next_state    = UI_STATE_SET_TIME
+    },
+    
+    [25]=
+    {
+        .current_state = UI_STATE_SET_LP_PRESSURE,
+        .trigger_event = UI_EVENT_SETTINGS,
+        .action_func   = AppUI_StateEntry_ZHT,
+        .next_state    = UI_STATE_ZHT
+    },
+    
+    /* UI_STATE_SET_TIME 参数调整和状态转换 */
+    [26]=
+    {
+        .current_state = UI_STATE_SET_TIME,
+        .trigger_event = UI_EVENT_MENU_UP,
+        .action_func   = AppUI_AdjustTimeUp,
+        .next_state    = UI_STATE_SET_TIME  // 保持当前状态
+    },
+    
+    [27]=
+    {
+        .current_state = UI_STATE_SET_TIME,
+        .trigger_event = UI_EVENT_MENU_DOWN,
+        .action_func   = AppUI_AdjustTimeDown,
+        .next_state    = UI_STATE_SET_TIME  // 保持当前状态
+    },
+    
+    [28]=
+    {
+        .current_state = UI_STATE_SET_TIME,
+        .trigger_event = UI_EVENT_CONFIRM_LONG,
+        .action_func   = AppUI_SwitchTimeEdit,
+        .next_state    = UI_STATE_SET_TIME  // 保持当前状态，只切换编辑项
+    },
+    
+    [29]=
+    {
+        .current_state = UI_STATE_SET_TIME,
+        .trigger_event = UI_EVENT_CONFIRM,
+        .action_func   = AppUI_StateEntry_SET,
+        .next_state    = UI_STATE_SET
+    },
+    
+    [30]=
+    {
+        .current_state = UI_STATE_SET_TIME,
+        .trigger_event = UI_EVENT_SETTINGS,
+        .action_func   = AppUI_StateEntry_ZHT,
+        .next_state    = UI_STATE_ZHT
+    },
 };
 
 /****************************************************************************
@@ -257,7 +432,7 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
 
 /**
  * @name      AppUI_StateEntry_SET
- * @brief     设置模式进入动作
+ * @brief     设置模式进入动作（模式选择界面）
  */
 static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
 {
@@ -266,9 +441,98 @@ static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET;
-    ctx->settings_sub_state = 0;  // 重置设置子状态
     Display_Clear();
     AppUI_Display_SET();
+}
+
+/**
+ * @name      AppUI_StateEntry_SET_SecondLevel
+ * @brief     进入第二个设置界面（根据work_mode_backup选择）
+ * @note      FSM会在动作函数执行后设置next_state，所以这里需要确保FSM使用正确的状态
+ */
+static void AppUI_StateEntry_SET_SecondLevel(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 根据work_mode_backup选择进入哪个状态
+    // 注意：FSM会在动作函数执行后设置next_state，所以我们在这里直接设置状态
+    // 但FSM仍然会使用转换表中的next_state，所以我们需要两个不同的转换表项
+    // 或者，我们可以在这里直接调用对应的状态入口函数，然后让FSM使用一个通用的next_state
+    
+    // 由于转换表已经设置了next_state = UI_STATE_SET_PRESSURE，我们需要确保状态正确
+    // 实际上，更好的方法是创建两个不同的转换表项，但这里我们使用一个通用的方法：
+    // 在动作函数中设置正确的状态，然后FSM会使用next_state（但会被覆盖）
+    
+    // 直接调用对应的状态入口函数，它们会设置正确的状态
+    if (ctx->work_mode_backup == UI_STATE_LIX) {
+        // 连续模式：进入压力设置界面
+        AppUI_StateEntry_SET_Pressure(arg, event);
+    } else {
+        // 间歇模式：进入高压设置界面  
+        AppUI_StateEntry_SET_HP_Pressure(arg, event);
+    }
+}
+
+/**
+ * @name      AppUI_StateEntry_SET_Pressure
+ * @brief     连续模式压力设置界面进入动作
+ */
+static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    ctx->last_state = ctx->current_state;
+    ctx->current_state = UI_STATE_SET_PRESSURE;
+    Display_Clear();
+    AppUI_Display_SET_Pressure();
+}
+
+/**
+ * @name      AppUI_StateEntry_SET_HP_Pressure
+ * @brief     间歇模式高压设置界面进入动作
+ */
+static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    ctx->last_state = ctx->current_state;
+    ctx->current_state = UI_STATE_SET_HP_PRESSURE;
+    Display_Clear();
+    AppUI_Display_SET_HP_Pressure();
+}
+
+/**
+ * @name      AppUI_StateEntry_SET_LP_Pressure
+ * @brief     间歇模式低压设置界面进入动作
+ */
+static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    ctx->last_state = ctx->current_state;
+    ctx->current_state = UI_STATE_SET_LP_PRESSURE;
+    Display_Clear();
+    AppUI_Display_SET_LP_Pressure();
+}
+
+/**
+ * @name      AppUI_StateEntry_SET_Time
+ * @brief     间歇模式时间设置界面进入动作
+ */
+static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    ctx->last_state = ctx->current_state;
+    ctx->current_state = UI_STATE_SET_TIME;
+    ctx->time_edit_high = true;  // 重置编辑标志
+    Display_Clear();
+    AppUI_Display_SET_Time();
 }
 
 /**
@@ -289,6 +553,160 @@ static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event)
     
     // 注意：显示刷新由AppUI_Process统一处理，这里只需要更新work_mode_backup
     // AppUI_Process会检测到work_mode_backup变化并自动刷新显示
+}
+
+/**
+ * @name      AppUI_AdjustPressureUp
+ * @brief     增加压力值
+ */
+static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 根据当前状态决定调整哪个压力值
+    if (ctx->current_state == UI_STATE_SET_PRESSURE) {
+        // 连续模式：调整pressure_high
+        ctx->pressure_high += PRESSURE_STEP;
+        if (ctx->pressure_high > PRESSURE_HIGH_MAX) {
+            ctx->pressure_high = PRESSURE_HIGH_MIN;
+        }
+        AppUI_Display_SET_Pressure();
+    } else if (ctx->current_state == UI_STATE_SET_HP_PRESSURE) {
+        // 间歇模式高压：调整pressure_high
+        ctx->pressure_high += PRESSURE_STEP;
+        if (ctx->pressure_high > PRESSURE_HIGH_MAX) {
+            ctx->pressure_high = PRESSURE_HIGH_MIN;
+        }
+        // 确保低压值不超过高压值
+        if (ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
+            ctx->pressure_low = ctx->pressure_high - PRESSURE_STEP;
+            if (ctx->pressure_low < PRESSURE_LOW_MIN) {
+                ctx->pressure_low = PRESSURE_LOW_MIN;
+            }
+        }
+        AppUI_Display_SET_HP_Pressure();
+    } else if (ctx->current_state == UI_STATE_SET_LP_PRESSURE) {
+        // 间歇模式低压：调整pressure_low
+        ctx->pressure_low += PRESSURE_STEP;
+        if (ctx->pressure_low > PRESSURE_LOW_MAX || 
+            ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
+            ctx->pressure_low = PRESSURE_LOW_MIN;
+        }
+        AppUI_Display_SET_LP_Pressure();
+    }
+}
+
+/**
+ * @name      AppUI_AdjustPressureDown
+ * @brief     减少压力值
+ */
+static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 根据当前状态决定调整哪个压力值
+    if (ctx->current_state == UI_STATE_SET_PRESSURE) {
+        // 连续模式：调整pressure_high
+        if (ctx->pressure_high > PRESSURE_STEP) {
+            ctx->pressure_high -= PRESSURE_STEP;
+        } else {
+            ctx->pressure_high = PRESSURE_HIGH_MAX;
+        }
+        AppUI_Display_SET_Pressure();
+    } else if (ctx->current_state == UI_STATE_SET_HP_PRESSURE) {
+        // 间歇模式高压：调整pressure_high
+        if (ctx->pressure_high > PRESSURE_STEP) {
+            ctx->pressure_high -= PRESSURE_STEP;
+        } else {
+            ctx->pressure_high = PRESSURE_HIGH_MAX;
+        }
+        // 确保低压值不超过高压值
+        if (ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
+            ctx->pressure_low = ctx->pressure_high - PRESSURE_STEP;
+            if (ctx->pressure_low < PRESSURE_LOW_MIN) {
+                ctx->pressure_low = PRESSURE_LOW_MIN;
+            }
+        }
+        AppUI_Display_SET_HP_Pressure();
+    } else if (ctx->current_state == UI_STATE_SET_LP_PRESSURE) {
+        // 间歇模式低压：调整pressure_low
+        if (ctx->pressure_low > PRESSURE_STEP) {
+            ctx->pressure_low -= PRESSURE_STEP;
+        } else {
+            ctx->pressure_low = PRESSURE_LOW_MAX;
+        }
+        // 确保不超过高压值
+        if (ctx->pressure_low >= ctx->pressure_high - PRESSURE_STEP) {
+            ctx->pressure_low = ctx->pressure_high - PRESSURE_STEP;
+        }
+        if (ctx->pressure_low < PRESSURE_LOW_MIN) {
+            ctx->pressure_low = PRESSURE_LOW_MIN;
+        }
+        AppUI_Display_SET_LP_Pressure();
+    }
+}
+
+/**
+ * @name      AppUI_AdjustTimeUp
+ * @brief     增加时间值
+ */
+static void AppUI_AdjustTimeUp(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    if (ctx->time_edit_high) {
+        ctx->time_high += TIME_STEP;
+        if (ctx->time_high > TIME_HIGH_MAX) {
+            ctx->time_high = TIME_HIGH_MIN;
+        }
+    } else {
+        ctx->time_low += TIME_STEP;
+        if (ctx->time_low > TIME_LOW_MAX) {
+            ctx->time_low = TIME_LOW_MIN;
+        }
+    }
+    AppUI_Display_SET_Time();
+}
+
+/**
+ * @name      AppUI_AdjustTimeDown
+ * @brief     减少时间值
+ */
+static void AppUI_AdjustTimeDown(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    if (ctx->time_edit_high) {
+        if (ctx->time_high > TIME_STEP) {
+            ctx->time_high -= TIME_STEP;
+        } else {
+            ctx->time_high = TIME_HIGH_MAX;
+        }
+    } else {
+        if (ctx->time_low > TIME_STEP) {
+            ctx->time_low -= TIME_STEP;
+        } else {
+            ctx->time_low = TIME_LOW_MAX;
+        }
+    }
+    AppUI_Display_SET_Time();
+}
+
+/**
+ * @name      AppUI_SwitchTimeEdit
+ * @brief     切换时间编辑项（高压/低压）
+ */
+static void AppUI_SwitchTimeEdit(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    ctx->time_edit_high = !ctx->time_edit_high;
+    AppUI_Display_SET_Time();
 }
 
 /****************************************************************************
@@ -405,6 +823,84 @@ static void AppUI_Display_SET(void)
     }
 }
 
+/**
+ * @name      AppUI_Display_SET_Pressure
+ * @brief     显示连续模式压力设置界面
+ */
+static void AppUI_Display_SET_Pressure(void)
+{
+    // 参考未重构工程：显示"Pressure"和压力值
+    Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 显示压力值（使用16x32大字体，参考未重构工程的DISP_Dig15_32）
+    Display_ShowPressure(48, 2, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);  // 显示压力值和单位"mmHg"
+}
+
+/**
+ * @name      AppUI_Display_SET_HP_Pressure
+ * @brief     显示间歇模式高压设置界面
+ */
+static void AppUI_Display_SET_HP_Pressure(void)
+{
+    // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
+    Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 2, "HP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 4, "LP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示高压值（参考未重构工程的DISP_Dig14_16）
+    Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 显示低压值
+    Display_ShowNumber(73, 4, g_ui_context.pressure_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示单位"mmHg"（参考未重构工程的DISP_ChaBasic2）
+    Display_ShowString(90, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(90, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+}
+
+/**
+ * @name      AppUI_Display_SET_LP_Pressure
+ * @brief     显示间歇模式低压设置界面
+ */
+static void AppUI_Display_SET_LP_Pressure(void)
+{
+    // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
+    Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 2, "HP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 4, "LP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示高压值
+    Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 显示低压值（当前正在编辑）
+    Display_ShowNumber(73, 4, g_ui_context.pressure_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示单位"mmHg"
+    Display_ShowString(90, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(90, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+}
+
+/**
+ * @name      AppUI_Display_SET_Time
+ * @brief     显示间歇模式时间设置界面
+ */
+static void AppUI_Display_SET_Time(void)
+{
+    // 参考未重构工程：显示"Intermittent"、"HP Time"和"LP Time"
+    Display_ShowString(16, 0, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 2, "HP Time :", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 4, "LP Time :", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示高压时间（参考未重构工程的DISP_Dig14_16）
+    Display_ShowNumber(75, 2, g_ui_context.time_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 显示低压时间
+    Display_ShowNumber(75, 4, g_ui_context.time_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示单位"min"
+    Display_ShowString(101, 2, "min", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(101, 4, "min", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示当前选中的时间项（可选：添加选中指示，如箭头或高亮）
+    // 注意：当前实现中，通过上下键切换编辑项，这里可以添加视觉反馈
+}
+
 /****************************************************************************
  * 辅助函数实现
  ****************************************************************************/
@@ -419,19 +915,27 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
     
     if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
         switch (key_id) {
-            case 1: return UI_EVENT_NONE;        // 上键长按 -> 不处理（已删除设置菜单功能）
+            case 1: return UI_EVENT_NONE;        // 上键长按 -> 不处理
             case 2: return UI_EVENT_QUICK_DOWN;  // 下键长按 -> 快速向下
-            case 0: return UI_EVENT_START;       // 启动键长按 -> 启动治疗
+            case 0: 
+                // 启动键长按 -> 启动治疗
+                return UI_EVENT_START;
             default: return UI_EVENT_NONE;
         }
     }
     else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
-        // 长按释放事件：等效于原来的短按/单击，用于菜单选择和确认操作
+        // 长按释放事件：用于菜单选择和确认操作
         switch (key_id) {
-            case 0: return UI_EVENT_CONFIRM;     // OK键 -> 确认
-            case 1: return UI_EVENT_MENU_UP;     // 上键 -> 菜单向上
-            case 2: return UI_EVENT_MENU_DOWN;  // 下键 -> 菜单向下
-            case 3: return UI_EVENT_CONFIRM;     // 取消/静音键 -> 确认
+            case 0: 
+                // 在SET状态下，长按释放进入第二个设置界面
+                if (g_ui_context.current_state == UI_STATE_SET) {
+                    return UI_EVENT_CONFIRM_LONG;  // 进入第二个设置界面
+                }
+                // 其他状态下作为确认键使用
+                return UI_EVENT_CONFIRM;
+            case 1: return UI_EVENT_MENU_UP;      // 上键长按释放 -> 菜单向上/增加参数
+            case 2: return UI_EVENT_MENU_DOWN;    // 下键长按释放 -> 菜单向下/减少参数
+            case 3: return UI_EVENT_CONFIRM;      // 取消/静音键长按释放 -> 确认（返回）
             default: return UI_EVENT_NONE;
         }
     }
@@ -443,6 +947,8 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
     
     return UI_EVENT_NONE;
 }
+
+// AppUI_ProcessSettingsEvent函数已删除，现在所有状态转换都通过FSM状态转换表处理
 
 /****************************************************************************
  * 公共接口实现
@@ -481,7 +987,12 @@ void AppUI_Init(void)
     g_ui_context.last_state = UI_STATE_SYS;
     g_ui_context.work_mode_backup = UI_STATE_LIX;
     g_ui_context.lock_flag = false;
-    g_ui_context.settings_sub_state = 0;
+    // settings_sub_state已废弃，现在使用独立的FSM状态
+    g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
+    g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
+    g_ui_context.time_high = TIME_HIGH_DEFAULT;
+    g_ui_context.time_low = TIME_LOW_DEFAULT;
+    g_ui_context.time_edit_high = true;  // 默认编辑高压时间
     g_ui_context.user_data = NULL;
     
     /* 获取按键事件队列指针 */
@@ -563,29 +1074,24 @@ void AppUI_Process(void)
         }
     }
     
-    /* 第三步：检测SET状态下work_mode_backup的变化（状态转换时的显示由状态入口函数处理） */
-    /* 使用静态变量保存上次的工作模式 */
-    static UIState_e last_work_mode_backup = UI_STATE_COUNT;  // 保存上次的工作模式
+    /* 第三步：检测SET状态下work_mode_backup的变化（用于更新勾号位置） */
+    static UIState_e last_work_mode_backup = UI_STATE_COUNT;
     
-    if (g_ui_context.current_state == UI_STATE_SET && 
+    if (g_ui_context.current_state == UI_STATE_SET &&
         g_ui_context.work_mode_backup != last_work_mode_backup) {
         /* SET状态下，work_mode_backup变化时使用局部清除优化 */
-        
-        // 只显示新的勾号位置（避免重绘整个界面）
         if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
-            // 连续模式选中：在第2行显示勾号
             Display_ClearRect(106, 4, 16, 16);
             Display_ShowIcon(106, 2, ICON_TICK);
-            
         } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
-            // 间歇模式选中：在第4行显示勾号
             Display_ShowIcon(106, 4, ICON_TICK);
             Display_ClearRect(106, 2, 16, 16);
         }
-        
-        last_work_mode_backup = g_ui_context.work_mode_backup;  // 更新备份
+        last_work_mode_backup = g_ui_context.work_mode_backup;
+    } else if (g_ui_context.current_state != UI_STATE_SET) {
+        // 非SET状态，重置静态变量
+        last_work_mode_backup = UI_STATE_COUNT;
     }
-    /* 注意：如果状态未变化且work_mode_backup也未变化，不执行显示刷新，避免不必要的重复渲染 */
     
     /* 第四步：电池显示更新（参考未重构工程的实现） */
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）

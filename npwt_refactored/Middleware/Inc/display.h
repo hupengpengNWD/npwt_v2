@@ -249,6 +249,11 @@ typedef enum {
     ICON_LOCK,                  // 锁定图标（8x16）
     ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
     ICON_TICK,                  // 勾号图标（16x16）
+    ICON_BAT0,                  // 电池图标0%（24x16）
+    ICON_BAT1,                  // 电池图标25%（24x16）
+    ICON_BAT2,                  // 电池图标50%（24x16）
+    ICON_BAT3,                  // 电池图标75%（24x16）
+    ICON_BAT4,                  // 电池图标100%（24x16）
     ICON_COUNT                  // 图标总数
 } IconType_e;
 
@@ -269,9 +274,10 @@ void Display_ShowIcon(uint8_t x, uint8_t y, uint8_t icon_type);
  * @param     y - Y坐标
  * @param     pressure - 压力值
  * @param     show_unit - 是否显示单位
+ * @param     font - 字体类型（可选，默认使用DISPLAY_FONT_7X14）
  * @retval    无
  */
-void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit);
+void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font);
 
 /**
  * @name      Display_ShowWorkMode

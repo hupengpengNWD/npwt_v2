@@ -7,6 +7,7 @@
 extern const unsigned char en_char_6x12[];    
 extern const unsigned char en_char_7x14[];    
 extern const unsigned char en_char_8x16[];
+extern const unsigned char digit_char_16x32[];  // 16x32数字字模（仅包含0-9）
 
 // 外部图标数据声明（在Library/lcd_icon_data.c中定义）
 extern const unsigned char icon_image_lock_8x16[];
@@ -16,7 +17,13 @@ extern const unsigned char icon_image_key2_16x16[];
 extern const unsigned char icon_image_silent_16x16[];
 extern const unsigned char icon_image_tick_16x16[];
 extern const unsigned char icon_image_intermittent_24x16[];
-extern const unsigned char icon_image_continuous_24x16[];     
+extern const unsigned char icon_image_continuous_24x16[];
+// 电池图标数据声明（24x16像素）
+extern const unsigned char icon_image_bat0_24x16[];  // 0%电池图标
+extern const unsigned char icon_image_bat1_24x16[];  // 25%电池图标
+extern const unsigned char icon_image_bat2_24x16[];  // 50%电池图标
+extern const unsigned char icon_image_bat3_24x16[];  // 75%电池图标
+extern const unsigned char icon_image_bat4_24x16[];  // 100%电池图标     
 
 /****************************************************************************
  * 字体信息结构体
@@ -37,12 +44,14 @@ static st_queue g_display_queue;              // 循环队列对象
 static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
+// 注意：height字段在Display_SendASCII中用作每个字符的字节数来计算偏移
+// 对于16x32字体：32像素高 = 4页，每字符字节数 = 16列 × 4页 = 64字节
 static const FontInfo_t g_font_info[] = {
-    {6, 12, NULL, en_char_6x12},           
-    {7, 14, NULL, en_char_7x14},           
-    {8, 16, NULL, en_char_8x16},        
-    {16, 32, NULL, NULL},         
-    {40, 80, NULL, NULL}                
+    {6, 12, NULL, en_char_6x12},           // 6x12: 每字符12字节
+    {7, 14, NULL, en_char_7x14},           // 7x14: 每字符14字节
+    {8, 16, NULL, en_char_8x16},           // 8x16: 每字符16字节
+    {16, 64, NULL, digit_char_16x32},      // 16x32: 每字符64字节（16列×4页）
+    {40, 80, NULL, NULL}                   // 40x80: 预留
 };
 
 /****************************************************************************
@@ -57,7 +66,7 @@ static void Display_SetBacklightInternal(bool white_on, bool yellow_on);
 static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowNumberInternal(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
-static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit);
+static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font);
 static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t battery_level, bool is_charging);
@@ -306,14 +315,15 @@ void Display_ShowIcon(uint8_t x, uint8_t y, uint8_t icon_type)
  * @param     show_unit - 是否显示单位
  * @retval    无
  */
-void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit)
+void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font)
 {
     DisplayEvent_t event = {
         .type = DISPLAY_EVENT_SHOW_PRESSURE,
         .x = x,
         .y = y,
         .number_data = pressure,
-        .bool_data = show_unit
+        .bool_data = show_unit,
+        .font = font
     };
     
     // 将显示压力事件加入队列
@@ -450,7 +460,7 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
             break;
             
         case DISPLAY_EVENT_SHOW_PRESSURE: // 显示压力
-            Display_ShowPressureInternal(event->x, event->y, event->number_data, event->bool_data);
+            Display_ShowPressureInternal(event->x, event->y, event->number_data, event->bool_data, event->font);
             break;
             
         case DISPLAY_EVENT_SHOW_WORK_MODE: // 显示工作模式
@@ -664,19 +674,42 @@ static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8
  * @param     y - Y坐标
  * @param     pressure - 压力值
  * @param     show_unit - 是否显示单位
+ * @param     font - 字体类型
  * @retval    无
  */
-static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit)
+static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font)
 {
     char pressure_str[16];
     snprintf(pressure_str, sizeof(pressure_str), "%d", pressure);
     
-    // 显示压力值
-    Display_ShowStringInternal(x, y, pressure_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    // 获取字体信息以计算单位位置
+    const FontInfo_t* font_info = Display_GetFontInfo(font);
+    uint8_t unit_x_offset;
+    uint8_t unit_y_offset = 0;  // 单位垂直偏移（页）
     
-    // 如果需要显示单位
+    // 根据字体大小计算单位位置偏移
+    if (font == DISPLAY_FONT_16X32) {
+        // 16x32字体：每个数字16列宽，根据实际字符串长度计算
+        uint8_t digit_count = (uint8_t)strlen(pressure_str);
+        unit_x_offset = font_info->width * digit_count + 4;  // 数字宽度 + 4列间距
+        
+        // 16x32字体高32像素（4页），单位8x16字体高16像素（2页）
+        // 将单位显示在数字的下半部分，垂直居中对齐：从第3页开始（y+1）
+        unit_y_offset = 1;  // 单位显示在数字下方，稍微下移以对齐
+    } else {
+        // 其他字体：使用默认偏移
+        uint8_t digit_count = (uint8_t)strlen(pressure_str);
+        unit_x_offset = font_info->width * digit_count + 2;  // 数字宽度 + 2列间距
+        unit_y_offset = 0;  // 同一行显示
+    }
+    
+    // 显示压力值
+    Display_ShowStringInternal(x, y, pressure_str, font, DISPLAY_ALIGN_LEFT);
+    
+    // 如果需要显示单位（使用较小的字体显示单位，保持可读性）
     if (show_unit) {
-        Display_ShowStringInternal(x + 7, y, "kPa", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+        // 单位使用8x16字体，位置在数字右侧，垂直对齐
+        Display_ShowStringInternal(x + unit_x_offset, y + unit_y_offset, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     }
 }
 
@@ -788,16 +821,26 @@ static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e e
  */
 static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t battery_level, bool is_charging)
 {
-    char battery_str[16];
-    snprintf(battery_str, sizeof(battery_str), "%d%%", battery_level);
+    IconType_e battery_icon_type;
     
-    // 显示电池电量
-    Display_ShowStringInternal(x, y, battery_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    
-    // 如果正在充电，显示充电图标
-    if (is_charging) {
-        Display_ShowStringInternal(x + 4, y, "+", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    // 根据电池电量选择对应的图标类型（与未重构工程一致：bat_lev 0-4对应0%, 25%, 50%, 75%, 100%）
+    if (battery_level <= 20) {
+        battery_icon_type = ICON_BAT0;  // 0%电池图标
+    } else if (battery_level <= 40) {
+        battery_icon_type = ICON_BAT1;  // 25%电池图标
+    } else if (battery_level <= 60) {
+        battery_icon_type = ICON_BAT2;  // 50%电池图标
+    } else if (battery_level <= 80) {
+        battery_icon_type = ICON_BAT3;  // 75%电池图标
+    } else {
+        battery_icon_type = ICON_BAT4;  // 100%电池图标
     }
+    
+    // 使用统一的图标显示函数（自动处理列偏移等）
+    Display_ShowIconInternal(x, y, battery_icon_type);
+    
+    // 如果正在充电，可以在图标旁边显示充电指示（可选）
+    // 注意：未重构工程中充电状态通过LED显示，这里暂时不显示文字
 }
 
 /**
@@ -827,7 +870,12 @@ static const IconData_t g_icon_table[ICON_COUNT] = {
     {16, 16, icon_image_silent_16x16},        // ICON_SILENT
     {8, 16, icon_image_lock_8x16},            // ICON_LOCK
     {8, 16, icon_image_unlock_8x16},          // ICON_UNLOCK
-    {16, 16, icon_image_tick_16x16}           // ICON_TICK
+    {16, 16, icon_image_tick_16x16},          // ICON_TICK
+    {24, 16, icon_image_bat0_24x16},          // ICON_BAT0 - 电池图标0%
+    {24, 16, icon_image_bat1_24x16},          // ICON_BAT1 - 电池图标25%
+    {24, 16, icon_image_bat2_24x16},          // ICON_BAT2 - 电池图标50%
+    {24, 16, icon_image_bat3_24x16},          // ICON_BAT3 - 电池图标75%
+    {24, 16, icon_image_bat4_24x16}           // ICON_BAT4 - 电池图标100%
 };
 
 /****************************************************************************
@@ -929,23 +977,58 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
     }
 #else
     // 新实现：支持标准ASCII字库格式（en_char_7x14, en_char_8x16等）和图标数据
-    // 字库构造规则：char_data[0..(width-1)] = 下半部分，char_data[width..(2*width-1)] = 上半部分
-    // 对于16像素高的字符/图标：每列1字节，总字节数 = width * 2（下半部分width字节，上半部分width字节）
     // 坐标转换：Display层使用自然坐标（0=顶部），HAL层需要硬件坐标（6=顶部）
     uint8_t page_hw = (uint8_t)(6 - (page & 0x07));  // 软件页0→硬件页6，软件页6→硬件页0
     
-    // 数据格式：char_data[0..(width-1)] = 下半部分（列0到列width-1，每列8像素）
-    //          char_data[width..(2*width-1)] = 上半部分（列0到列width-1，每列8像素）
-    // 先写上半部分：char_data[(2*width-1)]..char_data[width] → page_hw（倒序）
-    HAL_LCD_SetPositionNonBlocking(page_hw, column);
-    for (int16_t idx = (int16_t)(2 * width - 1); idx >= (int16_t)width; idx--) {
-        HAL_LCD_SendDataNonBlocking(char_data[idx]);
-    }
-    
-    // 再写下半部分：char_data[(width-1)]..char_data[0] → page_hw+1（倒序）
-    HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
-    for (int16_t idx = (int16_t)(width - 1); idx >= 0; idx--) {
-        HAL_LCD_SendDataNonBlocking(char_data[idx]);
+    // 根据字符高度选择不同的数据格式处理
+    if (height == 32) {
+        // 32像素高（4页）：16x32数字字模格式
+        // 数据格式：按页顺序存储，每页16字节（16列）
+        // char_data[0..15] = 第1页，char_data[16..31] = 第2页
+        // char_data[32..47] = 第3页，char_data[48..63] = 第4页
+        // 写入顺序：第4页→第3页→第2页→第1页（从下到上，倒序）
+        uint8_t bytes_per_page = width;  // 16列 = 16字节/页
+        
+        // 第4页（最上页，字节48-63）→ page_hw（倒序）
+        HAL_LCD_SetPositionNonBlocking(page_hw, column);
+        for (int16_t idx = (int16_t)(4 * bytes_per_page - 1); idx >= (int16_t)(3 * bytes_per_page); idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+        
+        // 第3页（字节32-47）→ page_hw+1（倒序）
+        HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
+        for (int16_t idx = (int16_t)(3 * bytes_per_page - 1); idx >= (int16_t)(2 * bytes_per_page); idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+        
+        // 第2页（字节16-31）→ page_hw+2（倒序）
+        HAL_LCD_SetPositionNonBlocking(page_hw + 2, column);
+        for (int16_t idx = (int16_t)(2 * bytes_per_page - 1); idx >= (int16_t)(1 * bytes_per_page); idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+        
+        // 第1页（最下页，字节0-15）→ page_hw+3（倒序）
+        HAL_LCD_SetPositionNonBlocking(page_hw + 3, column);
+        for (int16_t idx = (int16_t)(1 * bytes_per_page - 1); idx >= 0; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+    } else {
+        // 16像素高（2页）：标准ASCII字库格式（en_char_7x14, en_char_8x16等）和图标数据
+        // 字库构造规则：char_data[0..(width-1)] = 下半部分，char_data[width..(2*width-1)] = 上半部分
+        // 每列1字节，总字节数 = width * 2（下半部分width字节，上半部分width字节）
+        // 数据格式：char_data[0..(width-1)] = 下半部分（列0到列width-1，每列8像素）
+        //          char_data[width..(2*width-1)] = 上半部分（列0到列width-1，每列8像素）
+        // 先写上半部分：char_data[(2*width-1)]..char_data[width] → page_hw（倒序）
+        HAL_LCD_SetPositionNonBlocking(page_hw, column);
+        for (int16_t idx = (int16_t)(2 * width - 1); idx >= (int16_t)width; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
+        
+        // 再写下半部分：char_data[(width-1)]..char_data[0] → page_hw+1（倒序）
+        HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
+        for (int16_t idx = (int16_t)(width - 1); idx >= 0; idx--) {
+            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+        }
     }
 #endif
 }
@@ -1011,13 +1094,31 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
         return;
     }
     
-    // ASCII字符从32开始（空格）
-    if (ascii_char < 32) {
-        ascii_char = 32;  // 转换为空格
+    uint16_t offset;
+    uint8_t pixel_height;  // 像素高度（用于Display_SendCharData）
+    
+    // 16x32字体特殊处理：只包含数字0-9（ASCII 48-57）
+    if (font == DISPLAY_FONT_16X32) {
+        // 只处理数字字符 '0'-'9' (ASCII 48-57)
+        if (ascii_char >= '0' && ascii_char <= '9') {
+            // 数字字模按顺序存储：'0'在偏移0，'1'在偏移64，...，'9'在偏移576
+            uint8_t digit = ascii_char - '0';
+            offset = digit * font_info->height;  // height = 64字节/字符（在g_font_info中设置）
+            pixel_height = 32;  // 32像素高
+        } else {
+            // 非数字字符不支持，直接返回
+            return;
+        }
+    } else {
+        // 其他字体：ASCII字符从32开始（空格）
+        if (ascii_char < 32) {
+            ascii_char = 32;  // 转换为空格
+        }
+        offset = (ascii_char - 32) * font_info->height;  // 每个ASCII字符的字节数
+        pixel_height = font_info->height;  // 对于16像素以下字体，字节数 = 像素高度
     }
     
-    uint16_t offset = (ascii_char - 32) * font_info->height;  // 每个ASCII字符的字节数
-    Display_SendCharData(page, column, &font_info->ascii_font[offset], font_info->width, font_info->height);
+    Display_SendCharData(page, column, &font_info->ascii_font[offset], font_info->width, pixel_height);
 }
 
 /****************************************************************************
