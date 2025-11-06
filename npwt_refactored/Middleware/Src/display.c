@@ -691,11 +691,18 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
     if (font == DISPLAY_FONT_16X32) {
         // 16x32字体：每个数字16列宽，根据实际字符串长度计算
         uint8_t digit_count = (uint8_t)strlen(pressure_str);
-        unit_x_offset = font_info->width * digit_count + 4;  // 数字宽度 + 4列间距
         
-        // 16x32字体高32像素（4页），单位8x16字体高16像素（2页）
-        // 将单位显示在数字的下半部分，垂直居中对齐：从第3页开始（y+1）
-        unit_y_offset = 1;  // 单位显示在数字下方，稍微下移以对齐
+        // 将单位显示在压力值右侧，调整位置完全避免与电池图标重叠
+        // 策略：将单位显示在压力值的顶部（y+0），与压力值同一水平线，避免垂直重叠
+        // 水平方向：减小间距到2列，单位尽可能靠近压力值，减少水平占用
+        // 单位"mmHg"宽度32列（4字符×8列），电池图标实际起始列119（102+17）
+        // 单位起始列 = 48 + (16*3 + 2) = 98，结束列 = 130
+        // 虽然仍有水平重叠（列119-130），但垂直不重叠（单位在页4-5，电池在页6-7），视觉上可接受
+        unit_x_offset = font_info->width * digit_count + 2;  // 数字宽度 + 2列间距（减小间距）
+        
+        // 16x32字体占用4页（y到y+3），单位8x16占用2页
+        // 单位显示在y+0（占用页4-5），电池图标在y=6（占用页6-7），完全避免垂直重叠
+        unit_y_offset = 0;  // 单位显示在压力值顶部，与压力值同一水平线
     } else {
         // 其他字体：使用默认偏移
         uint8_t digit_count = (uint8_t)strlen(pressure_str);

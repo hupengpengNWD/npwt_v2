@@ -832,7 +832,8 @@ static void AppUI_Display_SET_Pressure(void)
     // 参考未重构工程：显示"Pressure"和压力值
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     // 显示压力值（使用16x32大字体，参考未重构工程的DISP_Dig15_32）
-    Display_ShowPressure(48, 2, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);  // 显示压力值和单位"mmHg"
+    // y=4：16x32字体占用4页（页4-7），避免与"Pressure"文字（页0-1）重叠
+    Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);  // 显示压力值和单位"mmHg"
 }
 
 /**
