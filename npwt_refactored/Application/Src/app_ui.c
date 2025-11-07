@@ -52,6 +52,12 @@ static st_queue_ptr g_key_event_queue = NULL;
 /* 初始化超时定时器句柄 */
 static SoftTimerHandle_t g_init_timeout_timer = 0;
 
+/* 连续模式界面上次显示的实时压力值（用于检测显示是否需要刷新） */
+static uint16_t g_last_display_pressure = 0xFFFF;
+
+/* 压力零点是否已完成初始化校准 */
+static bool g_pressure_zero_calibrated = false;
+
 /****************************************************************************
  * 私有函数声明
  ****************************************************************************/
@@ -339,6 +345,12 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     ctx->current_state = UI_STATE_WAT;
     Display_Clear();
     AppUI_Display_WAT();
+
+    /* 进入待机界面首次执行零点校准（参考未重构工程） */
+    if (!g_pressure_zero_calibrated || ctx->last_state == UI_STATE_SYS) {
+        AppPressure_CalibrateZero();
+        g_pressure_zero_calibrated = true;
+    }
 }
 
 /**
@@ -759,6 +771,7 @@ static void AppUI_Display_LIX(void)
     // 显示实时压力值
     uint16_t current_pressure = AppPressure_GetPressureValue();
     Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+    g_last_display_pressure = current_pressure;
 
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
@@ -1205,6 +1218,17 @@ void AppUI_Process(void)
         /* 显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
         /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
         Display_ShowBatteryIcon(102, 6, display_level, current_battery_charging);
+    }
+
+    /* 连续模式界面实时压力刷新（仿照电池刷新机制） */
+    if (g_ui_context.current_state == UI_STATE_LIX) {
+        uint16_t current_pressure = AppPressure_GetPressureValue();
+        if (current_pressure != g_last_display_pressure) {
+            g_last_display_pressure = current_pressure;
+            Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+        }
+    } else {
+        g_last_display_pressure = 0xFFFF;
     }
 }
 

@@ -44,6 +44,9 @@ static uint16_t g_pressure_adc_raw = 0;  // 最后一次原始ADC值
 /* 零点偏移值（adc_zero） */
 static uint16_t g_pressure_zero_offset = 0;  // 零点偏移ADC值
 
+/* 延迟校准标志：在下一次UpdateADC时更新零点 */
+static bool g_calibration_pending = false;
+
 /* 转换系数（valueK） */
 static float g_pressure_conversion_factor = PRESSURE_CONVERSION_FACTOR_DEFAULT;  // 默认2.75
 
@@ -117,6 +120,12 @@ void AppPressure_UpdateADC(uint16_t adc_value)
     
     /* 更新滤波缓冲区并计算平均值 */
     g_pressure_adc_filtered = PressureFilter_Update(adc_value);
+
+    /* 如果存在待处理的零点校准，使用当前滤波结果更新零点偏移 */
+    if (g_calibration_pending) {
+        g_pressure_zero_offset = g_pressure_adc_filtered;
+        g_calibration_pending = false;
+    }
 }
 
 /**
@@ -157,8 +166,8 @@ uint16_t AppPressure_GetRawADCValue(void)
  */
 void AppPressure_CalibrateZero(void)
 {
-    /* 使用当前滤波后的ADC值作为零点偏移 */
-    g_pressure_zero_offset = g_pressure_adc_filtered;
+    /* 标记在下一次UpdateADC时进行零点校准 */
+    g_calibration_pending = true;
 }
 
 /**
