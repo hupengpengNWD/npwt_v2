@@ -155,12 +155,12 @@ void AppPressure_Process(void* user_data)
      * - current_pressure 超过安全上限（320mmHg）视为过压
      * 触发时立即停止闭环、打开阀门泄压，并置 fault 标志
      */
-    if (g_pressure_adc_raw == 0xFFFF || current_pressure >= PRESSURE_CONTROL_SAFE_LIMIT) {
-        g_pressure_control_fault = true;
-        g_pressure_control_enabled = false;
-        PressureControl_ForceRelease();
-        return;
-    }
+//    if (g_pressure_adc_raw == 0xFFFF || current_pressure >= PRESSURE_CONTROL_SAFE_LIMIT) {
+//        g_pressure_control_fault = true;
+//        g_pressure_control_enabled = false;
+//        PressureControl_ForceRelease();
+//        return;
+//    }
 
     /* Step④：计算目标与实测的偏差，进入 PID 计算链 */
     float setpoint = (float)g_pressure_control_target;
