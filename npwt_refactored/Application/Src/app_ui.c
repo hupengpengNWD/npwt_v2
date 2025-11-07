@@ -29,10 +29,12 @@
 #define TIME_LOW_DEFAULT          5      // 默认低压时间（分钟）
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
+#include "../Inc/app_pressure.h"  // 压力管理模块
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/key_machine.h"
 #include "../../Middleware/Inc/soft_timer.h"
+#include <stdio.h>
 
 /****************************************************************************
  * 私有变量
@@ -742,24 +744,23 @@ static void AppUI_Display_WAT(void)
  */
 static void AppUI_Display_LIX(void)
 {
-    
     // 显示工作模式
     if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
         Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
     } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
         Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
     }
-    
+
     // 显示目标压力
-    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    
-    
-    // 显示压力值（占位，实际应从传感器读取）
-    Display_ShowString(16, 4, "-125 mmHg", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(80, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+    char target_str[16];
+    snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
+    // 显示实时压力值
+    uint16_t current_pressure = AppPressure_GetPressureValue();
+    Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-   
 }
 
 /**

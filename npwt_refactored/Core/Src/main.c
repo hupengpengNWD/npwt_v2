@@ -21,6 +21,7 @@
 #include "../../Application/Inc/app_beep.h"
 #include "../../Application/Inc/app_ui.h"
 #include "../../Application/Inc/app_battery.h"
+#include "../../Application/Inc/app_pressure.h"
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/pwm.h"
@@ -50,6 +51,7 @@ extern void PowerOff(void);
  * @retval    无
  */
 void LED_ToggleCallback(void* user_data);
+void PressureADC_Callback(void* user_data);
 
 
 /****************************************************************************
@@ -149,6 +151,17 @@ void BatteryADC_Callback(void* user_data)
     AppBattery_UpdateADC(adc_value);
 }
 
+void PressureADC_Callback(void* user_data)
+{
+    (void)user_data;
+
+    // 读取压力ADC（通道0，4次采样滤波）
+    uint16_t adc_value = HAL_ADC_ReadFiltered(ADC_CHANNEL_PRESSURE, 4);
+
+    // 更新压力管理模块
+    AppPressure_UpdateADC(adc_value);
+}
+
 /****************************************************************************
  * @name      main
  * @brief     主函数 - 系统初始化和主循环
@@ -211,8 +224,11 @@ void main(void)
     
     /* 6.3 初始化电池管理模块 */
     AppBattery_Init();
+
+    /* 6.4 初始化压力管理模块 */
+    AppPressure_Init();
     
-    /* 6.4 初始化UI模块（FSM状态机） */
+    /* 6.5 初始化UI模块（FSM状态机） */
     AppUI_Init();
     
     /* 6.4 显示开机界面（由AppUI_Init内部处理） */
@@ -298,6 +314,18 @@ void main(void)
     SoftTimerHandle_t battery_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppBattery_Process, NULL);
     if (battery_process_timer != 0) {
         SoftTimer_Start(battery_process_timer);
+    }
+
+    /* 8.7 创建压力ADC采集定时器（每50ms执行一次） */
+    SoftTimerHandle_t pressure_adc_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 50, PressureADC_Callback, NULL);
+    if (pressure_adc_timer != 0) {
+        SoftTimer_Start(pressure_adc_timer);
+    }
+
+    /* 8.8 创建压力处理定时器（每10ms执行一次） */
+    SoftTimerHandle_t pressure_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppPressure_Process, NULL);
+    if (pressure_process_timer != 0) {
+        SoftTimer_Start(pressure_process_timer);
     }
   
     /* 9. 使能全局中断 */
