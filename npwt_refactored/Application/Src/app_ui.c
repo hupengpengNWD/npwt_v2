@@ -65,6 +65,7 @@ static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_ZHT_ToTherapy(void* arg, st_fsm_event event);
 static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event);
 static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event);
 static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event);
@@ -93,262 +94,216 @@ static void AppUI_InitTimeoutCallback(void* user_data);
  * FSM状态转换表（必须在函数声明之后定义）
  ****************************************************************************/
 
-/* FSM状态转换表 */
-// 扩展状态转换表以支持设置子界面
- const st_fsm_transition g_ui_transition_table[31] = {
-    /* 当前状态      触发事件          动作函数              下一状态 */
-    
-    /* MOD_SYS (初始化模式) 状态转换 */
-    [0] =
-    {
-        .current_state = UI_STATE_SYS,  
-        .trigger_event = UI_EVENT_TIMEOUT, 
-        .action_func   = AppUI_StateEntry_WAT,  
-        .next_state    = UI_STATE_WAT
+const st_fsm_transition g_ui_transition_table[32] = {
+    [0] = {
+        .current_state = UI_STATE_SYS,  /* 当前状态：初始化模式 */
+        .trigger_event = UI_EVENT_TIMEOUT,  /* 触发事件：超时 */
+        .action_func   = AppUI_StateEntry_WAT,  /* 动作函数：进入待机模式 */
+        .next_state    = UI_STATE_WAT  /* 下一状态：待机模式 */
     },
     
-    /* MOD_WAT (待机模式) 状态转换 */
-    [1] = 
-    {       
-        .current_state = UI_STATE_WAT, 
-        .trigger_event = UI_EVENT_MENU_UP, 
-        .action_func   = AppUI_StateEntry_SET,  
-        .next_state    = UI_STATE_SET
-    },  
+    [1] = {
+        .current_state = UI_STATE_WAT,  /* 当前状态：待机模式 */
+        .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
+        .action_func   = AppUI_StateEntry_SET,  /* 动作函数：进入设置模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
+    },
     
-    [2]=
-    {
-        .current_state = UI_STATE_WAT,  
-        .trigger_event = UI_EVENT_START,   
-        .action_func   = AppUI_StateEntry_LIX,  
-        .next_state    = UI_STATE_LIX
+    [2] = {
+        .current_state = UI_STATE_WAT,  /* 当前状态：待机模式 */
+        .trigger_event = UI_EVENT_START,  /* 触发事件：启动 */
+        .action_func   = AppUI_StateEntry_LIX,  /* 动作函数：进入连续工作模式 */
+        .next_state    = UI_STATE_LIX  /* 下一状态：连续工作模式 */
+    },
+    
+    [3] = {
+        .current_state = UI_STATE_LIX,  /* 当前状态：连续工作模式 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [4] = {
+        .current_state = UI_STATE_LIX,  /* 当前状态：连续工作模式 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_SET,  /* 动作函数：进入设置模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
+    },
+    
+    [5] = {
+        .current_state = UI_STATE_JIX,  /* 当前状态：间歇工作模式 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [6] = {
+        .current_state = UI_STATE_JIX,  /* 当前状态：间歇工作模式 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_SET,  /* 动作函数：进入设置模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
+    },
+    
+    [8] = {
+        .current_state = UI_STATE_ZHT,  /* 当前状态：暂停模式 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_SET,  /* 动作函数：进入设置模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
+    },
+    
+    [9] = {
+        .current_state = UI_STATE_ZHT,  /* 当前状态：暂停模式 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
+        .action_func   = AppUI_StateEntry_ZHT_ToTherapy,  /* 动作函数：根据work_mode_backup进入治疗模式 */
+        .next_state    = UI_STATE_LIX  /* 下一状态：默认连续模式，实际由动作函数决定 */
+    },
+    
+    [10] = {
+        .current_state = UI_STATE_SET,  /* 当前状态：设置模式 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [11] = {
+        .current_state = UI_STATE_SET,  /* 当前状态：设置模式 */
+        .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
+        .action_func   = AppUI_SwitchWorkMode,  /* 动作函数：切换工作模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：保持设置模式 */
+    },
+    
+    [12] = {
+        .current_state = UI_STATE_SET,  /* 当前状态：设置模式 */
+        .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
+        .action_func   = AppUI_SwitchWorkMode,  /* 动作函数：切换工作模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：保持设置模式 */
+    },
+    
+    [13] = {
+        .current_state = UI_STATE_SET,  /* 当前状态：设置模式 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
+        .action_func   = AppUI_StateEntry_SET_SecondLevel,  /* 动作函数：进入第二个设置界面 */
+        .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：默认连续模式压力设置，实际由动作函数决定 */
+    },
+    
+    [14] = {
+        .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
+        .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
+        .action_func   = AppUI_AdjustPressureUp,  /* 动作函数：增加压力值 */
+        .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：保持当前状态 */
+    },
+    
+    [15] = {
+        .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
+        .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
+        .action_func   = AppUI_AdjustPressureDown,  /* 动作函数：减少压力值 */
+        .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：保持当前状态 */
+    },
+    
+    [16] = {
+        .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [17] = {
+        .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [18] = {
+        .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
+        .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
+        .action_func   = AppUI_AdjustPressureUp,  /* 动作函数：增加高压值 */
+        .next_state    = UI_STATE_SET_HP_PRESSURE  /* 下一状态：保持当前状态 */
+    },
+    
+    [19] = {
+        .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
+        .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
+        .action_func   = AppUI_AdjustPressureDown,  /* 动作函数：减少高压值 */
+        .next_state    = UI_STATE_SET_HP_PRESSURE  /* 下一状态：保持当前状态 */
+    },
+    
+    [20] = {
+        .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
+        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
+        .action_func   = AppUI_StateEntry_SET_LP_Pressure,  /* 动作函数：进入低压设置界面 */
+        .next_state    = UI_STATE_SET_LP_PRESSURE  /* 下一状态：间歇模式低压设置界面 */
+    },
+    
+    [21] = {
+        .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [22] = {
+        .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
+        .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
+        .action_func   = AppUI_AdjustPressureUp,  /* 动作函数：增加低压值 */
+        .next_state    = UI_STATE_SET_LP_PRESSURE  /* 下一状态：保持当前状态 */
+    },
+    
+    [23] = {
+        .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
+        .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
+        .action_func   = AppUI_AdjustPressureDown,  /* 动作函数：减少低压值 */
+        .next_state    = UI_STATE_SET_LP_PRESSURE  /* 下一状态：保持当前状态 */
+    },
+    
+    [24] = {
+        .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
+        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
+        .action_func   = AppUI_StateEntry_SET_Time,  /* 动作函数：进入时间设置界面 */
+        .next_state    = UI_STATE_SET_TIME  /* 下一状态：间歇模式时间设置界面 */
+    },
+    
+    [25] = {
+        .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
+    },
+    
+    [26] = {
+        .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
+        .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
+        .action_func   = AppUI_AdjustTimeUp,  /* 动作函数：增加时间值 */
+        .next_state    = UI_STATE_SET_TIME  /* 下一状态：保持当前状态 */
+    },
+    
+    [27] = {
+        .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
+        .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
+        .action_func   = AppUI_AdjustTimeDown,  /* 动作函数：减少时间值 */
+        .next_state    = UI_STATE_SET_TIME  /* 下一状态：保持当前状态 */
+    },
+    
+    [28] = {
+        .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
+        .action_func   = AppUI_SwitchTimeEdit,  /* 动作函数：切换编辑项（高压时间/低压时间） */
+        .next_state    = UI_STATE_SET_TIME  /* 下一状态：保持当前状态 */
+    },
+    
+    [29] = {
+        .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
+        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
+        .action_func   = AppUI_StateEntry_SET,  /* 动作函数：返回设置模式 */
+        .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
+    },
+    
+    [30] = {
+        .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
+        .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
+        .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
+        .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
     },   
-    
-    /* MOD_LIX (连续工作模式) 状态转换 */
-    [3]=
-    {
-        
-        .current_state = UI_STATE_LIX,  
-        .trigger_event = UI_EVENT_CONFIRM, 
-        .action_func   = AppUI_StateEntry_ZHT,  
-        .next_state    = UI_STATE_ZHT
-    },  
-
-    [4]=
-    {
-        .current_state = UI_STATE_LIX,  
-        .trigger_event = UI_EVENT_SETTINGS, 
-        .action_func   = AppUI_StateEntry_SET, 
-        .next_state    = UI_STATE_SET
-    },   
-    
-    /* MOD_JIX (间歇工作模式) 状态转换 */
-    [5]=
-    {
-        .current_state = UI_STATE_JIX,  
-        .trigger_event = UI_EVENT_CONFIRM, 
-        .action_func   = AppUI_StateEntry_ZHT,   
-        .next_state    = UI_STATE_ZHT
-    },  
-
-    [6]=
-    {
-        .current_state = UI_STATE_JIX,  
-        .trigger_event = UI_EVENT_SETTINGS, 
-        .action_func   = AppUI_StateEntry_SET,  
-        .next_state    = UI_STATE_SET
-    }, 
-    
-    /* MOD_ZHT (暂停模式) 状态转换 */
-    [7]=
-    {
-        .current_state = UI_STATE_ZHT,  
-        .trigger_event = UI_EVENT_CONFIRM, 
-        .action_func   = AppUI_StateEntry_WAT,   
-        .next_state    = UI_STATE_WAT
-    },   
-    
-    [8]=
-    {
-        .current_state = UI_STATE_ZHT,  
-        .trigger_event = UI_EVENT_SETTINGS, 
-        .action_func   = AppUI_StateEntry_SET,  
-        .next_state    = UI_STATE_SET
-    },  
-    
-    /* MOD_SET (设置模式) 状态转换 */
-    [9]=
-    {
-        .current_state = UI_STATE_SET,  
-        .trigger_event = UI_EVENT_SETTINGS, 
-        .action_func   = AppUI_StateEntry_ZHT, 
-        .next_state    = UI_STATE_ZHT
-    },  
-    
-    [10]=
-    {
-        .current_state = UI_STATE_SET,  
-        .trigger_event = UI_EVENT_MENU_UP, 
-        .action_func   = AppUI_SwitchWorkMode,  
-        .next_state    = UI_STATE_SET
-    },   
-    
-    [11]=
-    {
-        .current_state = UI_STATE_SET,  
-        .trigger_event = UI_EVENT_MENU_DOWN, 
-        .action_func   = AppUI_SwitchWorkMode,  
-        .next_state    = UI_STATE_SET
-    },
-    
-    /* UI_STATE_SET -> 进入第二个设置界面（根据work_mode_backup选择） */
-    [12]=
-    {
-        .current_state = UI_STATE_SET,
-        .trigger_event = UI_EVENT_CONFIRM_LONG,
-        .action_func   = AppUI_StateEntry_SET_SecondLevel,  // 通用入口函数，内部根据work_mode_backup分发
-        .next_state    = UI_STATE_SET_PRESSURE  // 默认值，实际由动作函数决定
-    },
-    
-    /* UI_STATE_SET_PRESSURE 参数调整和状态转换 */
-    [14]=
-    {
-        .current_state = UI_STATE_SET_PRESSURE,
-        .trigger_event = UI_EVENT_MENU_UP,
-        .action_func   = AppUI_AdjustPressureUp,
-        .next_state    = UI_STATE_SET_PRESSURE  // 保持当前状态
-    },
-    
-    [15]=
-    {
-        .current_state = UI_STATE_SET_PRESSURE,
-        .trigger_event = UI_EVENT_MENU_DOWN,
-        .action_func   = AppUI_AdjustPressureDown,
-        .next_state    = UI_STATE_SET_PRESSURE  // 保持当前状态
-    },
-    
-    [16]=
-    {
-        .current_state = UI_STATE_SET_PRESSURE,
-        .trigger_event = UI_EVENT_CONFIRM,
-        .action_func   = AppUI_StateEntry_SET,
-        .next_state    = UI_STATE_SET
-    },
-    
-    [17]=
-    {
-        .current_state = UI_STATE_SET_PRESSURE,
-        .trigger_event = UI_EVENT_SETTINGS,
-        .action_func   = AppUI_StateEntry_ZHT,
-        .next_state    = UI_STATE_ZHT
-    },
-    
-    /* UI_STATE_SET_HP_PRESSURE 参数调整和状态转换 */
-    [18]=
-    {
-        .current_state = UI_STATE_SET_HP_PRESSURE,
-        .trigger_event = UI_EVENT_MENU_UP,
-        .action_func   = AppUI_AdjustPressureUp,
-        .next_state    = UI_STATE_SET_HP_PRESSURE  // 保持当前状态
-    },
-    
-    [19]=
-    {
-        .current_state = UI_STATE_SET_HP_PRESSURE,
-        .trigger_event = UI_EVENT_MENU_DOWN,
-        .action_func   = AppUI_AdjustPressureDown,
-        .next_state    = UI_STATE_SET_HP_PRESSURE  // 保持当前状态
-    },
-    
-    [20]=
-    {
-        .current_state = UI_STATE_SET_HP_PRESSURE,
-        .trigger_event = UI_EVENT_CONFIRM,
-        .action_func   = AppUI_StateEntry_SET_LP_Pressure,
-        .next_state    = UI_STATE_SET_LP_PRESSURE
-    },
-    
-    [21]=
-    {
-        .current_state = UI_STATE_SET_HP_PRESSURE,
-        .trigger_event = UI_EVENT_SETTINGS,
-        .action_func   = AppUI_StateEntry_ZHT,
-        .next_state    = UI_STATE_ZHT
-    },
-    
-    /* UI_STATE_SET_LP_PRESSURE 参数调整和状态转换 */
-    [22]=
-    {
-        .current_state = UI_STATE_SET_LP_PRESSURE,
-        .trigger_event = UI_EVENT_MENU_UP,
-        .action_func   = AppUI_AdjustPressureUp,
-        .next_state    = UI_STATE_SET_LP_PRESSURE  // 保持当前状态
-    },
-    
-    [23]=
-    {
-        .current_state = UI_STATE_SET_LP_PRESSURE,
-        .trigger_event = UI_EVENT_MENU_DOWN,
-        .action_func   = AppUI_AdjustPressureDown,
-        .next_state    = UI_STATE_SET_LP_PRESSURE  // 保持当前状态
-    },
-    
-    [24]=
-    {
-        .current_state = UI_STATE_SET_LP_PRESSURE,
-        .trigger_event = UI_EVENT_CONFIRM,
-        .action_func   = AppUI_StateEntry_SET_Time,
-        .next_state    = UI_STATE_SET_TIME
-    },
-    
-    [25]=
-    {
-        .current_state = UI_STATE_SET_LP_PRESSURE,
-        .trigger_event = UI_EVENT_SETTINGS,
-        .action_func   = AppUI_StateEntry_ZHT,
-        .next_state    = UI_STATE_ZHT
-    },
-    
-    /* UI_STATE_SET_TIME 参数调整和状态转换 */
-    [26]=
-    {
-        .current_state = UI_STATE_SET_TIME,
-        .trigger_event = UI_EVENT_MENU_UP,
-        .action_func   = AppUI_AdjustTimeUp,
-        .next_state    = UI_STATE_SET_TIME  // 保持当前状态
-    },
-    
-    [27]=
-    {
-        .current_state = UI_STATE_SET_TIME,
-        .trigger_event = UI_EVENT_MENU_DOWN,
-        .action_func   = AppUI_AdjustTimeDown,
-        .next_state    = UI_STATE_SET_TIME  // 保持当前状态
-    },
-    
-    [28]=
-    {
-        .current_state = UI_STATE_SET_TIME,
-        .trigger_event = UI_EVENT_CONFIRM_LONG,
-        .action_func   = AppUI_SwitchTimeEdit,
-        .next_state    = UI_STATE_SET_TIME  // 保持当前状态，只切换编辑项
-    },
-    
-    [29]=
-    {
-        .current_state = UI_STATE_SET_TIME,
-        .trigger_event = UI_EVENT_CONFIRM,
-        .action_func   = AppUI_StateEntry_SET,
-        .next_state    = UI_STATE_SET
-    },
-    
-    [30]=
-    {
-        .current_state = UI_STATE_SET_TIME,
-        .trigger_event = UI_EVENT_SETTINGS,
-        .action_func   = AppUI_StateEntry_ZHT,
-        .next_state    = UI_STATE_ZHT
-    },
 };
 
 /****************************************************************************
@@ -429,6 +384,26 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
     ctx->current_state = UI_STATE_ZHT;
     Display_Clear();
     AppUI_Display_ZHT();
+}
+
+/**
+ * @name      AppUI_StateEntry_ZHT_ToTherapy
+ * @brief     从暂停界面进入治疗界面（根据work_mode_backup决定进入连续或间歇模式）
+ */
+static void AppUI_StateEntry_ZHT_ToTherapy(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 根据work_mode_backup决定进入哪个治疗模式
+    if (ctx->work_mode_backup == UI_STATE_LIX) {
+        // 进入连续模式治疗界面
+        AppUI_StateEntry_LIX(arg, event);
+    } else if (ctx->work_mode_backup == UI_STATE_JIX) {
+        // 进入间歇模式治疗界面
+        AppUI_StateEntry_JIX(arg, event);
+    }
+    // 如果work_mode_backup不是治疗模式，则不进行状态转换（保持暂停状态）
 }
 
 /**
@@ -733,8 +708,8 @@ static void AppUI_Display_SYS(void)
 static void AppUI_Display_WAT(void)
 {
 
-//    Display_ShowIcon(0, 0, ICON_INTERMITTENT);//显示图标时15才是0  
-    
+
+    // 显示工作模式
     if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
         Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
     } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
@@ -767,12 +742,24 @@ static void AppUI_Display_WAT(void)
  */
 static void AppUI_Display_LIX(void)
 {
-    // 显示工作模式标识
-    Display_ShowString(0, 0, "Continuous", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(0, 2, "Therapy On", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示工作模式
+    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+        Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
+    } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
+        Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
+    }
+    
+    // 显示目标压力
+    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    
     
     // 显示压力值（占位，实际应从传感器读取）
-    Display_ShowString(0, 4, "Pressure: -125 mmHg", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(16, 4, "-125 mmHg", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(80, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+   
 }
 
 /**
@@ -795,12 +782,23 @@ static void AppUI_Display_JIX(void)
  */
 static void AppUI_Display_ZHT(void)
 {
-    // 显示暂停状态
-    Display_ShowString(0, 1, "Therapy Off", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(0, 3, "| Therapy", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    // 显示模式
+    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+        Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
+    } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
+        Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
+    }
     
     // 显示目标压力
-    Display_ShowString(0, 5, "-125 mmHg", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    
+    // 显示暂停状态
+    Display_ShowString(24, 3, "Therapy Off", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 显示启动按键的图标
+    Display_ShowIcon(16, 6, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
+    Display_ShowString(30, 6, "Therapy", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
 }
 
 /**
@@ -962,6 +960,19 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
                 // 在SET状态下，长按释放进入第二个设置界面
                 if (g_ui_context.current_state == UI_STATE_SET) {
                     return UI_EVENT_CONFIRM_LONG;  // 进入第二个设置界面
+                }
+                // 在连续模式设置界面，长按释放进入暂停界面
+                else if (g_ui_context.current_state == UI_STATE_SET_PRESSURE) {
+                    return UI_EVENT_CONFIRM_LONG;  // 进入暂停界面
+                }
+                // 在治疗模式下，长按释放进入暂停界面
+                else if (g_ui_context.current_state == UI_STATE_LIX || 
+                         g_ui_context.current_state == UI_STATE_JIX) {
+                    return UI_EVENT_CONFIRM_LONG;  // 进入暂停界面
+                }
+                // 在暂停界面，长按释放根据work_mode_backup进入对应的治疗界面
+                else if (g_ui_context.current_state == UI_STATE_ZHT) {
+                    return UI_EVENT_CONFIRM_LONG;  // 进入治疗界面
                 }
                 // 其他状态下作为确认键使用
                 return UI_EVENT_CONFIRM;
