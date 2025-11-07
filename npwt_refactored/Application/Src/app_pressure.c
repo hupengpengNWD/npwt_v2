@@ -31,7 +31,7 @@
 #define PRESSURE_FILTER_COUNT      3   // 滤波采样次数（参考未重构工程COUNT_PS）
 
 #define PRESSURE_CONTROL_SAMPLE_TIME_S    (0.010f)   // 控制循环采样周期（10ms）
-#define PRESSURE_CONTROL_DEADBAND_MMHG    (2.0f)     // 允许的稳态误差
+#define PRESSURE_CONTROL_DEADBAND_MMHG    (5.0f)     // 允许的稳态误差
 #define PRESSURE_CONTROL_OUTPUT_MIN       (-100.0f)
 #define PRESSURE_CONTROL_OUTPUT_MAX       (100.0f)
 #define PRESSURE_CONTROL_MIN_DUTY_VALUE   300U       // 30% duty = 300/1000
@@ -481,9 +481,9 @@ static void PressureControl_ApplyOutput(float control_output)
         if (duty_value > PWM_DUTY_MAX) {
             duty_value = PWM_DUTY_MAX;
         }
+        PWM_SetDuty(duty_value);
 
         /* 设置 PWM 并确保泵处于运行状态 */
-        PWM_SetDuty(duty_value);
         if (!PWM_IsRunning()) {
             PWM_Start();
         }
@@ -500,7 +500,6 @@ static void PressureControl_ApplyOutput(float control_output)
         PWM_SetDuty(0);
         float release_magnitude = -control_output;
         if (release_magnitude >= PRESSURE_CONTROL_VALVE_THRESHOLD) {
-            /* 低于阈值只停泵不泄气，避免频繁开闭 */
             HAL_Valve1_Open();
             HAL_Valve2_Open();
         } else {
@@ -524,4 +523,5 @@ static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg)
     }
     return target_mmHg;
 }
+
 
