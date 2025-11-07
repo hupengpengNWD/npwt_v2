@@ -31,6 +31,12 @@
  ****************************************************************************/
 #define PRESSURE_CONVERSION_FACTOR_DEFAULT    2.75f  // 默认转换系数（valueK）
 
+typedef enum {
+    APP_PRESSURE_CONTROL_MODE_CONTINUOUS = 0,
+    APP_PRESSURE_CONTROL_MODE_INTERMITTENT_HIGH,
+    APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW
+} AppPressureControlMode_e;
+
 /****************************************************************************
  * 压力管理接口函数
  ****************************************************************************/
@@ -123,6 +129,13 @@ float AppPressure_GetConversionFactor(void);
  * @retval    零点偏移ADC值（10位：0-1023）
  */
 uint16_t AppPressure_GetZeroOffset(void);
+
+void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mode);
+void AppPressure_StopControl(void);
+void AppPressure_UpdateTarget(uint16_t target_mmHg);
+bool AppPressure_IsControlEnabled(void);
+bool AppPressure_HasControlFault(void);
+void AppPressure_ClearControlFault(void);
 
 #endif /* APP_PRESSURE_H */
 

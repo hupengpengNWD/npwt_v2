@@ -34,6 +34,7 @@ extern volatile unsigned char FLG_SYS_10MS;
 
 /* 系统状态 */
 static SystemState_t g_system;
+static volatile bool g_pressure_process_flag = false;
 
 /****************************************************************************
  * 外部函数声明
@@ -52,6 +53,7 @@ extern void PowerOff(void);
  */
 void LED_ToggleCallback(void* user_data);
 void PressureADC_Callback(void* user_data);
+static void PressureProcess_TimerCallback(void* user_data);
 
 
 /****************************************************************************
@@ -162,6 +164,12 @@ void PressureADC_Callback(void* user_data)
     AppPressure_UpdateADC(adc_value);
 }
 
+static void PressureProcess_TimerCallback(void* user_data)
+{
+    (void)user_data;
+    g_pressure_process_flag = true;
+}
+
 /****************************************************************************
  * @name      main
  * @brief     主函数 - 系统初始化和主循环
@@ -204,8 +212,8 @@ void main(void)
     PWM_Init();
     
     /* 3.3 测试PWM：设置50%占空比并启动（用于测试） */
-    PWM_SetDuty(500);    // 50%占空比
-    PWM_Start();         // 启动PWM
+//    PWM_SetDuty(500);    // 50%占空比
+//    PWM_Start();         // 启动PWM
     
     /* 4. 初始化软件定时器模块 */
     SoftTimer_Init();
@@ -323,7 +331,8 @@ void main(void)
     }
 
     /* 8.8 创建压力处理定时器（每10ms执行一次） */
-    SoftTimerHandle_t pressure_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppPressure_Process, NULL);
+    SoftTimerHandle_t pressure_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, PressureProcess_TimerCallback, NULL);
+
     if (pressure_process_timer != 0) {
         SoftTimer_Start(pressure_process_timer);
     }
@@ -343,6 +352,11 @@ void main(void)
                
                /* UI状态机处理（每10ms轮询一次） */
                AppUI_Process();
+
+               if (g_pressure_process_flag) {
+                   g_pressure_process_flag = false;
+                   AppPressure_Process(NULL);
+               }
            }
     }
 }
