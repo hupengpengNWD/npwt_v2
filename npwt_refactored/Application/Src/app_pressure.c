@@ -34,7 +34,7 @@
 #define PRESSURE_CONTROL_DEADBAND_MMHG    (5.0f)     // 允许的稳态误差
 #define PRESSURE_CONTROL_OUTPUT_MIN       (-100.0f)
 #define PRESSURE_CONTROL_OUTPUT_MAX       (100.0f)
-#define PRESSURE_CONTROL_MIN_DUTY_VALUE   300U       // 30% duty = 300/1000
+#define PRESSURE_CONTROL_MIN_DUTY_VALUE   700U       // 70% duty = 700/1000（动态调节基准）
 #define PRESSURE_CONTROL_VALVE_THRESHOLD  (5.0f)     // 控制输出小于该值则不开阀
 #define PRESSURE_CONTROL_TARGET_MIN       0U
 #define PRESSURE_CONTROL_TARGET_MAX       320U
@@ -70,6 +70,7 @@ static bool g_pressure_control_fault = false;
 static AppPressureControlMode_e g_pressure_control_mode = APP_PRESSURE_CONTROL_MODE_CONTINUOUS;
 static uint16_t g_pressure_control_target = 0;
 static float g_pressure_last_output = 0.0f;
+static uint16_t g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
 
 /****************************************************************************
  * 内部函数声明
@@ -95,6 +96,7 @@ static void PressureControl_ResetOutputs(void);
 static void PressureControl_ForceRelease(void);
 static void PressureControl_ApplyOutput(float control_output);
 static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg);
+static uint16_t PressureControl_SelectMinDuty(float abs_error);
 
 /****************************************************************************
  * 函数实现
@@ -173,6 +175,7 @@ void AppPressure_Process(void* user_data)
         PID_Reset(&g_pressure_pid);
         g_pressure_last_output = 0.0f;
         PressureControl_ApplyOutput(0.0f);
+        g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
         return;
     }
 
@@ -181,6 +184,7 @@ void AppPressure_Process(void* user_data)
     g_pressure_last_output = output;
 
     /* Step⑦：把 PID 输出映射到实际执行器（泵 PWM + 双阀门） */
+    g_pressure_min_duty_current = PressureControl_SelectMinDuty(abs_error);
     PressureControl_ApplyOutput(output);
 }
 
@@ -433,6 +437,7 @@ static void PressureControl_ResetOutputs(void)
     HAL_Valve1_Close();
     HAL_Valve2_Close();
     HAL_Pump_Stop();
+    g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
 }
 
 /**
@@ -448,6 +453,7 @@ static void PressureControl_ForceRelease(void)
     HAL_Pump_Stop();
     HAL_Valve1_Open();
     HAL_Valve2_Open();
+    g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
 }
 
 /**
@@ -461,7 +467,7 @@ static void PressureControl_ApplyOutput(float control_output)
         /*
          * 正输出：需要抽气
          * - 先将 PID 输出（-100~100）归一化到 0~1，作为剩余占空比分配比例
-         * - duty = 30% 基线 + (0~70%) * normalized  → 确保低于 30% 时泵不会堵转
+         * - duty = 动态最小占空比 + 剩余占空比 * normalized，避免进入“嗡嗡不抽”区间
          */
         float normalized = control_output / PRESSURE_CONTROL_OUTPUT_MAX;
         if (normalized > 1.0f) {
@@ -470,12 +476,12 @@ static void PressureControl_ApplyOutput(float control_output)
             normalized = 0.0f;
         }
 
-        /* 计算最终占空比（0~1000 对应 0~100%），至少维持 30% 基线 */
-        uint16_t duty_value = PRESSURE_CONTROL_MIN_DUTY_VALUE;
-        if (PWM_DUTY_MAX > PRESSURE_CONTROL_MIN_DUTY_VALUE) {
-            uint16_t duty_span = (uint16_t)(PWM_DUTY_MAX - PRESSURE_CONTROL_MIN_DUTY_VALUE);
+        /* 计算最终占空比（0~1000 对应 0~100%），根据误差动态设定最小值 */
+        uint16_t duty_value = g_pressure_min_duty_current;
+        if (PWM_DUTY_MAX > g_pressure_min_duty_current) {
+            uint16_t duty_span = (uint16_t)(PWM_DUTY_MAX - g_pressure_min_duty_current);
             uint16_t dynamic = (uint16_t)(normalized * (float)duty_span + 0.5f);
-            duty_value = (uint16_t)(PRESSURE_CONTROL_MIN_DUTY_VALUE + dynamic);
+            duty_value = (uint16_t)(g_pressure_min_duty_current + dynamic);
         }
 
         if (duty_value > PWM_DUTY_MAX) {
@@ -524,4 +530,21 @@ static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg)
     return target_mmHg;
 }
 
+static uint16_t PressureControl_SelectMinDuty(float abs_error)
+{
+    if (abs_error >= 25.0f) {
+        return 320U;   /* 误差很大，30% duty 足够启动 */
+    }
+    if (abs_error >= 15.0f) {
+        return 360U;   /* 误差中等，提高到 36% 保障抽气 */
+    }
+    if (abs_error >= 10.0f) {
+        return 420U;   /* 比较接近目标时维持 42% */
+    }
+    if (abs_error >= 7.0f) {
+        return 460U;   /* 更贴近目标时提高到 46% */
+    }
+    return 500U;       /* 刚超过死区仍保持 50%，避免停滞 */
+}
+ 
 
