@@ -21,6 +21,7 @@ static uint8_t fsm_event_queue_store2[FSM_ID_COUNT][sizeof(st_fsm_event) * FSM_Q
 static st_queue fsm_event_queue[FSM_ID_COUNT];
 static st_queue fsm_event_queue2[FSM_ID_COUNT];
 
+extern  const st_fsm_transition g_ui_transition_table[11];
 /**
   * @name     fsm_transit
   * @brief    状态转换函数
@@ -46,15 +47,22 @@ void fsm_poll(st_fsm_ptr ptr, st_fsm_event event) {
     void (*action_func)(void*, st_fsm_event) = NULL;
     uint8_t next_state = 0;
     uint8_t found = 0;
+    uint8_t trigger_event = 0;
+    uint8_t trans_table_current_state = 0;
     
     /* 遍历状态转换表 */
     for (uint8_t i = 0; i < ptr->trans_size; i++) {
-        if (event.event_type == ptr->trans_table[i].trigger_event && 
-            ptr->current_state == ptr->trans_table[i].current_state) {
-            
+        
+        trigger_event = g_ui_transition_table[i].trigger_event;
+        trans_table_current_state = g_ui_transition_table[i].current_state;
+                
+//        if (event.event_type == ptr->trans_table[i].trigger_event && ptr->current_state == ptr->trans_table[i].current_state) {
+          if (event.event_type == trigger_event && ptr->current_state == trans_table_current_state) {  
             found = 1;
-            action_func = ptr->trans_table[i].action_func;
-            next_state = ptr->trans_table[i].next_state;
+//            action_func = ptr->trans_table[i].action_func;
+//            next_state = ptr->trans_table[i].next_state;
+            action_func = g_ui_transition_table[i].action_func;
+            next_state = g_ui_transition_table[i].next_state;
             break;
         }
     }
@@ -76,7 +84,7 @@ void fsm_poll(st_fsm_ptr ptr, st_fsm_event event) {
   * @remark   初始化事件队列和用户参数
   */
 void fsm_initialize(st_fsm_ptr ptr) {
-    ptr->user_arg = ptr;
+//    ptr->user_arg = ptr;
     
     /* 初始化事件队列1 */
     ptr->event_course_queue->initialize(

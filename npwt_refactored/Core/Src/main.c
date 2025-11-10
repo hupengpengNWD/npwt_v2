@@ -294,14 +294,8 @@ void main(void)
     
     /* 8.2 创建蜂鸣器控制实例 */
     PushPullPtr_t buzzer = AppBeep_GetBuzzerInstance();
-    PushPull_Initialize(buzzer, 
-                       AppBeep_BuzzerCallback, 
-                       NULL);
-    PushPull_SetDriverInterface(buzzer, 
-                               (void*)0x1234, 
-                               AppBeep_BuzzerWriteHigh, 
-                               AppBeep_BuzzerWriteLow, 
-                               AppBeep_BuzzerToggle);
+    PushPull_Initialize(buzzer, AppBeep_BuzzerCallback, NULL);                 
+    PushPull_SetDriverInterface(buzzer, (void*)0x1234, AppBeep_BuzzerWriteHigh, AppBeep_BuzzerWriteLow, AppBeep_BuzzerToggle);
     
     /* 8.3 开始蜂鸣器二维时序模式（支持多种模式切换） */
     AppBeep_StartBeep2D();
@@ -318,14 +312,14 @@ void main(void)
         SoftTimer_Start(battery_adc_timer);
     }
     
-    /* 8.6 创建电池处理定时器（每10ms执行一次） */
-    SoftTimerHandle_t battery_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, AppBattery_Process, NULL);
+    /* 8.6 创建电池处理定时器（每100ms执行一次） */
+    SoftTimerHandle_t battery_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 100, AppBattery_Process, NULL);
     if (battery_process_timer != 0) {
         SoftTimer_Start(battery_process_timer);
     }
 
-    /* 8.7 创建压力ADC采集定时器（每50ms执行一次） */
-    SoftTimerHandle_t pressure_adc_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 50, PressureADC_Callback, NULL);
+    /* 8.7 创建压力ADC采集定时器（每10ms执行一次） */
+    SoftTimerHandle_t pressure_adc_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 10, PressureADC_Callback, NULL);
     if (pressure_adc_timer != 0) {
         SoftTimer_Start(pressure_adc_timer);
     }

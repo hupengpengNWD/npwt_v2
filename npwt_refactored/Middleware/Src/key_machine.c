@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file:    key_machine.c
-  * @author:  Refactored from lib_gpio_input
+  * @author:  hupengpeng
   * @date:    2025-01-22
   * @brief:   按键状态机模块实现 - 基于lib_gpio_input重构
   ******************************************************************************
@@ -18,8 +18,8 @@
 // ==================== 默认配置 ====================
 const KeyConfig_t KEY_CONFIG_DEFAULT = {
     .debounce_ms = 20,          // 20ms去抖
-    .short_press_ms = 50,       // 50ms短按
-    .long_press_ms = 1000,      // 1秒长按
+    .short_press_ms = 50,       // 50ms短按（保留用于内部状态判断，不再产生事件）
+    .long_press_ms = 300,       // 300ms长按
     .ultra_long_press_ms = 3000, // 3秒超长按
     .trigger = KEY_TRIGGER_LOW, // 低电平触发
     .event_mask = KEY_EVENT_MASK_ALL // 所有事件
@@ -80,11 +80,6 @@ void KeyMachine_FSM(KeyMachinePtr_t ptr) {
             if (is_triggered) {
                 ptr->press_time_ms = 0; // 重置按下时间计数
                 ptr->state = KEY_STATE_SHORT;
-                
-                // 触发按下事件
-                if (ptr->callback && (ptr->event_mask & KEY_EVENT_MASK_PRESS)) {
-                    ptr->callback(ptr, KEY_MACHINE_EVENT_PRESS, ptr->callback_arg);
-                }
             }
             break;
 
@@ -94,27 +89,8 @@ void KeyMachine_FSM(KeyMachinePtr_t ptr) {
             
             // 如果引脚不再触发（释放）
             if (!is_triggered) {
+                // 短按释放：不产生任何事件
                 ptr->state = KEY_STATE_IDLE;
-                
-                if (ptr->callback) {
-                    // 根据按下时间判断事件类型
-                    if (ptr->press_time_ms < ptr->config.short_press_ms) {
-                        // 短按事件
-                        if (ptr->event_mask & KEY_EVENT_MASK_SHORT_PRESS) {
-                            ptr->callback(ptr, KEY_MACHINE_EVENT_SHORT_PRESS, ptr->callback_arg);
-                        }
-                    } else {
-                        // 单击事件（短按后释放）
-                        if (ptr->event_mask & KEY_EVENT_MASK_CLICK) {
-                            ptr->callback(ptr, KEY_MACHINE_EVENT_CLICK, ptr->callback_arg);
-                        }
-                    }
-                    
-                    // 释放事件
-                    if (ptr->event_mask & KEY_EVENT_MASK_RELEASE) {
-                        ptr->callback(ptr, KEY_MACHINE_EVENT_RELEASE, ptr->callback_arg);
-                    }
-                }
             } else if (ptr->press_time_ms >= ptr->config.ultra_long_press_ms) {
                 // 如果按下时间达到或超过超长按阈值
                 ptr->state = KEY_STATE_ULTRA_LONG;
@@ -137,8 +113,9 @@ void KeyMachine_FSM(KeyMachinePtr_t ptr) {
             // 如果引脚不再触发（释放）
             if (!is_triggered) {
                 ptr->state = KEY_STATE_IDLE;
-                if (ptr->callback && (ptr->event_mask & KEY_EVENT_MASK_RELEASE)) {
-                    ptr->callback(ptr, KEY_MACHINE_EVENT_RELEASE, ptr->callback_arg);
+                // 触发长按释放事件
+                if (ptr->callback && (ptr->event_mask & KEY_EVENT_MASK_LONG_PRESS_RELEASE)) {
+                    ptr->callback(ptr, KEY_MACHINE_EVENT_LONG_PRESS_RELEASE, ptr->callback_arg);
                 }
             } else if (ptr->press_time_ms >= ptr->config.ultra_long_press_ms) {
                 // 升级到超长按状态
@@ -153,8 +130,9 @@ void KeyMachine_FSM(KeyMachinePtr_t ptr) {
             // 超长按状态
             if (!is_triggered) {
                 ptr->state = KEY_STATE_IDLE;
-                if (ptr->callback && (ptr->event_mask & KEY_EVENT_MASK_RELEASE)) {
-                    ptr->callback(ptr, KEY_MACHINE_EVENT_RELEASE, ptr->callback_arg);
+                // 触发超长按释放事件
+                if (ptr->callback && (ptr->event_mask & KEY_EVENT_MASK_ULTRA_LONG_PRESS_RELEASE)) {
+                    ptr->callback(ptr, KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE, ptr->callback_arg);
                 }
             }
             break;
@@ -384,7 +362,7 @@ void KeyManager_Process(void) {
 KeyMachinePtr_t KeyManager_CreateKey(const KeyConfig_t* config, 
                                      KeyCallback_t callback, 
                                      void* arg) {
-    // 注意：此函数现在主要用于兼容性
+    // 此函数现在主要用于兼容性
     // 实际使用中应该直接使用 KeyMachine_Initialize 和静态实例
     return NULL; // 返回NULL表示不支持动态分配
 }

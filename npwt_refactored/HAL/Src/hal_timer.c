@@ -20,13 +20,13 @@ static volatile uint32_t g_system_tick_ms = 0;
 volatile unsigned char FLG_SYS_10MS = 0;
 
 /**
- * 函数: HAL_Timer_Init
+ * 函数: HAL_Timer0_Init
  * 功能: 初始化Timer0为10ms定时器
  * 说明: Fosc=32MHz, Timer0时钟=Fosc/4=8MHz, 预分频1:8
  *       10ms需要: 8MHz/8 × 0.01s = 10000计数
  *       初值 = 65536 - 10000 = 55536 = 0xD8F0
  */
-void HAL_Timer_Init(void)
+void HAL_Timer0_Init(void)
 {
 	INTCON = 0x20;      // 使能Timer0中断
 	INTCON2 = 0x80;     // 
@@ -36,10 +36,10 @@ void HAL_Timer_Init(void)
 }
 
 /**
- * 函数: HAL_PWM_Init
+ * 函数: HAL_Timer3_Init
  * 功能: 初始化Timer3为PWM
  */
-void HAL_PWM_Init(void)
+void HAL_Timer3_Init(void)
 {
 	/* 完全按照未重构工程 SYS_TMR3_Ini() 的寄存器值 */
 	T3CON = 0x34;           // Timer3配置（与未重构工程一致）

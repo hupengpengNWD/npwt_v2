@@ -124,7 +124,7 @@ typedef struct {
 	uint16_t lock_timer;            // 锁定计时器
 } UIData_t;
 
-/* 注意：语言选项已移除，新架构仅支持英语显示 */
+/* 语言选项已移除，仅支持英语显示 */
 
 /* 注意：FaultDetector_t 和 BatteryManager_t 类型别名定义在下方 */
 

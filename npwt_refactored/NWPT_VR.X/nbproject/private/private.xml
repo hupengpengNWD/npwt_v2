@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_button.c</file>
-            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/display.c</file>
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Core/Src/main.c</file>
-            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/queue.c</file>
-            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/HAL/Src/hal_lcd.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_pressure.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/pid.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/HAL/Src/hal_timer.c</file>
         </group>
     </open-files>
 </project-private>

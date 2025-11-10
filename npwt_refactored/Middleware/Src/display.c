@@ -41,10 +41,10 @@ typedef struct {
  ****************************************************************************/
 
 static st_queue g_display_queue;              // 循环队列对象
-static uint8_t g_display_queue_buffer[(8 + 1) * sizeof(DisplayEvent_t)];
+static uint8_t g_display_queue_buffer[(15 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
-// 注意：height字段在Display_SendASCII中用作每个字符的字节数来计算偏移
+// height字段在Display_SendASCII中用作每个字符的字节数来计算偏移
 // 对于16x32字体：32像素高 = 4页，每字符字节数 = 16列 × 4页 = 64字节
 static const FontInfo_t g_font_info[] = {
     {6, 12, NULL, en_char_6x12},           // 6x12: 每字符12字节
@@ -862,7 +862,7 @@ static void Display_ShowStartupInterfaceInternal(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示 "-130 mmhg" 使用 6x12 字体（行坐标 0，占用 0-11 行，共 12 像素高）
-    Display_ShowStringInternal(0, 0, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "VR NPWT DEVICE", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /****************************************************************************

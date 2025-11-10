@@ -1,8 +1,8 @@
 
 /**
   ******************************************************************************
-  * @file:    lib_finite_state_machine.h
-  * @author:  hupengepng
+  * @file:    fsm.h
+  * @author:  hupengpeng
   * @date:    
   * @email:   hupengpengHPP@outlook.com
   ******************************************************************************
@@ -68,7 +68,7 @@ typedef struct fsm {
     void (*transit)(struct fsm*, uint8_t);
 } st_fsm, *st_fsm_ptr;
 
-#pragma pack()
+//#pragma pack()
 
 /* 函数声明 */
 uint8_t fsm_create(st_fsm_ptr ptr);

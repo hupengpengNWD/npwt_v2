@@ -6,6 +6,8 @@
         <itemPath>../Application/Inc/app_beep.h</itemPath>
         <itemPath>../Application/Inc/app_button.h</itemPath>
         <itemPath>../Application/Inc/app_ui.h</itemPath>
+        <itemPath>../Application/Inc/app_battery.h</itemPath>
+        <itemPath>../Application/Inc/app_pressure.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
         <itemPath>../Core/Inc/mcu_config.h</itemPath>
@@ -26,6 +28,8 @@
         <itemPath>../Middleware/Inc/display.h</itemPath>
         <itemPath>../Middleware/Inc/queue.h</itemPath>
         <itemPath>../Middleware/Inc/fsm.h</itemPath>
+        <itemPath>../Middleware/Inc/pwm.h</itemPath>
+        <itemPath>../Middleware/Inc/pid.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
@@ -33,6 +37,8 @@
         <itemPath>../Application/Src/app_beep.c</itemPath>
         <itemPath>../Application/Src/app_button.c</itemPath>
         <itemPath>../Application/Src/app_ui.c</itemPath>
+        <itemPath>../Application/Src/app_battery.c</itemPath>
+        <itemPath>../Application/Src/app_pressure.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Code" projectFiles="true">
         <itemPath>../Core/Src/main.c</itemPath>
@@ -48,6 +54,7 @@
         <itemPath>../Library/lcd_font_data_7x14.c</itemPath>
         <itemPath>../Library/lcd_font_data_6x12.c</itemPath>
         <itemPath>../Library/lcd_icon_data.c</itemPath>
+        <itemPath>../Library/lcd_font_data_16x32.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middeleware" projectFiles="true">
         <itemPath>../Middleware/Src/pushpull.c</itemPath>
@@ -56,6 +63,8 @@
         <itemPath>../Middleware/Src/key_machine.c</itemPath>
         <itemPath>../Middleware/Src/queue.c</itemPath>
         <itemPath>../Middleware/Src/fsm.c</itemPath>
+        <itemPath>../Middleware/Src/pwm.c</itemPath>
+        <itemPath>../Middleware/Src/pid.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript" displayName="链接器文件" projectFiles="true">

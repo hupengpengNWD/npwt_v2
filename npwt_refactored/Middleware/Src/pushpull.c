@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file:    pushpull.c
-  * @author:  Assistant
+  * @author:  hupengpeng
   * @date:    2025-01-23
   * @brief:   蜂鸣器控制组件实现（基于lib_gpio_output架构）
   ******************************************************************************
@@ -125,7 +125,7 @@ void PushPull_SetMode(PushPullPtr_t ptr, PushPullMode_e mode) {
         ptr->seq_index = 0;
         ptr->tick = 0;
     }
-    // 注意：对于 PUSHPULL_MODE_SEQUENCE 模式，不重置执行状态
+    // 对于 PUSHPULL_MODE_SEQUENCE 模式，不重置执行状态
     // 因为 PushPull_SetSequence() 和 PushPull_Set2DSequence() 已经正确设置了状态
 }
 

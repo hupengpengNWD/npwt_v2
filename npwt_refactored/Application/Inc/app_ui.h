@@ -110,7 +110,7 @@ void AppUI_Init(void);
  */
 void AppUI_Process(void);
 
-/* 注意：AppUI_OnKeyEvent函数已移除
+/* AppUI_OnKeyEvent函数已移除
  * 按键事件现在通过app_button模块的队列机制传递
  * app_ui模块通过AppUI_Process从队列读取并处理事件
  */

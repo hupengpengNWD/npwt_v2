@@ -329,6 +329,7 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     
     ctx->current_state = UI_STATE_SYS;
     ctx->work_mode_backup = UI_STATE_LIX;  // 默认连续模式
+    AppPressure_StopControl();
     AppUI_Display_SYS();
 }
 
@@ -343,6 +344,7 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_WAT;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_WAT();
 
@@ -365,6 +367,7 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_LIX;
     ctx->work_mode_backup = UI_STATE_LIX;
+    AppPressure_StartControl(ctx->pressure_high, APP_PRESSURE_CONTROL_MODE_CONTINUOUS);
     Display_Clear();
     AppUI_Display_LIX();
 }
@@ -381,6 +384,7 @@ static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_JIX;
     ctx->work_mode_backup = UI_STATE_JIX;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_JIX();
 }
@@ -396,6 +400,7 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_ZHT;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_ZHT();
 }
@@ -431,6 +436,7 @@ static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_SET();
 }
@@ -446,12 +452,12 @@ static void AppUI_StateEntry_SET_SecondLevel(void* arg, st_fsm_event event)
     (void)event;
     
     // 根据work_mode_backup选择进入哪个状态
-    // 注意：FSM会在动作函数执行后设置next_state，所以我们在这里直接设置状态
+    // FSM会在动作函数执行后设置next_state，所以我们在这里直接设置状态
     // 但FSM仍然会使用转换表中的next_state，所以我们需要两个不同的转换表项
     // 或者，我们可以在这里直接调用对应的状态入口函数，然后让FSM使用一个通用的next_state
     
     // 由于转换表已经设置了next_state = UI_STATE_SET_PRESSURE，我们需要确保状态正确
-    // 实际上，更好的方法是创建两个不同的转换表项，但这里我们使用一个通用的方法：
+    // 实际上，更好的方法是创建两个不同的转换表项，但这里使用一个通用的方法：
     // 在动作函数中设置正确的状态，然后FSM会使用next_state（但会被覆盖）
     
     // 直接调用对应的状态入口函数，它们会设置正确的状态
@@ -475,6 +481,7 @@ static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_PRESSURE;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_SET_Pressure();
 }
@@ -490,6 +497,7 @@ static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_HP_PRESSURE;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_SET_HP_Pressure();
 }
@@ -505,6 +513,7 @@ static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event)
     
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_LP_PRESSURE;
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_SET_LP_Pressure();
 }
@@ -521,6 +530,7 @@ static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_TIME;
     ctx->time_edit_high = true;  // 重置编辑标志
+    AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_SET_Time();
 }

@@ -19,11 +19,11 @@
  ****************************************************************************/
 
 /**
- * 函数: HAL_Timer_Init
+ * 函数: HAL_Timer0_Init
  * 功能: 初始化系统定时器
  * 说明: Timer0用于20ms系统滴答
  */
-void HAL_Timer_Init(void);
+void HAL_Timer0_Init(void);
 
 /**
  * 函数: HAL_Timer1_Init
@@ -63,11 +63,11 @@ uint32_t HAL_Timer_GetTick(void);
 extern volatile unsigned char FLG_SYS_10MS;
 
 /**
- * 函数: HAL_PWM_Init
+ * 函数: HAL_Timer3_Init
  * 功能: 初始化PWM模块
  * 说明: Timer3用于PWM控制气泵速度
  */
-void HAL_PWM_Init(void);
+void HAL_Timer3_Init(void);
 
 /**
  * 函数: HAL_PWM_SetDuty

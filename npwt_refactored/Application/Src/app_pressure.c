@@ -42,7 +42,7 @@
 #define PRESSURE_CONTROL_TARGET_OFFSET    (4U)      // 控制用目标偏移（防止停泵后下跌）
 #define PRESSURE_CONTROL_TARGET_MAX       320U
 #define PRESSURE_CONTROL_SAFE_LIMIT       320U       // 超出则强制泄气
-#define PRESSURE_CONTROL_TARGET_MIN       0U
+#define PRESSURE_CONTROL_TARGET_MIN       0U        // 允许的最小控制目标（mmHg）
 
 /****************************************************************************
  * 内部变量
@@ -50,35 +50,27 @@
 
 /* 滤波缓冲区（3次采样） */
 static uint16_t g_pressure_filter_buf[PRESSURE_FILTER_COUNT];
-static uint8_t g_pressure_filter_index = 0;  // 当前缓冲区索引
-
-/* ADC原始值（滤波后） */
-static uint16_t g_pressure_adc_filtered = 0;  // 滤波后的ADC值
-
-/* ADC原始值（最后一次采样，未滤波） */
-static uint16_t g_pressure_adc_raw = 0;  // 最后一次原始ADC值
-
-/* 零点偏移值（adc_zero） */
-static uint16_t g_pressure_zero_offset = 0;  // 零点偏移ADC值
-
-/* 延迟校准标志：在下一次UpdateADC时更新零点 */
-static bool g_calibration_pending = false;
+static uint8_t g_pressure_filter_index = 0;   // 当前缓冲区索引
+static uint16_t g_pressure_adc_filtered = 0;  // ADC原始值（滤波后）
+static uint16_t g_pressure_adc_raw = 0;       // ADC原始值（最后一次采样，未滤波）
+static uint16_t g_pressure_zero_offset = 0;   // 零点偏移值（adc_zero）
+static bool g_calibration_pending = false;    // 延迟校准标志：在下一次UpdateADC时更新零点
 
 /* 转换系数（valueK） */
 static float g_pressure_conversion_factor = PRESSURE_CONVERSION_FACTOR_DEFAULT;  // 默认2.75
 
 /* PID 控制相关变量 */
-static PIDController_t g_pressure_pid;
-static bool g_pressure_control_enabled = false;
-static bool g_pressure_control_fault = false;
-static AppPressureControlMode_e g_pressure_control_mode = APP_PRESSURE_CONTROL_MODE_CONTINUOUS;
-static uint16_t g_pressure_control_user_target = 0;
-static uint16_t g_pressure_control_target = 0;
-static float g_pressure_last_output = 0.0f;
-static uint16_t g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
-static bool g_pressure_hold_active = false;
-static float g_pressure_mmHg_filtered = 0.0f;
-static bool g_pressure_mmHg_initialized = false;
+static PIDController_t g_pressure_pid;                     // PID 控制器实例
+static bool g_pressure_control_enabled = false;            // 是否启用压力闭环控制
+static bool g_pressure_control_fault = false;              // 控制是否进入故障状态
+static AppPressureControlMode_e g_pressure_control_mode = APP_PRESSURE_CONTROL_MODE_CONTINUOUS; // 当前控制模式
+static uint16_t g_pressure_control_user_target = 0;        // 用户设定的目标压力（mmHg）
+static uint16_t g_pressure_control_target = 0;             // 应用偏移后的内部目标压力
+static float g_pressure_last_output = 0.0f;                // 上一次 PID 输出值
+static uint16_t g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE; // 当前动态最小占空比
+static bool g_pressure_hold_active = false;                // 是否处于保持（停泵）状态
+static float g_pressure_mmHg_filtered = 0.0f;              // 平滑处理后的压力值
+static bool g_pressure_mmHg_initialized = false;           // 平滑滤波是否已经初始化
 
 /****************************************************************************
  * 内部函数声明
@@ -104,7 +96,17 @@ static void PressureControl_ResetOutputs(void);
 static void PressureControl_ForceRelease(void);
 static void PressureControl_ApplyOutput(float control_output);
 static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg);
+/**
+ * @brief  在用户设定值基础上应用控制偏移
+ * @param  user_target_mmHg 用户设定的目标压力（已限幅）
+ * @return 应用偏移后的内部控制目标，自动限制在安全范围内
+ */
 static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg);
+/**
+ * @brief 根据误差大小选择动态最小占空比
+ * @param abs_error 目标与实测的误差绝对值（mmHg）
+ * @return 保证泵有足够扭矩的最小 PWM 占空比（0~PWM_DUTY_MAX）
+ */
 static uint16_t PressureControl_SelectMinDuty(float abs_error);
 
 /****************************************************************************
@@ -157,16 +159,16 @@ void AppPressure_Process(void* user_data)
 {
     (void)user_data;  /* 定时器回调未传递上下文 */
 
-    /* Step①：控制未启用直接返回，避免多余计算 */
+    /* Step1：控制未启用直接返回，避免多余计算 */
     if (!g_pressure_control_enabled) {
         return;
     }
 
-    /* Step②：获取当前压力值（单位 mmHg，已滤波且扣除零点） */
+    /* Step2：获取当前压力值（单位 mmHg，已滤波且扣除零点） */
     uint16_t current_pressure = AppPressure_GetPressureValue();
 
     /*
-     * Step③：安全保护
+     * Step3：安全保护
      * - g_pressure_adc_raw == 0xFFFF 视为 ADC 读取失败
      * - current_pressure 超过安全上限（320mmHg）视为过压
      * 触发时立即停止闭环、打开阀门泄压，并置 fault 标志
@@ -178,7 +180,13 @@ void AppPressure_Process(void* user_data)
 //        return;
 //    }
 
-    /* Step④：计算目标与实测的偏差，进入 PID 计算链 */
+    /* Step4：计算目标与实测的偏差，进入 PID 计算链 */
+    /*
+     * setpoint  ：内部控制目标，已包含偏移量
+     * measurement ：当前测得的压力值
+     * error      ：正值表示需要继续抽气，负值表示压力已经超出目标
+     * abs_error  ：误差的绝对值，用于动态占空比等后续逻辑
+     */
     float setpoint = (float)g_pressure_control_target;
     float measurement = (float)current_pressure;
     float error = setpoint - measurement;
@@ -197,7 +205,7 @@ void AppPressure_Process(void* user_data)
             return;
         }
     }
-    /* Step⑤：死区判断，目标值 ~ 目标值+5mmHg 视为达标，重置 PID 防止抖动 */
+    /* Step5：死区判断，目标值 ~ 目标值+5mmHg 视为达标，重置 PID 防止抖动 */
     if ((error <= 0.0f) && (current_pressure >= (uint16_t)(g_pressure_control_target + PRESSURE_CONTROL_DEADBAND_MMHG))) {
         PID_Reset(&g_pressure_pid);
         g_pressure_last_output = 0.0f;
@@ -207,11 +215,11 @@ void AppPressure_Process(void* user_data)
         return;
     }
 
-    /* Step⑥：执行 PID 运算，输出范围 -100 ~ 100，正值抽气，负值泄气 */
+    /* Step6：执行 PID 运算，输出范围 -100 ~ 100，正值抽气，负值泄气 */
     float output = PID_Update(&g_pressure_pid, setpoint, measurement);
     g_pressure_last_output = output;
 
-    /* Step⑦：把 PID 输出映射到实际执行器（泵 PWM + 双阀门） */
+    /* Step7：把 PID 输出映射到实际执行器（泵 PWM + 双阀门） */
     g_pressure_min_duty_current = PressureControl_SelectMinDuty(abs_error);
     PressureControl_ApplyOutput(output);
 }
@@ -582,6 +590,11 @@ static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg)
     return target_mmHg;
 }
 
+/**
+ * @brief  在用户设定值基础上应用控制偏移
+ * @param  user_target_mmHg 用户设定的目标压力（已限幅）
+ * @return 应用偏移后的内部控制目标，自动限制在安全范围内
+ */
 static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg)
 {
     uint32_t adjusted = (uint32_t)user_target_mmHg + (uint32_t)PRESSURE_CONTROL_TARGET_OFFSET;
@@ -591,6 +604,11 @@ static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg)
     return (uint16_t)adjusted;
 }
 
+/**
+ * @brief 根据误差大小选择动态最小占空比
+ * @param abs_error 目标与实测的误差绝对值（mmHg）
+ * @return 保证泵有足够扭矩的最小 PWM 占空比（0~PWM_DUTY_MAX）
+ */
 static uint16_t PressureControl_SelectMinDuty(float abs_error)
 {
     if (abs_error >= 25.0f) {

@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file:    key_machine.h
-  * @author:  Refactored from lib_gpio_input
+  * @author:  hupengpeng
   * @date:    2025-01-22
   * @brief:   按键状态机模块 - 基于lib_gpio_input重构
   ******************************************************************************
@@ -41,24 +41,20 @@ typedef enum {
 /* 按键事件 */
 typedef enum {
     KEY_MACHINE_EVENT_NONE = 0,        // 无事件
-    KEY_MACHINE_EVENT_PRESS = 1,       // 按下事件：按键刚被按下时（去抖完成后）立即触发，不等待时间判断
-    KEY_MACHINE_EVENT_SHORT_PRESS = 2, // 短按事件：按键按下后立即释放（时间 < short_press_ms），用于快速点击操作
     KEY_MACHINE_EVENT_LONG_PRESS = 4,  // 长按事件：按键按下时间达到 long_press_ms（默认1000ms），用于开机、特殊功能触发
     KEY_MACHINE_EVENT_ULTRA_LONG_PRESS = 8, // 超长按事件：按键按下时间达到 ultra_long_press_ms（默认3000ms），用于关机、紧急功能
-    KEY_MACHINE_EVENT_RELEASE = 16,    // 释放事件：按键从任何状态释放时触发，用于清理操作、状态重置
-    KEY_MACHINE_EVENT_CLICK = 32       // 单击事件：按键按下后释放，但按下时间 ≥ short_press_ms，用于确认性点击操作
+    KEY_MACHINE_EVENT_LONG_PRESS_RELEASE = 16,    // 长按释放事件：长按后释放时触发
+    KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE = 32  // 超长按释放事件：超长按后释放时触发
 } KeyMachineEvent_e;
 
 /* 按键事件掩码 */
 typedef enum {
     KEY_EVENT_MASK_NONE        = 0x00,
-    KEY_EVENT_MASK_PRESS       = 0x01,
-    KEY_EVENT_MASK_SHORT_PRESS = 0x02,
     KEY_EVENT_MASK_LONG_PRESS  = 0x04,
     KEY_EVENT_MASK_ULTRA_LONG_PRESS = 0x08,
-    KEY_EVENT_MASK_RELEASE     = 0x10,
-    KEY_EVENT_MASK_CLICK       = 0x20,
-    KEY_EVENT_MASK_ALL         = 0x3F
+    KEY_EVENT_MASK_LONG_PRESS_RELEASE = 0x10,
+    KEY_EVENT_MASK_ULTRA_LONG_PRESS_RELEASE = 0x20,
+    KEY_EVENT_MASK_ALL         = 0x3C  // 0x04 | 0x08 | 0x10 | 0x20
 } KeyEventMask_e;
 
 /* 按键配置参数 */
