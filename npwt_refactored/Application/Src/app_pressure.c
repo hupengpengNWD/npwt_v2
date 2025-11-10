@@ -118,7 +118,7 @@ void AppPressure_Init(void)
     g_pressure_zero_offset = 0;
     g_pressure_conversion_factor = PRESSURE_CONVERSION_FACTOR_DEFAULT;
 
-    PID_Init(&g_pressure_pid, 0.8f, 0.12f, 0.02f, PRESSURE_CONTROL_SAMPLE_TIME_S);
+    PID_Init(&g_pressure_pid, 1.0f, 0.12f, 0.00f, PRESSURE_CONTROL_SAMPLE_TIME_S);
     PID_SetOutputLimits(&g_pressure_pid, PRESSURE_CONTROL_OUTPUT_MIN, PRESSURE_CONTROL_OUTPUT_MAX);
     PID_SetIntegralLimits(&g_pressure_pid, PRESSURE_CONTROL_OUTPUT_MIN, PRESSURE_CONTROL_OUTPUT_MAX);
 
