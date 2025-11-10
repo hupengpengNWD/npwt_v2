@@ -28,7 +28,7 @@
  * 内部常量定义
  ****************************************************************************/
 
-#define PRESSURE_FILTER_COUNT      3   // 滤波采样次数（参考未重构工程COUNT_PS）
+#define PRESSURE_FILTER_COUNT      5   // 滤波采样次数（10ms采样 * 5点滑动平均）
 
 #define PRESSURE_CONTROL_SAMPLE_TIME_S    (0.010f)   // 控制循环采样周期（10ms）
 #define PRESSURE_CONTROL_DEADBAND_MMHG    (5.0f)     // 允许的稳态误差
@@ -36,6 +36,8 @@
 #define PRESSURE_CONTROL_OUTPUT_MAX       (100.0f)
 #define PRESSURE_CONTROL_MIN_DUTY_VALUE   700U       // 70% duty = 700/1000（动态调节基准）
 #define PRESSURE_CONTROL_VALVE_THRESHOLD  (5.0f)     // 控制输出小于该值则不开阀
+#define PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG  (5.0f)  // 再次介入需要超过的误差
+#define PRESSURE_MM_FILTER_ALPHA          (0.25f)   // 额外一阶IIR平滑系数（0~1）
 #define PRESSURE_CONTROL_TARGET_MIN       0U
 #define PRESSURE_CONTROL_TARGET_MAX       320U
 #define PRESSURE_CONTROL_SAFE_LIMIT       320U       // 超出则强制泄气
@@ -71,6 +73,9 @@ static AppPressureControlMode_e g_pressure_control_mode = APP_PRESSURE_CONTROL_M
 static uint16_t g_pressure_control_target = 0;
 static float g_pressure_last_output = 0.0f;
 static uint16_t g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
+static bool g_pressure_hold_active = false;
+static float g_pressure_mmHg_filtered = 0.0f;
+static bool g_pressure_mmHg_initialized = false;
 
 /****************************************************************************
  * 内部函数声明
@@ -129,6 +134,10 @@ void AppPressure_Init(void)
     g_pressure_control_mode = APP_PRESSURE_CONTROL_MODE_CONTINUOUS;
     g_pressure_control_target = PRESSURE_CONTROL_TARGET_MIN;
     g_pressure_last_output = 0.0f;
+    g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
+    g_pressure_hold_active = false;
+    g_pressure_mmHg_filtered = 0.0f;
+    g_pressure_mmHg_initialized = false;
 
     PressureControl_ResetOutputs();
 }
@@ -168,14 +177,22 @@ void AppPressure_Process(void* user_data)
     float setpoint = (float)g_pressure_control_target;
     float measurement = (float)current_pressure;
     float error = setpoint - measurement;
-
-    /* Step⑤：死区判断，±2mmHg 以内视为达标，重置 PID 防止抖动 */
     float abs_error = (error >= 0.0f) ? error : -error;
-    if (abs_error <= PRESSURE_CONTROL_DEADBAND_MMHG) {
+    if (g_pressure_hold_active) {
+        if (error >= PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG) {
+            g_pressure_hold_active = false;
+            PID_Reset(&g_pressure_pid);
+        } else {
+            return;
+        }
+    }
+    /* Step⑤：死区判断，目标值 ~ 目标值+5mmHg 视为达标，重置 PID 防止抖动 */
+    if ((error <= 0.0f) && (error >= -PRESSURE_CONTROL_DEADBAND_MMHG)) {
         PID_Reset(&g_pressure_pid);
         g_pressure_last_output = 0.0f;
         PressureControl_ApplyOutput(0.0f);
         g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
+        g_pressure_hold_active = true;
         return;
     }
 
@@ -216,8 +233,23 @@ void AppPressure_UpdateADC(uint16_t adc_value)
  */
 uint16_t AppPressure_GetPressureValue(void)
 {
-    /* 将滤波后的ADC值转换为mmHg */
-    return PressureConvert_ADCToMMHG(g_pressure_adc_filtered);
+    uint16_t instantaneous = PressureConvert_ADCToMMHG(g_pressure_adc_filtered);
+    float sample = (float)instantaneous;
+
+    if (!g_pressure_mmHg_initialized) {
+        g_pressure_mmHg_filtered = sample;
+        g_pressure_mmHg_initialized = true;
+    } else {
+        g_pressure_mmHg_filtered += PRESSURE_MM_FILTER_ALPHA * (sample - g_pressure_mmHg_filtered);
+    }
+
+    if (g_pressure_mmHg_filtered < 0.0f) {
+        g_pressure_mmHg_filtered = 0.0f;
+    } else if (g_pressure_mmHg_filtered > (float)PRESSURE_CONTROL_TARGET_MAX) {
+        g_pressure_mmHg_filtered = (float)PRESSURE_CONTROL_TARGET_MAX;
+    }
+
+    return (uint16_t)(g_pressure_mmHg_filtered + 0.5f);
 }
 
 /**
@@ -299,6 +331,7 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
 
     PID_Reset(&g_pressure_pid);
     PressureControl_ResetOutputs();
+    g_pressure_hold_active = false;
 
     g_pressure_control_enabled = true;
 }
@@ -314,6 +347,7 @@ void AppPressure_StopControl(void)
     g_pressure_last_output = 0.0f;
     PID_Reset(&g_pressure_pid);
     PressureControl_ResetOutputs();
+    g_pressure_hold_active = false;
 }
 
 /**
@@ -438,6 +472,7 @@ static void PressureControl_ResetOutputs(void)
     HAL_Valve2_Close();
     HAL_Pump_Stop();
     g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
+    g_pressure_hold_active = false;
 }
 
 /**
@@ -454,6 +489,7 @@ static void PressureControl_ForceRelease(void)
     HAL_Valve1_Open();
     HAL_Valve2_Open();
     g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
+    g_pressure_hold_active = false;
 }
 
 /**
@@ -539,12 +575,15 @@ static uint16_t PressureControl_SelectMinDuty(float abs_error)
         return 360U;   /* 误差中等，提高到 36% 保障抽气 */
     }
     if (abs_error >= 10.0f) {
-        return 420U;   /* 比较接近目标时维持 42% */
+        return 500U;   /* 误差 10 左右仍需至少 50% 才能持续抽气 */
     }
     if (abs_error >= 7.0f) {
-        return 460U;   /* 更贴近目标时提高到 46% */
+        return 550U;   /* 更接近目标时拉高到 55% 保证扭矩 */
     }
-    return 500U;       /* 刚超过死区仍保持 50%，避免停滞 */
+    if (abs_error >= 5.0f) {
+        return 600U;   /* 距离死区很近仍保持 60%，避免停顿 */
+    }
+    return 650U;       /* 极近目标也维持较高占空比，直至进入死区 */
 }
  
 
