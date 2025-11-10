@@ -23,6 +23,7 @@
 #include "../../Middleware/Inc/pid.h"
 #include "../../Middleware/Inc/pwm.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 /****************************************************************************
  * 内部常量定义
@@ -38,9 +39,10 @@
 #define PRESSURE_CONTROL_VALVE_THRESHOLD  (5.0f)     // 控制输出小于该值则不开阀
 #define PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG  (5.0f)  // 再次介入需要超过的误差
 #define PRESSURE_MM_FILTER_ALPHA          (0.25f)   // 额外一阶IIR平滑系数（0~1）
-#define PRESSURE_CONTROL_TARGET_MIN       0U
+#define PRESSURE_CONTROL_TARGET_OFFSET    (4U)      // 控制用目标偏移（防止停泵后下跌）
 #define PRESSURE_CONTROL_TARGET_MAX       320U
 #define PRESSURE_CONTROL_SAFE_LIMIT       320U       // 超出则强制泄气
+#define PRESSURE_CONTROL_TARGET_MIN       0U
 
 /****************************************************************************
  * 内部变量
@@ -70,6 +72,7 @@ static PIDController_t g_pressure_pid;
 static bool g_pressure_control_enabled = false;
 static bool g_pressure_control_fault = false;
 static AppPressureControlMode_e g_pressure_control_mode = APP_PRESSURE_CONTROL_MODE_CONTINUOUS;
+static uint16_t g_pressure_control_user_target = 0;
 static uint16_t g_pressure_control_target = 0;
 static float g_pressure_last_output = 0.0f;
 static uint16_t g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
@@ -101,6 +104,7 @@ static void PressureControl_ResetOutputs(void);
 static void PressureControl_ForceRelease(void);
 static void PressureControl_ApplyOutput(float control_output);
 static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg);
+static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg);
 static uint16_t PressureControl_SelectMinDuty(float abs_error);
 
 /****************************************************************************
@@ -132,6 +136,7 @@ void AppPressure_Init(void)
     g_pressure_control_enabled = false;
     g_pressure_control_fault = false;
     g_pressure_control_mode = APP_PRESSURE_CONTROL_MODE_CONTINUOUS;
+    g_pressure_control_user_target = PRESSURE_CONTROL_TARGET_MIN;
     g_pressure_control_target = PRESSURE_CONTROL_TARGET_MIN;
     g_pressure_last_output = 0.0f;
     g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
@@ -179,7 +184,13 @@ void AppPressure_Process(void* user_data)
     float error = setpoint - measurement;
     float abs_error = (error >= 0.0f) ? error : -error;
     if (g_pressure_hold_active) {
-        if (error >= PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG) {
+        uint16_t reengage_threshold = 0U;
+        uint16_t threshold_offset = (uint16_t)PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG;
+        if (g_pressure_control_user_target > threshold_offset) {
+            reengage_threshold = (uint16_t)(g_pressure_control_user_target - threshold_offset);
+        }
+
+        if (current_pressure <= reengage_threshold) {
             g_pressure_hold_active = false;
             PID_Reset(&g_pressure_pid);
         } else {
@@ -187,7 +198,7 @@ void AppPressure_Process(void* user_data)
         }
     }
     /* Step⑤：死区判断，目标值 ~ 目标值+5mmHg 视为达标，重置 PID 防止抖动 */
-    if ((error <= 0.0f) && (error >= -PRESSURE_CONTROL_DEADBAND_MMHG)) {
+    if ((error <= 0.0f) && (current_pressure >= (uint16_t)(g_pressure_control_target + PRESSURE_CONTROL_DEADBAND_MMHG))) {
         PID_Reset(&g_pressure_pid);
         g_pressure_last_output = 0.0f;
         PressureControl_ApplyOutput(0.0f);
@@ -324,7 +335,10 @@ uint16_t AppPressure_GetZeroOffset(void)
  */
 void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mode)
 {
-    g_pressure_control_target = PressureControl_ClampTarget(target_mmHg);
+    uint16_t clamped_user_target = PressureControl_ClampTarget(target_mmHg);
+    g_pressure_control_user_target = clamped_user_target;
+    uint16_t adjusted_target = PressureControl_ApplyOffset(clamped_user_target);
+    g_pressure_control_target = PressureControl_ClampTarget(adjusted_target);
     g_pressure_control_mode = mode;
     g_pressure_control_fault = false;
     g_pressure_last_output = 0.0f;
@@ -347,7 +361,6 @@ void AppPressure_StopControl(void)
     g_pressure_last_output = 0.0f;
     PID_Reset(&g_pressure_pid);
     PressureControl_ResetOutputs();
-    g_pressure_hold_active = false;
 }
 
 /**
@@ -357,7 +370,10 @@ void AppPressure_StopControl(void)
  */
 void AppPressure_UpdateTarget(uint16_t target_mmHg)
 {
-    g_pressure_control_target = PressureControl_ClampTarget(target_mmHg);
+    uint16_t clamped_user_target = PressureControl_ClampTarget(target_mmHg);
+    g_pressure_control_user_target = clamped_user_target;
+    uint16_t adjusted_target = PressureControl_ApplyOffset(clamped_user_target);
+    g_pressure_control_target = PressureControl_ClampTarget(adjusted_target);
 }
 
 /**
@@ -564,6 +580,15 @@ static uint16_t PressureControl_ClampTarget(uint16_t target_mmHg)
         return PRESSURE_CONTROL_TARGET_MIN;
     }
     return target_mmHg;
+}
+
+static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg)
+{
+    uint32_t adjusted = (uint32_t)user_target_mmHg + (uint32_t)PRESSURE_CONTROL_TARGET_OFFSET;
+    if (adjusted > PRESSURE_CONTROL_TARGET_MAX) {
+        adjusted = PRESSURE_CONTROL_TARGET_MAX;
+    }
+    return (uint16_t)adjusted;
 }
 
 static uint16_t PressureControl_SelectMinDuty(float abs_error)
