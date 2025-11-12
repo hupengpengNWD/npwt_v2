@@ -145,6 +145,12 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
                 else if (g_ui_context.current_state == UI_STATE_SET_HP_PRESSURE) {
                     return UI_EVENT_CONFIRM_LONG;  // 间歇模式高压设置→低压设置
                 }
+                else if (g_ui_context.current_state == UI_STATE_SET_LP_PRESSURE) {
+                    return UI_EVENT_CONFIRM_LONG;  // 间歇模式低压设置→时间设置
+                }
+                else if (g_ui_context.current_state == UI_STATE_SET_TIME) {
+                    return UI_EVENT_CONFIRM_LONG;  // 间歇模式时间设置：切换编辑项
+                }
                 // 其他状态下默认为普通确认
                 return UI_EVENT_CONFIRM;
             case 1: return UI_EVENT_MENU_UP;      // 上键长按释放：菜单向上/参数增加
@@ -340,7 +346,7 @@ const st_fsm_transition g_ui_transition_table[32] = {
     
     [25] = {
         .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
-        .trigger_event = UI_EVENT_COUNT,  /* 触发事件：确认键 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
         .action_func   = AppUI_StateEntry_SET_Time,  /* 动作函数：进入时间设置界面 */
         .next_state    = UI_STATE_SET_TIME  /* 下一状态：间歇模式时间设置界面 */
     },
@@ -375,7 +381,7 @@ const st_fsm_transition g_ui_transition_table[32] = {
     
     [30] = {
         .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
-        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
+        .trigger_event = UI_EVENT_COUNT,  /* 触发事件：确认键 */
         .action_func   = AppUI_StateEntry_SET,  /* 动作函数：返回设置模式 */
         .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
     },
@@ -988,8 +994,8 @@ static void AppUI_Display_SET_Time(void)
 {
     // 参考未重构工程：显示"Intermittent"、"HP Time"和"LP Time"
     Display_ShowString(16, 0, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 2, "HP Time :", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 4, "LP Time :", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 2, "HP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 4, "LP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示高压时间（参考未重构工程的DISP_Dig14_16）
     Display_ShowNumber(75, 2, g_ui_context.time_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
