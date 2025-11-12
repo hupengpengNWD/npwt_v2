@@ -23,10 +23,15 @@
 #define TIME_LOW_MIN          1      // 最小低压时间（分钟）
 #define TIME_STEP             1      // 时间调整步进值（分钟）
 
-#define PRESSURE_SET_DEFAULT      125    // 默认压力值（mmHg，设置界面使用）
+#define PRESSURE_SET_DEFAULT      120    // 默认压力值（mmHg，设置界面使用）
 #define PRESSURE_LOW_DEFAULT      40     // 默认低压值（mmHg）
 #define TIME_HIGH_DEFAULT         5      // 默认高压时间（分钟）
 #define TIME_LOW_DEFAULT          5      // 默认低压时间（分钟）
+
+// 实时压力显示刷新控制
+#define UI_PRESSURE_REFRESH_INTERVAL_TICKS   50    // 连续模式压力刷新间隔（10ms Tick）；50=500ms
+#define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   1     // 最小刷新差值阈值（mmHg）
+
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../Inc/app_pressure.h"  // 压力管理模块
@@ -54,6 +59,7 @@ static SoftTimerHandle_t g_init_timeout_timer = 0;
 
 /* 连续模式界面上次显示的实时压力值（用于检测显示是否需要刷新） */
 static uint16_t g_last_display_pressure = 0xFFFF;
+static uint16_t g_pressure_refresh_tick = 0;  // 连续模式压力刷新计数器（10ms Tick）
 
 /* 压力零点是否已完成初始化校准 */
 static bool g_pressure_zero_calibrated = false;
@@ -68,7 +74,6 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET(void* arg, st_fsm_event event);
-static void AppUI_StateEntry_SET_SecondLevel(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event);
@@ -93,7 +98,69 @@ static void AppUI_Display_SET_LP_Pressure(void);
 static void AppUI_Display_SET_Time(void);
 static void AppUI_RefreshPressureValue(void);  // 刷新连续模式压力值显示（局部刷新）
 
-static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event);
+/**
+ * @name      AppUI_ConvertKeyEvent
+ * @brief     将按键事件转换为UI事件
+ * @param     key_id    按键编号：0=OK/START，1=UP，2=DN，3=CANCEL
+ * @param     key_event 按键机状态机事件（短按、长按、长按释放等）
+ * @retval    UI事件枚举，若不需处理返回UI_EVENT_NONE
+ */
+static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event)
+{
+    /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
+    
+    if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
+        /* 长按保持：用于启动/快速调整 */
+        switch (key_id) {
+            case 1: return UI_EVENT_NONE;        // 上键长按：当前无需处理
+            case 2: return UI_EVENT_QUICK_DOWN;  // 下键长按：触发快速向下调整
+            case 0:
+                // 启动键长按（按住不松手）——直接启动治疗
+                return UI_EVENT_START;
+            default: return UI_EVENT_NONE;
+        }
+    }
+    else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+        /* 长按释放：根据当前界面做“确认/进入下一界面”等操作 */
+        switch (key_id) {
+            case 0: 
+                // 启动键长按释放：根据当前界面决定目标事件
+                if (g_ui_context.current_state == UI_STATE_SET) {
+                    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+                        return UI_EVENT_CONFIRM_LONG;  // 连续模式：进入连续压力设置
+                    } else {
+                        return UI_EVENT_CONFIRM;       // 间歇模式：进入高压设置
+                    }
+                }
+                else if (g_ui_context.current_state == UI_STATE_SET_PRESSURE) {
+                    return UI_EVENT_CONFIRM_LONG;  // 连续模式设置界面→暂停界面
+                }
+                else if (g_ui_context.current_state == UI_STATE_LIX || 
+                         g_ui_context.current_state == UI_STATE_JIX) {
+                    return UI_EVENT_CONFIRM_LONG;  // 治疗界面→暂停界面
+                }
+                else if (g_ui_context.current_state == UI_STATE_ZHT) {
+                    return UI_EVENT_CONFIRM_LONG;  // 暂停界面→恢复治疗
+                }
+                else if (g_ui_context.current_state == UI_STATE_SET_HP_PRESSURE) {
+                    return UI_EVENT_CONFIRM_LONG;  // 间歇模式高压设置→低压设置
+                }
+                // 其他状态下默认为普通确认
+                return UI_EVENT_CONFIRM;
+            case 1: return UI_EVENT_MENU_UP;      // 上键长按释放：菜单向上/参数增加
+            case 2: return UI_EVENT_MENU_DOWN;    // 下键长按释放：菜单向下/参数减少
+            case 3: return UI_EVENT_CONFIRM;      // 取消键长按释放：按当前需求视作确认/返回
+            default: return UI_EVENT_NONE;
+        }
+    }
+    else if (key_event == KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE) {
+        // 超长按释放：预留扩展功能，当前不处理
+        return UI_EVENT_NONE;
+    }
+ 
+    // 其他按键事件（短按、短按释放等）：按需在这里继续扩展
+    return UI_EVENT_NONE;
+}
 
 /* 初始化超时定时器回调函数 */
 static void AppUI_InitTimeoutCallback(void* user_data);
@@ -189,124 +256,131 @@ const st_fsm_transition g_ui_transition_table[32] = {
     
     [13] = {
         .current_state = UI_STATE_SET,  /* 当前状态：设置模式 */
-        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
-        .action_func   = AppUI_StateEntry_SET_SecondLevel,  /* 动作函数：进入第二个设置界面 */
-        .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：默认连续模式压力设置，实际由动作函数决定 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放（连续模式） */
+        .action_func   = AppUI_StateEntry_SET_Pressure,  /* 动作函数：进入连续模式压力设置 */
+        .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：连续模式压力设置界面 */
     },
     
     [14] = {
+        .current_state = UI_STATE_SET,  /* 当前状态：设置模式 */
+        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键长按释放（间歇模式映射为普通确认） */
+        .action_func   = AppUI_StateEntry_SET_HP_Pressure,  /* 动作函数：进入间歇模式高压设置 */
+        .next_state    = UI_STATE_SET_HP_PRESSURE  /* 下一状态：间歇模式高压设置界面 */
+    },
+    
+    [15] = {
         .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
         .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
         .action_func   = AppUI_AdjustPressureUp,  /* 动作函数：增加压力值 */
         .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：保持当前状态 */
     },
     
-    [15] = {
+    [16] = {
         .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
         .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
         .action_func   = AppUI_AdjustPressureDown,  /* 动作函数：减少压力值 */
         .next_state    = UI_STATE_SET_PRESSURE  /* 下一状态：保持当前状态 */
     },
     
-    [16] = {
+    [17] = {
         .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
         .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
         .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
     },
     
-    [17] = {
+    [18] = {
         .current_state = UI_STATE_SET_PRESSURE,  /* 当前状态：连续模式压力设置界面 */
         .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
     },
     
-    [18] = {
+    [19] = {
         .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
         .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
         .action_func   = AppUI_AdjustPressureUp,  /* 动作函数：增加高压值 */
         .next_state    = UI_STATE_SET_HP_PRESSURE  /* 下一状态：保持当前状态 */
     },
     
-    [19] = {
+    [20] = {
         .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
         .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
         .action_func   = AppUI_AdjustPressureDown,  /* 动作函数：减少高压值 */
         .next_state    = UI_STATE_SET_HP_PRESSURE  /* 下一状态：保持当前状态 */
     },
     
-    [20] = {
+    [21] = {
         .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
-        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放*/        
         .action_func   = AppUI_StateEntry_SET_LP_Pressure,  /* 动作函数：进入低压设置界面 */
         .next_state    = UI_STATE_SET_LP_PRESSURE  /* 下一状态：间歇模式低压设置界面 */
     },
     
-    [21] = {
+    [22] = {
         .current_state = UI_STATE_SET_HP_PRESSURE,  /* 当前状态：间歇模式高压设置界面 */
         .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
     },
     
-    [22] = {
+    [23] = {
         .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
         .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
         .action_func   = AppUI_AdjustPressureUp,  /* 动作函数：增加低压值 */
         .next_state    = UI_STATE_SET_LP_PRESSURE  /* 下一状态：保持当前状态 */
     },
     
-    [23] = {
+    [24] = {
         .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
         .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
         .action_func   = AppUI_AdjustPressureDown,  /* 动作函数：减少低压值 */
         .next_state    = UI_STATE_SET_LP_PRESSURE  /* 下一状态：保持当前状态 */
     },
     
-    [24] = {
+    [25] = {
         .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
-        .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
+        .trigger_event = UI_EVENT_COUNT,  /* 触发事件：确认键 */
         .action_func   = AppUI_StateEntry_SET_Time,  /* 动作函数：进入时间设置界面 */
         .next_state    = UI_STATE_SET_TIME  /* 下一状态：间歇模式时间设置界面 */
     },
     
-    [25] = {
+    [26] = {
         .current_state = UI_STATE_SET_LP_PRESSURE,  /* 当前状态：间歇模式低压设置界面 */
         .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT  /* 下一状态：暂停模式 */
     },
     
-    [26] = {
+    [27] = {
         .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
         .trigger_event = UI_EVENT_MENU_UP,  /* 触发事件：菜单向上 */
         .action_func   = AppUI_AdjustTimeUp,  /* 动作函数：增加时间值 */
         .next_state    = UI_STATE_SET_TIME  /* 下一状态：保持当前状态 */
     },
     
-    [27] = {
+    [28] = {
         .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
         .trigger_event = UI_EVENT_MENU_DOWN,  /* 触发事件：菜单向下 */
         .action_func   = AppUI_AdjustTimeDown,  /* 动作函数：减少时间值 */
         .next_state    = UI_STATE_SET_TIME  /* 下一状态：保持当前状态 */
     },
     
-    [28] = {
+    [29] = {
         .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
         .trigger_event = UI_EVENT_CONFIRM_LONG,  /* 触发事件：确认键长按释放 */
         .action_func   = AppUI_SwitchTimeEdit,  /* 动作函数：切换编辑项（高压时间/低压时间） */
         .next_state    = UI_STATE_SET_TIME  /* 下一状态：保持当前状态 */
     },
     
-    [29] = {
+    [30] = {
         .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
         .trigger_event = UI_EVENT_CONFIRM,  /* 触发事件：确认键 */
         .action_func   = AppUI_StateEntry_SET,  /* 动作函数：返回设置模式 */
         .next_state    = UI_STATE_SET  /* 下一状态：设置模式 */
     },
     
-    [30] = {
+    [31] = {
         .current_state = UI_STATE_SET_TIME,  /* 当前状态：间歇模式时间设置界面 */
         .trigger_event = UI_EVENT_SETTINGS,  /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_ZHT,  /* 动作函数：进入暂停模式 */
@@ -439,35 +513,6 @@ static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
     AppPressure_StopControl();
     Display_Clear();
     AppUI_Display_SET();
-}
-
-/**
- * @name      AppUI_StateEntry_SET_SecondLevel
- * @brief     进入第二个设置界面（根据work_mode_backup选择）
- * @note      FSM会在动作函数执行后设置next_state，所以这里需要确保FSM使用正确的状态
- */
-static void AppUI_StateEntry_SET_SecondLevel(void* arg, st_fsm_event event)
-{
-    UIContext_t* ctx = (UIContext_t*)arg;
-    (void)event;
-    
-    // 根据work_mode_backup选择进入哪个状态
-    // FSM会在动作函数执行后设置next_state，所以我们在这里直接设置状态
-    // 但FSM仍然会使用转换表中的next_state，所以我们需要两个不同的转换表项
-    // 或者，我们可以在这里直接调用对应的状态入口函数，然后让FSM使用一个通用的next_state
-    
-    // 由于转换表已经设置了next_state = UI_STATE_SET_PRESSURE，我们需要确保状态正确
-    // 实际上，更好的方法是创建两个不同的转换表项，但这里使用一个通用的方法：
-    // 在动作函数中设置正确的状态，然后FSM会使用next_state（但会被覆盖）
-    
-    // 直接调用对应的状态入口函数，它们会设置正确的状态
-    if (ctx->work_mode_backup == UI_STATE_LIX) {
-        // 连续模式：进入压力设置界面
-        AppUI_StateEntry_SET_Pressure(arg, event);
-    } else {
-        // 间歇模式：进入高压设置界面  
-        AppUI_StateEntry_SET_HP_Pressure(arg, event);
-    }
 }
 
 /**
@@ -732,7 +777,7 @@ static void AppUI_Display_SYS(void)
 static void AppUI_Display_WAT(void)
 {
 
-
+    
     // 显示工作模式
     if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
         Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
@@ -774,7 +819,7 @@ static void AppUI_Display_LIX(void)
     }
 
     // 显示目标压力
-    char target_str[16];
+    char target_str[16] = {0};
     snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
@@ -814,7 +859,11 @@ static void AppUI_Display_ZHT(void)
     }
     
     // 显示目标压力
-    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+//    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    
+    char target_str[16]={0};
+    snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示暂停状态
     Display_ShowString(24, 3, "Therapy Off", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -897,8 +946,8 @@ static void AppUI_Display_SET_HP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 2, "HP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 4, "LP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示高压值（参考未重构工程的DISP_Dig14_16）
     Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -906,8 +955,8 @@ static void AppUI_Display_SET_HP_Pressure(void)
     Display_ShowNumber(73, 4, g_ui_context.pressure_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示单位"mmHg"（参考未重构工程的DISP_ChaBasic2）
-    Display_ShowString(90, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(90, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(98, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(98, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -918,8 +967,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 2, "HP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 4, "LP Set : -", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示高压值
     Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -927,8 +976,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
     Display_ShowNumber(73, 4, g_ui_context.pressure_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示单位"mmHg"
-    Display_ShowString(90, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(90, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(98, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(98, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -959,63 +1008,66 @@ static void AppUI_Display_SET_Time(void)
  * 辅助函数实现
  ****************************************************************************/
 
-/**
- * @name      AppUI_ConvertKeyEvent
- * @brief     将按键事件转换为UI事件
- */
-static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event)
-{
-    /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
-    
-    if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
-        switch (key_id) {
-            case 1: return UI_EVENT_NONE;        // 上键长按 -> 不处理
-            case 2: return UI_EVENT_QUICK_DOWN;  // 下键长按 -> 快速向下
-            case 0: 
-                // 启动键长按 -> 启动治疗
-                return UI_EVENT_START;
-            default: return UI_EVENT_NONE;
-        }
-    }
-    else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
-        // 长按释放事件：用于菜单选择和确认操作
-        switch (key_id) {
-            case 0: 
-                // 在SET状态下，长按释放进入第二个设置界面
-                if (g_ui_context.current_state == UI_STATE_SET) {
-                    return UI_EVENT_CONFIRM_LONG;  // 进入第二个设置界面
-                }
-                // 在连续模式设置界面，长按释放进入暂停界面
-                else if (g_ui_context.current_state == UI_STATE_SET_PRESSURE) {
-                    return UI_EVENT_CONFIRM_LONG;  // 进入暂停界面
-                }
-                // 在治疗模式下，长按释放进入暂停界面
-                else if (g_ui_context.current_state == UI_STATE_LIX || 
-                         g_ui_context.current_state == UI_STATE_JIX) {
-                    return UI_EVENT_CONFIRM_LONG;  // 进入暂停界面
-                }
-                // 在暂停界面，长按释放根据work_mode_backup进入对应的治疗界面
-                else if (g_ui_context.current_state == UI_STATE_ZHT) {
-                    return UI_EVENT_CONFIRM_LONG;  // 进入治疗界面
-                }
-                // 其他状态下作为确认键使用
-                return UI_EVENT_CONFIRM;
-            case 1: return UI_EVENT_MENU_UP;      // 上键长按释放 -> 菜单向上/增加参数
-            case 2: return UI_EVENT_MENU_DOWN;    // 下键长按释放 -> 菜单向下/减少参数
-            case 3: return UI_EVENT_CONFIRM;      // 取消/静音键长按释放 -> 确认（返回）
-            default: return UI_EVENT_NONE;
-        }
-    }
-    else if (key_event == KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE) {
-        // 超长按释放事件：可用于特殊功能
-        // 当前暂不处理，返回NONE
-        return UI_EVENT_NONE;
-    }
-    
-    return UI_EVENT_NONE;
-}
-
-// AppUI_ProcessSettingsEvent函数已删除，现在所有状态转换都通过FSM状态转换表处理
+///**
+// * @name      AppUI_ConvertKeyEvent
+// * @brief     将按键事件转换为UI事件
+// * @param     key_id    按键编号：0=OK/START，1=UP，2=DN，3=CANCEL
+// * @param     key_event 按键机状态机事件（短按、长按、长按释放等）
+// * @retval    UI事件枚举，若不需处理返回UI_EVENT_NONE
+// */
+//static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event)
+//{
+//    /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
+//    
+//    if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
+//        /* 长按保持：用于启动/快速调整 */
+//        switch (key_id) {
+//            case 1: return UI_EVENT_NONE;        // 上键长按：当前无需处理
+//            case 2: return UI_EVENT_QUICK_DOWN;  // 下键长按：触发快速向下调整
+//            case 0:
+//                // 启动键长按（按住不松手）——直接启动治疗
+//                return UI_EVENT_START;
+//            default: return UI_EVENT_NONE;
+//        }
+//    }
+//    else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+//        /* 长按释放：根据当前界面做“确认/进入下一界面”等操作 */
+//        switch (key_id) {
+//            case 0: 
+//                // 启动键长按释放：根据当前界面决定是否返回UI_EVENT_CONFIRM_LONG
+//                if (g_ui_context.current_state == UI_STATE_SET) {
+//                    return UI_EVENT_CONFIRM_LONG;  // 进入第二级设置界面
+//                }
+//                else if (g_ui_context.current_state == UI_STATE_SET_PRESSURE) {
+//                    return UI_EVENT_CONFIRM_LONG;  // 连续模式设置界面→暂停界面
+//                }
+//                else if (g_ui_context.current_state == UI_STATE_LIX || g_ui_context.current_state == UI_STATE_JIX) {                
+//                    return UI_EVENT_CONFIRM_LONG;  // 治疗界面→暂停界面
+//                }
+//                else if (g_ui_context.current_state == UI_STATE_ZHT) {
+//                    return UI_EVENT_CONFIRM_LONG;  // 暂停界面→恢复治疗
+//                }
+//                else if (g_ui_context.current_state == UI_STATE_SET_HP_PRESSURE) {
+//                    return UI_EVENT_CONFIRM_LONG;  // 间歇模式高压设置→低压设置
+//                }
+//                // 其他状态下默认为普通确认
+//                return UI_EVENT_CONFIRM;
+//            case 1: return UI_EVENT_MENU_UP;      // 上键长按释放：菜单向上/参数增加
+//            case 2: return UI_EVENT_MENU_DOWN;    // 下键长按释放：菜单向下/参数减少
+//            case 3: return UI_EVENT_CONFIRM;      // 取消键长按释放：按当前需求视作确认/返回
+//            default: return UI_EVENT_NONE;
+//        }
+//    }
+//    else if (key_event == KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE) {
+//        // 超长按释放：预留扩展功能，当前不处理
+//        return UI_EVENT_NONE;
+//    }
+// 
+//    // 其他按键事件（短按、短按释放等）：按需在这里继续扩展
+//    return UI_EVENT_NONE;
+//}
+//
+//// AppUI_ProcessSettingsEvent函数已删除，现在所有状态转换都通过FSM状态转换表处理
 
 /****************************************************************************
  * 公共接口实现
@@ -1232,12 +1284,40 @@ void AppUI_Process(void)
 
     /* 连续模式界面实时压力刷新（仿照电池刷新机制） */
     if (g_ui_context.current_state == UI_STATE_LIX) {
-        uint16_t current_pressure = AppPressure_GetPressureValue();
-        if (current_pressure != g_last_display_pressure) {
-            g_last_display_pressure = current_pressure;
-            Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+        if (++g_pressure_refresh_tick >= UI_PRESSURE_REFRESH_INTERVAL_TICKS) {
+            g_pressure_refresh_tick = 0;
+
+            /* 重绘目标压力值，防止被实时刷新过程覆盖 */
+            char target_str[16] = {0};
+            snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+            Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+                
+            uint16_t current_pressure = AppPressure_GetPressureValue();
+
+            bool need_refresh = false;
+            if (g_last_display_pressure == 0xFFFF) {
+                need_refresh = true;
+            } else {
+                uint16_t diff = (current_pressure > g_last_display_pressure) ?
+                                 (current_pressure - g_last_display_pressure) :
+                                 (g_last_display_pressure - current_pressure);
+                if (diff >= UI_PRESSURE_REFRESH_THRESHOLD_MMHG) {
+                    need_refresh = true;
+                }
+            }
+
+            if (need_refresh) {
+                g_last_display_pressure = current_pressure;
+                Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+
+//                /* 重绘目标压力值，防止被实时刷新过程覆盖 */
+//                char target_str[16] = {0};
+//                snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+//                Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+            }
         }
     } else {
+        g_pressure_refresh_tick = 0;
         g_last_display_pressure = 0xFFFF;
     }
 }

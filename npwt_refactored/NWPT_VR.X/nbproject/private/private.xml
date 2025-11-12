@@ -5,8 +5,10 @@
         <group>
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Core/Src/main.c</file>
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_pressure.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_ui.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/display.c</file>
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/pid.c</file>
-            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/HAL/Src/hal_timer.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Inc/app_ui.h</file>
         </group>
     </open-files>
 </project-private>

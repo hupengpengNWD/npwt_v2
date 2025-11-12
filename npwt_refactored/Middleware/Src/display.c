@@ -41,7 +41,7 @@ typedef struct {
  ****************************************************************************/
 
 static st_queue g_display_queue;              // 循环队列对象
-static uint8_t g_display_queue_buffer[(15 + 1) * sizeof(DisplayEvent_t)];
+static uint8_t g_display_queue_buffer[(31 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
 // height字段在Display_SendASCII中用作每个字符的字节数来计算偏移
@@ -522,23 +522,19 @@ static void Display_ClearRectInternal(uint8_t x, uint8_t y, uint8_t width, uint8
         return;
     }
     
-    // 计算数据大小（Display_SendCharData期望的数据格式：固定为width*2字节）
-    // 数据格式：char_data[0..width-1] = 下半部分，char_data[width..2*width-1] = 上半部分
-    // 注意：Display_SendCharData内部会根据height参数自动处理跨页，外部只需要提供width*2字节数据
-    uint8_t data_size = width * 2;  // 固定数据大小：width*2字节（与页数无关）
+    // 计算需要写入的字节数
+    uint8_t pages = (uint8_t)((height + 7U) / 8U);  // 向上取整页数
+    uint8_t data_size = (uint8_t)(width * pages);
     
-    // 使用静态缓冲区（最大支持32字节，足够width=16的情况 = 16*2 = 32字节）
-    static uint8_t blank_data[32] = {0};  // 静态初始化为全0
+    // 使用静态缓冲区（最大支持 width=16, pages=4 => 64字节）
+    static uint8_t blank_data[64] = {0};
     
-    // 确保数据大小不超过缓冲区（最大32字节，即width最大支持16）
     if (data_size > sizeof(blank_data)) {
         return;  // 超出支持范围，返回
     }
     
     // 使用Display_SendCharData写入空白数据（完全复用显示逻辑）
-    // 这会自动处理坐标转换、跨页处理、列坐标转换等所有细节
-    // Display_SendCharData期望参数：(page, column, data, width, height)
-    Display_SendCharData(y, x, blank_data, width, height);
+    Display_SendCharData(y, x, blank_data, width, (uint8_t)(pages * 8U));
 }
 
 /**
@@ -681,27 +677,17 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
 {
     char pressure_str[16];
     snprintf(pressure_str, sizeof(pressure_str), "%d", pressure);
-    
+
     // 获取字体信息以计算单位位置
     const FontInfo_t* font_info = Display_GetFontInfo(font);
-    uint8_t unit_x_offset;
     uint8_t unit_y_offset = 0;  // 单位垂直偏移（页）
-    
+    uint8_t unit_x_offset = 0;
+ 
     // 根据字体大小计算单位位置偏移
     if (font == DISPLAY_FONT_16X32) {
         // 16x32字体：每个数字16列宽，根据实际字符串长度计算
         uint8_t digit_count = (uint8_t)strlen(pressure_str);
-        
-        // 将单位显示在压力值右侧，调整位置完全避免与电池图标重叠
-        // 策略：将单位显示在压力值的顶部（y+0），与压力值同一水平线，避免垂直重叠
-        // 水平方向：减小间距到2列，单位尽可能靠近压力值，减少水平占用
-        // 单位"mmHg"宽度32列（4字符×8列），电池图标实际起始列119（102+17）
-        // 单位起始列 = 48 + (16*3 + 2) = 98，结束列 = 130
-        // 虽然仍有水平重叠（列119-130），但垂直不重叠（单位在页4-5，电池在页6-7），视觉上可接受
-        unit_x_offset = font_info->width * digit_count + 2;  // 数字宽度 + 2列间距（减小间距）
-        
-        // 16x32字体占用4页（y到y+3），单位8x16占用2页
-        // 单位显示在y+0（占用页4-5），电池图标在y=6（占用页6-7），完全避免垂直重叠
+        unit_x_offset = font_info->width * digit_count + 2;  // 数字宽度 + 2列间距
         unit_y_offset = 0;  // 单位显示在压力值顶部，与压力值同一水平线
     } else {
         // 其他字体：使用默认偏移
@@ -709,10 +695,10 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
         unit_x_offset = font_info->width * digit_count + 2;  // 数字宽度 + 2列间距
         unit_y_offset = 0;  // 同一行显示
     }
-    
+
     // 显示压力值
     Display_ShowStringInternal(x, y, pressure_str, font, DISPLAY_ALIGN_LEFT);
-    
+
     // 如果需要显示单位（使用较小的字体显示单位，保持可读性）
     if (show_unit) {
         // 单位使用8x16字体，位置在数字右侧，垂直对齐
