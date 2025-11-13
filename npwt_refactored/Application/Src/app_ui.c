@@ -24,9 +24,9 @@
 #define TIME_STEP             1      // 时间调整步进值（分钟）
 
 #define PRESSURE_SET_DEFAULT      120    // 默认压力值（mmHg，设置界面使用）
-#define PRESSURE_LOW_DEFAULT      40     // 默认低压值（mmHg）
-#define TIME_HIGH_DEFAULT         5      // 默认高压时间（分钟）
-#define TIME_LOW_DEFAULT          5      // 默认低压时间（分钟）
+#define PRESSURE_LOW_DEFAULT      80     // 默认低压值（mmHg）
+#define TIME_HIGH_DEFAULT         1      // 默认高压时间（分钟）
+#define TIME_LOW_DEFAULT          1      // 默认低压时间（分钟）
 
 // 实时压力显示刷新控制
 #define UI_PRESSURE_REFRESH_INTERVAL_TICKS   50    // 连续模式压力刷新间隔（10ms Tick）；50=500ms
