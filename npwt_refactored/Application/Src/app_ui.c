@@ -862,12 +862,34 @@ static void AppUI_Display_LIX(void)
  */
 static void AppUI_Display_JIX(void)
 {
-    // 显示工作模式标识
-    Display_ShowString(0, 0, "Intermittent", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(0, 2, "Therapy On", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    // 显示工作模式
+    if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
+        Display_ShowIcon(0, 0, ICON_CONTINUOUS);  // 连续模式图标
+    } else if (g_ui_context.work_mode_backup == UI_STATE_JIX) {
+        Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
+    }
+
+    // 显示目标压力
+    char target_str[16] = {0};
+    snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
+    // 显示间歇模式高压时间占位
+    char hp_time_str[20] = {0};
+    snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
+    Display_ShowString(86, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+
+    // 显示间歇模式低压时间占位
+    char lp_time_str[20] = {0};
+    snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
+    Display_ShowString(86, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    // 显示压力值（占位，实际应从传感器读取）
-    Display_ShowString(0, 4, "Pressure: -125 mmHg", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    // 显示实时压力值
+    uint16_t current_pressure = AppPressure_GetPressureValue();
+    Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+    g_last_display_pressure = current_pressure;
+
+    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
 /**
