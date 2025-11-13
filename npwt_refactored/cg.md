@@ -16,4 +16,10 @@
 | 外形尺寸       | 228.6×149.2 mm（厚度见图纸），整机功耗（LCD+BLU）最大约4.2 W（表述含余量）                  | 165.75×105.39×2.45 mm，重量≈92.8 g                          |
 
 
-现在我将软件定时器的个数从8个扩充到了12个方便后期扩充其他功能时使用，
+
+
+    char target_str[8] = {0};
+    uint16_t current_pressure = AppPressure_GetPressureValue();
+    g_last_display_pressure = current_pressure;
+    snprintf(target_str, sizeof(target_str), "-%03ummHg", (unsigned int)current_pressure);
+    Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);

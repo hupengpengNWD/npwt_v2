@@ -30,7 +30,7 @@
 
 // 实时压力显示刷新控制
 #define UI_PRESSURE_REFRESH_INTERVAL_TICKS   50    // 连续模式压力刷新间隔（10ms Tick）；50=500ms
-#define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   1     // 最小刷新差值阈值（mmHg）
+#define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
@@ -819,15 +819,6 @@ static void AppUI_Display_WAT(void)
     Display_ShowIcon(35, 4, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
     Display_ShowString(48, 4, "Therapy", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-
-//    if (g_ui_context.lock_flag) {
-//        Display_ShowIcon(108, 6, ICON_LOCK);  // 锁定图标（8x16）
-//    }
-    
-    // 显示静音图标（条件显示，根据未重构工程：DISP_Buz(6,25)，页6，列25）
-//     if (mute_flg) {
-//         Display_ShowIcon(25, 6, ICON_SILENT);  // 静音图标（16x16）
-//     }
 }
 
 /**
@@ -845,13 +836,19 @@ static void AppUI_Display_LIX(void)
 
     // 显示目标压力
     char target_str[16] = {0};
-    snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
-    Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    uint16_t current_pressure = AppPressure_GetPressureValue();
+    g_last_display_pressure = current_pressure;
+    snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
+    Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 
+#if 0    
     // 显示实时压力值
     uint16_t current_pressure = AppPressure_GetPressureValue();
     Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
     g_last_display_pressure = current_pressure;
+#endif
+    
 
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
@@ -874,13 +871,13 @@ static void AppUI_Display_JIX(void)
     snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
-    // 显示间歇模式高压时间占位
-    char hp_time_str[20] = {0};
+    // 显示间歇模式高压时间
+    char hp_time_str[8] = {0};
     snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
     Display_ShowString(86, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 
-    // 显示间歇模式低压时间占位
-    char lp_time_str[20] = {0};
+    // 显示间歇模式低压时间
+    char lp_time_str[8] = {0};
     snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
     Display_ShowString(86, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
@@ -905,9 +902,7 @@ static void AppUI_Display_ZHT(void)
         Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
     }
     
-    // 显示目标压力
-//    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    
+    // 显示目标压力    
     char target_str[16]={0};
     snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -996,6 +991,20 @@ static void AppUI_Display_SET_HP_Pressure(void)
     Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
+    char hp_pressure_str[8] = {0};
+    char lp_pressure_str[8] = {0};
+    
+    // 显示高压
+    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    
+    // 显示低压
+    snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
+    Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    
+#if 0    
     // 显示高压值（参考未重构工程的DISP_Dig14_16）
     Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     // 显示低压值
@@ -1004,6 +1013,7 @@ static void AppUI_Display_SET_HP_Pressure(void)
     // 显示单位"mmHg"（参考未重构工程的DISP_ChaBasic2）
     Display_ShowString(98, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(98, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+#endif
 }
 
 /**
@@ -1017,6 +1027,20 @@ static void AppUI_Display_SET_LP_Pressure(void)
     Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
+    char hp_pressure_str[8] = {0};
+    char lp_pressure_str[8] = {0};
+    
+    
+    // 显示高压
+    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    
+    // 显示低压
+    snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
+    Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+#if 0    
     // 显示高压值
     Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     // 显示低压值（当前正在编辑）
@@ -1025,6 +1049,7 @@ static void AppUI_Display_SET_LP_Pressure(void)
     // 显示单位"mmHg"
     Display_ShowString(98, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(98, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+#endif    
 }
 
 /**
@@ -1033,12 +1058,25 @@ static void AppUI_Display_SET_LP_Pressure(void)
  */
 static void AppUI_Display_SET_Time(void)
 {
-    // 参考未重构工程：显示"Intermittent"、"HP Time"和"LP Time"
+    // 显示"Intermittent"、"HP Time"和"LP Time"
     Display_ShowString(16, 0, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 2, "HP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 4, "LP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    // 显示高压时间（参考未重构工程的DISP_Dig14_16）
+    char hp_time_str[8] = {0};
+    char lp_time_str[8] = {0};
+    
+    // 显示高压时间
+    snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
+    Display_ShowString(75, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    
+    // 显示低压时间
+    snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
+    Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+ 
+#if 0    
+    // 显示高压时间
     Display_ShowNumber(75, 2, g_ui_context.time_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     // 显示低压时间
     Display_ShowNumber(75, 4, g_ui_context.time_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -1046,75 +1084,10 @@ static void AppUI_Display_SET_Time(void)
     // 显示单位"min"
     Display_ShowString(101, 2, "min", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(101, 4, "min", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+#endif
     // 显示当前选中的时间项（可选：添加选中指示，如箭头或高亮）
     // 注意：当前实现中，通过上下键切换编辑项，这里可以添加视觉反馈
 }
-
-/****************************************************************************
- * 辅助函数实现
- ****************************************************************************/
-
-///**
-// * @name      AppUI_ConvertKeyEvent
-// * @brief     将按键事件转换为UI事件
-// * @param     key_id    按键编号：0=OK/START，1=UP，2=DN，3=CANCEL
-// * @param     key_event 按键机状态机事件（短按、长按、长按释放等）
-// * @retval    UI事件枚举，若不需处理返回UI_EVENT_NONE
-// */
-//static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event)
-//{
-//    /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
-//    
-//    if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
-//        /* 长按保持：用于启动/快速调整 */
-//        switch (key_id) {
-//            case 1: return UI_EVENT_NONE;        // 上键长按：当前无需处理
-//            case 2: return UI_EVENT_QUICK_DOWN;  // 下键长按：触发快速向下调整
-//            case 0:
-//                // 启动键长按（按住不松手）——直接启动治疗
-//                return UI_EVENT_START;
-//            default: return UI_EVENT_NONE;
-//        }
-//    }
-//    else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
-//        /* 长按释放：根据当前界面做“确认/进入下一界面”等操作 */
-//        switch (key_id) {
-//            case 0: 
-//                // 启动键长按释放：根据当前界面决定是否返回UI_EVENT_CONFIRM_LONG
-//                if (g_ui_context.current_state == UI_STATE_SET) {
-//                    return UI_EVENT_CONFIRM_LONG;  // 进入第二级设置界面
-//                }
-//                else if (g_ui_context.current_state == UI_STATE_SET_PRESSURE) {
-//                    return UI_EVENT_CONFIRM_LONG;  // 连续模式设置界面→暂停界面
-//                }
-//                else if (g_ui_context.current_state == UI_STATE_LIX || g_ui_context.current_state == UI_STATE_JIX) {                
-//                    return UI_EVENT_CONFIRM_LONG;  // 治疗界面→暂停界面
-//                }
-//                else if (g_ui_context.current_state == UI_STATE_ZHT) {
-//                    return UI_EVENT_CONFIRM_LONG;  // 暂停界面→恢复治疗
-//                }
-//                else if (g_ui_context.current_state == UI_STATE_SET_HP_PRESSURE) {
-//                    return UI_EVENT_CONFIRM_LONG;  // 间歇模式高压设置→低压设置
-//                }
-//                // 其他状态下默认为普通确认
-//                return UI_EVENT_CONFIRM;
-//            case 1: return UI_EVENT_MENU_UP;      // 上键长按释放：菜单向上/参数增加
-//            case 2: return UI_EVENT_MENU_DOWN;    // 下键长按释放：菜单向下/参数减少
-//            case 3: return UI_EVENT_CONFIRM;      // 取消键长按释放：按当前需求视作确认/返回
-//            default: return UI_EVENT_NONE;
-//        }
-//    }
-//    else if (key_event == KEY_MACHINE_EVENT_ULTRA_LONG_PRESS_RELEASE) {
-//        // 超长按释放：预留扩展功能，当前不处理
-//        return UI_EVENT_NONE;
-//    }
-// 
-//    // 其他按键事件（短按、短按释放等）：按需在这里继续扩展
-//    return UI_EVENT_NONE;
-//}
-//
-//// AppUI_ProcessSettingsEvent函数已删除，现在所有状态转换都通过FSM状态转换表处理
 
 /****************************************************************************
  * 公共接口实现
@@ -1354,8 +1327,14 @@ void AppUI_Process(void)
             }
 
             if (need_refresh) {
+                char target_str[16] = {0};
+                g_last_display_pressure = current_pressure;
+                snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
+                Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+#if 0                
                 g_last_display_pressure = current_pressure;
                 Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
+#endif                
 
 //                /* 重绘目标压力值，防止被实时刷新过程覆盖 */
 //                char target_str[16] = {0};
