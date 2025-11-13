@@ -22,6 +22,7 @@
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Middleware/Inc/pid.h"
 #include "../../Middleware/Inc/pwm.h"
+#include "../../Middleware/Inc/soft_timer.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -55,6 +56,7 @@ static uint16_t g_pressure_adc_filtered = 0;  // ADC原始值（滤波后）
 static uint16_t g_pressure_adc_raw = 0;       // ADC原始值（最后一次采样，未滤波）
 static uint16_t g_pressure_zero_offset = 0;   // 零点偏移值（adc_zero）
 static bool g_calibration_pending = false;    // 延迟校准标志：在下一次UpdateADC时更新零点
+static SoftTimerHandle_t g_pressure_bleed_timer = 0;        // 开机放气定时器
 
 /* 转换系数（valueK） */
 static float g_pressure_conversion_factor = PRESSURE_CONVERSION_FACTOR_DEFAULT;  // 默认2.75
@@ -108,6 +110,7 @@ static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg);
  * @return 保证泵有足够扭矩的最小 PWM 占空比（0~PWM_DUTY_MAX）
  */
 static uint16_t PressureControl_SelectMinDuty(float abs_error);
+static void AppPressure_BleedTimerCallback(void* user_data);
 
 /****************************************************************************
  * 函数实现
@@ -145,6 +148,18 @@ void AppPressure_Init(void)
     g_pressure_hold_active = false;
     g_pressure_mmHg_filtered = 0.0f;
     g_pressure_mmHg_initialized = false;
+
+    /* 创建开机放气定时器（单次3秒，用于开机零点校准） */
+    if (g_pressure_bleed_timer == 0) {
+        g_pressure_bleed_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
+                                                  3000,
+                                                  AppPressure_BleedTimerCallback,
+                                                  NULL);
+    } else {
+        SoftTimer_Stop(g_pressure_bleed_timer);
+        SoftTimer_SetCallback(g_pressure_bleed_timer, AppPressure_BleedTimerCallback, NULL);
+        SoftTimer_SetPeriod(g_pressure_bleed_timer, 3000);
+    }
 
     PressureControl_ResetOutputs();
 }
@@ -300,6 +315,52 @@ void AppPressure_CalibrateZero(void)
 {
     /* 标记在下一次UpdateADC时进行零点校准 */
     g_calibration_pending = true;
+}
+
+/**
+ * @brief 开机放气定时器回调：关闭阀门并触发零点校准
+ */
+static void AppPressure_BleedTimerCallback(void* user_data)
+{
+    (void)user_data;
+
+//    HAL_Valve2_Close();
+    HAL_Valve1_Close();
+    AppPressure_CalibrateZero();
+}
+
+/**
+ * @name      AppPressure_BleedAndCalibrateZero
+ * @brief     开机放气并在结束后完成零点校准
+ * @note
+ *   1. 打开放气阀释放系统残余压力
+ *   2. 启动3秒一次性的软定时器
+ *   3. 定时器回调关闭阀门并触发零点校准
+ *   4. 若定时器创建失败，则立即关闭阀门并直接校准
+ */
+void AppPressure_BleedAndCalibrateZero(void)
+{
+    /* 打开电磁阀释放压力 */
+//    HAL_Valve2_Open();
+    HAL_Valve1_Open();
+
+    if (g_pressure_bleed_timer != 0) {
+        SoftTimer_Stop(g_pressure_bleed_timer);
+        SoftTimer_SetPeriod(g_pressure_bleed_timer, 3000);
+        SoftTimer_Start(g_pressure_bleed_timer);
+    } else {
+        g_pressure_bleed_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
+                                                  3000,
+                                                  AppPressure_BleedTimerCallback,
+                                                  NULL);
+        if (g_pressure_bleed_timer != 0) {
+            SoftTimer_Start(g_pressure_bleed_timer);
+        } else {
+            /* 定时器创建失败，立即关闭阀门并执行零点校准 */
+            HAL_Valve2_Close();
+            AppPressure_CalibrateZero();
+        }
+    }
 }
 
 /**

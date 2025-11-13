@@ -137,5 +137,12 @@ bool AppPressure_IsControlEnabled(void);
 bool AppPressure_HasControlFault(void);
 void AppPressure_ClearControlFault(void);
 
+/**
+ * @name      AppPressure_BleedAndCalibrateZero
+ * @brief     开机放气并在放气结束后执行零点校准
+ * @note      打开电磁阀约3秒后关闭，再触发一次零点校准
+ */
+void AppPressure_BleedAndCalibrateZero(void);
+
 #endif /* APP_PRESSURE_H */
 

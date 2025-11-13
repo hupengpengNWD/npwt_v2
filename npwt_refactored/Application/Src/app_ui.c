@@ -433,7 +433,7 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
 
     /* 进入待机界面首次执行零点校准（参考未重构工程） */
     if (!g_pressure_zero_calibrated || ctx->last_state == UI_STATE_SYS) {
-        AppPressure_CalibrateZero();
+        AppPressure_BleedAndCalibrateZero();
         g_pressure_zero_calibrated = true;
     }
 }
