@@ -85,6 +85,7 @@ static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event);
 static void AppUI_AdjustTimeUp(void* arg, st_fsm_event event);
 static void AppUI_AdjustTimeDown(void* arg, st_fsm_event event);
 static void AppUI_SwitchTimeEdit(void* arg, st_fsm_event event);
+static void AppUI_TimeSetting_ExitToPause(void* arg, st_fsm_event event);
 
 static void AppUI_Display_SYS(void);
 static void AppUI_Display_WAT(void);
@@ -147,7 +148,11 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
                     return UI_EVENT_CONFIRM_LONG;  // 间歇模式低压设置→时间设置
                 }
                 else if (g_ui_context.current_state == UI_STATE_SET_TIME) {
-                    return UI_EVENT_CONFIRM_LONG;  // 时间设置界面统一使用长按释放
+                    if (g_ui_context.time_edit_high) {
+                        return UI_EVENT_CONFIRM_LONG;  // 高压时间→切换到低压时间
+                    } else {
+                        return UI_EVENT_CONFIRM;       // 低压时间→退出到暂停界面
+                    }
                 }
                 // 其他状态下默认为普通确认
                 return UI_EVENT_CONFIRM;
@@ -380,7 +385,7 @@ const st_fsm_transition g_ui_transition_table[32] = {
     [30] = {
         .current_state = UI_STATE_SET_TIME,                 /* 当前状态：间歇模式时间设置界面 */
         .trigger_event = UI_EVENT_CONFIRM,                  /* 触发事件：确认键（长按释放，低压时间完成后退出） */
-        .action_func   = AppUI_StateEntry_ZHT,              /* 动作函数：进入暂停模式 */
+        .action_func   = AppUI_TimeSetting_ExitToPause,     /* 动作函数：退出时间设置并进入暂停 */
         .next_state    = UI_STATE_ZHT                       /* 下一状态：暂停模式 */
     },
     
@@ -756,15 +761,24 @@ static void AppUI_SwitchTimeEdit(void* arg, st_fsm_event event)
     UIContext_t* ctx = (UIContext_t*)arg;
     (void)event;
     
-    if (ctx->time_edit_high) {
-        /* 第一次长按释放：从高压时间切换到低压时间编辑 */
-        ctx->time_edit_high = false;
-        AppUI_Display_SET_Time();
-    } else {
-        /* 已在低压时间编辑，第二次长按释放：进入暂停界面 */
-        ctx->time_edit_high = true;  /* 复位，便于下次进入界面时从高压时间开始 */
-        AppUI_StateEntry_ZHT(arg, event);
-    }
+    ctx->time_edit_high = !ctx->time_edit_high;
+    AppUI_Display_SET_Time();
+}
+
+/**
+ * @name      AppUI_TimeSetting_ExitToPause
+ * @brief     时间设置界面退出到暂停模式
+ */
+static void AppUI_TimeSetting_ExitToPause(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+
+    /* 复位编辑标志，便于下次进入时从高压时间开始 */
+    ctx->time_edit_high = true;
+
+    /* 复用暂停界面的状态入口，确保上下文一致 */
+    AppUI_StateEntry_ZHT(arg, event);
 }
 
 /****************************************************************************
