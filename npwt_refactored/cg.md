@@ -18,3 +18,20 @@
 
 
 
+    // 显示间歇模式高压时间
+    char hp_time_str[8] = {0};
+    snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
+    Display_ShowString(92, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
+    // 显示间歇模式低压时间
+    char lp_time_str[8] = {0};
+    snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
+    Display_ShowString(92, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    
+    
+    char pressure_str[16] = {0};
+    uint16_t current_pressure = AppPressure_GetPressureValue();
+    snprintf(pressure_str, sizeof(pressure_str), "-%03u", (unsigned int)current_pressure);
+    Display_ShowString(16, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    g_last_display_pressure = current_pressure;

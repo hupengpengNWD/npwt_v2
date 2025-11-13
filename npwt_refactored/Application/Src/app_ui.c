@@ -29,7 +29,7 @@
 #define TIME_LOW_DEFAULT          1      // 默认低压时间（分钟）
 
 // 实时压力显示刷新控制
-#define UI_PRESSURE_REFRESH_INTERVAL_TICKS   50    // 连续模式压力刷新间隔（10ms Tick）；50=500ms
+#define UI_PRESSURE_REFRESH_INTERVAL_TICKS   20    // 连续模式压力刷新间隔（10ms Tick）；20=200ms
 #define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
