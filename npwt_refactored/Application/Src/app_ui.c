@@ -120,7 +120,7 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
         }
     }
     else if (key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
-        /* 长按释放：根据当前界面做“确认/进入下一界面”等操作 */
+        /* 长按释放：根据当前界面做"确认/进入下一界面"等操作 */
         switch (key_id) {
             case 0: 
                 // 启动键长按释放：根据当前界面决定目标事件
@@ -467,7 +467,12 @@ static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_JIX;
     ctx->work_mode_backup = UI_STATE_JIX;
-    AppPressure_StopControl();
+    AppPressure_StartIntermittentTherapy(ctx->pressure_high,
+                                         ctx->pressure_low,
+                                         ctx->time_high,
+                                         ctx->time_low);
+    g_last_display_pressure = 0xFFFF;
+    g_pressure_refresh_tick = 0;
     Display_Clear();
     AppUI_Display_JIX();
 }
@@ -885,8 +890,9 @@ static void AppUI_Display_JIX(void)
     char pressure_str[16] = {0};
     uint16_t current_pressure = AppPressure_GetPressureValue();
     snprintf(pressure_str, sizeof(pressure_str), "-%03u", (unsigned int)current_pressure);
-    Display_ShowString(0, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(60, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(16, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    g_last_display_pressure = current_pressure;
     
 #if 0    
     // 显示实时压力值
@@ -895,7 +901,7 @@ static void AppUI_Display_JIX(void)
     g_last_display_pressure = current_pressure;
 #endif    
 
-    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(12, 6, "High Phase", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -911,7 +917,7 @@ static void AppUI_Display_ZHT(void)
         Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
     }
     
-    // 显示目标压力    
+    // 显示目标压力
     char target_str[16]={0};
     snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1311,16 +1317,22 @@ void AppUI_Process(void)
         Display_ShowBatteryIcon(102, 6, display_level, current_battery_charging);
     }
 
-    /* 连续模式界面实时压力刷新（仿照电池刷新机制） */
-    if (g_ui_context.current_state == UI_STATE_LIX) {
+    /* 治疗界面的实时压力刷新（连续/间歇共用） */
+    bool in_continuous = (g_ui_context.current_state == UI_STATE_LIX);
+    bool in_intermittent = (g_ui_context.current_state == UI_STATE_JIX);
+
+    if (in_continuous || in_intermittent) {
         if (++g_pressure_refresh_tick >= UI_PRESSURE_REFRESH_INTERVAL_TICKS) {
             g_pressure_refresh_tick = 0;
 
-            /* 重绘目标压力值，防止被实时刷新过程覆盖 */
-            char target_str[16] = {0};
-            snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
-            Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-                
+            uint16_t display_target = in_continuous
+                                       ? g_ui_context.pressure_high
+                                       : AppPressure_GetCurrentTarget();
+
+            char target_buf[16] = {0};
+            snprintf(target_buf, sizeof(target_buf), "-%u mmHg", (unsigned int)display_target);
+            Display_ShowString(25, 0, target_buf, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
             uint16_t current_pressure = AppPressure_GetPressureValue();
 
             bool need_refresh = false;
@@ -1336,19 +1348,19 @@ void AppUI_Process(void)
             }
 
             if (need_refresh) {
-                char target_str[16] = {0};
+                char pressure_buf[16] = {0};
                 g_last_display_pressure = current_pressure;
-                snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
-                Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-#if 0                
-                g_last_display_pressure = current_pressure;
-                Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
-#endif                
+                snprintf(pressure_buf, sizeof(pressure_buf), "-%03u", (unsigned int)current_pressure);
+                Display_ShowString(16, 4, pressure_buf, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+                Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+            }
 
-//                /* 重绘目标压力值，防止被实时刷新过程覆盖 */
-//                char target_str[16] = {0};
-//                snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
-//                Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+            if (in_intermittent) {
+                AppPressureControlMode_e mode = AppPressure_GetCurrentMode();
+                const char* phase_str = (mode == APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW) ? "Low Phase" : "High Phase";
+                Display_ShowString(12, 6, phase_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+            } else {
+                Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
             }
         }
     } else {

@@ -144,5 +144,36 @@ void AppPressure_ClearControlFault(void);
  */
 void AppPressure_BleedAndCalibrateZero(void);
 
+/**
+ * @name      AppPressure_StartIntermittentTherapy
+ * @brief     启动间歇治疗循环（高压→低压循环）
+ * @param     high_target_mmHg 高压目标（mmHg）
+ * @param     low_target_mmHg  低压目标（mmHg）
+ * @param     high_time_min    高压维持时间（分钟）
+ * @param     low_time_min     低压维持时间（分钟）
+ */
+void AppPressure_StartIntermittentTherapy(uint16_t high_target_mmHg,
+                                          uint16_t low_target_mmHg,
+                                          uint16_t high_time_min,
+                                          uint16_t low_time_min);
+
+/**
+ * @name      AppPressure_StopIntermittentTherapy
+ * @brief     停止间歇治疗循环并关闭闭环控制
+ */
+void AppPressure_StopIntermittentTherapy(void);
+
+/**
+ * @name      AppPressure_GetCurrentTarget
+ * @brief     获取当前闭环控制的用户目标（mmHg）
+ */
+uint16_t AppPressure_GetCurrentTarget(void);
+
+/**
+ * @name      AppPressure_GetCurrentMode
+ * @brief     获取当前闭环控制模式（连续/间歇高压/间歇低压）
+ */
+AppPressureControlMode_e AppPressure_GetCurrentMode(void);
+
 #endif /* APP_PRESSURE_H */
 

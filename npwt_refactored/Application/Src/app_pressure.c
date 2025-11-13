@@ -58,6 +58,15 @@ static uint16_t g_pressure_zero_offset = 0;   // 零点偏移值（adc_zero）
 static bool g_calibration_pending = false;    // 延迟校准标志：在下一次UpdateADC时更新零点
 static SoftTimerHandle_t g_pressure_bleed_timer = 0;        // 开机放气定时器
 
+/* 间歇控制相关变量 */
+static bool g_intermittent_active = false;
+static bool g_intermittent_high_phase = true;
+static SoftTimerHandle_t g_intermittent_timer = 0;
+static uint16_t g_intermittent_high_target = 0;
+static uint16_t g_intermittent_low_target = 0;
+static uint32_t g_intermittent_high_duration_ms = 0;
+static uint32_t g_intermittent_low_duration_ms = 0;
+
 /* 转换系数（valueK） */
 static float g_pressure_conversion_factor = PRESSURE_CONVERSION_FACTOR_DEFAULT;  // 默认2.75
 
@@ -111,6 +120,8 @@ static uint16_t PressureControl_ApplyOffset(uint16_t user_target_mmHg);
  */
 static uint16_t PressureControl_SelectMinDuty(float abs_error);
 static void AppPressure_BleedTimerCallback(void* user_data);
+static void AppPressure_IntermittentTimerCallback(void* user_data);
+static void AppPressure_StartIntermittentPhase(bool high_phase);
 
 /****************************************************************************
  * 函数实现
@@ -160,6 +171,18 @@ void AppPressure_Init(void)
         SoftTimer_SetCallback(g_pressure_bleed_timer, AppPressure_BleedTimerCallback, NULL);
         SoftTimer_SetPeriod(g_pressure_bleed_timer, 3000);
     }
+
+    if (g_intermittent_timer == 0) {
+        g_intermittent_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
+                                                1000,
+                                                AppPressure_IntermittentTimerCallback,
+                                                NULL);
+    } else {
+        SoftTimer_Stop(g_intermittent_timer);
+        SoftTimer_SetCallback(g_intermittent_timer, AppPressure_IntermittentTimerCallback, NULL);
+        SoftTimer_SetPeriod(g_intermittent_timer, 1000);
+    }
+    g_intermittent_active = false;
 
     PressureControl_ResetOutputs();
 }
@@ -357,7 +380,7 @@ void AppPressure_BleedAndCalibrateZero(void)
             SoftTimer_Start(g_pressure_bleed_timer);
         } else {
             /* 定时器创建失败，立即关闭阀门并执行零点校准 */
-            HAL_Valve2_Close();
+            HAL_Valve1_Close();
             AppPressure_CalibrateZero();
         }
     }
@@ -430,6 +453,14 @@ void AppPressure_StopControl(void)
     g_pressure_last_output = 0.0f;
     PID_Reset(&g_pressure_pid);
     PressureControl_ResetOutputs();
+
+    if (g_intermittent_active) {
+        g_intermittent_active = false;
+        if (g_intermittent_timer != 0) {
+            SoftTimer_Stop(g_intermittent_timer);
+        }
+        g_intermittent_high_phase = true;
+    }
 }
 
 /**
@@ -688,6 +719,136 @@ static uint16_t PressureControl_SelectMinDuty(float abs_error)
         return 600U;   /* 距离死区很近仍保持 60%，避免停顿 */
     }
     return 650U;       /* 极近目标也维持较高占空比，直至进入死区 */
+}
+ 
+/**
+ * @brief     启动间歇控制的当前阶段
+ * @param     high_phase true 表示高压阶段，false 表示低压阶段
+ * @note      负责切换 PID 目标并重新启动阶段定时器
+ */
+static void AppPressure_StartIntermittentPhase(bool high_phase)
+{
+    if (!g_intermittent_active) {
+        return;
+    }
+
+    if (g_intermittent_timer == 0) {
+        g_intermittent_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
+                                                1000,
+                                                AppPressure_IntermittentTimerCallback,
+                                                NULL);
+        if (g_intermittent_timer == 0) {
+            g_intermittent_active = false;
+            AppPressure_StopControl();
+            return;
+        }
+    }
+
+    g_intermittent_high_phase = high_phase;
+
+    uint16_t target = high_phase ? g_intermittent_high_target : g_intermittent_low_target;
+    AppPressure_StartControl(target,
+                             high_phase ? APP_PRESSURE_CONTROL_MODE_INTERMITTENT_HIGH
+                                        : APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW);
+
+    uint32_t duration = high_phase ? g_intermittent_high_duration_ms : g_intermittent_low_duration_ms;
+    if (duration == 0U) {
+        duration = 1000U;
+    }
+
+    SoftTimer_Stop(g_intermittent_timer);
+    SoftTimer_SetPeriod(g_intermittent_timer, duration);
+    SoftTimer_Start(g_intermittent_timer);
+}
+
+/**
+ * @brief     间歇阶段定时器回调
+ * @param     user_data 定时器回调参数（未使用）
+ * @note      定时到期后切换到下一个阶段
+ */
+static void AppPressure_IntermittentTimerCallback(void* user_data)
+{
+    (void)user_data;
+
+    if (!g_intermittent_active) {
+        return;
+    }
+
+    AppPressure_StartIntermittentPhase(!g_intermittent_high_phase);
+}
+
+/**
+ * @name      AppPressure_StartIntermittentTherapy
+ * @brief     启动间歇治疗循环
+ * @param     high_target_mmHg 高压目标（mmHg）
+ * @param     low_target_mmHg  低压目标（mmHg）
+ * @param     high_time_min    高压维持时间（分钟）
+ * @param     low_time_min     低压维持时间（分钟）
+ */
+void AppPressure_StartIntermittentTherapy(uint16_t high_target_mmHg,
+                                          uint16_t low_target_mmHg,
+                                          uint16_t high_time_min,
+                                          uint16_t low_time_min)
+{
+    AppPressure_StopIntermittentTherapy();
+
+    g_intermittent_high_target = PressureControl_ClampTarget(high_target_mmHg);
+    g_intermittent_low_target = PressureControl_ClampTarget(low_target_mmHg);
+
+    if (g_intermittent_low_target >= g_intermittent_high_target) {
+        if (g_intermittent_high_target > 5U) {
+            g_intermittent_low_target = (uint16_t)(g_intermittent_high_target - 5U);
+        } else {
+            g_intermittent_low_target = g_intermittent_high_target;
+        }
+    }
+
+    g_intermittent_high_duration_ms = (uint32_t)high_time_min * 60000UL;
+    g_intermittent_low_duration_ms  = (uint32_t)low_time_min  * 60000UL;
+
+    if (g_intermittent_high_duration_ms == 0U) {
+        g_intermittent_high_duration_ms = 60000UL;
+    }
+    if (g_intermittent_low_duration_ms == 0U) {
+        g_intermittent_low_duration_ms = 60000UL;
+    }
+
+    g_intermittent_active = true;
+    AppPressure_StartIntermittentPhase(true);
+}
+
+/**
+ * @name      AppPressure_StopIntermittentTherapy
+ * @brief     停止间歇治疗循环并复位阶段定时器
+ */
+void AppPressure_StopIntermittentTherapy(void)
+{
+    if (g_intermittent_timer != 0) {
+        SoftTimer_Stop(g_intermittent_timer);
+    }
+    g_intermittent_active = false;
+    g_intermittent_high_phase = true;
+    AppPressure_StopControl();
+}
+
+/**
+ * @name      AppPressure_GetCurrentTarget
+ * @brief     获取当前闭环控制的用户目标压力
+ * @retval    用户设定的目标压力（mmHg）
+ */
+uint16_t AppPressure_GetCurrentTarget(void)
+{
+    return g_pressure_control_user_target;
+}
+
+/**
+ * @name      AppPressure_GetCurrentMode
+ * @brief     获取当前闭环控制模式
+ * @retval    AppPressureControlMode_e - 当前控制模式
+ */
+AppPressureControlMode_e AppPressure_GetCurrentMode(void)
+{
+    return g_pressure_control_mode;
 }
  
 

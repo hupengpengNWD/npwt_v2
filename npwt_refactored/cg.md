@@ -23,3 +23,6 @@
     g_last_display_pressure = current_pressure;
     snprintf(target_str, sizeof(target_str), "-%03ummHg", (unsigned int)current_pressure);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
+
+从暂停模式进入间歇治疗模式开始执行后，需要根据设定的间歇模式的高压/低压以及高压时间/低压时间使用pid对泵电机进行控制，比如间歇模式高压时120mmhg，低压时80mmhg，高压时间时2min，低压时间是2min，则开始间歇模式治疗之后使用pid将气压值调节到120mmhg并且维持2min，然后将气压维持在80mmhg并且维持2min，然后循环，暂停之后再次进入间歇模式时再重新执行前面的逻辑，使用pid控制气压的“允许的稳态误差”和“控制用目标偏移”以及其他参数和连续模式使用同一个参数，还需要和连续治疗模式一样也需要实时刷新气压值，也采用和连续治疗模式一样的方法
