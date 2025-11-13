@@ -1270,7 +1270,7 @@ void AppUI_Process(void)
         
         /* 显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
         /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
-        Display_ShowBatteryIcon(102, 6, display_level, current_battery_charging);
+        Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
     }
 
     /* 治疗界面的实时压力刷新（连续/间歇共用） */

@@ -66,6 +66,7 @@ static void Display_SetBacklightInternal(bool white_on, bool yellow_on);
 static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowNumberInternal(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
+static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
 static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font);
 static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
@@ -664,6 +665,56 @@ static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8
 }
 
 /**
+ * @name      Display_ShowImageStartupFormat
+ * @brief     显示标准格式（行优先、上到下、左到右）的启动 LOGO
+ * @note      不改变通用图像接口，避免影响既有逻辑
+ */
+//static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
+//{
+//    if (image_data == NULL) {
+//        return;
+//    }
+//
+//    uint8_t pages_needed = (height + 7) / 8;
+//
+//    for (uint8_t page = 0; page < pages_needed; page++) {
+//        uint8_t target_page = (uint8_t)((y + page) & 0x07);
+//        uint8_t page_hw = (uint8_t)((6 - target_page + 8) & 0x07);
+// 
+//        const uint8_t* page_ptr = image_data + (page * width);
+//        for (uint8_t col = 0; col < width; col++) {
+//            if ((x + col) >= 128) {
+//                break;
+//            }
+//            HAL_LCD_SetPositionNonBlocking(page_hw, (uint8_t)(x + col));
+//            HAL_LCD_SendDataNonBlocking(page_ptr[col]);
+//        }
+//    }
+//}
+
+static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
+{
+    if (image_data == NULL) {
+        return;
+    }
+
+    uint8_t pages_needed = (height + 7) / 8;
+
+    for (uint8_t page = 0; page < pages_needed; page++) {
+        uint8_t target_page = (uint8_t)((y + page) & 0x07);
+        uint8_t page_hw = (uint8_t)((6 - target_page + 8) & 0x07);
+ 
+        const uint8_t* page_ptr = image_data + (page * width);
+        for (uint8_t col = 0; col < width; col++) {
+            if (((x-6) + col) >= 128) {
+                break;
+            }
+            HAL_LCD_SetPositionNonBlocking(page_hw, (uint8_t)((x-6) + col));
+            HAL_LCD_SendDataNonBlocking(page_ptr[col]);
+        }
+    }
+}
+/**
  * @name      Display_ShowPressureInternal
  * @brief     内部显示压力函数
  * @param     x - X坐标
@@ -846,9 +897,8 @@ static void Display_ShowStartupInterfaceInternal(void)
 {
     // 清屏
     HAL_LCD_ClearNonBlocking();
-    
-    // 显示 "-130 mmhg" 使用 6x12 字体（行坐标 0，占用 0-11 行，共 12 像素高）
-    Display_ShowStringInternal(0, 0, "VR NPWT DEVICE", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+//    Display_ShowStringInternal(0, 0, "VR NPWT DEVICE", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowImageStartupFormat(0, 0, 128, 64, LOGO_STARTUP_IMAGE);
 }
 
 /****************************************************************************
