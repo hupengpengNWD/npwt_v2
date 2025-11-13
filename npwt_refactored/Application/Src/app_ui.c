@@ -845,16 +845,9 @@ static void AppUI_Display_LIX(void)
     g_last_display_pressure = current_pressure;
     snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);    
 
-#if 0    
-    // 显示实时压力值
-    uint16_t current_pressure = AppPressure_GetPressureValue();
-    Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
-    g_last_display_pressure = current_pressure;
-#endif
-    
-
+    // 显示提示操作
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
@@ -886,21 +879,15 @@ static void AppUI_Display_JIX(void)
     snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
     Display_ShowString(92, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
-    
+    // 显示实时压力值
     char pressure_str[16] = {0};
     uint16_t current_pressure = AppPressure_GetPressureValue();
     snprintf(pressure_str, sizeof(pressure_str), "-%03u", (unsigned int)current_pressure);
-    Display_ShowString(16, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(0, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(60, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     g_last_display_pressure = current_pressure;
-    
-#if 0    
-    // 显示实时压力值
-    uint16_t current_pressure = AppPressure_GetPressureValue();
-    Display_ShowPressure(16, 4, current_pressure, true, DISPLAY_FONT_16X32);
-    g_last_display_pressure = current_pressure;
-#endif    
-
+        
+    // 显示当前阶段
     Display_ShowString(12, 6, "High Phase", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
 
@@ -1018,17 +1005,6 @@ static void AppUI_Display_SET_HP_Pressure(void)
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    
-#if 0    
-    // 显示高压值（参考未重构工程的DISP_Dig14_16）
-    Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    // 显示低压值
-    Display_ShowNumber(73, 4, g_ui_context.pressure_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
-    // 显示单位"mmHg"（参考未重构工程的DISP_ChaBasic2）
-    Display_ShowString(98, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(98, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-#endif
 }
 
 /**
@@ -1054,17 +1030,7 @@ static void AppUI_Display_SET_LP_Pressure(void)
     // 显示低压
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
-#if 0    
-    // 显示高压值
-    Display_ShowNumber(73, 2, g_ui_context.pressure_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    // 显示低压值（当前正在编辑）
-    Display_ShowNumber(73, 4, g_ui_context.pressure_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
-    // 显示单位"mmHg"
-    Display_ShowString(98, 2, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(98, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-#endif    
+       
 }
 
 /**
@@ -1090,18 +1056,8 @@ static void AppUI_Display_SET_Time(void)
     snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
     Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
  
-#if 0    
-    // 显示高压时间
-    Display_ShowNumber(75, 2, g_ui_context.time_high, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    // 显示低压时间
-    Display_ShowNumber(75, 4, g_ui_context.time_low, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
-    // 显示单位"min"
-    Display_ShowString(101, 2, "min", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(101, 4, "min", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-#endif
     // 显示当前选中的时间项（可选：添加选中指示，如箭头或高亮）
-    // 注意：当前实现中，通过上下键切换编辑项，这里可以添加视觉反馈
+    // 当前实现中，通过上下键切换编辑项，这里可以添加视觉反馈
 }
 
 /****************************************************************************
@@ -1328,7 +1284,8 @@ void AppUI_Process(void)
             uint16_t display_target = in_continuous
                                        ? g_ui_context.pressure_high
                                        : AppPressure_GetCurrentTarget();
-
+            
+            // 显示目标气压值
             char target_buf[16] = {0};
             snprintf(target_buf, sizeof(target_buf), "-%u mmHg", (unsigned int)display_target);
             Display_ShowString(25, 0, target_buf, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1348,17 +1305,38 @@ void AppUI_Process(void)
             }
 
             if (need_refresh) {
+                
                 char pressure_buf[16] = {0};
                 g_last_display_pressure = current_pressure;
-                snprintf(pressure_buf, sizeof(pressure_buf), "-%03u", (unsigned int)current_pressure);
-                Display_ShowString(16, 4, pressure_buf, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-                Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+                
+                if(in_continuous) {                
+                    snprintf(pressure_buf, sizeof(pressure_buf), "-%03u", (unsigned int)current_pressure);
+                    Display_ShowString(16, 4, pressure_buf, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+                    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+                    
+                }else if (in_intermittent){        
+                    snprintf(pressure_buf, sizeof(pressure_buf), "-%03u", (unsigned int)current_pressure);
+                    Display_ShowString(0, 4, pressure_buf, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+                    Display_ShowString(60, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+                }
             }
 
             if (in_intermittent) {
+                // 显示间歇模式高压时间
+                char hp_time_str[8] = {0};
+                snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
+                Display_ShowString(92, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
+                // 显示间歇模式低压时间
+                char lp_time_str[8] = {0};
+                snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
+                Display_ShowString(92, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+                 
+                // 显示当前模式
                 AppPressureControlMode_e mode = AppPressure_GetCurrentMode();
                 const char* phase_str = (mode == APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW) ? "Low Phase" : "High Phase";
                 Display_ShowString(12, 6, phase_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+                
             } else {
                 Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
             }
