@@ -22,6 +22,7 @@
 #include "../../Application/Inc/app_ui.h"
 #include "../../Application/Inc/app_battery.h"
 #include "../../Application/Inc/app_pressure.h"
+#include "../../Application/Inc/app_alarm.h"
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/pwm.h"
@@ -236,7 +237,10 @@ void main(void)
     /* 6.4 初始化压力管理模块 */
     AppPressure_Init();
     
-    /* 6.5 初始化UI模块（FSM状态机） */
+    /* 6.5 初始化报警管理模块 */
+    AppAlarm_Init();
+    
+    /* 6.6 初始化UI模块（FSM状态机） */
     AppUI_Init();
     
     /* 6.4 显示开机界面（由AppUI_Init内部处理） */
@@ -343,6 +347,9 @@ void main(void)
            if (FLG_SYS_10MS)
            {
                FLG_SYS_10MS = 0;
+               
+               /* 报警处理（每10ms轮询一次，在UI处理之前） */
+               AppAlarm_Process();
                
                /* UI状态机处理（每10ms轮询一次） */
                AppUI_Process();

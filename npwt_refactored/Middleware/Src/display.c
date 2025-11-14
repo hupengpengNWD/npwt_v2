@@ -66,7 +66,7 @@ static void Display_SetBacklightInternal(bool white_on, bool yellow_on);
 static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowNumberInternal(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
-static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
+/* Display_ShowImageStartupFormat 已在 display.h 中声明为公开函数，此处不再声明 */
 static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font);
 static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
@@ -669,7 +669,7 @@ static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8
  * @brief     显示标准格式（行优先、上到下、左到右）的启动 LOGO
  * @note      不改变通用图像接口，避免影响既有逻辑
  */
-static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
+void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
 {
     if (image_data == NULL) {
         return;

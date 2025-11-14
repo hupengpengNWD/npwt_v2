@@ -327,6 +327,19 @@ void Display_ShowStartupInterface(void);
 void Display_ShowImageTest(void);
 
 /**
+ * @name      Display_ShowImageStartupFormat
+ * @brief     显示标准格式（行优先、上到下、左到右）的启动 LOGO 或全屏图片
+ * @param     x - X坐标（列）
+ * @param     y - Y坐标（页）
+ * @param     width - 图片宽度（像素）
+ * @param     height - 图片高度（像素）
+ * @param     image_data - 图片数据指针
+ * @retval    无
+ * @note      用于显示128x64全屏图片，如启动LOGO或报警图标
+ */
+void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
+
+/**
  * @name      Display_ShowChineseTest
  * @brief     显示中文测试界面
  * @param     无

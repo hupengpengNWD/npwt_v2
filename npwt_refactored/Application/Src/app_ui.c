@@ -39,6 +39,7 @@
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../Inc/app_pressure.h"  // 压力管理模块
+#include "../Inc/app_alarm.h"     // 报警管理模块
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/key_machine.h"
@@ -1280,6 +1281,13 @@ void AppUI_Init(void)
  */
 void AppUI_Process(void)
 {
+    /* 检查是否有严重低电报警，如果有则暂停UI显示 */
+    if (AppAlarm_IsCriticalBatteryActive())
+    {
+        /* 严重低电报警时，暂停所有UI处理，只保持报警图标显示 */
+        return;
+    }
+    
     /* 第一步：从按键事件队列读取并转换为FSM事件 */
     if (g_key_event_queue != NULL) {
         KeyEvent_t key_event;

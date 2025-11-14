@@ -8,6 +8,7 @@
         <itemPath>../Application/Inc/app_ui.h</itemPath>
         <itemPath>../Application/Inc/app_battery.h</itemPath>
         <itemPath>../Application/Inc/app_pressure.h</itemPath>
+        <itemPath>../Application/Inc/app_alarm.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
         <itemPath>../Core/Inc/mcu_config.h</itemPath>
@@ -39,6 +40,7 @@
         <itemPath>../Application/Src/app_ui.c</itemPath>
         <itemPath>../Application/Src/app_battery.c</itemPath>
         <itemPath>../Application/Src/app_pressure.c</itemPath>
+        <itemPath>../Application/Src/app_alarm.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Code" projectFiles="true">
         <itemPath>../Core/Src/main.c</itemPath>
@@ -135,7 +137,7 @@
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
         <property key="define-macros" value=""/>
-        <property key="disable-optimizations" value="true"/>
+        <property key="disable-optimizations" value="false"/>
         <property key="extra-include-directories"
                   value="../Application/Inc;../Core/Inc;../Drivers/Inc;../Middleware/Inc;../HAL/Inc"/>
         <property key="favor-optimization-for" value="-speed,+space"/>
@@ -150,7 +152,7 @@
         <property key="optimization-debug" value="false"/>
         <property key="optimization-invariant-enable" value="false"/>
         <property key="optimization-invariant-value" value="16"/>
-        <property key="optimization-level" value="-O0"/>
+        <property key="optimization-level" value="-O1"/>
         <property key="optimization-speed" value="false"/>
         <property key="optimization-stable-enable" value="false"/>
         <property key="pack-struct" value="true"/>
@@ -215,7 +217,6 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
