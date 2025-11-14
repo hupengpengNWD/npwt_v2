@@ -301,10 +301,10 @@ void main(void)
     AppBeep_StartBeep2D();
     
     /* 8.4 创建黄色LED翻转定时器（每1秒执行一次） */
-    SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);
-    if (led_toggle_timer != 0) {
-        SoftTimer_Start(led_toggle_timer);
-    }
+//    SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);
+//    if (led_toggle_timer != 0) {
+//        SoftTimer_Start(led_toggle_timer);
+//    }
     
     /* 8.5 创建电池ADC采集定时器（每500ms执行一次） */
     SoftTimerHandle_t battery_adc_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 500, BatteryADC_Callback, NULL);

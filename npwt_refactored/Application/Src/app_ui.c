@@ -43,6 +43,7 @@
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/key_machine.h"
 #include "../../Middleware/Inc/soft_timer.h"
+#include "../../HAL/Inc/hal_gpio.h"  // HAL层GPIO接口（用于背光控制）
 #include <stdio.h>
 
 /****************************************************************************
@@ -229,7 +230,7 @@ static void AppUI_HideLockIcon(void)
 }
 
 /**
- * @brief 进入自动锁定：置锁标志、显示图标
+ * @brief 进入自动锁定：置锁标志、显示图标、关闭背光
  */
 static void AppUI_EnterAutoLock(void)
 {
@@ -240,10 +241,11 @@ static void AppUI_EnterAutoLock(void)
     g_ui_context.auto_lock_active = true;
     AppUI_SetLockFlag(true);
     AppUI_ShowLockIcon();
+    HAL_LCD_Backlight_Off();  // 锁定后关闭背光
 }
 
 /**
- * @brief 退出自动锁定：清除锁状态与图标，同时复位计时
+ * @brief 退出自动锁定：清除锁状态与图标、打开背光，同时复位计时
  */
 static void AppUI_ExitAutoLock(void)
 {
@@ -255,6 +257,7 @@ static void AppUI_ExitAutoLock(void)
     g_ui_context.auto_lock_active = false;
     AppUI_SetLockFlag(false);
     AppUI_HideLockIcon();
+    HAL_LCD_Backlight_On();  // 解锁后打开背光
     AppUI_ResetLockTimer();
 }
 
