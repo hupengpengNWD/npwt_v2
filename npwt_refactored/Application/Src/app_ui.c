@@ -32,6 +32,10 @@
 #define UI_PRESSURE_REFRESH_INTERVAL_TICKS   20    // 连续模式压力刷新间隔（10ms Tick）；20=200ms
 #define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
 
+#define UI_LOCK_TIMEOUT_TICKS                3000U // 自动锁定超时时间：30s @10ms Tick
+#define UI_LOCK_ICON_X                       102U  // 锁定图标显示坐标X
+#define UI_LOCK_ICON_Y                       6U    // 锁定图标显示坐标Y
+
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../Inc/app_pressure.h"  // 压力管理模块
@@ -98,6 +102,13 @@ static void AppUI_Display_SET_HP_Pressure(void);
 static void AppUI_Display_SET_LP_Pressure(void);
 static void AppUI_Display_SET_Time(void);
 static void AppUI_RefreshPressureValue(void);  // 刷新连续模式压力值显示（局部刷新）
+static void AppUI_ResetLockTimer(void);
+static void AppUI_ShowLockIcon(void);
+static void AppUI_HideLockIcon(void);
+static void AppUI_EnterAutoLock(void);
+static void AppUI_ExitAutoLock(void);
+static void AppUI_UpdateAutoLock(void);
+static bool AppUI_IsLockableState(UIState_e state);
 
 /**
  * @name      AppUI_ConvertKeyEvent
@@ -109,6 +120,11 @@ static void AppUI_RefreshPressureValue(void);  // 刷新连续模式压力值显
 static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event)
 {
     /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
+
+    if (key_id == APP_BUTTON_KEY_ID_UNLOCK_COMBO &&
+        key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+        return UI_EVENT_UNLOCK;
+    }
     
     if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
         /* 长按保持：用于启动/快速调整 */
@@ -169,6 +185,105 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
  
     // 其他按键事件（短按、短按释放等）：按需在这里继续扩展
     return UI_EVENT_NONE;
+}
+
+/**
+ * @brief 判断当前UI状态是否需要参与自动锁定逻辑
+ * @param state UI状态枚举
+ * @retval true  需要计时并可能锁定（连续/间歇治疗界面）
+ * @retval false 不需要自动锁定
+ */
+static bool AppUI_IsLockableState(UIState_e state)
+{
+    return (state == UI_STATE_LIX) || (state == UI_STATE_JIX);
+}
+
+/**
+ * @brief 重置无操作计时器
+ */
+static void AppUI_ResetLockTimer(void)
+{
+    g_ui_context.lock_inactive_ticks = 0;
+}
+
+/**
+ * @brief 在指定坐标显示锁定图标（若尚未显示）
+ */
+static void AppUI_ShowLockIcon(void)
+{
+    if (g_ui_context.lock_icon_visible == false) {
+        Display_ShowIcon(UI_LOCK_ICON_X, UI_LOCK_ICON_Y, ICON_LOCK);
+        g_ui_context.lock_icon_visible = true;
+    }
+}
+
+/**
+ * @brief 清除锁定图标占用区域（若当前可见）
+ */
+static void AppUI_HideLockIcon(void)
+{
+    if (g_ui_context.lock_icon_visible) {
+        Display_ClearRect(UI_LOCK_ICON_X, UI_LOCK_ICON_Y, 8, 16);
+        g_ui_context.lock_icon_visible = false;
+    }
+}
+
+/**
+ * @brief 进入自动锁定：置锁标志、显示图标
+ */
+static void AppUI_EnterAutoLock(void)
+{
+    if (g_ui_context.auto_lock_active) {
+        return;
+    }
+
+    g_ui_context.auto_lock_active = true;
+    AppUI_SetLockFlag(true);
+    AppUI_ShowLockIcon();
+}
+
+/**
+ * @brief 退出自动锁定：清除锁状态与图标，同时复位计时
+ */
+static void AppUI_ExitAutoLock(void)
+{
+    if (g_ui_context.auto_lock_active == false && g_ui_context.lock_icon_visible == false) {
+        AppUI_ResetLockTimer();
+        return;
+    }
+
+    g_ui_context.auto_lock_active = false;
+    AppUI_SetLockFlag(false);
+    AppUI_HideLockIcon();
+    AppUI_ResetLockTimer();
+}
+
+/**
+ * @brief 自动锁定状态机：在可锁定页面统计无操作时间并触发/退出锁定
+ */
+static void AppUI_UpdateAutoLock(void)
+{
+    if (AppUI_IsLockableState(g_ui_context.current_state) == false) {
+        if (g_ui_context.auto_lock_active) {
+            AppUI_ExitAutoLock();
+        } else {
+            AppUI_HideLockIcon();
+            g_ui_context.lock_inactive_ticks = 0;
+        }
+        return;
+    }
+
+    if (g_ui_context.auto_lock_active) {
+        /* 已锁定，等待组合解锁 */
+        return;
+    }
+
+    if (g_ui_context.lock_inactive_ticks < UI_LOCK_TIMEOUT_TICKS) {
+        g_ui_context.lock_inactive_ticks++;
+        if (g_ui_context.lock_inactive_ticks >= UI_LOCK_TIMEOUT_TICKS) {
+            AppUI_EnterAutoLock();
+        }
+    }
 }
 
 /* 初始化超时定时器回调函数 */
@@ -428,6 +543,7 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_WAT;
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_WAT();
 
@@ -450,6 +566,7 @@ static void AppUI_StateEntry_LIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_LIX;
     ctx->work_mode_backup = UI_STATE_LIX;
+    AppUI_ExitAutoLock();
     AppPressure_StartControl(ctx->pressure_high, APP_PRESSURE_CONTROL_MODE_CONTINUOUS);
     Display_Clear();
     AppUI_Display_LIX();
@@ -467,6 +584,7 @@ static void AppUI_StateEntry_JIX(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_JIX;
     ctx->work_mode_backup = UI_STATE_JIX;
+    AppUI_ExitAutoLock();
     AppPressure_StartIntermittentTherapy(ctx->pressure_high,
                                          ctx->pressure_low,
                                          ctx->time_high,
@@ -489,6 +607,7 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_ZHT;
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_ZHT();
 }
@@ -525,6 +644,7 @@ static void AppUI_StateEntry_SET(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET;
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_SET();
 }
@@ -541,6 +661,7 @@ static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_PRESSURE;
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_SET_Pressure();
 }
@@ -557,6 +678,7 @@ static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_HP_PRESSURE;
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_SET_HP_Pressure();
 }
@@ -573,6 +695,7 @@ static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event)
     ctx->last_state = ctx->current_state;
     ctx->current_state = UI_STATE_SET_LP_PRESSURE;
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_SET_LP_Pressure();
 }
@@ -590,6 +713,7 @@ static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event)
     ctx->current_state = UI_STATE_SET_TIME;
     ctx->time_edit_high = true;  // 重置编辑标志
     AppPressure_StopControl();
+    AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_SET_Time();
 }
@@ -1097,6 +1221,9 @@ void AppUI_Init(void)
     g_ui_context.last_state = UI_STATE_SYS;
     g_ui_context.work_mode_backup = UI_STATE_LIX;
     g_ui_context.lock_flag = false;
+    g_ui_context.auto_lock_active = false;
+    g_ui_context.lock_icon_visible = false;
+    g_ui_context.lock_inactive_ticks = 0;
     // settings_sub_state已废弃，现在使用独立的FSM状态
     g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
     g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
@@ -1156,8 +1283,23 @@ void AppUI_Process(void)
         /* 处理队列中的所有按键事件（批量处理） */
         while (g_key_event_queue->empty(g_key_event_queue) == false) {
             if (g_key_event_queue->get(g_key_event_queue, &key_event, sizeof(key_event))) {
+                /* 记录用户交互：仅在未锁定时重置计时 */
+                if (g_ui_context.auto_lock_active == false) {
+                    AppUI_ResetLockTimer();
+                }
+
                 /* 转换按键事件为UI事件 */
                 UIEvent_e ui_event = AppUI_ConvertKeyEvent(key_event.key_id, key_event.key_event);
+                
+                if (ui_event == UI_EVENT_UNLOCK) {
+                    AppUI_ExitAutoLock();
+                    continue;
+                }
+
+                if (g_ui_context.auto_lock_active) {
+                    /* 锁定状态下忽略其他事件 */
+                    continue;
+                }
                 
                 if (ui_event != UI_EVENT_NONE) {
                     /* 创建FSM事件并放入队列 */
@@ -1185,6 +1327,8 @@ void AppUI_Process(void)
         }
     }
     
+    /* 自动锁定检测（在处理完本轮事件后执行） */
+    AppUI_UpdateAutoLock();
     /* 第三步：检测SET状态下work_mode_backup的变化（用于更新勾号位置） */
     static UIState_e last_work_mode_backup = UI_STATE_COUNT;
     

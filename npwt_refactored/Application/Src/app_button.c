@@ -14,6 +14,7 @@
 #include "../../Core/Inc/system_enums.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Middleware/Inc/queue.h"
+#include "../Inc/app_ui.h"
 #include <stddef.h>
 
 /****************************************************************************
@@ -167,6 +168,36 @@ static bool AppButton_PutKeyEvent(uint8_t key_id, KeyMachineEvent_e event)
     result = g_key_event_queue.put(&g_key_event_queue, &key_event, sizeof(key_event));
     
     return result;
+}
+
+/* 组合按键检测状态：记录是否保持同时按下，以及需要跳过的单键释放次数 */
+static bool g_unlock_combo_pressed = false;       /* 当前是否处于“上+下”同时按下 */
+static uint8_t g_unlock_combo_skip_release = 0;   /* 组合释放后需忽略的上/下键释放事件数 */
+
+/**
+ * @name      AppButton_CheckComboUnlock
+ * @brief     检测上键+下键组合按下并生成解锁事件
+ */
+static void AppButton_CheckComboUnlock(void)
+{
+    /* 仅在UI锁定时才检测组合解锁，避免非锁定状态下产生冗余事件 */
+    if (AppUI_GetLockFlag() == false) {
+        g_unlock_combo_pressed = false;
+        g_unlock_combo_skip_release = 0;
+        return;
+    }
+
+    uint8_t key_port = PORTB & 0x3C;
+    bool combo_pressed = (key_port == 0x24);  /* 0x24对应上键与下键同时按下 */
+
+    if (combo_pressed) {
+        g_unlock_combo_pressed = true;
+    } else if (g_unlock_combo_pressed) {
+        /* 检测到组合释放：产生一次组合解锁事件，并屏蔽随后两个单键释放事件 */
+        g_unlock_combo_pressed = false;
+        g_unlock_combo_skip_release = 2;
+        AppButton_PutKeyEvent(APP_BUTTON_KEY_ID_UNLOCK_COMBO, KEY_MACHINE_EVENT_LONG_PRESS_RELEASE);
+    }
 }
 
 /**
@@ -390,6 +421,11 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         
         case KEY_MACHINE_EVENT_LONG_PRESS_RELEASE:
         {
+            if (g_unlock_combo_skip_release > 0) {
+                g_unlock_combo_skip_release--;
+                break;
+            }
+
             AppButton_PutKeyEvent(1, event);
             // 长按释放 - 切换到下一个蜂鸣器二维模式（保留原功能）
             AppBeep_SwitchToNext2DMode();
@@ -441,6 +477,11 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
         
         case KEY_MACHINE_EVENT_LONG_PRESS_RELEASE:
         {
+            if (g_unlock_combo_skip_release > 0) {
+                g_unlock_combo_skip_release--;
+                break;
+            }
+
             // 长按释放（已通过队列发送给UI模块）
             AppButton_PutKeyEvent(2, event);
             break;
@@ -520,6 +561,9 @@ void AppButton_KeyProcessCallback(void* user_data)
     
     /* 处理按键状态机 */
     KeyManager_Process();
+
+    /* 检测组合解锁 */
+    AppButton_CheckComboUnlock();
 }
 
 /**

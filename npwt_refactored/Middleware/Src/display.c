@@ -669,29 +669,6 @@ static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8
  * @brief     显示标准格式（行优先、上到下、左到右）的启动 LOGO
  * @note      不改变通用图像接口，避免影响既有逻辑
  */
-//static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
-//{
-//    if (image_data == NULL) {
-//        return;
-//    }
-//
-//    uint8_t pages_needed = (height + 7) / 8;
-//
-//    for (uint8_t page = 0; page < pages_needed; page++) {
-//        uint8_t target_page = (uint8_t)((y + page) & 0x07);
-//        uint8_t page_hw = (uint8_t)((6 - target_page + 8) & 0x07);
-// 
-//        const uint8_t* page_ptr = image_data + (page * width);
-//        for (uint8_t col = 0; col < width; col++) {
-//            if ((x + col) >= 128) {
-//                break;
-//            }
-//            HAL_LCD_SetPositionNonBlocking(page_hw, (uint8_t)(x + col));
-//            HAL_LCD_SendDataNonBlocking(page_ptr[col]);
-//        }
-//    }
-//}
-
 static void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
 {
     if (image_data == NULL) {
