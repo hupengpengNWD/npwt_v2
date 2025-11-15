@@ -99,8 +99,15 @@ void AppBattery_Init(void)
 void AppBattery_Process(void* user_data)
 {
     (void)user_data;  // 未使用，消除警告
-    /* 检查是否在工作模式（压力控制启用时） */
-    bool is_working_mode = AppPressure_IsControlEnabled();
+    /* 检查电机是否实际正在运行（有负载时电压会下降，需要补偿） */
+    bool is_motor_running = AppPressure_IsMotorRunning();
+    /* 
+     * 组合检查：只有当控制启用且电机实际运行时，才应用负载补偿
+     * - 治疗模式 + 电机运行 → 有负载，需要补偿
+     * - 治疗模式 + 电机停止（压力达标） → 无负载，不需要补偿
+     * - 待机/暂停模式 → 无负载，不需要补偿
+     */
+    bool is_working_mode = AppPressure_IsControlEnabled() && is_motor_running;
     /* 根据当前ADC值和工作状态计算电量等级 */
     BatteryLevel_e new_level = BatteryLevel_Calculate(g_battery_adc, is_working_mode);
     

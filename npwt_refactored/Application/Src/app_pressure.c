@@ -504,6 +504,40 @@ bool AppPressure_IsControlEnabled(void)
 }
 
 /**
+ * @name      AppPressure_IsMotorRunning
+ * @brief     查询电机是否实际正在运行
+ * @retval    true=电机正在运行, false=电机已停止
+ * @note      检查PID控制是否启用、是否处于保持状态、PID输出是否大于0
+ *           用于判断是否有实际负载，以决定电池电量显示的补偿策略
+ *           
+ *           判断逻辑：
+ *           1. 如果控制未启用，电机肯定没运行
+ *           2. 如果处于保持状态（压力达标），电机已停止
+ *           3. 如果PID输出<=0，电机已停止
+ *           4. 否则，电机正在运行（有实际负载）
+ */
+bool AppPressure_IsMotorRunning(void)
+{
+    /* 如果控制未启用，电机肯定没运行 */
+    if (!g_pressure_control_enabled) {
+        return false;
+    }
+    
+    /* 如果处于保持状态（压力达标，电机已停止），电机没运行 */
+    if (g_pressure_hold_active) {
+        return false;
+    }
+    
+    /* 如果PID输出<=0，电机已停止（非正输出表示不需要抽气） */
+    if (g_pressure_last_output <= 0.0f) {
+        return false;
+    }
+    
+    /* 否则，电机正在运行（有实际负载） */
+    return true;
+}
+
+/**
  * @name      AppPressure_HasControlFault
  * @brief     查询控制故障标志
  * @retval    true=存在故障（已强制泄气）, false=无故障

@@ -134,6 +134,14 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
 void AppPressure_StopControl(void);
 void AppPressure_UpdateTarget(uint16_t target_mmHg);
 bool AppPressure_IsControlEnabled(void);
+/**
+ * @name      AppPressure_IsMotorRunning
+ * @brief     查询电机是否实际正在运行
+ * @retval    true=电机正在运行, false=电机已停止
+ * @note      检查PID控制是否启用、是否处于保持状态、PID输出是否大于0
+ *           用于判断是否有实际负载，以决定电池电量显示的补偿策略
+ */
+bool AppPressure_IsMotorRunning(void);
 bool AppPressure_HasControlFault(void);
 void AppPressure_ClearControlFault(void);
 
