@@ -6,7 +6,7 @@
  *   参考未重构工程的实现方式
  *   - ADC采集频率：每500ms一次（低频采集）
  *   - 滤波方式：10次滑动平均（在HAL层完成）
- *   - 防抖处理：连续100次相同才更新（约1秒@10ms周期）
+ *   - 防抖处理：连续10次相同才更新（1秒@100ms周期）
  *   - 电量等级：根据ADC阈值转换为枚举值
  * 
  * 创建日期: 2025-01-XX
@@ -16,6 +16,11 @@
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include <stdbool.h>
+
+/****************************************************************************
+ * 常量定义
+ ****************************************************************************/
+#define BATTERY_STABLE_COUNT    30    // 防抖次数：10次 × 100ms = 1秒
 
 /****************************************************************************
  * 内部变量
@@ -83,7 +88,7 @@ void AppBattery_Init(void)
 
 /**
  * @name      AppBattery_Process
- * @brief     电池管理处理函数（每10ms调用一次）
+ * @brief     电池管理处理函数（每100ms调用一次）
  * @param     user_data - 用户数据（定时器回调参数，未使用）
  * @note      处理防抖逻辑和充电状态检测
  */
@@ -93,16 +98,16 @@ void AppBattery_Process(void* user_data)
     /* 根据当前ADC值计算电量等级 */
     BatteryLevel_e new_level = BatteryLevel_Calculate(g_battery_adc);
     
-    /* 防抖处理：连续100次相同才更新（约1秒@10ms周期） */
+    /* 防抖处理：连续10次相同才更新（1秒@100ms周期） */
     if (new_level == g_battery_level_temp) {
         /* 连续相同，增加计数 */
-        if (++g_battery_stable_counter >= 100) {
+        if (++g_battery_stable_counter >= BATTERY_STABLE_COUNT) {
             /* 电量等级发生变化 */
             if (g_battery_level_stable != new_level) {
                 g_battery_level_stable = new_level;
                 g_battery_level_changed = true;  // 设置变化标志
             }
-            g_battery_stable_counter = 100;  // 防止溢出
+            g_battery_stable_counter = BATTERY_STABLE_COUNT;  // 防止溢出
         }
     } else {
         /* 发生变化，重置计数 */

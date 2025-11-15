@@ -169,8 +169,8 @@ void AppAlarm_Process(void)
     bool is_charging = AppBattery_IsCharging();
     
     /* 检测严重低电报警条件 */
-//    if (battery_level == BATTERY_LEVEL_CRITICAL && !is_charging)
-    if (battery_level == BATTERY_LEVEL_25 && !is_charging) // hpp
+    if (battery_level == BATTERY_LEVEL_CRITICAL && !is_charging)
+//    if (battery_level == BATTERY_LEVEL_25 && !is_charging) // hpp
     {
         /* 进入严重低电报警状态 */
         if (g_alarm_state != ALARM_TYPE_BATTERY_CRITICAL)
@@ -190,8 +190,8 @@ void AppAlarm_Process(void)
     else
     {
         /* 恢复正常状态（电池电量恢复或开始充电） */
-//        if (g_alarm_state == ALARM_TYPE_BATTERY_CRITICAL)
-        if (g_alarm_state == BATTERY_LEVEL_25)
+        if (g_alarm_state == ALARM_TYPE_BATTERY_CRITICAL)
+//        if (g_alarm_state == BATTERY_LEVEL_25)
         {
             AppAlarm_ExitCriticalBatteryAlarm();
         }
