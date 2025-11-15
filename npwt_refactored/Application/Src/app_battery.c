@@ -13,6 +13,7 @@
  ****************************************************************************/
 
 #include "../Inc/app_battery.h"
+#include "../Inc/app_pressure.h"
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include <stdbool.h>
@@ -20,7 +21,8 @@
 /****************************************************************************
  * 常量定义
  ****************************************************************************/
-#define BATTERY_STABLE_COUNT    30    // 防抖次数：10次 × 100ms = 1秒
+#define BATTERY_STABLE_COUNT           10    // 防抖次数：10次 × 100ms = 1秒
+#define BATTERY_LOAD_COMPENSATION_ADC  10    // 工作模式下负载补偿ADC值（约0.1V的压降补偿）
 
 /****************************************************************************
  * 内部变量
@@ -52,9 +54,11 @@ static bool g_battery_level_changed = false;
  * @name      BatteryLevel_Calculate
  * @brief     根据ADC值计算电量等级
  * @param     adc_bat - ADC采样值
+ * @param     is_working_mode - 是否在工作模式（连续或间歇治疗模式）
  * @retval    电量等级枚举值
+ * @note      工作模式下，所有阈值降低BATTERY_LOAD_COMPENSATION_ADC，以补偿负载导致的电压下降
  */
-static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat);
+static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat, bool is_working_mode);
 
 /**
  * @name      BatteryLevel_ToPercent
@@ -95,8 +99,10 @@ void AppBattery_Init(void)
 void AppBattery_Process(void* user_data)
 {
     (void)user_data;  // 未使用，消除警告
-    /* 根据当前ADC值计算电量等级 */
-    BatteryLevel_e new_level = BatteryLevel_Calculate(g_battery_adc);
+    /* 检查是否在工作模式（压力控制启用时） */
+    bool is_working_mode = AppPressure_IsControlEnabled();
+    /* 根据当前ADC值和工作状态计算电量等级 */
+    BatteryLevel_e new_level = BatteryLevel_Calculate(g_battery_adc, is_working_mode);
     
     /* 防抖处理：连续10次相同才更新（1秒@100ms周期） */
     if (new_level == g_battery_level_temp) {
@@ -188,19 +194,47 @@ bool AppBattery_IsLevelChanged(void)
 /**
  * @name      BatteryLevel_Calculate
  * @brief     根据ADC值计算电量等级（与未重构工程一致）
+ * @param     adc_bat - ADC采样值
+ * @param     is_working_mode - 是否在工作模式（连续或间歇治疗模式）
+ * @retval    电量等级枚举值
+ * @note      工作模式下，所有阈值降低BATTERY_LOAD_COMPENSATION_ADC，以补偿负载导致的电压下降
+ *           例如：工作模式下，BAT_LEVEL_75从304降到294，更准确反映真实电量
  */
-static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat)
+static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat, bool is_working_mode)
 {
+    uint16_t threshold_low;
+    uint16_t threshold_25;
+    uint16_t threshold_50;
+    uint16_t threshold_75;
+    uint16_t threshold_full;
+
+    /* 根据工作状态调整阈值 */
+    if (is_working_mode) {
+        /* 工作模式下，所有阈值降低BATTERY_LOAD_COMPENSATION_ADC，以补偿负载压降 */
+        threshold_low  = BAT_LEVEL_LOW  - BATTERY_LOAD_COMPENSATION_ADC;   // 269 -> 259
+        threshold_25   = BAT_LEVEL_25   - BATTERY_LOAD_COMPENSATION_ADC;   // 277 -> 267
+        threshold_50   = BAT_LEVEL_50   - BATTERY_LOAD_COMPENSATION_ADC;   // 296 -> 286
+        threshold_75   = BAT_LEVEL_75   - BATTERY_LOAD_COMPENSATION_ADC;   // 304 -> 294
+        threshold_full = BAT_LEVEL_FULL - BATTERY_LOAD_COMPENSATION_ADC;   // 319 -> 309
+    } else {
+        /* 非工作模式下，使用原始阈值 */
+        threshold_low  = BAT_LEVEL_LOW;
+        threshold_25   = BAT_LEVEL_25;
+        threshold_50   = BAT_LEVEL_50;
+        threshold_75   = BAT_LEVEL_75;
+        threshold_full = BAT_LEVEL_FULL;
+    }
+
     /* 参考未重构工程的阈值定义 */
-    if (adc_bat < BAT_LEVEL_LOW) {           // < 269
+    if (adc_bat < threshold_low) {
         return BATTERY_LEVEL_CRITICAL;       // 严重低电（<3.5V）
-    } else if (adc_bat < BAT_LEVEL_25) {    // < 277
+    } else if (adc_bat < threshold_25) {
         return BATTERY_LEVEL_WARNING;        // 低电警告（<3.6V）
-    } else if (adc_bat < BAT_LEVEL_50) {    // < 296
+    } else if (adc_bat < threshold_50) {
         return BATTERY_LEVEL_25;             // 25%（<3.7V）
-    } else if (adc_bat < BAT_LEVEL_75) {    // < 304
+    } else if (adc_bat < threshold_75) {
         return BATTERY_LEVEL_50;             // 50%（<3.8V）
-    } else if (adc_bat < BAT_LEVEL_FULL) {  // < 319
+    } else if (adc_bat < threshold_full) {
         return BATTERY_LEVEL_75;             // 75%（<4.0V）
     } else {
         return BATTERY_LEVEL_FULL;           // 100%（>=4.0V）
