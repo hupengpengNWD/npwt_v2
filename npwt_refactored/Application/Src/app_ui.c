@@ -1362,22 +1362,51 @@ void AppUI_Process(void)
     /* 第四步：电池显示更新（参考未重构工程的实现） */
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
     static uint16_t battery_charge_blink_counter = 0; // 充电闪烁计数器（用于充电动画）
+    static uint16_t battery_warning_blink_counter = 0; // 低电警告闪烁计数器（用于低电警告闪烁，单位：10ms）
+    static bool battery_warning_blink_state = false;  // 低电警告闪烁状态：true=显示，false=隐藏
     static uint8_t last_battery_level = 100;
     static bool last_battery_charging = false;
+    
+    /* 低电警告闪烁周期：100次×10ms = 1秒 */
+    #define BATTERY_WARNING_BLINK_INTERVAL_TICKS  100U
     
     /* 获取当前电池信息 */
     bool battery_changed = AppBattery_IsLevelChanged();
     uint8_t current_battery_level = AppBattery_GetLevel();
     bool current_battery_charging = AppBattery_IsCharging();
+    BatteryLevel_e current_battery_level_enum = AppBattery_GetLevelEnum();  // 获取电池等级枚举值，用于判断是否为低电警告
+    /* 若处于泄气阶段，冻结电池图标显示，避免瞬时压降导致的误判闪烁/降格 */
+    bool freeze_battery_display = AppPressure_IsBleeding();
     
     /* 充电闪烁计数器递增（每10ms递增一次） */
-    if (current_battery_charging) {
+    if (!freeze_battery_display && current_battery_charging) {
         battery_charge_blink_counter++;
         if (battery_charge_blink_counter >= 125) {  // 125次 = 1.25秒，循环5个图标
             battery_charge_blink_counter = 0;
         }
     } else {
         battery_charge_blink_counter = 0;  // 非充电时重置
+    }
+    
+    /* 低电警告闪烁计数器处理（电池等级为WARNING且未充电时） */
+    bool is_warning_level = (current_battery_level_enum == BATTERY_LEVEL_WARNING);
+    bool warning_blink_state_changed = false;  // 闪烁状态是否发生变化
+    
+    if (!freeze_battery_display && is_warning_level && !current_battery_charging) {
+        /* 低电警告且未充电时，实现1秒周期闪烁 */
+        battery_warning_blink_counter++;
+        if (battery_warning_blink_counter >= BATTERY_WARNING_BLINK_INTERVAL_TICKS) {
+            battery_warning_blink_counter = 0;
+            bool old_state = battery_warning_blink_state;
+            battery_warning_blink_state = !battery_warning_blink_state;  // 切换显示/隐藏状态
+            warning_blink_state_changed = (old_state != battery_warning_blink_state);  // 状态发生变化（应该总是true）
+        }
+    } else {
+        /* 非警告状态或正在充电时，重置闪烁状态 */
+        bool old_state = battery_warning_blink_state;
+        battery_warning_blink_counter = 0;
+        battery_warning_blink_state = false;
+        warning_blink_state_changed = (old_state != battery_warning_blink_state);  // 如果从闪烁状态恢复，需要更新显示
     }
     
     /* 判断是否需要更新显示 */
@@ -1388,10 +1417,12 @@ void AppUI_Process(void)
         current_battery_charging != last_battery_charging) {
         /* 电池信息变化，立即更新显示 */
         need_update = true;
-        last_battery_level = current_battery_level;
-        last_battery_charging = current_battery_charging;
+        if (!freeze_battery_display) {
+            last_battery_level = current_battery_level;
+            last_battery_charging = current_battery_charging;
+        }
         battery_display_counter = 0;  // 重置计数器
-    } else if (current_battery_charging) {
+    } else if (!freeze_battery_display && current_battery_charging) {
         /* 充电时，每20ms更新一次（实现闪烁动画，与未重构工程一致） */
         if (++battery_display_counter >= 2) {  // 2次 = 20ms@10ms
             need_update = true;
@@ -1408,9 +1439,13 @@ void AppUI_Process(void)
     /* 更新显示 */
     if (need_update) {
         uint8_t display_level = current_battery_level;
+        if (freeze_battery_display) {
+            /* 冻结显示为上一次稳定等级，避免泄气负载导致的短暂降格 */
+            display_level = last_battery_level;
+        }
         
         /* 充电时实现闪烁效果（参考未重构工程：循环显示不同电量图标） */
-        if (current_battery_charging) {
+        if (!freeze_battery_display && current_battery_charging) {
             /* 根据闪烁计数器选择显示的图标（每25次切换一个图标） */
             uint8_t blink_phase = (uint8_t)(battery_charge_blink_counter / 25);  // 0-4
             switch (blink_phase) {
@@ -1423,9 +1458,35 @@ void AppUI_Process(void)
             }
         }
         
-        /* 显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
-        /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
-        Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
+        /* 低电警告闪烁处理（电池等级为WARNING且未充电时） */
+        if (!freeze_battery_display && is_warning_level && !current_battery_charging) {
+            /* 根据闪烁状态决定是否显示图标 */
+            if (battery_warning_blink_state) {
+                /* 显示状态：显示电池图标 */
+                Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
+            } else {
+                /* 隐藏状态：按与图标绘制相同的路径清除图标区域，避免偏移不一致 */
+                Display_ClearIconArea(102, 0, ICON_BAT0);
+            }
+        } else {
+            /* 非警告状态或正在充电，正常显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
+            /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
+            Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
+        }
+    } else if (!freeze_battery_display && warning_blink_state_changed) {
+        /* 即使need_update为false，低电警告闪烁状态改变时也需要更新显示 */
+        if (is_warning_level && !current_battery_charging) {
+            if (battery_warning_blink_state) {
+                /* 显示状态：显示电池图标 */
+                Display_ShowBatteryIcon(102, 0, current_battery_level, current_battery_charging);
+            } else {
+                /* 隐藏状态：按与图标绘制相同的路径清除图标区域，避免偏移不一致 */
+                Display_ClearIconArea(102, 0, ICON_BAT0);
+            }
+        } else {
+            /* 从闪烁状态恢复到正常状态，显示正常图标 */
+            Display_ShowBatteryIcon(102, 0, current_battery_level, current_battery_charging);
+        }
     }
 
     /* 治疗界面的实时压力刷新（连续/间歇共用） */

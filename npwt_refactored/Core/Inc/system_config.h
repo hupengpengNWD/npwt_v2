@@ -35,7 +35,7 @@
 #define BAT_LEVEL_50            296         // 50%
 #define BAT_LEVEL_25            277         // 25%
 #define BAT_LEVEL_LOW           269         // 低电
-#define BAT_SHUTDOWN_VOLTAGE    275         // 自动关机电压
+#define BAT_LEVEL_CRITICAL      260         // 严重低电报警阈值（约≈3.45V）用于触发 ALARM_TYPE_BATTERY_CRITICAL 判定
 
 /****************************************************************************
  * 定时器参数（单位：系统周期20ms）

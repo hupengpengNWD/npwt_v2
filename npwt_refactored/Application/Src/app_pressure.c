@@ -132,6 +132,27 @@ static void AppPressure_LowPhaseReleaseCallback(void* user_data);
  * 函数实现
  ****************************************************************************/
 
+/* 电磁阀泄气状态标志：用于避免电池在泄气重负载阶段被误判为低电 */
+static bool g_valve_bleeding_active = false;
+/* 关阀后的冷却窗口（延迟判定解除），单位：AppPressure_Process调用周期（10ms） */
+#define BLEED_COOLDOWN_TICKS   200U  /* 约2秒 */
+/* 冷却计数器：
+ * - 用于阀门关闭后继续维持“泄气中”判定的一段时间（避免关阀瞬态引起的电压/压力抖动）
+ * - 计数单位为 AppPressure_Process 的调用间隔（10ms/tick）
+ * - 当 g_bleed_cooldown_ticks > 0 时，AppPressure_IsBleeding() 仍返回 true
+ * - 在 AppPressure_Process() 中每次调用自动递减，直至归零
+ */
+static uint16_t g_bleed_cooldown_ticks = 0;
+
+/**
+ * @name      AppPressure_IsBleeding
+ * @brief     查询当前是否处于泄气阶段（阀门打开中）
+ * @retval    true=泄气中, false=未泄气
+ */
+bool AppPressure_IsBleeding(void)
+{
+    return (g_valve_bleeding_active || (g_bleed_cooldown_ticks > 0U));
+}
 /**
  * @name      AppPressure_Init
  * @brief     初始化压力管理模块
@@ -213,6 +234,11 @@ void AppPressure_Init(void)
 void AppPressure_Process(void* user_data)
 {
     (void)user_data;  /* 定时器回调未传递上下文 */
+
+    /* 冷却窗口递减：阀关闭后的短时内维持“泄气中”判定，避免关阀瞬态引起误判 */
+    if (g_bleed_cooldown_ticks > 0U) {
+        g_bleed_cooldown_ticks--;
+    }
 
     /* Step1：控制未启用直接返回，避免多余计算 */
     if (!g_pressure_control_enabled) {
@@ -366,6 +392,8 @@ static void AppPressure_BleedTimerCallback(void* user_data)
 
 //    HAL_Valve2_Close();
     HAL_Valve1_Close();
+    g_valve_bleeding_active = false;
+    g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
     AppPressure_CalibrateZero();
 }
 
@@ -383,6 +411,8 @@ void AppPressure_BleedAndCalibrateZero(void)
     /* 打开电磁阀释放压力 */
 //    HAL_Valve2_Open();
     HAL_Valve1_Open();
+    g_valve_bleeding_active = true;
+    g_bleed_cooldown_ticks = 0U;
 
     if (g_pressure_bleed_timer != 0) {
         SoftTimer_Stop(g_pressure_bleed_timer);
@@ -640,6 +670,8 @@ static void PressureControl_ResetOutputs(void)
     HAL_Pump_Stop();
     g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
     g_pressure_hold_active = false;
+    g_valve_bleeding_active = false;
+    g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
 }
 
 /**
@@ -657,6 +689,7 @@ static void PressureControl_ForceRelease(void)
     HAL_Valve2_Open();
     g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
     g_pressure_hold_active = false;
+    g_valve_bleeding_active = true;
 }
 
 /**
@@ -700,6 +733,8 @@ static void PressureControl_ApplyOutput(float control_output)
         /* 抽气时关闭两路阀门，保持管路密闭 */
         HAL_Valve1_Close();
         HAL_Valve2_Close();
+        g_valve_bleeding_active = false;
+        g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
     } else {
         /*
          * 非正输出：需要减压 / 保压
@@ -711,9 +746,13 @@ static void PressureControl_ApplyOutput(float control_output)
         if (release_magnitude >= PRESSURE_CONTROL_VALVE_THRESHOLD) {
             HAL_Valve1_Open();
             HAL_Valve2_Open();
+            g_valve_bleeding_active = true;
+            g_bleed_cooldown_ticks = 0U;
         } else {
             HAL_Valve1_Close();
             HAL_Valve2_Close();
+            g_valve_bleeding_active = false;
+            g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
         }
     }
 }

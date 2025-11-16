@@ -183,5 +183,12 @@ uint16_t AppPressure_GetCurrentTarget(void);
  */
 AppPressureControlMode_e AppPressure_GetCurrentMode(void);
 
+/**
+ * @name      AppPressure_IsBleeding
+ * @brief     查询是否处于泄气阶段（阀门打开中）
+ * @retval    true=泄气中, false=未泄气
+ */
+bool AppPressure_IsBleeding(void);
+
 #endif /* APP_PRESSURE_H */
 

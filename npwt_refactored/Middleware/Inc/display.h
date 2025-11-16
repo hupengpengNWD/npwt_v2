@@ -340,6 +340,19 @@ void Display_ShowImageTest(void);
 void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
 
 /**
+ * @name      Display_ClearIconArea
+ * @brief     按与图标绘制相同的映射路径清除图标区域
+ * @param     x - X坐标（列）
+ * @param     y - Y坐标（页）
+ * @param     icon_type - 图标类型（用于获取宽高与写入路径一致）
+ * @retval    无
+ * @note
+ *   - 使用与 Display_ShowIconInternal 完全一致的列/页寻址与数据写入路径
+ *   - 逐列写入0数据，避免坐标系/列偏移差异导致清除不完整
+ */
+void Display_ClearIconArea(uint8_t x, uint8_t y, IconType_e icon_type);
+
+/**
  * @name      Display_ShowChineseTest
  * @brief     显示中文测试界面
  * @param     无

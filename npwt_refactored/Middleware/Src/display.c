@@ -942,6 +942,46 @@ static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type)
     Display_SendCharData(y, x+column_offset, icon_data->data, icon_data->width, icon_data->height);
 }
 
+/**
+ * @name      Display_ClearIconArea
+ * @brief     按与图标绘制相同的映射路径清除图标区域
+ * @param     x - X坐标（列）
+ * @param     y - Y坐标（页）
+ * @param     icon_type - 图标类型（用于获取宽高与写入路径一致）
+ * @retval    无
+ * @note
+ *   - 使用与 Display_ShowIconInternal 完全一致的列/页寻址与数据写入路径
+ *   - 逐列写入0数据，避免坐标系/列偏移差异导致清除不完整
+ */
+void Display_ClearIconArea(uint8_t x, uint8_t y, IconType_e icon_type)
+{
+    const IconData_t* icon_data = IconData_Get(icon_type);
+    if (icon_data == NULL) {
+        return;
+    }
+    uint8_t width = icon_data->width;
+    uint8_t height = icon_data->height;
+
+    /* 与 Display_ShowIconInternal 保持一致的列偏移补偿 */
+    uint8_t column_offset = 0; // hpp
+    if (width == 24) {
+        column_offset = 17;
+    }
+
+    /* 根据高度准备清零缓冲区（字模格式：16像素高=2*width，32像素高=4*width） */
+    uint8_t zero_buf[64];
+    uint16_t bytes = (height == 32) ? (uint16_t)(width * 4U) : (uint16_t)(width * 2U);
+    if (bytes > sizeof(zero_buf)) {
+        return; // 安全保护，理论不会超过
+    }
+    for (uint16_t i = 0; i < bytes; i++) {
+        zero_buf[i] = 0x00;
+    }
+
+    /* 复用字符发送路径，保证与图标绘制相同的页/列映射 */
+    Display_SendCharData(y, (uint8_t)(x + column_offset), zero_buf, width, height);
+}
+
 /****************************************************************************
  * 字符处理辅助函数实现
  ****************************************************************************/

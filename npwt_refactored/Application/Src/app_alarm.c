@@ -11,6 +11,7 @@
 
 #include "../Inc/app_alarm.h"
 #include "../Inc/app_battery.h"
+#include "../Inc/app_pressure.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/soft_timer.h"
 #include "../../HAL/Inc/hal_gpio.h"
@@ -164,6 +165,11 @@ void AppAlarm_Init(void)
  */
 void AppAlarm_Process(void)
 {
+    /* 若处于泄气阶段（电磁阀打开），暂不进行严重低电报警评估，避免瞬时压降误判 */
+    if (AppPressure_IsBleeding()) {
+        return;
+    }
+    
     /* 获取电池电量等级和充电状态 */
     BatteryLevel_e battery_level = AppBattery_GetLevelEnum();
     bool is_charging = AppBattery_IsCharging();

@@ -209,7 +209,9 @@ bool AppBattery_IsLevelChanged(void)
  */
 static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat, bool is_working_mode)
 {
-    uint16_t threshold_low;
+    /* 分离“严重低电报警阈值”和“低电闪烁阈值” */
+    uint16_t threshold_critical;  /* 严重低电报警阈值（独立宏） */
+    uint16_t threshold_low;       /* 低电（0格/闪烁）阈值，沿用 BAT_LEVEL_LOW */
     uint16_t threshold_25;
     uint16_t threshold_50;
     uint16_t threshold_75;
@@ -218,13 +220,15 @@ static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat, bool is_working_m
     /* 根据工作状态调整阈值 */
     if (is_working_mode) {
         /* 工作模式下，所有阈值降低BATTERY_LOAD_COMPENSATION_ADC，以补偿负载压降 */
-        threshold_low  = BAT_LEVEL_LOW  - BATTERY_LOAD_COMPENSATION_ADC;   // 269 -> 259
+        threshold_critical = BAT_LEVEL_CRITICAL - BATTERY_LOAD_COMPENSATION_ADC; // 265 -> 255
+        threshold_low  = BAT_LEVEL_LOW  - BATTERY_LOAD_COMPENSATION_ADC;             // 269 -> 259
         threshold_25   = BAT_LEVEL_25   - BATTERY_LOAD_COMPENSATION_ADC;   // 277 -> 267
         threshold_50   = BAT_LEVEL_50   - BATTERY_LOAD_COMPENSATION_ADC;   // 296 -> 286
         threshold_75   = BAT_LEVEL_75   - BATTERY_LOAD_COMPENSATION_ADC;   // 304 -> 294
         threshold_full = BAT_LEVEL_FULL - BATTERY_LOAD_COMPENSATION_ADC;   // 319 -> 309
     } else {
         /* 非工作模式下，使用原始阈值 */
+        threshold_critical = BAT_LEVEL_CRITICAL;
         threshold_low  = BAT_LEVEL_LOW;
         threshold_25   = BAT_LEVEL_25;
         threshold_50   = BAT_LEVEL_50;
@@ -232,15 +236,17 @@ static BatteryLevel_e BatteryLevel_Calculate(uint16_t adc_bat, bool is_working_m
         threshold_full = BAT_LEVEL_FULL;
     }
 
-    /* 参考未重构工程的阈值定义 */
-    if (adc_bat < threshold_low) {
-        return BATTERY_LEVEL_CRITICAL;       // 严重低电（<3.5V）
-    } else if (adc_bat < threshold_25) {
+    /* 判定顺序：优先严重低电 → 低电警告 → 25% → 50% → 75% → 满电 */
+    if (adc_bat < threshold_critical) {
+        return BATTERY_LEVEL_CRITICAL;       /* 严重低电报警（关机前10s显示） */
+    } else if (adc_bat < threshold_low) {
         return BATTERY_LEVEL_WARNING;        // 低电警告（<3.6V）
-    } else if (adc_bat < threshold_50) {
+    } else if (adc_bat < threshold_25) {
         return BATTERY_LEVEL_25;             // 25%（<3.7V）
-    } else if (adc_bat < threshold_75) {
+    } else if (adc_bat < threshold_50) {
         return BATTERY_LEVEL_50;             // 50%（<3.8V）
+    } else if (adc_bat < threshold_75) {
+        return BATTERY_LEVEL_75;             // 75%（<4.0V）
     } else if (adc_bat < threshold_full) {
         return BATTERY_LEVEL_75;             // 75%（<4.0V）
     } else {
