@@ -943,7 +943,7 @@ static void AppUI_Display_WAT(void)
         Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
     }
     
-    Display_ShowString(25, 0, "-135 mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(25, 0, "-135 mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     Display_ShowIcon(32, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
     Display_ShowString(48, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -994,7 +994,7 @@ static void AppUI_Display_JIX(void)
 
     // 显示目标压力
     char target_str[16] = {0};
-    snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+    snprintf(target_str, sizeof(target_str), "-%u mmhg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
     // 显示间歇模式高压时间
@@ -1034,7 +1034,7 @@ static void AppUI_Display_ZHT(void)
     
     // 显示目标压力
     char target_str[16]={0};
-    snprintf(target_str, sizeof(target_str), "-%u mmHg", (unsigned int)g_ui_context.pressure_high);
+    snprintf(target_str, sizeof(target_str), "-%u mmhg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示暂停状态
@@ -1463,9 +1463,15 @@ void AppUI_Process(void)
             /* 根据闪烁状态决定是否显示图标 */
             if (battery_warning_blink_state) {
                 /* 显示状态：显示电池图标 */
+                /* 电池空格闪烁：关闭白色背光，点亮黄色背光，与图标同步 */
+                HAL_LCD_Backlight_Off();
+                HAL_LED_Yellow_On();
                 Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
             } else {
                 /* 隐藏状态：按与图标绘制相同的路径清除图标区域，避免偏移不一致 */
+                /* 电池空格闪烁：关闭白色背光，熄灭黄色背光，与图标同步 */
+                HAL_LCD_Backlight_Off();
+                HAL_LED_Yellow_Off();
                 Display_ClearIconArea(102, 0, ICON_BAT0);
             }
         } else {
@@ -1478,9 +1484,13 @@ void AppUI_Process(void)
         if (is_warning_level && !current_battery_charging) {
             if (battery_warning_blink_state) {
                 /* 显示状态：显示电池图标 */
+                HAL_LCD_Backlight_Off();
+                HAL_LED_Yellow_On();
                 Display_ShowBatteryIcon(102, 0, current_battery_level, current_battery_charging);
             } else {
                 /* 隐藏状态：按与图标绘制相同的路径清除图标区域，避免偏移不一致 */
+                HAL_LCD_Backlight_Off();
+                HAL_LED_Yellow_Off();
                 Display_ClearIconArea(102, 0, ICON_BAT0);
             }
         } else {
@@ -1503,7 +1513,7 @@ void AppUI_Process(void)
             
             // 显示目标气压值
             char target_buf[16] = {0};
-            snprintf(target_buf, sizeof(target_buf), "-%u mmHg", (unsigned int)display_target);
+            snprintf(target_buf, sizeof(target_buf), "-%u mmhg", (unsigned int)display_target);
             Display_ShowString(25, 0, target_buf, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
             uint16_t current_pressure = AppPressure_GetPressureValue();
