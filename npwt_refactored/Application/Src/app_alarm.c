@@ -93,6 +93,10 @@ static void AppAlarm_EnterCriticalBatteryAlarm(void)
     /* 更新报警状态 */
     g_alarm_state = ALARM_TYPE_BATTERY_CRITICAL;
     
+    /* 严重低电显示期间：关闭白色背光，打开黄色背光作为显著告警 */
+    HAL_LCD_Backlight_Off();
+    HAL_LED_Yellow_On();
+    
     /* 显示低电图标（只显示一次，之后保持显示） */
     if (!g_icon_displayed)
     {
@@ -129,6 +133,10 @@ static void AppAlarm_ExitCriticalBatteryAlarm(void)
     /* 更新报警状态 */
     g_alarm_state = ALARM_TYPE_NONE;
     g_icon_displayed = false;
+    
+    /* 恢复背光状态：关闭黄色背光，打开白色背光 */
+    HAL_LED_Yellow_Off();
+    HAL_LCD_Backlight_On();
     
     /* 停止关机定时器 */
     if (g_shutdown_timer != 0)
