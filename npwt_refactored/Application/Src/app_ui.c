@@ -40,6 +40,7 @@
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../Inc/app_pressure.h"  // 压力管理模块
 #include "../Inc/app_alarm.h"     // 报警管理模块
+#include "../../Core/Inc/system_config.h"  // 系统配置（包含电池图标坐标宏）
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/key_machine.h"
@@ -1466,18 +1467,18 @@ void AppUI_Process(void)
                 /* 电池空格闪烁：关闭白色背光，点亮黄色背光，与图标同步 */
                 HAL_LCD_Backlight_Off();
                 HAL_LED_Yellow_On();
-                Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
+                Display_ShowBatteryIcon(BATTERY_ICON_X, BATTERY_ICON_Y, display_level, current_battery_charging);
             } else {
                 /* 隐藏状态：按与图标绘制相同的路径清除图标区域，避免偏移不一致 */
                 /* 电池空格闪烁：关闭白色背光，熄灭黄色背光，与图标同步 */
                 HAL_LCD_Backlight_Off();
                 HAL_LED_Yellow_Off();
-                Display_ClearIconArea(102, 0, ICON_BAT0);
+                Display_ClearIconArea(BATTERY_ICON_X, BATTERY_ICON_Y, ICON_BAT0);
             }
         } else {
             /* 非警告状态或正在充电，正常显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
             /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
-            Display_ShowBatteryIcon(102, 0, display_level, current_battery_charging);
+            Display_ShowBatteryIcon(BATTERY_ICON_X, BATTERY_ICON_Y, display_level, current_battery_charging);
         }
     } else if (!freeze_battery_display && warning_blink_state_changed) {
         /* 即使need_update为false，低电警告闪烁状态改变时也需要更新显示 */
@@ -1486,16 +1487,16 @@ void AppUI_Process(void)
                 /* 显示状态：显示电池图标 */
                 HAL_LCD_Backlight_Off();
                 HAL_LED_Yellow_On();
-                Display_ShowBatteryIcon(102, 0, current_battery_level, current_battery_charging);
+                Display_ShowBatteryIcon(BATTERY_ICON_X, BATTERY_ICON_Y, current_battery_level, current_battery_charging);
             } else {
                 /* 隐藏状态：按与图标绘制相同的路径清除图标区域，避免偏移不一致 */
                 HAL_LCD_Backlight_Off();
                 HAL_LED_Yellow_Off();
-                Display_ClearIconArea(102, 0, ICON_BAT0);
+                Display_ClearIconArea(BATTERY_ICON_X, BATTERY_ICON_Y, ICON_BAT0);
             }
         } else {
             /* 从闪烁状态恢复到正常状态，显示正常图标 */
-            Display_ShowBatteryIcon(102, 0, current_battery_level, current_battery_charging);
+            Display_ShowBatteryIcon(BATTERY_ICON_X, BATTERY_ICON_Y, current_battery_level, current_battery_charging);
         }
     }
 
