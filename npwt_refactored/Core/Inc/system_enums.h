@@ -113,6 +113,7 @@ typedef enum {
 	ALARM_TYPE_LEAKAGE,            // 泄漏报警
 	ALARM_TYPE_BLOCKAGE,           // 堵塞报警
 	ALARM_TYPE_LIQUID_FULL,        // 液位满报警
+	ALARM_TYPE_IDLE,               // 空闲报警
 	ALARM_TYPE_ERROR               // 一般错误
 } AlarmType_e;
 

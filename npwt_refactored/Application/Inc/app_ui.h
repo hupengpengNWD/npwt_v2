@@ -83,6 +83,9 @@ typedef struct {
     bool auto_lock_active;          // 是否处于自动锁定状态
     bool lock_icon_visible;         // 锁定图标是否已显示
     uint16_t lock_inactive_ticks;   // 无操作计时（10ms Tick）
+    bool idle_active;               // 是否处于空闲状态
+    uint16_t idle_inactive_ticks;  // 空闲计时器（10ms Tick）
+    UIState_e idle_previous_state;  // 空闲前的状态（用于恢复显示）
     SettingsSubState_e settings_sub_state;  // 设置模式子状态
     uint16_t pressure_high;         // 高压值（mmHg，连续模式使用，间歇模式也使用）
     uint16_t pressure_low;          // 低压值（mmHg，仅间歇模式使用）

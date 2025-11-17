@@ -36,6 +36,10 @@
 #define UI_LOCK_ICON_X                       102U  // 锁定图标显示坐标X
 #define UI_LOCK_ICON_Y                       6U    // 锁定图标显示坐标Y
 
+#define UI_IDLE_TIMEOUT_TICKS                6000U // 空闲超时时间：1分钟 @10ms Tick (60秒)
+#define UI_IDLE_TEXT_X                       40U    // "Pump Idle"文本显示X坐标（居中显示）
+#define UI_IDLE_TEXT_Y                       3U     // "Pump Idle"文本显示Y坐标（屏幕中间）
+
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../Inc/app_pressure.h"  // 压力管理模块
@@ -112,6 +116,11 @@ static void AppUI_EnterAutoLock(void);
 static void AppUI_ExitAutoLock(void);
 static void AppUI_UpdateAutoLock(void);
 static bool AppUI_IsLockableState(UIState_e state);
+static bool AppUI_IsIdleableState(UIState_e state);
+static void AppUI_EnterIdle(void);
+static void AppUI_ExitIdle(void);
+static void AppUI_UpdateIdle(void);
+static void AppUI_ResetIdleTimer(void);
 
 /**
  * @name      AppUI_ConvertKeyEvent
@@ -198,7 +207,7 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
  */
 static bool AppUI_IsLockableState(UIState_e state)
 {
-    return (state == UI_STATE_LIX) || (state == UI_STATE_JIX);
+    return (state == UI_STATE_LIX) || (state == UI_STATE_JIX) || (state == UI_STATE_ZHT);
 }
 
 /**
@@ -287,6 +296,108 @@ static void AppUI_UpdateAutoLock(void)
         g_ui_context.lock_inactive_ticks++;
         if (g_ui_context.lock_inactive_ticks >= UI_LOCK_TIMEOUT_TICKS) {
             AppUI_EnterAutoLock();
+        }
+    }
+}
+
+/**
+ * @brief 判断当前状态是否可进入空闲检测
+ * @param state UI状态
+ * @retval true 可进入空闲检测（治疗模式或暂停模式）
+ * @retval false 不可进入空闲检测
+ */
+static bool AppUI_IsIdleableState(UIState_e state)
+{
+    return (state == UI_STATE_LIX || state == UI_STATE_JIX || state == UI_STATE_ZHT);
+}
+
+/**
+ * @brief 重置空闲计时器
+ */
+static void AppUI_ResetIdleTimer(void)
+{
+    g_ui_context.idle_inactive_ticks = 0;
+}
+
+/**
+ * @brief 进入空闲状态：显示"Pump Idle"，关闭白色背光，打开黄色背光
+ */
+static void AppUI_EnterIdle(void)
+{
+    g_ui_context.idle_active = true;
+    g_ui_context.idle_previous_state = g_ui_context.current_state;
+    
+    /* 清屏并显示"Pump Idle" */
+    Display_Clear();
+    Display_ShowString(UI_IDLE_TEXT_X, UI_IDLE_TEXT_Y, "Pump Idle", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    /* 关闭白色背光，打开黄色背光 */
+    HAL_LCD_Backlight_Off();
+    HAL_LED_Yellow_On();
+}
+
+/**
+ * @brief 退出空闲状态：恢复之前的显示，恢复背光状态
+ */
+static void AppUI_ExitIdle(void)
+{
+    g_ui_context.idle_active = false;
+    
+    /* 如果之前处于锁屏状态，清除锁屏状态（因为空闲状态下锁屏检测被暂停） */
+    if (g_ui_context.auto_lock_active) {
+        AppUI_ExitAutoLock();
+    }
+    
+    /* 恢复之前的显示 */
+    Display_Clear();
+    switch (g_ui_context.idle_previous_state) {
+        case UI_STATE_LIX:
+            AppUI_Display_LIX();
+            break;
+        case UI_STATE_JIX:
+            AppUI_Display_JIX();
+            break;
+        case UI_STATE_ZHT:
+            AppUI_Display_ZHT();
+            break;
+        default:
+            break;
+    }
+    
+    /* 恢复背光状态：打开白色背光，关闭黄色背光 */
+    HAL_LCD_Backlight_On();
+    HAL_LED_Yellow_Off();
+    
+    /* 重置空闲计时器和锁屏计时器 */
+    AppUI_ResetIdleTimer();
+    AppUI_ResetLockTimer();
+}
+
+/**
+ * @brief 空闲检测状态机：在可空闲页面统计无操作时间并触发/退出空闲
+ */
+static void AppUI_UpdateIdle(void)
+{
+    /* 如果不在可空闲状态，退出空闲并返回 */
+    if (AppUI_IsIdleableState(g_ui_context.current_state) == false) {
+        if (g_ui_context.idle_active) {
+            AppUI_ExitIdle();
+        } else {
+            AppUI_ResetIdleTimer();
+        }
+        return;
+    }
+
+    /* 如果已进入空闲状态，等待长按恢复 */
+    if (g_ui_context.idle_active) {
+        return;
+    }
+
+    /* 递增空闲计时器，超时则进入空闲状态 */
+    if (g_ui_context.idle_inactive_ticks < UI_IDLE_TIMEOUT_TICKS) {
+        g_ui_context.idle_inactive_ticks++;
+        if (g_ui_context.idle_inactive_ticks >= UI_IDLE_TIMEOUT_TICKS) {
+            AppUI_EnterIdle();
         }
     }
 }
@@ -1229,6 +1340,9 @@ void AppUI_Init(void)
     g_ui_context.auto_lock_active = false;
     g_ui_context.lock_icon_visible = false;
     g_ui_context.lock_inactive_ticks = 0;
+    g_ui_context.idle_active = false;
+    g_ui_context.idle_inactive_ticks = 0;
+    g_ui_context.idle_previous_state = UI_STATE_SYS;
     // settings_sub_state已废弃，现在使用独立的FSM状态
     g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
     g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
@@ -1295,9 +1409,25 @@ void AppUI_Process(void)
         /* 处理队列中的所有按键事件（批量处理） */
         while (g_key_event_queue->empty(g_key_event_queue) == false) {
             if (g_key_event_queue->get(g_key_event_queue, &key_event, sizeof(key_event))) {
+                /* 如果处于空闲状态，检测长按任意键松开事件以退出空闲 */
+                if (g_ui_context.idle_active) {
+                    if (key_event.key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+                        AppUI_ExitIdle();
+                        continue;  // 退出空闲后，不处理该按键事件
+                    } else {
+                        /* 空闲状态下忽略其他按键事件 */
+                        continue;
+                    }
+                }
+                
                 /* 记录用户交互：仅在未锁定时重置计时 */
                 if (g_ui_context.auto_lock_active == false) {
                     AppUI_ResetLockTimer();
+                }
+                
+                /* 在可空闲状态下，任何按键事件都重置空闲计时器 */
+                if (AppUI_IsIdleableState(g_ui_context.current_state)) {
+                    AppUI_ResetIdleTimer();
                 }
 
                 /* 转换按键事件为UI事件 */
@@ -1339,8 +1469,13 @@ void AppUI_Process(void)
         }
     }
     
-    /* 自动锁定检测（在处理完本轮事件后执行） */
-    AppUI_UpdateAutoLock();
+    /* 空闲检测（在处理完本轮事件后执行，优先级高于锁屏） */
+    AppUI_UpdateIdle();
+    
+    /* 自动锁定检测（在处理完本轮事件后执行，如果处于空闲状态则暂停） */
+    if (g_ui_context.idle_active == false) {
+        AppUI_UpdateAutoLock();
+    }
     /* 第三步：检测SET状态下work_mode_backup的变化（用于更新勾号位置） */
     static UIState_e last_work_mode_backup = UI_STATE_COUNT;
     
@@ -1361,6 +1496,11 @@ void AppUI_Process(void)
     }
     
     /* 第四步：电池显示更新（参考未重构工程的实现） */
+    /* 如果处于空闲状态，跳过电池显示更新 */
+    if (g_ui_context.idle_active) {
+        return;  // 空闲状态下，只显示"Pump Idle"，不更新其他UI元素
+    }
+    
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
     static uint16_t battery_charge_blink_counter = 0; // 充电闪烁计数器（用于充电动画）
     static uint16_t battery_warning_blink_counter = 0; // 低电警告闪烁计数器（用于低电警告闪烁，单位：10ms）
@@ -1501,6 +1641,11 @@ void AppUI_Process(void)
     }
 
     /* 治疗界面的实时压力刷新（连续/间歇共用） */
+    /* 如果处于空闲状态，跳过实时压力刷新 */
+    if (g_ui_context.idle_active) {
+        return;  // 空闲状态下，只显示"Pump Idle"，不更新其他UI元素
+    }
+    
     bool in_continuous = (g_ui_context.current_state == UI_STATE_LIX);
     bool in_intermittent = (g_ui_context.current_state == UI_STATE_JIX);
 
