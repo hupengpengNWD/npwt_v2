@@ -20,6 +20,7 @@
 static PushPull_t g_buzzer_instance;           // 蜂鸣器控制实例
 static PushPullPtr_t g_buzzer = NULL;           // 蜂鸣器控制指针
 static SoftTimerHandle_t g_beep_process_timer = 0; // 蜂鸣器处理定时器句柄
+static bool g_key_beep_active = false;         // 按键音是否正在播放
 
 // 2秒周期循环时序：开1秒，关1秒（转换为tick数，20ms为单位）
 // 二维时序数组：支持多种不同的蜂鸣器模式
@@ -31,6 +32,10 @@ static const uint16_t g_buzzer_seq_2d_array[][2] = {
 };
 
 #define BUZZER_2D_COUNT   (sizeof(g_buzzer_seq_2d_array) / sizeof(g_buzzer_seq_2d_array[0]))
+
+// 按键音时序数组：40ms响，60ms停（转换为tick数，20ms为单位）
+// 格式：[响铃时间, 静音时间]
+static const uint16_t g_key_beep_seq[2] = {2, 3};  // 40ms/20ms=2, 60ms/20ms=3
 
 /****************************************************************************
  * 函数实现
@@ -117,7 +122,11 @@ void AppBeep_BuzzerCallback(PushPullPtr_t ptr, PushPullEvent_e event, void* arg)
         case PUSHPULL_EVENT_SEQUENCE_DONE:
         {
             // 序列完成事件（在无限循环模式下不会触发）
-            // TODO: 可以添加序列完成时的处理逻辑
+            // 如果按键音正在播放，播放完成后停止
+            if (g_key_beep_active) {
+                g_key_beep_active = false;
+                AppBeep_StopBeep();
+            }
             break;
         }
         
@@ -196,6 +205,14 @@ void AppBeep_BeepProcessCallback(void* user_data)
     
     // 处理蜂鸣器状态机
     PushPull_FSM(g_buzzer);
+    
+    // 检查按键音是否播放完成（当 repeat_count = 1 时，播放完一次后 seq_2d_repeat_count 会变成0）
+    if (g_key_beep_active && g_buzzer->seq_2d_repeat_count == 0 && 
+        g_buzzer->seq_index == 0 && g_buzzer->tick == 0) {
+        // 按键音播放完成，停止蜂鸣器
+        g_key_beep_active = false;
+        AppBeep_StopBeep();
+    }
 }
 
 /**
@@ -271,4 +288,30 @@ void AppBeep_SwitchToNext2DMode(void)
         g_buzzer->seq_index = 0;
         g_buzzer->tick = 0;
     }
+}
+
+/**
+ * @name      AppBeep_BeepKey
+ * @brief     播放按键音（40ms响，60ms停，单次播放）
+ * @param     无
+ * @retval    无
+ * @remark    按键音会打断当前正在播放的蜂鸣器声音
+ */
+void AppBeep_BeepKey(void)
+{
+    if (g_buzzer == NULL) {
+        return;
+    }
+    
+    // 创建指向按键音序列的指针数组（PushPull_Set2DSequence 需要二维数组指针）
+    static const uint16_t* key_beep_seq_ptr[1] = {g_key_beep_seq};
+    
+    // 设置按键音标志
+    g_key_beep_active = true;
+    
+    // 设置按键音序列：只播放一次（repeat_count = 1）
+    PushPull_Set2DSequence(g_buzzer, key_beep_seq_ptr, 1, 1);
+    
+    // 确保设置为序列模式
+    PushPull_SetMode(g_buzzer, PUSHPULL_MODE_SEQUENCE);
 }

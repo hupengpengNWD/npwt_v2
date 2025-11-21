@@ -158,4 +158,13 @@ void AppBeep_SwitchToNext2DMode(void);
  */
 void AppBeep_StopBeep(void);
 
+/**
+ * @name      AppBeep_BeepKey
+ * @brief     播放按键音（40ms响，60ms停，单次播放）
+ * @param     无
+ * @retval    无
+ * @remark    按键音会打断当前正在播放的蜂鸣器声音
+ */
+void AppBeep_BeepKey(void);
+
 #endif /* APP_BEEP_H */

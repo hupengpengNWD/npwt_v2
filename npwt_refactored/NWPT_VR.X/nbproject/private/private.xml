@@ -18,6 +18,20 @@
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/HAL/Src/hal_gpio.c</file>
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Library/lcd_icon_data.c</file>
             <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Library/lcd_font_data_7x14.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_battery.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Inc/app_alarm.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_alarm.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Inc/app_battery.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Core/Inc/system_config.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Core/Inc/system_enums.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/soft_timer.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Inc/soft_timer.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_pressure.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Core/Inc/mcu_config.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Application/Src/app_beep.c</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Inc/pushpull.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/HAL/Inc/hal_gpio.h</file>
+            <file>file:/Users/petrinamigdal/vr_medical/NWPT/tmp_code/npwp_russian_v1.0/vr-npwt_s_dis_big_new13_rui_for_droye_end_tom/npwt_refactored/Middleware/Src/pushpull.c</file>
         </group>
     </open-files>
 </project-private>

@@ -290,7 +290,8 @@ void main(void)
     }
     
     /* 8.1 创建蜂鸣器处理定时器（每20ms执行一次，避免与按键处理冲突） */
-    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, NULL, NULL);
+    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, AppBeep_BeepProcessCallback, NULL);
+//    SoftTimerHandle_t beep_process_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 20, NULL, NULL);
     if (beep_process_timer != 0) {
         SoftTimer_Start(beep_process_timer);
         AppBeep_SetBeepProcessTimer(beep_process_timer);
@@ -302,7 +303,7 @@ void main(void)
     PushPull_SetDriverInterface(buzzer, (void*)0x1234, AppBeep_BuzzerWriteHigh, AppBeep_BuzzerWriteLow, AppBeep_BuzzerToggle);
     
     /* 8.3 开始蜂鸣器二维时序模式（支持多种模式切换） */
-    AppBeep_StartBeep2D();
+//    AppBeep_StartBeep2D();  // 测试代码，已屏蔽
     
     /* 8.4 创建黄色LED翻转定时器（每1秒执行一次） */
 //    SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);

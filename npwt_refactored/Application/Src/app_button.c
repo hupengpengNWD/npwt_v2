@@ -344,6 +344,8 @@ void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, vo
             // 长按1秒 - 已删除开机逻辑，现在只在断电情况下长按确认键通电
             // 通电后立即在main函数中完成电源自锁和开机
             // 注意：此事件不发送UI事件，保留给未来可能的开机功能
+            // 播放按键音
+            AppBeep_BeepKey();
             break;
         }
         
@@ -409,6 +411,8 @@ void AppButton_UpKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, void*
         case KEY_MACHINE_EVENT_LONG_PRESS:
         {
             // 长按1秒 - 快速增加数值（已通过队列发送给UI模块）
+            // 播放按键音
+            AppBeep_BeepKey();
             break;
         }
         
@@ -465,6 +469,8 @@ void AppButton_DownKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, voi
         case KEY_MACHINE_EVENT_LONG_PRESS:
         {
             // 长按1秒 - 快速减少数值（已通过队列发送给UI模块）
+            // 播放按键音
+            AppBeep_BeepKey();
             break;
         }
         
@@ -520,6 +526,8 @@ void AppButton_CancelKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, v
         {
             // 长按1秒 - 特殊功能
             // TODO: 实现具体功能
+            // 播放按键音
+            AppBeep_BeepKey();
             break;
         }
         
