@@ -140,7 +140,14 @@ void AppBeep_StartBeep(void);
  */
 void AppBeep_StartBeep2D(void);
 
-
+/**
+ * @name      AppBeep_StartBeep2DMode
+ * @brief     启动蜂鸣器指定模式的二维时序
+ * @param     mode_index - 模式索引（0-3）
+ * @retval    无
+ * @remark    启动指定模式的蜂鸣器，无限循环播放
+ */
+void AppBeep_StartBeep2DMode(uint32_t mode_index);
 
 /**
  * @name      AppBeep_SwitchToNext2DMode

@@ -44,6 +44,7 @@
 #include "../Inc/app_battery.h"   // 电池管理模块
 #include "../Inc/app_pressure.h"  // 压力管理模块
 #include "../Inc/app_alarm.h"     // 报警管理模块
+#include "../Inc/app_beep.h"      // 蜂鸣器管理模块
 #include "../../Core/Inc/system_config.h"  // 系统配置（包含电池图标坐标宏）
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
@@ -334,6 +335,9 @@ static void AppUI_EnterIdle(void)
     /* 关闭白色背光，打开黄色背光 */
     HAL_LCD_Backlight_Off();
     HAL_LED_Yellow_On();
+    
+    /* 启动蜂鸣器模式2（{8, 250}：响150ms，静5000ms） */
+    AppBeep_StartBeep2DMode(2);
 }
 
 /**
@@ -367,6 +371,9 @@ static void AppUI_ExitIdle(void)
     /* 恢复背光状态：打开白色背光，关闭黄色背光 */
     HAL_LCD_Backlight_On();
     HAL_LED_Yellow_Off();
+    
+    /* 停止蜂鸣器模式2的工作 */
+    AppBeep_StopBeep();
     
     /* 重置空闲计时器和锁屏计时器 */
     AppUI_ResetIdleTimer();

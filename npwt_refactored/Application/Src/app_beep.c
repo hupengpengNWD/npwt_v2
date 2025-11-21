@@ -287,6 +287,41 @@ void AppBeep_StartBeep2D(void)
 
 
 /**
+ * @name      AppBeep_StartBeep2DMode
+ * @brief     启动蜂鸣器指定模式的二维时序
+ * @param     mode_index - 模式索引（0-3）
+ * @retval    无
+ * @remark    启动指定模式的蜂鸣器，无限循环播放
+ */
+void AppBeep_StartBeep2DMode(uint32_t mode_index)
+{
+    if (g_buzzer == NULL) {
+        return;
+    }
+    
+    // 检查模式索引是否有效
+    if (mode_index >= BUZZER_2D_COUNT) {
+        return;
+    }
+    
+    // 设置二维时序数组
+    PushPull_Set2DSequence(g_buzzer, 
+                         AppBeep_GetBuzzer2DConfig(), 
+                         AppBeep_GetBuzzer2DCount(), 
+                         0); // 每行无限循环
+    
+    // 设置指定的模式索引
+    g_buzzer->seq_2d_index = mode_index;
+    
+    // 重置当前模式的执行状态
+    g_buzzer->seq_index = 0;
+    g_buzzer->tick = 0;
+    
+    // 确保设置为序列模式
+    PushPull_SetMode(g_buzzer, PUSHPULL_MODE_SEQUENCE);
+}
+
+/**
  * @name      AppBeep_SwitchToNext2DMode
  * @brief     切换到下一个二维模式
  * @param     无
