@@ -29,14 +29,12 @@ static bool g_key_beep_started = false;        // 按键音是否已经开始播
 static const uint16_t g_buzzer_seq_2d_array[][2] = {
     {8, 25},    // 模式0：响150ms，静500ms (150ms/20ms=8, 500ms/20ms=25)
     {8, 150},   // 模式1：响150ms，静3000ms (150ms/20ms=8, 3000ms/20ms=150)
-    {8, 250}    // 模式2：响150ms，静5000ms (150ms/20ms=8, 5000ms/20ms=250)
+    {8, 250},   // 模式2：响150ms，静5000ms (150ms/20ms=8, 5000ms/20ms=250)
+    {2, 3}      // 模式3：按键音（40ms响，60ms停）(40ms/20ms=2, 60ms/20ms=3)
 };
 
 #define BUZZER_2D_COUNT   (sizeof(g_buzzer_seq_2d_array) / sizeof(g_buzzer_seq_2d_array[0]))
-
-// 按键音时序数组：40ms响，60ms停（转换为tick数，20ms为单位）
-// 格式：[响铃时间, 静音时间]
-static const uint16_t g_key_beep_seq[2] = {2, 3};  // 40ms/20ms=2, 60ms/20ms=3
+#define BUZZER_2D_MODE_KEY_BEEP  3  // 按键音模式索引
 
 /****************************************************************************
  * 函数实现
@@ -327,8 +325,14 @@ void AppBeep_BeepKey(void)
         return;
     }
     
-    // 创建指向按键音序列的指针数组（PushPull_Set2DSequence 需要二维数组指针）
-    static const uint16_t* key_beep_seq_ptr[1] = {g_key_beep_seq};
+    // 先停止当前正在播放的蜂鸣器，确保按键音能立即播放
+    AppBeep_StopBeep();
+    
+    // 创建指向按键音模式的指针数组（PushPull_Set2DSequence 需要二维数组指针）
+    // 按键音模式在 g_buzzer_seq_2d_array 中的索引为 BUZZER_2D_MODE_KEY_BEEP (3)
+    // 直接使用 g_buzzer_seq_2d_array，避免通过 AppBeep_GetBuzzer2DConfig() 获取指针
+    static const uint16_t* key_beep_seq_ptr[1];
+    key_beep_seq_ptr[0] = g_buzzer_seq_2d_array[BUZZER_2D_MODE_KEY_BEEP];
     
     // 设置按键音标志
     g_key_beep_active = true;
