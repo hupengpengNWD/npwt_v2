@@ -21,6 +21,7 @@ static PushPull_t g_buzzer_instance;           // 蜂鸣器控制实例
 static PushPullPtr_t g_buzzer = NULL;           // 蜂鸣器控制指针
 static SoftTimerHandle_t g_beep_process_timer = 0; // 蜂鸣器处理定时器句柄
 static bool g_key_beep_active = false;         // 按键音是否正在播放
+static bool g_key_beep_started = false;        // 按键音是否已经开始播放（用于区分初始状态和完成状态）
 
 // 2秒周期循环时序：开1秒，关1秒（转换为tick数，20ms为单位）
 // 二维时序数组：支持多种不同的蜂鸣器模式
@@ -198,6 +199,10 @@ void AppBeep_BeepProcessCallback(void* user_data)
         return;
     }
     
+    // 保存执行前的状态
+    uint32_t seq_index_before = g_buzzer->seq_index;
+    uint32_t repeat_count_before = g_buzzer->seq_2d_repeat_count;
+    
     // 安全检查：确保索引在有效范围内
     if (g_buzzer->seq_2d_index >= g_buzzer->seq_2d_count) {
         g_buzzer->seq_2d_index = 0;  // 重置索引
@@ -206,12 +211,27 @@ void AppBeep_BeepProcessCallback(void* user_data)
     // 处理蜂鸣器状态机
     PushPull_FSM(g_buzzer);
     
-    // 检查按键音是否播放完成（当 repeat_count = 1 时，播放完一次后 seq_2d_repeat_count 会变成0）
-    if (g_key_beep_active && g_buzzer->seq_2d_repeat_count == 0 && 
-        g_buzzer->seq_index == 0 && g_buzzer->tick == 0) {
-        // 按键音播放完成，停止蜂鸣器
-        g_key_beep_active = false;
-        AppBeep_StopBeep();
+    // 检查按键音是否已经开始播放
+    if (g_key_beep_active && g_buzzer->seq_index != 0) {
+        g_key_beep_started = true;  // 标记已开始播放
+    }
+    
+    // 检查按键音是否播放完成
+    // 按键音设置：seq_2d_count = 1, seq_2d_repeat_count = 1（只播放一次）
+    // 完成标志：当 repeat_count 从 1 变成 0 时，FSM会立即重置为1，并重置 seq_index 为 0
+    // 所以检查：如果 repeat_count_before == 1 且在FSM执行后 repeat_count == 1 且 seq_index == 0，
+    // 且 seq_2d_index == 0，且已经开始播放，表示完成了一次循环并重新开始，此时应该停止
+    if (g_key_beep_active && g_key_beep_started && g_buzzer->seq_2d_array != NULL && 
+        g_buzzer->seq_2d_count == 1 && repeat_count_before == 1) {
+        // 如果FSM执行后状态重置为初始状态，说明完成了一次循环
+        if (g_buzzer->seq_index == 0 && g_buzzer->seq_2d_repeat_count == 1 &&
+            g_buzzer->seq_2d_index == 0) {
+            // 按键音播放完成（完成了一次循环并重新开始），立即停止
+            g_key_beep_active = false;
+            g_key_beep_started = false;
+            AppBeep_StopBeep();
+            return;  // 立即返回，防止FSM继续执行导致循环
+        }
     }
 }
 
@@ -232,10 +252,14 @@ void AppBeep_SetBeepProcessTimer(SoftTimerHandle_t timer_handle)
  * @brief     停止蜂鸣器
  * @param     无
  * @retval    无
+ * @remark    清空序列数组，防止FSM继续运行造成无限循环
  */
 void AppBeep_StopBeep(void)
 {
     if (g_buzzer) {
+        // 清空序列数组，防止FSM继续运行
+        PushPull_Set2DSequence(g_buzzer, NULL, 0, 0);
+        
         // 设置为手动模式并关闭蜂鸣器
         PushPull_SetMode(g_buzzer, PUSHPULL_MODE_MANUAL);
         HAL_Buzzer_Off();
@@ -308,6 +332,7 @@ void AppBeep_BeepKey(void)
     
     // 设置按键音标志
     g_key_beep_active = true;
+    g_key_beep_started = false;  // 重置开始标志
     
     // 设置按键音序列：只播放一次（repeat_count = 1）
     PushPull_Set2DSequence(g_buzzer, key_beep_seq_ptr, 1, 1);
