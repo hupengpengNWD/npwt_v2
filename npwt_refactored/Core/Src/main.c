@@ -23,6 +23,7 @@
 #include "../../Application/Inc/app_battery.h"
 #include "../../Application/Inc/app_pressure.h"
 #include "../../Application/Inc/app_alarm.h"
+#include "../../Application/Inc/app_settings.h"
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/pwm.h"
@@ -83,6 +84,21 @@ void PowerOn(void)
 }
 
 /**
+ * @brief 简单延时函数（用于Flash写入后稳定）
+ * @param ms - 延时毫秒数（近似值）
+ */
+void PowerOff_Delay(uint16_t ms)
+{
+    /* 简单循环延时（32MHz时钟，近似延时） */
+    uint16_t i, j;
+    for (i = 0; i < ms; i++) {
+        for (j = 0; j < 800; j++) {  // 内层循环，约1ms @ 32MHz
+            asm("nop");
+        }
+    }
+}
+
+/**
  * @name      PowerOff
  * @brief     关机操作 - 释放RC2让MOSFET断开
  * @param     无
@@ -90,11 +106,25 @@ void PowerOn(void)
  */
 void PowerOff(void)
 {
-//     释放RC2让MOSFET断开（使用HAL函数）
-    HAL_Power_Release();  // LATCbits.LATC2 = 0
-    
+    // 保存参数到Flash（关机前保存）
+    UIContext_t* ui_context = AppUI_GetContext();  // 获取UI上下文指针
+    if (ui_context != NULL) {
+        // Flash写入前禁用中断，避免中断破坏RAM状态
+        // 注意：与未重构工程一致，Flash写入后不恢复中断，直接进入死循环
+        GIE = 0;  // 禁用全局中断
+        
+        AppSettings_UpdateFromUI(ui_context);
+        AppSettings_Save();  // 保存到Flash
+        
+        // Flash写入后不恢复中断，直接关闭外设并进入死循环
+        // 与未重构工程保持一致：Write_Cycle()中如果CARRY=1，则GIE=0（不恢复中断）
+    }
+    PowerOff_Delay(1000);
     // 关闭背光
     HAL_LCD_Backlight_Off();
+    
+    // 释放RC2让MOSFET断开（使用HAL函数）
+    HAL_Power_Release();  // LATCbits.LATC2 = 0
     
     // 更新状态
     // 注意：电源状态现在由app_button模块管理
@@ -102,7 +132,7 @@ void PowerOff(void)
     // 但为了保持与备份文件的一致性，这里也更新状态
     AppButton_SetPowerState(0); // POWER_STATE_OFF = 0
     
-    // 进入死循环等待断电
+    // 进入死循环等待断电（中断保持禁用状态）
     while(1) { 
         // 看门狗已禁用，无需喂狗
     }
@@ -240,8 +270,17 @@ void main(void)
     /* 6.5 初始化报警管理模块 */
     AppAlarm_Init();
     
-    /* 6.6 初始化UI模块（FSM状态机） */
+    /* 6.6 初始化参数保存模块（在UI初始化之前，以便加载参数） */
+    AppSettings_Init();
+    
+    /* 6.7 初始化UI模块（FSM状态机） */
     AppUI_Init();
+    
+    /* 6.8 将保存的参数应用到UI模块 */
+    UIContext_t* ui_context = AppUI_GetContext();  // 获取UI上下文指针
+    if (ui_context != NULL) {
+        AppSettings_ApplyToUI(ui_context);
+    }
     
     /* 6.4 显示开机界面（由AppUI_Init内部处理） */
 //     Display_ShowStartupInterface(); // 已由AppUI模块处理
