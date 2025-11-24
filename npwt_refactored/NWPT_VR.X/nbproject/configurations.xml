@@ -9,6 +9,7 @@
         <itemPath>../Application/Inc/app_battery.h</itemPath>
         <itemPath>../Application/Inc/app_pressure.h</itemPath>
         <itemPath>../Application/Inc/app_alarm.h</itemPath>
+        <itemPath>../Application/Inc/app_settings.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
         <itemPath>../Core/Inc/mcu_config.h</itemPath>
@@ -21,6 +22,7 @@
         <itemPath>../HAL/Inc/hal_gpio.h</itemPath>
         <itemPath>../HAL/Inc/hal_timer.h</itemPath>
         <itemPath>../HAL/Inc/hal_lcd.h</itemPath>
+        <itemPath>../HAL/Inc/hal_flash.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middleware" projectFiles="true">
         <itemPath>../Middleware/Inc/key_machine.h</itemPath>
@@ -41,6 +43,7 @@
         <itemPath>../Application/Src/app_battery.c</itemPath>
         <itemPath>../Application/Src/app_pressure.c</itemPath>
         <itemPath>../Application/Src/app_alarm.c</itemPath>
+        <itemPath>../Application/Src/app_settings.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Code" projectFiles="true">
         <itemPath>../Core/Src/main.c</itemPath>
@@ -50,6 +53,7 @@
         <itemPath>../HAL/Src/hal_gpio.c</itemPath>
         <itemPath>../HAL/Src/hal_timer.c</itemPath>
         <itemPath>../HAL/Src/hal_lcd.c</itemPath>
+        <itemPath>../HAL/Src/hal_flash.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f6" displayName="Library" projectFiles="true">
         <itemPath>../Library/lcd_font_data_8x16.c</itemPath>
@@ -153,7 +157,7 @@
         <property key="optimization-invariant-enable" value="false"/>
         <property key="optimization-invariant-value" value="16"/>
         <property key="optimization-level" value="-O1"/>
-        <property key="optimization-speed" value="false"/>
+        <property key="optimization-speed" value="true"/>
         <property key="optimization-stable-enable" value="false"/>
         <property key="pack-struct" value="true"/>
         <property key="preprocess-assembler" value="true"/>

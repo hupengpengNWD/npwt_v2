@@ -45,6 +45,7 @@
 #include "../Inc/app_pressure.h"  // 压力管理模块
 #include "../Inc/app_alarm.h"     // 报警管理模块
 #include "../Inc/app_beep.h"      // 蜂鸣器管理模块
+#include "../Inc/app_settings.h"  // 参数保存/加载模块
 #include "../../Core/Inc/system_config.h"  // 系统配置（包含电池图标坐标宏）
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
@@ -1756,4 +1757,13 @@ void AppUI_SetLockFlag(bool locked)
 bool AppUI_GetLockFlag(void)
 {
     return g_ui_context.lock_flag;
+}
+
+/**
+ * @name      AppUI_GetContext
+ * @brief     获取UI上下文指针（用于参数保存等操作）
+ */
+UIContext_t* AppUI_GetContext(void)
+{
+    return &g_ui_context;
 }

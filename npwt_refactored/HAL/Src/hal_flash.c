@@ -44,19 +44,12 @@ static void HAL_Flash_WriteCycle(void)
     EECON2 = 0xAA;
     
     WR = 1;
-//    NOP();
-//    NOP();
-//    NOP();
-//    NOP();
-//    NOP();
-//    NOP();
-    
-    __nop();
-    __nop();
-    __nop();    
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
     while(WR);
     WREN = 0;
     
@@ -68,11 +61,12 @@ static void HAL_Flash_WriteCycle(void)
 /**
  * @brief 初始化Flash模块
  * @note  参考lj/flash_driver.c中的Flash_Init()实现
+ * @note  未重构工程的Flash.c没有Flash_Init()函数，所以这里也保持为空
  */
 void HAL_Flash_Init(void)
 {
-    /* 初始化EECON1寄存器，确保所有Flash控制位处于安全状态 */
-//    EECON1 = 0;  // 清零所有Flash控制位（WREN, FREE, WPROG等）
+    /* 未重构工程的Flash.c没有Flash_Init()函数，所以这里也保持为空 */
+    /* 与未重构工程保持一致 */
 }
 
 /**

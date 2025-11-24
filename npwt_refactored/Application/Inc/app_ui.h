@@ -145,4 +145,12 @@ void AppUI_SetLockFlag(bool locked);
  */
 bool AppUI_GetLockFlag(void);
 
+/**
+ * @name      AppUI_GetContext
+ * @brief     获取UI上下文指针（用于参数保存等操作）
+ * @param     无
+ * @retval    UIContext_t* - UI上下文指针
+ */
+UIContext_t* AppUI_GetContext(void);
+
 #endif /* __APP_UI_H__ */
