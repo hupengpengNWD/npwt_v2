@@ -86,6 +86,8 @@ typedef struct {
     bool idle_active;               // 是否处于空闲状态
     uint16_t idle_inactive_ticks;  // 空闲计时器（10ms Tick）
     UIState_e idle_previous_state;  // 空闲前的状态（用于恢复显示）
+    bool leak_alarm_active;         // 是否处于泄漏报警状态
+    UIState_e leak_alarm_previous_state;  // 泄漏报警前的状态（用于恢复显示）
     SettingsSubState_e settings_sub_state;  // 设置模式子状态
     uint16_t pressure_high;         // 高压值（mmHg，连续模式使用，间歇模式也使用）
     uint16_t pressure_low;          // 低压值（mmHg，仅间歇模式使用）

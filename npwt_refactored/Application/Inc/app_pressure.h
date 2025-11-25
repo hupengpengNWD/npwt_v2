@@ -190,5 +190,18 @@ AppPressureControlMode_e AppPressure_GetCurrentMode(void);
  */
 bool AppPressure_IsBleeding(void);
 
+/**
+ * @name      AppPressure_IsLeakAlarmTriggered
+ * @brief     查询是否已触发泄漏报警（超时未达到目标压力）
+ * @retval    true=已触发泄漏报警, false=未触发
+ */
+bool AppPressure_IsLeakAlarmTriggered(void);
+
+/**
+ * @name      AppPressure_ClearLeakAlarm
+ * @brief     清除泄漏报警标志
+ */
+void AppPressure_ClearLeakAlarm(void);
+
 #endif /* APP_PRESSURE_H */
 

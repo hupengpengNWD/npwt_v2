@@ -18,6 +18,7 @@
  ****************************************************************************/
 
 #include "../Inc/app_pressure.h"
+#include "../../Core/Inc/system_config.h"  // 包含系统配置（PRESSURE_BLEED_DURATION_MS, PRESSURE_LEAK_ALARM_TIMEOUT_MS）
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Middleware/Inc/pid.h"
@@ -86,6 +87,11 @@ static uint16_t g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE; /
 static bool g_pressure_hold_active = false;                // 是否处于保持（停泵）状态
 static float g_pressure_mmHg_filtered = 0.0f;              // 平滑处理后的压力值
 static bool g_pressure_mmHg_initialized = false;           // 平滑滤波是否已经初始化
+
+/* 泄漏报警超时检测相关变量 */
+static bool g_leak_alarm_triggered = false;                // 泄漏报警已触发标志
+static uint32_t g_leak_alarm_start_time_ms = 0;           // 泄漏报警计时开始时间（毫秒）
+static bool g_leak_alarm_target_reached = false;           // 是否已达到目标压力（用于清除超时检测）
 
 /****************************************************************************
  * 内部函数声明
@@ -186,16 +192,16 @@ void AppPressure_Init(void)
     g_pressure_mmHg_filtered = 0.0f;
     g_pressure_mmHg_initialized = false;
 
-    /* 创建开机放气定时器（单次3秒，用于开机零点校准） */
+    /* 创建开机放气定时器（用于开机零点校准） */
     if (g_pressure_bleed_timer == 0) {
         g_pressure_bleed_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
-                                                  3000,
+                                                  PRESSURE_BLEED_DURATION_MS,
                                                   AppPressure_BleedTimerCallback,
                                                   NULL);
     } else {
         SoftTimer_Stop(g_pressure_bleed_timer);
         SoftTimer_SetCallback(g_pressure_bleed_timer, AppPressure_BleedTimerCallback, NULL);
-        SoftTimer_SetPeriod(g_pressure_bleed_timer, 3000);
+        SoftTimer_SetPeriod(g_pressure_bleed_timer, PRESSURE_BLEED_DURATION_MS);
     }
 
     if (g_intermittent_timer == 0) {
@@ -293,7 +299,30 @@ void AppPressure_Process(void* user_data)
         PressureControl_ApplyOutput(0.0f);
         g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
         g_pressure_hold_active = true;
+        
+        /* 达到目标压力，清除泄漏报警超时检测 */
+        g_leak_alarm_target_reached = true;
+        g_leak_alarm_start_time_ms = 0;
+        
         return;
+    }
+    
+    /* Step5.5：泄漏报警超时检测 */
+    if (!g_leak_alarm_target_reached && g_pressure_control_user_target > 0) {
+        /* 如果还未达到目标压力，检查是否超时 */
+        if (g_leak_alarm_start_time_ms == 0) {
+            /* 首次进入，记录开始时间 */
+            g_leak_alarm_start_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
+        } else {
+            /* 计算已用时间 */
+            uint32_t current_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
+            uint32_t elapsed_time_ms = current_time_ms - g_leak_alarm_start_time_ms;
+            
+            /* 如果超时且未达到目标，触发泄漏报警 */
+            if (elapsed_time_ms >= PRESSURE_LEAK_ALARM_TIMEOUT_MS) {
+                g_leak_alarm_triggered = true;
+            }
+        }
     }
 
     /* Step6：执行 PID 运算，输出范围 -100 ~ 100，正值抽气，负值泄气 */
@@ -402,7 +431,7 @@ static void AppPressure_BleedTimerCallback(void* user_data)
  * @brief     开机放气并在结束后完成零点校准
  * @note
  *   1. 打开放气阀释放系统残余压力
- *   2. 启动3秒一次性的软定时器
+ *   2. 启动一次性的软定时器（持续时间由PRESSURE_BLEED_DURATION_MS定义）
  *   3. 定时器回调关闭阀门并触发零点校准
  *   4. 若定时器创建失败，则立即关闭阀门并直接校准
  */
@@ -416,11 +445,11 @@ void AppPressure_BleedAndCalibrateZero(void)
 
     if (g_pressure_bleed_timer != 0) {
         SoftTimer_Stop(g_pressure_bleed_timer);
-        SoftTimer_SetPeriod(g_pressure_bleed_timer, 3000);
+        SoftTimer_SetPeriod(g_pressure_bleed_timer, PRESSURE_BLEED_DURATION_MS);
         SoftTimer_Start(g_pressure_bleed_timer);
     } else {
         g_pressure_bleed_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
-                                                  3000,
+                                                  PRESSURE_BLEED_DURATION_MS,
                                                   AppPressure_BleedTimerCallback,
                                                   NULL);
         if (g_pressure_bleed_timer != 0) {
@@ -486,6 +515,18 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
     PressureControl_ResetOutputs();
     g_pressure_hold_active = false;
 
+    /* 启动泄漏报警超时检测（仅在目标压力大于0时） */
+    if (clamped_user_target > 0) {
+        g_leak_alarm_triggered = false;
+        g_leak_alarm_target_reached = false;
+        g_leak_alarm_start_time_ms = 0;  // 在Process中首次检测时记录开始时间
+    } else {
+        /* 目标压力为0，清除泄漏报警检测 */
+        g_leak_alarm_triggered = false;
+        g_leak_alarm_target_reached = true;
+        g_leak_alarm_start_time_ms = 0;
+    }
+
     g_pressure_control_enabled = true;
 }
 
@@ -500,6 +541,11 @@ void AppPressure_StopControl(void)
     g_pressure_last_output = 0.0f;
     PID_Reset(&g_pressure_pid);
     PressureControl_ResetOutputs();
+
+    /* 停止控制时清除泄漏报警超时检测 */
+    g_leak_alarm_triggered = false;
+    g_leak_alarm_target_reached = true;
+    g_leak_alarm_start_time_ms = 0;
 
     if (g_intermittent_active) {
         g_intermittent_active = false;
@@ -1007,6 +1053,27 @@ uint16_t AppPressure_GetCurrentTarget(void)
 AppPressureControlMode_e AppPressure_GetCurrentMode(void)
 {
     return g_pressure_control_mode;
+}
+
+/**
+ * @name      AppPressure_IsLeakAlarmTriggered
+ * @brief     查询是否已触发泄漏报警（超时未达到目标压力）
+ * @retval    true=已触发泄漏报警, false=未触发
+ */
+bool AppPressure_IsLeakAlarmTriggered(void)
+{
+    return g_leak_alarm_triggered;
+}
+
+/**
+ * @name      AppPressure_ClearLeakAlarm
+ * @brief     清除泄漏报警标志
+ */
+void AppPressure_ClearLeakAlarm(void)
+{
+    g_leak_alarm_triggered = false;
+    g_leak_alarm_target_reached = true;
+    g_leak_alarm_start_time_ms = 0;
 }
  
 

@@ -39,6 +39,8 @@
 #define UI_IDLE_TIMEOUT_TICKS                6000U // 空闲超时时间：1分钟 @10ms Tick (60秒)
 #define UI_IDLE_TEXT_X                       40U    // "Pump Idle"文本显示X坐标（居中显示）
 #define UI_IDLE_TEXT_Y                       3U     // "Pump Idle"文本显示Y坐标（屏幕中间）
+#define UI_LEAK_ALARM_TEXT_X                  20U    // "Leak Alarms"文本显示X坐标（居中显示）
+#define UI_LEAK_ALARM_TEXT_Y                  3U     // "Leak Alarms"文本显示Y坐标（屏幕中间）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
@@ -123,6 +125,9 @@ static void AppUI_EnterIdle(void);
 static void AppUI_ExitIdle(void);
 static void AppUI_UpdateIdle(void);
 static void AppUI_ResetIdleTimer(void);
+static void AppUI_EnterLeakAlarm(void);
+static void AppUI_ExitLeakAlarm(void);
+static void AppUI_UpdateLeakAlarm(void);
 
 /**
  * @name      AppUI_ConvertKeyEvent
@@ -410,6 +415,76 @@ static void AppUI_UpdateIdle(void)
     }
 }
 
+/**
+ * @brief 进入泄漏报警状态：显示"Leak Alarms"，关闭白色背光，打开黄色背光
+ */
+static void AppUI_EnterLeakAlarm(void)
+{
+    g_ui_context.leak_alarm_active = true;
+    g_ui_context.leak_alarm_previous_state = g_ui_context.current_state;
+    
+    /* 停止压力控制 */
+    AppPressure_StopControl();
+    
+    /* 清屏并显示"Leak Alarms" */
+    Display_Clear();
+    Display_ShowString(UI_LEAK_ALARM_TEXT_X, UI_LEAK_ALARM_TEXT_Y, "Leak Alarms", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    /* 关闭白色背光，打开黄色背光 */
+    HAL_LCD_Backlight_Off();
+    HAL_LED_Yellow_On();
+    
+    /* 启动蜂鸣器模式2（{8, 250}：响150ms，静5000ms） */
+    AppBeep_StartBeep2DMode(2);
+}
+
+/**
+ * @brief 退出泄漏报警状态：恢复到暂停模式界面
+ */
+static void AppUI_ExitLeakAlarm(void)
+{
+    g_ui_context.leak_alarm_active = false;
+    
+    /* 清除泄漏报警标志 */
+    AppPressure_ClearLeakAlarm();
+    
+    /* 如果之前处于锁屏状态，清除锁屏状态 */
+    if (g_ui_context.auto_lock_active) {
+        AppUI_ExitAutoLock();
+    }
+    
+    /* 恢复到暂停模式界面 */
+    Display_Clear();
+    AppUI_StateEntry_ZHT(&g_ui_context, (st_fsm_event){0});
+    
+    /* 恢复背光状态：打开白色背光，关闭黄色背光 */
+    HAL_LCD_Backlight_On();
+    HAL_LED_Yellow_Off();
+    
+    /* 停止蜂鸣器模式2的工作 */
+    AppBeep_StopBeep();
+    
+    /* 重置锁屏计时器 */
+    AppUI_ResetLockTimer();
+}
+
+/**
+ * @brief 泄漏报警检测：检测压力控制模块的泄漏报警标志
+ */
+static void AppUI_UpdateLeakAlarm(void)
+{
+    /* 如果已进入泄漏报警状态，等待长按恢复 */
+    if (g_ui_context.leak_alarm_active) {
+        return;
+    }
+    
+    /* 检测压力控制模块的泄漏报警标志 */
+    if (AppPressure_IsLeakAlarmTriggered()) {
+        /* 触发泄漏报警 */
+        AppUI_EnterLeakAlarm();
+    }
+}
+
 /* 初始化超时定时器回调函数 */
 static void AppUI_InitTimeoutCallback(void* user_data);
 
@@ -465,8 +540,8 @@ const st_fsm_transition g_ui_transition_table[32] = {
         .trigger_event = UI_EVENT_SETTINGS,                  /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_SET,               /* 动作函数：进入设置模式 */
         .next_state    = UI_STATE_SET                        /* 下一状态：设置模式 */
-    },           
-                 
+    },  
+    
     [8] = {          
         .current_state = UI_STATE_ZHT,                       /* 当前状态：暂停模式 */
         .trigger_event = UI_EVENT_SETTINGS,                  /* 触发事件：设置键 */
@@ -486,7 +561,7 @@ const st_fsm_transition g_ui_transition_table[32] = {
         .trigger_event = UI_EVENT_SETTINGS,                 /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_ZHT,              /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT                       /* 下一状态：暂停模式 */
-    },          
+    },  
 
     [11] = {            
         .current_state = UI_STATE_SET,                      /* 当前状态：设置模式 */
@@ -535,8 +610,8 @@ const st_fsm_transition g_ui_transition_table[32] = {
         .trigger_event = UI_EVENT_CONFIRM_LONG,             /* 触发事件：确认键长按释放 */
         .action_func   = AppUI_StateEntry_ZHT,              /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT                       /* 下一状态：暂停模式 */
-    },
-    
+    },  
+
     [18] = {
         .current_state = UI_STATE_SET_PRESSURE,             /* 当前状态：连续模式压力设置界面 */
         .trigger_event = UI_EVENT_SETTINGS,                 /* 触发事件：设置键 */
@@ -563,7 +638,7 @@ const st_fsm_transition g_ui_transition_table[32] = {
         .trigger_event = UI_EVENT_CONFIRM_LONG,             /* 触发事件：确认键长按释放*/        
         .action_func   = AppUI_StateEntry_SET_LP_Pressure,  /* 动作函数：进入低压设置界面 */
         .next_state    = UI_STATE_SET_LP_PRESSURE           /* 下一状态：间歇模式低压设置界面 */
-    },
+    },   
     
     [22] = {
         .current_state = UI_STATE_SET_HP_PRESSURE,          /* 当前状态：间歇模式高压设置界面 */
@@ -598,7 +673,7 @@ const st_fsm_transition g_ui_transition_table[32] = {
         .trigger_event = UI_EVENT_SETTINGS,                 /* 触发事件：设置键 */
         .action_func   = AppUI_StateEntry_ZHT,              /* 动作函数：进入暂停模式 */
         .next_state    = UI_STATE_ZHT                       /* 下一状态：暂停模式 */
-    },
+    },  
     
     [27] = {
         .current_state = UI_STATE_SET_TIME,                 /* 当前状态：间歇模式时间设置界面 */
@@ -1094,7 +1169,7 @@ static void AppUI_Display_LIX(void)
     snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
     Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);    
-
+    
     // 显示提示操作
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
 }
@@ -1351,6 +1426,8 @@ void AppUI_Init(void)
     g_ui_context.idle_active = false;
     g_ui_context.idle_inactive_ticks = 0;
     g_ui_context.idle_previous_state = UI_STATE_SYS;
+    g_ui_context.leak_alarm_active = false;
+    g_ui_context.leak_alarm_previous_state = UI_STATE_SYS;
     // settings_sub_state已废弃，现在使用独立的FSM状态
     g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
     g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
@@ -1428,6 +1505,18 @@ void AppUI_Process(void)
                     }
                 }
                 
+                /* 如果处于泄漏报警状态，检测长按电源键（key_id=0）松开事件以退出泄漏报警 */
+                if (g_ui_context.leak_alarm_active) {
+                    if (key_event.key_id == 0 &&  // 电源键/确认键的key_id是0
+                        key_event.key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+                        AppUI_ExitLeakAlarm();
+                        continue;  // 退出泄漏报警后，不处理该按键事件
+                    } else {
+                        /* 泄漏报警状态下忽略其他按键事件 */
+                        continue;
+                    }
+                }
+                
                 /* 记录用户交互：仅在未锁定时重置计时 */
                 if (g_ui_context.auto_lock_active == false) {
                     AppUI_ResetLockTimer();
@@ -1477,11 +1566,16 @@ void AppUI_Process(void)
         }
     }
     
-    /* 空闲检测（在处理完本轮事件后执行，优先级高于锁屏） */
-    AppUI_UpdateIdle();
+    /* 泄漏报警检测（在处理完本轮事件后执行，优先级最高） */
+    AppUI_UpdateLeakAlarm();
     
-    /* 自动锁定检测（在处理完本轮事件后执行，如果处于空闲状态则暂停） */
-    if (g_ui_context.idle_active == false) {
+    /* 空闲检测（在处理完本轮事件后执行，优先级高于锁屏，但低于泄漏报警） */
+    if (g_ui_context.leak_alarm_active == false) {
+        AppUI_UpdateIdle();
+    }
+    
+    /* 自动锁定检测（在处理完本轮事件后执行，如果处于空闲状态或泄漏报警状态则暂停） */
+    if (g_ui_context.idle_active == false && g_ui_context.leak_alarm_active == false) {
         AppUI_UpdateAutoLock();
     }
     /* 第三步：检测SET状态下work_mode_backup的变化（用于更新勾号位置） */
@@ -1504,9 +1598,9 @@ void AppUI_Process(void)
     }
     
     /* 第四步：电池显示更新（参考未重构工程的实现） */
-    /* 如果处于空闲状态，跳过电池显示更新 */
-    if (g_ui_context.idle_active) {
-        return;  // 空闲状态下，只显示"Pump Idle"，不更新其他UI元素
+    /* 如果处于空闲状态或泄漏报警状态，跳过电池显示更新 */
+    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active) {
+        return;  // 空闲状态或泄漏报警状态下，只显示"Pump Idle"或"Leak Alarms"，不更新其他UI元素
     }
     
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
@@ -1627,7 +1721,7 @@ void AppUI_Process(void)
             /* 非警告状态或正在充电，正常显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
             /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
             Display_ShowBatteryIcon(BATTERY_ICON_X, BATTERY_ICON_Y, display_level, current_battery_charging);
-        }
+    }
     } else if (!freeze_battery_display && warning_blink_state_changed) {
         /* 即使need_update为false，低电警告闪烁状态改变时也需要更新显示 */
         if (is_warning_level && !current_battery_charging) {
@@ -1649,9 +1743,9 @@ void AppUI_Process(void)
     }
 
     /* 治疗界面的实时压力刷新（连续/间歇共用） */
-    /* 如果处于空闲状态，跳过实时压力刷新 */
-    if (g_ui_context.idle_active) {
-        return;  // 空闲状态下，只显示"Pump Idle"，不更新其他UI元素
+    /* 如果处于空闲状态或泄漏报警状态，跳过实时压力刷新 */
+    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active) {
+        return;  // 空闲状态或泄漏报警状态下，只显示"Pump Idle"或"Leak Alarms"，不更新其他UI元素
     }
     
     bool in_continuous = (g_ui_context.current_state == UI_STATE_LIX);

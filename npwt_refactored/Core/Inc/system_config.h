@@ -26,6 +26,8 @@
 #define PRESSURE_DEFAULT        120         // 默认压力：120mmHg
 #define PRESSURE_TOLERANCE_LOW  10          // 下限容差：10%
 #define PRESSURE_TOLERANCE_HIGH 5           // 上限容差：5%
+#define PRESSURE_BLEED_DURATION_MS  3000    // 开机泄压持续时间：3000ms（3秒）
+#define PRESSURE_LEAK_ALARM_TIMEOUT_MS  30000  // 泄漏报警超时时间：30000ms（30秒），PID建立负压时如果超时未达到目标值则报警
 
 /****************************************************************************
  * 电池电压阈值（ADC值）
