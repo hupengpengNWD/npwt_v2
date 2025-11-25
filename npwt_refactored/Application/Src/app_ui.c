@@ -7,7 +7,8 @@
  */
 
 #include "../Inc/app_ui.h"
-
+#include "../../Middleware/Inc/pwm.h"  // PWM控制接口（用于停止泵电机）
+#include <stdbool.h>
 /****************************************************************************
  * 常量定义（参考未重构工程）
  ****************************************************************************/
@@ -73,6 +74,7 @@ static st_queue_ptr g_key_event_queue = NULL;
 /* 初始化超时定时器句柄 */
 static SoftTimerHandle_t g_init_timeout_timer = 0;
 static SoftTimerHandle_t g_leak_alarm_pump_stop_timer = 0;  // 泄漏报警延迟停止泵电机定时器
+static bool g_leak_alarm_beep_state = false;  // 泄漏报警声音报警状态：true=应该响, false=应该静音
 
 /* 连续模式界面上次显示的实时压力值（用于检测显示是否需要刷新） */
 static uint16_t g_last_display_pressure = 0xFFFF;
@@ -420,12 +422,15 @@ static void AppUI_UpdateIdle(void)
 
 /**
  * @brief 泄漏报警延迟停止泵电机定时器回调函数
+ * @note 停止压力控制（停止泵电机和PID控制），但UI层会继续维护泄漏报警状态
  */
 static void AppUI_LeakAlarmPumpStopCallback(void* user_data)
 {
     (void)user_data;
     
-    /* 延迟时间到，停止压力控制（停止泵电机） */
+    /* 延迟时间到，停止压力控制（停止泵电机和PID控制） */
+    /* 注意：AppPressure_StopControl() 会清除泄漏报警标志，但UI层通过 */
+    /* g_ui_context.leak_alarm_active 来维护泄漏报警状态，所以不影响UI显示 */
     AppPressure_StopControl();
 }
 
@@ -466,7 +471,10 @@ static void AppUI_EnterLeakAlarm(void)
     HAL_LCD_Backlight_Off();
     HAL_LED_Yellow_On();
     
-    /* 启动蜂鸣器模式2（{8, 250}：响150ms，静5000ms） */
+    /* 进入泄漏报警时，立即启动声音报警 */
+    /* 在延迟60秒期间（30s到90s），无论电池状态如何，都保持声音报警 */
+    /* 延迟60秒后（电机停止后），根据电池状态控制声音报警 */
+    g_leak_alarm_beep_state = true;  // 初始状态设为应该响
     AppBeep_StartBeep2DMode(2);
 }
 
@@ -487,6 +495,9 @@ static void AppUI_ExitLeakAlarm(void)
     
     /* 清除泄漏报警标志 */
     AppPressure_ClearLeakAlarm();
+    
+    /* 重置声音报警状态 */
+    g_leak_alarm_beep_state = false;
     
     /* 如果之前处于锁屏状态，清除锁屏状态 */
     if (g_ui_context.auto_lock_active) {
@@ -510,18 +521,60 @@ static void AppUI_ExitLeakAlarm(void)
 
 /**
  * @brief 泄漏报警检测：检测压力控制模块的泄漏报警标志
+ * @note 在泄漏报警状态下，持续检测电池状态，如果电池满电或正在充电则停止声音报警
  */
 static void AppUI_UpdateLeakAlarm(void)
 {
-    /* 如果已进入泄漏报警状态，等待长按恢复 */
-    if (g_ui_context.leak_alarm_active) {
-        return;
-    }
-    
     /* 检测压力控制模块的泄漏报警标志 */
     if (AppPressure_IsLeakAlarmTriggered()) {
-        /* 触发泄漏报警 */
-        AppUI_EnterLeakAlarm();
+        /* 如果未进入泄漏报警状态，则触发 */
+        if (!g_ui_context.leak_alarm_active) {
+            AppUI_EnterLeakAlarm();
+        }
+    }
+    
+    /* 如果已进入泄漏报警状态，持续检测电池状态并控制声音报警 */
+    /* 注意：即使泄漏报警标志被清除，只要UI仍处于报警状态，就保持报警状态 */
+    /* 泄漏报警状态只能通过用户手动退出（长按电源键）来清除 */
+    if (g_ui_context.leak_alarm_active) {
+        /* 检查是否还在延迟60秒期间（30s到90s之间） */
+        /* 如果定时器还在运行，说明还在延迟期间 */
+        bool in_delay_period = false;
+        if (g_leak_alarm_pump_stop_timer != 0) {
+            SoftTimerState_e timer_state = SoftTimer_GetState(g_leak_alarm_pump_stop_timer);
+            if (timer_state == SOFT_TIMER_STATE_RUNNING) {
+                in_delay_period = true;
+            }
+        }
+        
+        /* 如果还在延迟期间，无论电池状态如何，都保持声音报警 */
+        if (in_delay_period) {
+            /* 延迟期间，强制保持声音报警 */
+            if (!g_leak_alarm_beep_state) {
+                g_leak_alarm_beep_state = true;
+                AppBeep_StartBeep2DMode(2);
+            }
+        } else {
+            /* 延迟期间已结束（电机已停止），根据电池状态控制声音报警 */
+            BatteryLevel_e battery_level = AppBattery_GetLevelEnum();
+            bool is_charging = AppBattery_IsCharging();
+            
+            /* 判断应该的声音报警状态 */
+            bool should_beep = !(battery_level == BATTERY_LEVEL_FULL || is_charging);
+            
+            /* 只有当状态发生变化时才更新声音报警，避免频繁启动/停止 */
+            if (should_beep != g_leak_alarm_beep_state) {
+                g_leak_alarm_beep_state = should_beep;
+                
+                if (should_beep) {
+                    /* 应该响：启动/恢复声音报警 */
+                    AppBeep_StartBeep2DMode(2);
+                } else {
+                    /* 应该静音：停止声音报警 */
+                    AppBeep_StopBeep();
+                }
+            }
+        }
     }
 }
 
