@@ -48,7 +48,8 @@
 #include "../Inc/app_alarm.h"     // 报警管理模块
 #include "../Inc/app_beep.h"      // 蜂鸣器管理模块
 #include "../Inc/app_settings.h"  // 参数保存/加载模块
-#include "../../Core/Inc/system_config.h"  // 系统配置（包含电池图标坐标宏）
+#include "../../Core/Inc/system_config.h"  // 系统配置（包含电池图标坐标宏、PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS等）
+#include "../../Middleware/Inc/soft_timer.h"  // 软件定时器
 #include "../../Middleware/Inc/fsm.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/key_machine.h"
@@ -71,6 +72,7 @@ static st_queue_ptr g_key_event_queue = NULL;
 
 /* 初始化超时定时器句柄 */
 static SoftTimerHandle_t g_init_timeout_timer = 0;
+static SoftTimerHandle_t g_leak_alarm_pump_stop_timer = 0;  // 泄漏报警延迟停止泵电机定时器
 
 /* 连续模式界面上次显示的实时压力值（用于检测显示是否需要刷新） */
 static uint16_t g_last_display_pressure = 0xFFFF;
@@ -128,6 +130,7 @@ static void AppUI_ResetIdleTimer(void);
 static void AppUI_EnterLeakAlarm(void);
 static void AppUI_ExitLeakAlarm(void);
 static void AppUI_UpdateLeakAlarm(void);
+static void AppUI_LeakAlarmPumpStopCallback(void* user_data);
 
 /**
  * @name      AppUI_ConvertKeyEvent
@@ -416,15 +419,44 @@ static void AppUI_UpdateIdle(void)
 }
 
 /**
+ * @brief 泄漏报警延迟停止泵电机定时器回调函数
+ */
+static void AppUI_LeakAlarmPumpStopCallback(void* user_data)
+{
+    (void)user_data;
+    
+    /* 延迟时间到，停止压力控制（停止泵电机） */
+    AppPressure_StopControl();
+}
+
+/**
  * @brief 进入泄漏报警状态：显示"Leak Alarms"，关闭白色背光，打开黄色背光
+ * @note 不立即停止泵电机，而是延迟一段时间（由PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS定义）后再停止
  */
 static void AppUI_EnterLeakAlarm(void)
 {
     g_ui_context.leak_alarm_active = true;
     g_ui_context.leak_alarm_previous_state = g_ui_context.current_state;
     
-    /* 停止压力控制 */
-    AppPressure_StopControl();
+    /* 不立即停止压力控制，而是启动延迟停止定时器 */
+    if (g_leak_alarm_pump_stop_timer == 0) {
+        g_leak_alarm_pump_stop_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE,
+                                                        PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS,
+                                                        AppUI_LeakAlarmPumpStopCallback,
+                                                        NULL);
+        if (g_leak_alarm_pump_stop_timer != 0) {
+            SoftTimer_Start(g_leak_alarm_pump_stop_timer);
+        } else {
+            /* 定时器创建失败，立即停止压力控制（安全措施） */
+            AppPressure_StopControl();
+        }
+    } else {
+        /* 定时器已存在，重新设置周期并启动 */
+        SoftTimer_Stop(g_leak_alarm_pump_stop_timer);
+        SoftTimer_SetPeriod(g_leak_alarm_pump_stop_timer, PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS);
+        SoftTimer_SetCallback(g_leak_alarm_pump_stop_timer, AppUI_LeakAlarmPumpStopCallback, NULL);
+        SoftTimer_Start(g_leak_alarm_pump_stop_timer);
+    }
     
     /* 清屏并显示"Leak Alarms" */
     Display_Clear();
@@ -444,6 +476,14 @@ static void AppUI_EnterLeakAlarm(void)
 static void AppUI_ExitLeakAlarm(void)
 {
     g_ui_context.leak_alarm_active = false;
+    
+    /* 停止延迟停止泵电机的定时器（如果还在运行） */
+    if (g_leak_alarm_pump_stop_timer != 0) {
+        SoftTimer_Stop(g_leak_alarm_pump_stop_timer);
+    }
+    
+    /* 立即停止压力控制（退出泄漏报警时确保停止） */
+    AppPressure_StopControl();
     
     /* 清除泄漏报警标志 */
     AppPressure_ClearLeakAlarm();

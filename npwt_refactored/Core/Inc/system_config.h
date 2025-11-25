@@ -28,6 +28,7 @@
 #define PRESSURE_TOLERANCE_HIGH 5           // 上限容差：5%
 #define PRESSURE_BLEED_DURATION_MS  3000    // 开机泄压持续时间：3000ms（3秒）
 #define PRESSURE_LEAK_ALARM_TIMEOUT_MS  30000  // 泄漏报警超时时间：30000ms（30秒），PID建立负压时如果超时未达到目标值则报警
+#define PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS  60000  // 泄漏报警后延迟停止泵电机时间：60000ms（60秒/1分钟）
 
 /****************************************************************************
  * 电池电压阈值（ADC值）
