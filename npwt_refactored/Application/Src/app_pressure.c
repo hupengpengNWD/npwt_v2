@@ -93,6 +93,11 @@ static bool g_leak_alarm_triggered = false;                // 泄漏报警已触
 static uint32_t g_leak_alarm_start_time_ms = 0;           // 泄漏报警计时开始时间（毫秒）
 static bool g_leak_alarm_target_reached = false;           // 是否已达到目标压力（用于清除超时检测）
 
+/* 管路堵塞报警检测相关变量 */
+static bool g_blockage_alarm_triggered = false;            // 管路堵塞报警已触发标志
+static uint32_t g_blockage_alarm_hold_start_tick = 0;      // 进入保持状态的tick数，0表示未进入保持状态
+static bool g_blockage_alarm_hold_active = false;          // 是否已进入保持状态（用于检测管路堵塞）
+
 /****************************************************************************
  * 内部函数声明
  ****************************************************************************/
@@ -289,6 +294,21 @@ void AppPressure_Process(void* user_data)
             g_pressure_hold_active = false;
             PID_Reset(&g_pressure_pid);
         } else {
+            /* 在保持状态下，检测管路堵塞报警（在return之前执行） */
+            if (g_blockage_alarm_hold_active && g_pressure_control_user_target > 0) {
+                /* 在保持状态下，PID输出为0，所以不会有负压补充 */
+                /* 检查是否超时 */
+                if (g_blockage_alarm_hold_start_tick > 0) {
+                    uint32_t current_tick = SoftTimer_GetTickCount();
+                    uint32_t elapsed_ticks = current_tick - g_blockage_alarm_hold_start_tick;
+                    uint32_t elapsed_time_ms = elapsed_ticks * SOFT_TIMER_TICK_MS;
+                    
+                    /* 如果超时且没有负压补充，触发管路堵塞报警 */
+                    if (elapsed_time_ms >= PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS) {
+                        g_blockage_alarm_triggered = true;
+                    }
+                }
+            }
             return;
         }
     }
@@ -298,13 +318,28 @@ void AppPressure_Process(void* user_data)
         g_pressure_last_output = 0.0f;
         PressureControl_ApplyOutput(0.0f);
         g_pressure_min_duty_current = PRESSURE_CONTROL_MIN_DUTY_VALUE;
-        g_pressure_hold_active = true;
+        
+        /* 如果刚进入保持状态，启动管路堵塞报警检测 */
+        if (!g_pressure_hold_active) {
+            g_pressure_hold_active = true;
+            g_blockage_alarm_hold_active = true;
+            g_blockage_alarm_hold_start_tick = SoftTimer_GetTickCount();
+            g_blockage_alarm_triggered = false;  // 重置堵塞报警标志
+        }
         
         /* 达到目标压力，清除泄漏报警超时检测 */
         g_leak_alarm_target_reached = true;
         g_leak_alarm_start_time_ms = 0;
         
         return;
+    }
+    
+    /* 如果不在保持状态，清除管路堵塞报警检测 */
+    if (g_pressure_hold_active) {
+        g_pressure_hold_active = false;
+        g_blockage_alarm_hold_active = false;
+        g_blockage_alarm_hold_start_tick = 0;
+        g_blockage_alarm_triggered = false;
     }
     
     /* Step5.5：泄漏报警超时检测 */
@@ -328,6 +363,28 @@ void AppPressure_Process(void* user_data)
     /* Step6：执行 PID 运算，输出范围 -100 ~ 100，正值抽气，负值泄气 */
     float output = PID_Update(&g_pressure_pid, setpoint, measurement);
     g_pressure_last_output = output;
+    
+    /* Step6.5：管路堵塞报警检测（当不在保持状态时，检查PID输出） */
+    if (g_blockage_alarm_hold_active && g_pressure_control_user_target > 0) {
+        /* 如果PID输出大于阈值，说明有负压补充（有漏气），重置定时器 */
+        if (output > PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD) {
+            /* 有负压补充，重置定时器 */
+            g_blockage_alarm_hold_start_tick = SoftTimer_GetTickCount();
+            g_blockage_alarm_triggered = false;  // 清除已触发的标志（如果之前已触发）
+        } else {
+            /* 没有负压补充，检查是否超时 */
+            if (g_blockage_alarm_hold_start_tick > 0) {
+                uint32_t current_tick = SoftTimer_GetTickCount();
+                uint32_t elapsed_ticks = current_tick - g_blockage_alarm_hold_start_tick;
+                uint32_t elapsed_time_ms = elapsed_ticks * SOFT_TIMER_TICK_MS;
+                
+                /* 如果超时且没有负压补充，触发管路堵塞报警 */
+                if (elapsed_time_ms >= PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS) {
+                    g_blockage_alarm_triggered = true;
+                }
+            }
+        }
+    }
 
     /* Step7：把 PID 输出映射到实际执行器（泵 PWM + 双阀门） */
     g_pressure_min_duty_current = PressureControl_SelectMinDuty(abs_error);
@@ -526,6 +583,11 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
         g_leak_alarm_target_reached = true;
         g_leak_alarm_start_time_ms = 0;
     }
+    
+    /* 重置管路堵塞报警检测 */
+    g_blockage_alarm_triggered = false;
+    g_blockage_alarm_hold_active = false;
+    g_blockage_alarm_hold_start_tick = 0;
 
     g_pressure_control_enabled = true;
 }
@@ -546,6 +608,12 @@ void AppPressure_StopControl(void)
     g_leak_alarm_triggered = false;
     g_leak_alarm_target_reached = true;
     g_leak_alarm_start_time_ms = 0;
+    
+    /* 停止控制时清除管路堵塞报警检测 */
+    g_blockage_alarm_triggered = false;
+    g_blockage_alarm_hold_active = false;
+    g_blockage_alarm_hold_start_tick = 0;
+    g_pressure_hold_active = false;
 
     if (g_intermittent_active) {
         g_intermittent_active = false;
@@ -611,6 +679,17 @@ bool AppPressure_IsMotorRunning(void)
     
     /* 否则，电机正在运行（有实际负载） */
     return true;
+}
+
+/**
+ * @name      AppPressure_GetLastOutput
+ * @brief     获取上一次PID输出值
+ * @retval    PID输出值（-100 ~ 100，正值抽气，负值泄气）
+ * @note      用于检测是否有负压补充（判断管路是否堵塞）
+ */
+float AppPressure_GetLastOutput(void)
+{
+    return g_pressure_last_output;
 }
 
 /**
@@ -1074,6 +1153,27 @@ void AppPressure_ClearLeakAlarm(void)
     g_leak_alarm_triggered = false;
     g_leak_alarm_target_reached = true;
     g_leak_alarm_start_time_ms = 0;
+}
+
+/**
+ * @name      AppPressure_IsBlockageAlarmTriggered
+ * @brief     查询是否已触发管路堵塞报警（负压稳定后2分钟内没有PID补充）
+ * @retval    true=已触发管路堵塞报警, false=未触发
+ */
+bool AppPressure_IsBlockageAlarmTriggered(void)
+{
+    return g_blockage_alarm_triggered;
+}
+
+/**
+ * @name      AppPressure_ClearBlockageAlarm
+ * @brief     清除管路堵塞报警标志
+ */
+void AppPressure_ClearBlockageAlarm(void)
+{
+    g_blockage_alarm_triggered = false;
+    /* 注意：不清除g_blockage_alarm_hold_active和g_blockage_alarm_hold_start_tick */
+    /* 因为可能只是暂时清除标志，但检测逻辑应该继续 */
 }
  
 

@@ -42,6 +42,8 @@
 #define UI_IDLE_TEXT_Y                       3U     // "Pump Idle"文本显示Y坐标（屏幕中间）
 #define UI_LEAK_ALARM_TEXT_X                  20U    // "Leak Alarms"文本显示X坐标（居中显示）
 #define UI_LEAK_ALARM_TEXT_Y                  3U     // "Leak Alarms"文本显示Y坐标（屏幕中间）
+#define UI_BLOCKAGE_ALARM_TEXT_X               10U    // "Blockage Alarm"文本显示X坐标（居中显示）
+#define UI_BLOCKAGE_ALARM_TEXT_Y               3U     // "Blockage Alarm"文本显示Y坐标（屏幕中间）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
@@ -132,6 +134,9 @@ static void AppUI_ResetIdleTimer(void);
 static void AppUI_EnterLeakAlarm(void);
 static void AppUI_ExitLeakAlarm(void);
 static void AppUI_UpdateLeakAlarm(void);
+static void AppUI_EnterBlockageAlarm(void);
+static void AppUI_ExitBlockageAlarm(void);
+static void AppUI_UpdateBlockageAlarm(void);
 static void AppUI_LeakAlarmPumpStopCallback(void* user_data);
 
 /**
@@ -573,6 +578,91 @@ static void AppUI_UpdateLeakAlarm(void)
                     /* 应该静音：停止声音报警 */
                     AppBeep_StopBeep();
                 }
+            }
+        }
+    }
+}
+
+/**
+ * @brief 进入管路堵塞报警状态：显示"Blockage Alarm"，关闭白色背光，打开黄色背光
+ */
+static void AppUI_EnterBlockageAlarm(void)
+{
+    g_ui_context.blockage_alarm_active = true;
+    g_ui_context.blockage_alarm_previous_state = g_ui_context.current_state;
+    
+    /* 如果之前处于空闲状态，先退出空闲状态（因为管路堵塞报警优先级高于空闲检测） */
+    if (g_ui_context.idle_active) {
+        /* 注意：这里只清除空闲状态标志，不恢复显示，因为管路堵塞报警会立即覆盖显示 */
+        g_ui_context.idle_active = false;
+        /* 不清除idle_previous_state，因为ExitBlockageAlarm会使用blockage_alarm_previous_state */
+    }
+    
+    /* 清屏并显示"Blockage Alarm" */
+    Display_Clear();
+    Display_ShowString(UI_BLOCKAGE_ALARM_TEXT_X, UI_BLOCKAGE_ALARM_TEXT_Y, "Blockage Alarm", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    /* 关闭白色背光，打开黄色背光 */
+    HAL_LCD_Backlight_Off();
+    HAL_LED_Yellow_On();
+    
+    /* 启动蜂鸣器模式2（{8, 250}：响150ms，静5000ms） */
+    AppBeep_StartBeep2DMode(2);
+}
+
+/**
+ * @brief 退出管路堵塞报警状态：清理状态，恢复背光（不负责显示，由调用者处理）
+ */
+static void AppUI_ExitBlockageAlarm(void)
+{
+    g_ui_context.blockage_alarm_active = false;
+    
+    /* 如果之前处于锁屏状态，清除锁屏状态（因为管路堵塞报警状态下锁屏检测被暂停） */
+    if (g_ui_context.auto_lock_active) {
+        AppUI_ExitAutoLock();
+    }
+    
+    /* 恢复背光状态：打开白色背光，关闭黄色背光 */
+    HAL_LCD_Backlight_On();
+    HAL_LED_Yellow_Off();
+    
+    /* 停止蜂鸣器模式2的工作 */
+    AppBeep_StopBeep();
+    
+    /* 清除管路堵塞报警标志 */
+    AppPressure_ClearBlockageAlarm();
+    
+    /* 重置锁屏计时器 */
+    AppUI_ResetLockTimer();
+}
+
+/**
+ * @brief 管路堵塞报警检测：检测压力控制模块的管路堵塞报警标志
+ * @note 如果PID输出大于阈值（说明有漏气，PID在补充），自动退出管路堵塞报警
+ */
+static void AppUI_UpdateBlockageAlarm(void)
+{
+    /* 检测压力控制模块的管路堵塞报警标志 */
+    if (AppPressure_IsBlockageAlarmTriggered()) {
+        /* 如果未进入管路堵塞报警状态，则触发 */
+        if (!g_ui_context.blockage_alarm_active) {
+            AppUI_EnterBlockageAlarm();
+        }
+    }
+    
+    /* 如果已进入管路堵塞报警状态，检测PID输出 */
+    if (g_ui_context.blockage_alarm_active) {
+        /* 如果PID输出大于阈值，说明有漏气，PID在补充，自动退出管路堵塞报警 */
+        float pid_output = AppPressure_GetLastOutput();
+        if (pid_output > PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD) {
+            /* PID输出大于阈值，说明有负压补充，自动退出管路堵塞报警 */
+            AppUI_ExitBlockageAlarm();
+            /* 恢复到之前的治疗模式（清屏并重新显示） */
+            Display_Clear();
+            if (g_ui_context.blockage_alarm_previous_state == UI_STATE_LIX) {
+                AppUI_Display_LIX();
+            } else if (g_ui_context.blockage_alarm_previous_state == UI_STATE_JIX) {
+                AppUI_Display_JIX();
             }
         }
     }
@@ -1521,6 +1611,8 @@ void AppUI_Init(void)
     g_ui_context.idle_previous_state = UI_STATE_SYS;
     g_ui_context.leak_alarm_active = false;
     g_ui_context.leak_alarm_previous_state = UI_STATE_SYS;
+    g_ui_context.blockage_alarm_active = false;
+    g_ui_context.blockage_alarm_previous_state = UI_STATE_SYS;
     // settings_sub_state已废弃，现在使用独立的FSM状态
     g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
     g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
@@ -1610,6 +1702,20 @@ void AppUI_Process(void)
                     }
                 }
                 
+                /* 如果处于管路堵塞报警状态，检测长按电源键（key_id=0）松开事件以退出管路堵塞报警 */
+                if (g_ui_context.blockage_alarm_active) {
+                    if (key_event.key_id == 0 &&  // 电源键/确认键的key_id是0
+                        key_event.key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+                        AppUI_ExitBlockageAlarm();
+                        /* 退出到暂停界面 */
+                        AppUI_StateEntry_ZHT(&g_ui_context, (st_fsm_event){0});
+                        continue;  // 退出管路堵塞报警后，不处理该按键事件
+                    } else {
+                        /* 管路堵塞报警状态下忽略其他按键事件 */
+                        continue;
+                    }
+                }
+                
                 /* 记录用户交互：仅在未锁定时重置计时 */
                 if (g_ui_context.auto_lock_active == false) {
                     AppUI_ResetLockTimer();
@@ -1662,13 +1768,20 @@ void AppUI_Process(void)
     /* 泄漏报警检测（在处理完本轮事件后执行，优先级最高） */
     AppUI_UpdateLeakAlarm();
     
-    /* 空闲检测（在处理完本轮事件后执行，优先级高于锁屏，但低于泄漏报警） */
+    /* 管路堵塞报警检测（在处理完本轮事件后执行，优先级低于泄漏报警，高于空闲检测） */
     if (g_ui_context.leak_alarm_active == false) {
+        AppUI_UpdateBlockageAlarm();
+    }
+    
+    /* 空闲检测（在处理完本轮事件后执行，优先级高于锁屏，但低于泄漏报警和管路堵塞报警） */
+    if (g_ui_context.leak_alarm_active == false && g_ui_context.blockage_alarm_active == false) {
         AppUI_UpdateIdle();
     }
     
-    /* 自动锁定检测（在处理完本轮事件后执行，如果处于空闲状态或泄漏报警状态则暂停） */
-    if (g_ui_context.idle_active == false && g_ui_context.leak_alarm_active == false) {
+    /* 自动锁定检测（在处理完本轮事件后执行，如果处于空闲状态、泄漏报警状态或管路堵塞报警状态则暂停） */
+    if (g_ui_context.idle_active == false && 
+        g_ui_context.leak_alarm_active == false && 
+        g_ui_context.blockage_alarm_active == false) {
         AppUI_UpdateAutoLock();
     }
     /* 第三步：检测SET状态下work_mode_backup的变化（用于更新勾号位置） */
@@ -1691,9 +1804,9 @@ void AppUI_Process(void)
     }
     
     /* 第四步：电池显示更新（参考未重构工程的实现） */
-    /* 如果处于空闲状态或泄漏报警状态，跳过电池显示更新 */
-    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active) {
-        return;  // 空闲状态或泄漏报警状态下，只显示"Pump Idle"或"Leak Alarms"，不更新其他UI元素
+    /* 如果处于空闲状态、泄漏报警状态或管路堵塞报警状态，跳过电池显示更新 */
+    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active || g_ui_context.blockage_alarm_active) {
+        return;  // 空闲状态、泄漏报警状态或管路堵塞报警状态下，只显示相应报警信息，不更新其他UI元素
     }
     
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
@@ -1836,9 +1949,9 @@ void AppUI_Process(void)
     }
 
     /* 治疗界面的实时压力刷新（连续/间歇共用） */
-    /* 如果处于空闲状态或泄漏报警状态，跳过实时压力刷新 */
-    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active) {
-        return;  // 空闲状态或泄漏报警状态下，只显示"Pump Idle"或"Leak Alarms"，不更新其他UI元素
+    /* 如果处于空闲状态、泄漏报警状态或管路堵塞报警状态，跳过实时压力刷新 */
+    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active || g_ui_context.blockage_alarm_active) {
+        return;  // 空闲状态、泄漏报警状态或管路堵塞报警状态下，只显示相应报警信息，不更新其他UI元素
     }
     
     bool in_continuous = (g_ui_context.current_state == UI_STATE_LIX);
