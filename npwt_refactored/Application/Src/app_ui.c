@@ -512,6 +512,7 @@ static void AppUI_ExitLeakAlarm(void)
     /* 恢复到暂停模式界面 */
     Display_Clear();
     AppUI_StateEntry_ZHT(&g_ui_context, (st_fsm_event){0});
+    g_ui_fsm.current_state = UI_STATE_ZHT;  // 手动同步FSM状态
     
     /* 恢复背光状态：打开白色背光，关闭黄色背光 */
     HAL_LCD_Backlight_On();
@@ -1709,6 +1710,7 @@ void AppUI_Process(void)
                         AppUI_ExitBlockageAlarm();
                         /* 退出到暂停界面 */
                         AppUI_StateEntry_ZHT(&g_ui_context, (st_fsm_event){0});
+                        g_ui_fsm.current_state = UI_STATE_ZHT;  // 手动同步FSM状态
                         continue;  // 退出管路堵塞报警后，不处理该按键事件
                     } else {
                         /* 管路堵塞报警状态下忽略其他按键事件 */
