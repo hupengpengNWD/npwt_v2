@@ -29,12 +29,12 @@ CND_CONF=default
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=elf
-DEBUGGABLE_SUFFIX=
+DEBUGGABLE_SUFFIX=elf
 FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
-DEBUGGABLE_SUFFIX=
+DEBUGGABLE_SUFFIX=elf
 FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
@@ -98,7 +98,7 @@ ${OBJECTDIR}/_ext/1263633898/app_beep.p1: ../Application/Src/app_beep.c  nbproje
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_beep.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_beep.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_beep.p1 ../Application/Src/app_beep.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_beep.p1 ../Application/Src/app_beep.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_beep.d ${OBJECTDIR}/_ext/1263633898/app_beep.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_beep.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -106,7 +106,7 @@ ${OBJECTDIR}/_ext/1263633898/app_button.p1: ../Application/Src/app_button.c  nbp
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_button.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_button.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_button.p1 ../Application/Src/app_button.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_button.p1 ../Application/Src/app_button.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_button.d ${OBJECTDIR}/_ext/1263633898/app_button.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_button.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -114,7 +114,7 @@ ${OBJECTDIR}/_ext/1263633898/app_ui.p1: ../Application/Src/app_ui.c  nbproject/M
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_ui.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ../Application/Src/app_ui.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ../Application/Src/app_ui.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_ui.d ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -122,7 +122,7 @@ ${OBJECTDIR}/_ext/1263633898/app_battery.p1: ../Application/Src/app_battery.c  n
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_battery.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_battery.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_battery.p1 ../Application/Src/app_battery.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_battery.p1 ../Application/Src/app_battery.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_battery.d ${OBJECTDIR}/_ext/1263633898/app_battery.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_battery.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -130,7 +130,7 @@ ${OBJECTDIR}/_ext/1263633898/app_pressure.p1: ../Application/Src/app_pressure.c 
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_pressure.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_pressure.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_pressure.p1 ../Application/Src/app_pressure.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_pressure.p1 ../Application/Src/app_pressure.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_pressure.d ${OBJECTDIR}/_ext/1263633898/app_pressure.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_pressure.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -138,7 +138,7 @@ ${OBJECTDIR}/_ext/1263633898/app_alarm.p1: ../Application/Src/app_alarm.c  nbpro
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_alarm.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_alarm.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_alarm.p1 ../Application/Src/app_alarm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_alarm.p1 ../Application/Src/app_alarm.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_alarm.d ${OBJECTDIR}/_ext/1263633898/app_alarm.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_alarm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -146,7 +146,7 @@ ${OBJECTDIR}/_ext/1263633898/app_settings.p1: ../Application/Src/app_settings.c 
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_settings.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_settings.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_settings.p1 ../Application/Src/app_settings.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_settings.p1 ../Application/Src/app_settings.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_settings.d ${OBJECTDIR}/_ext/1263633898/app_settings.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_settings.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -154,7 +154,7 @@ ${OBJECTDIR}/_ext/959733021/main.p1: ../Core/Src/main.c  nbproject/Makefile-${CN
 	@${MKDIR} "${OBJECTDIR}/_ext/959733021" 
 	@${RM} ${OBJECTDIR}/_ext/959733021/main.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/959733021/main.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/959733021/main.p1 ../Core/Src/main.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/959733021/main.p1 ../Core/Src/main.c 
 	@-${MV} ${OBJECTDIR}/_ext/959733021/main.d ${OBJECTDIR}/_ext/959733021/main.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/959733021/main.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -162,7 +162,7 @@ ${OBJECTDIR}/_ext/272184615/hal_adc.p1: ../HAL/Src/hal_adc.c  nbproject/Makefile
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_adc.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ../HAL/Src/hal_adc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ../HAL/Src/hal_adc.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_adc.d ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -170,7 +170,7 @@ ${OBJECTDIR}/_ext/272184615/hal_gpio.p1: ../HAL/Src/hal_gpio.c  nbproject/Makefi
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ../HAL/Src/hal_gpio.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ../HAL/Src/hal_gpio.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_gpio.d ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -178,7 +178,7 @@ ${OBJECTDIR}/_ext/272184615/hal_timer.p1: ../HAL/Src/hal_timer.c  nbproject/Make
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_timer.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ../HAL/Src/hal_timer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ../HAL/Src/hal_timer.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_timer.d ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -186,7 +186,7 @@ ${OBJECTDIR}/_ext/272184615/hal_lcd.p1: ../HAL/Src/hal_lcd.c  nbproject/Makefile
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ../HAL/Src/hal_lcd.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ../HAL/Src/hal_lcd.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_lcd.d ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -194,7 +194,7 @@ ${OBJECTDIR}/_ext/272184615/hal_flash.p1: ../HAL/Src/hal_flash.c  nbproject/Make
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_flash.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_flash.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_flash.p1 ../HAL/Src/hal_flash.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_flash.p1 ../HAL/Src/hal_flash.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_flash.d ${OBJECTDIR}/_ext/272184615/hal_flash.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_flash.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -202,7 +202,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1: ../Library/lcd_font_data_8x16
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ../Library/lcd_font_data_8x16.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ../Library/lcd_font_data_8x16.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -210,7 +210,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1: ../Library/lcd_font_data_7x14
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1 ../Library/lcd_font_data_7x14.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1 ../Library/lcd_font_data_7x14.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -218,7 +218,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1: ../Library/lcd_font_data_6x12
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ../Library/lcd_font_data_6x12.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ../Library/lcd_font_data_6x12.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -226,7 +226,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1: ../Library/lcd_icon_data.c  nbproj
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1 ../Library/lcd_icon_data.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1 ../Library/lcd_icon_data.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.d ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -234,7 +234,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1: ../Library/lcd_font_data_16x
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1 ../Library/lcd_font_data_16x32.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1 ../Library/lcd_font_data_16x32.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -242,7 +242,7 @@ ${OBJECTDIR}/_ext/524563478/pushpull.p1: ../Middleware/Src/pushpull.c  nbproject
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pushpull.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pushpull.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pushpull.p1 ../Middleware/Src/pushpull.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pushpull.p1 ../Middleware/Src/pushpull.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/pushpull.d ${OBJECTDIR}/_ext/524563478/pushpull.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/pushpull.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -250,7 +250,7 @@ ${OBJECTDIR}/_ext/524563478/soft_timer.p1: ../Middleware/Src/soft_timer.c  nbpro
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/soft_timer.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ../Middleware/Src/soft_timer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ../Middleware/Src/soft_timer.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/soft_timer.d ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -258,7 +258,7 @@ ${OBJECTDIR}/_ext/524563478/display.p1: ../Middleware/Src/display.c  nbproject/M
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/display.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/display.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/display.p1 ../Middleware/Src/display.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/display.p1 ../Middleware/Src/display.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/display.d ${OBJECTDIR}/_ext/524563478/display.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/display.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -266,7 +266,7 @@ ${OBJECTDIR}/_ext/524563478/key_machine.p1: ../Middleware/Src/key_machine.c  nbp
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/key_machine.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/key_machine.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/key_machine.p1 ../Middleware/Src/key_machine.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/key_machine.p1 ../Middleware/Src/key_machine.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/key_machine.d ${OBJECTDIR}/_ext/524563478/key_machine.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/key_machine.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -274,7 +274,7 @@ ${OBJECTDIR}/_ext/524563478/queue.p1: ../Middleware/Src/queue.c  nbproject/Makef
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/queue.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/queue.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/queue.p1 ../Middleware/Src/queue.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/queue.p1 ../Middleware/Src/queue.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/queue.d ${OBJECTDIR}/_ext/524563478/queue.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/queue.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -282,7 +282,7 @@ ${OBJECTDIR}/_ext/524563478/fsm.p1: ../Middleware/Src/fsm.c  nbproject/Makefile-
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/fsm.p1 ../Middleware/Src/fsm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/fsm.p1 ../Middleware/Src/fsm.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/fsm.d ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/fsm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -290,7 +290,7 @@ ${OBJECTDIR}/_ext/524563478/pwm.p1: ../Middleware/Src/pwm.c  nbproject/Makefile-
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pwm.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pwm.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pwm.p1 ../Middleware/Src/pwm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pwm.p1 ../Middleware/Src/pwm.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/pwm.d ${OBJECTDIR}/_ext/524563478/pwm.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/pwm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -298,7 +298,7 @@ ${OBJECTDIR}/_ext/524563478/pid.p1: ../Middleware/Src/pid.c  nbproject/Makefile-
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pid.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pid.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pid.p1 ../Middleware/Src/pid.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pid.p1 ../Middleware/Src/pid.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/pid.d ${OBJECTDIR}/_ext/524563478/pid.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/pid.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -307,7 +307,7 @@ ${OBJECTDIR}/_ext/1263633898/app_beep.p1: ../Application/Src/app_beep.c  nbproje
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_beep.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_beep.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_beep.p1 ../Application/Src/app_beep.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_beep.p1 ../Application/Src/app_beep.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_beep.d ${OBJECTDIR}/_ext/1263633898/app_beep.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_beep.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -315,7 +315,7 @@ ${OBJECTDIR}/_ext/1263633898/app_button.p1: ../Application/Src/app_button.c  nbp
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_button.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_button.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_button.p1 ../Application/Src/app_button.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_button.p1 ../Application/Src/app_button.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_button.d ${OBJECTDIR}/_ext/1263633898/app_button.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_button.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -323,7 +323,7 @@ ${OBJECTDIR}/_ext/1263633898/app_ui.p1: ../Application/Src/app_ui.c  nbproject/M
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_ui.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ../Application/Src/app_ui.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_ui.p1 ../Application/Src/app_ui.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_ui.d ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_ui.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -331,7 +331,7 @@ ${OBJECTDIR}/_ext/1263633898/app_battery.p1: ../Application/Src/app_battery.c  n
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_battery.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_battery.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_battery.p1 ../Application/Src/app_battery.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_battery.p1 ../Application/Src/app_battery.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_battery.d ${OBJECTDIR}/_ext/1263633898/app_battery.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_battery.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -339,7 +339,7 @@ ${OBJECTDIR}/_ext/1263633898/app_pressure.p1: ../Application/Src/app_pressure.c 
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_pressure.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_pressure.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_pressure.p1 ../Application/Src/app_pressure.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_pressure.p1 ../Application/Src/app_pressure.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_pressure.d ${OBJECTDIR}/_ext/1263633898/app_pressure.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_pressure.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -347,7 +347,7 @@ ${OBJECTDIR}/_ext/1263633898/app_alarm.p1: ../Application/Src/app_alarm.c  nbpro
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_alarm.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_alarm.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_alarm.p1 ../Application/Src/app_alarm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_alarm.p1 ../Application/Src/app_alarm.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_alarm.d ${OBJECTDIR}/_ext/1263633898/app_alarm.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_alarm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -355,7 +355,7 @@ ${OBJECTDIR}/_ext/1263633898/app_settings.p1: ../Application/Src/app_settings.c 
 	@${MKDIR} "${OBJECTDIR}/_ext/1263633898" 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_settings.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/1263633898/app_settings.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_settings.p1 ../Application/Src/app_settings.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/1263633898/app_settings.p1 ../Application/Src/app_settings.c 
 	@-${MV} ${OBJECTDIR}/_ext/1263633898/app_settings.d ${OBJECTDIR}/_ext/1263633898/app_settings.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/1263633898/app_settings.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -363,7 +363,7 @@ ${OBJECTDIR}/_ext/959733021/main.p1: ../Core/Src/main.c  nbproject/Makefile-${CN
 	@${MKDIR} "${OBJECTDIR}/_ext/959733021" 
 	@${RM} ${OBJECTDIR}/_ext/959733021/main.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/959733021/main.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/959733021/main.p1 ../Core/Src/main.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/959733021/main.p1 ../Core/Src/main.c 
 	@-${MV} ${OBJECTDIR}/_ext/959733021/main.d ${OBJECTDIR}/_ext/959733021/main.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/959733021/main.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -371,7 +371,7 @@ ${OBJECTDIR}/_ext/272184615/hal_adc.p1: ../HAL/Src/hal_adc.c  nbproject/Makefile
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_adc.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ../HAL/Src/hal_adc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_adc.p1 ../HAL/Src/hal_adc.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_adc.d ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_adc.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -379,7 +379,7 @@ ${OBJECTDIR}/_ext/272184615/hal_gpio.p1: ../HAL/Src/hal_gpio.c  nbproject/Makefi
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ../HAL/Src/hal_gpio.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_gpio.p1 ../HAL/Src/hal_gpio.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_gpio.d ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_gpio.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -387,7 +387,7 @@ ${OBJECTDIR}/_ext/272184615/hal_timer.p1: ../HAL/Src/hal_timer.c  nbproject/Make
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_timer.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ../HAL/Src/hal_timer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_timer.p1 ../HAL/Src/hal_timer.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_timer.d ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_timer.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -395,7 +395,7 @@ ${OBJECTDIR}/_ext/272184615/hal_lcd.p1: ../HAL/Src/hal_lcd.c  nbproject/Makefile
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ../HAL/Src/hal_lcd.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_lcd.p1 ../HAL/Src/hal_lcd.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_lcd.d ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_lcd.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -403,7 +403,7 @@ ${OBJECTDIR}/_ext/272184615/hal_flash.p1: ../HAL/Src/hal_flash.c  nbproject/Make
 	@${MKDIR} "${OBJECTDIR}/_ext/272184615" 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_flash.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/272184615/hal_flash.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_flash.p1 ../HAL/Src/hal_flash.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/272184615/hal_flash.p1 ../HAL/Src/hal_flash.c 
 	@-${MV} ${OBJECTDIR}/_ext/272184615/hal_flash.d ${OBJECTDIR}/_ext/272184615/hal_flash.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/272184615/hal_flash.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -411,7 +411,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1: ../Library/lcd_font_data_8x16
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ../Library/lcd_font_data_8x16.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1 ../Library/lcd_font_data_8x16.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_8x16.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -419,7 +419,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1: ../Library/lcd_font_data_7x14
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1 ../Library/lcd_font_data_7x14.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1 ../Library/lcd_font_data_7x14.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_7x14.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -427,7 +427,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1: ../Library/lcd_font_data_6x12
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ../Library/lcd_font_data_6x12.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1 ../Library/lcd_font_data_6x12.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_6x12.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -435,7 +435,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1: ../Library/lcd_icon_data.c  nbproj
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1 ../Library/lcd_icon_data.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1 ../Library/lcd_icon_data.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.d ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_icon_data.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -443,7 +443,7 @@ ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1: ../Library/lcd_font_data_16x
 	@${MKDIR} "${OBJECTDIR}/_ext/150355788" 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1 ../Library/lcd_font_data_16x32.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1 ../Library/lcd_font_data_16x32.c 
 	@-${MV} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.d ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/150355788/lcd_font_data_16x32.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -451,7 +451,7 @@ ${OBJECTDIR}/_ext/524563478/pushpull.p1: ../Middleware/Src/pushpull.c  nbproject
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pushpull.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pushpull.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pushpull.p1 ../Middleware/Src/pushpull.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pushpull.p1 ../Middleware/Src/pushpull.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/pushpull.d ${OBJECTDIR}/_ext/524563478/pushpull.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/pushpull.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -459,7 +459,7 @@ ${OBJECTDIR}/_ext/524563478/soft_timer.p1: ../Middleware/Src/soft_timer.c  nbpro
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/soft_timer.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ../Middleware/Src/soft_timer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/soft_timer.p1 ../Middleware/Src/soft_timer.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/soft_timer.d ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/soft_timer.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -467,7 +467,7 @@ ${OBJECTDIR}/_ext/524563478/display.p1: ../Middleware/Src/display.c  nbproject/M
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/display.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/display.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/display.p1 ../Middleware/Src/display.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/display.p1 ../Middleware/Src/display.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/display.d ${OBJECTDIR}/_ext/524563478/display.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/display.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -475,7 +475,7 @@ ${OBJECTDIR}/_ext/524563478/key_machine.p1: ../Middleware/Src/key_machine.c  nbp
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/key_machine.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/key_machine.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/key_machine.p1 ../Middleware/Src/key_machine.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/key_machine.p1 ../Middleware/Src/key_machine.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/key_machine.d ${OBJECTDIR}/_ext/524563478/key_machine.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/key_machine.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -483,7 +483,7 @@ ${OBJECTDIR}/_ext/524563478/queue.p1: ../Middleware/Src/queue.c  nbproject/Makef
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/queue.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/queue.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/queue.p1 ../Middleware/Src/queue.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/queue.p1 ../Middleware/Src/queue.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/queue.d ${OBJECTDIR}/_ext/524563478/queue.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/queue.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -491,7 +491,7 @@ ${OBJECTDIR}/_ext/524563478/fsm.p1: ../Middleware/Src/fsm.c  nbproject/Makefile-
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/fsm.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/fsm.p1 ../Middleware/Src/fsm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/fsm.p1 ../Middleware/Src/fsm.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/fsm.d ${OBJECTDIR}/_ext/524563478/fsm.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/fsm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -499,7 +499,7 @@ ${OBJECTDIR}/_ext/524563478/pwm.p1: ../Middleware/Src/pwm.c  nbproject/Makefile-
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pwm.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pwm.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pwm.p1 ../Middleware/Src/pwm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pwm.p1 ../Middleware/Src/pwm.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/pwm.d ${OBJECTDIR}/_ext/524563478/pwm.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/pwm.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -507,7 +507,7 @@ ${OBJECTDIR}/_ext/524563478/pid.p1: ../Middleware/Src/pid.c  nbproject/Makefile-
 	@${MKDIR} "${OBJECTDIR}/_ext/524563478" 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pid.p1.d 
 	@${RM} ${OBJECTDIR}/_ext/524563478/pid.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pid.p1 ../Middleware/Src/pid.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/_ext/524563478/pid.p1 ../Middleware/Src/pid.c 
 	@-${MV} ${OBJECTDIR}/_ext/524563478/pid.d ${OBJECTDIR}/_ext/524563478/pid.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/_ext/524563478/pid.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
@@ -530,13 +530,13 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -Wl,-Map=dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.map  -D__DEBUG=1  -DXPRJ_default=$(CND_CONF)  -Wl,--defsym=__MPLAB_BUILD=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto        $(COMPARISON_BUILD) -Wl,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml -o dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
+	${MP_CC} $(MP_EXTRA_LD_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -Wl,-Map=dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.map  -D__DEBUG=1  -DXPRJ_default=$(CND_CONF)  -Wl,--defsym=__MPLAB_BUILD=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto        $(COMPARISON_BUILD) -Wl,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml -o dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
 	@${RM} dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.hex 
 	
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -Wl,-Map=dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.map  -DXPRJ_default=$(CND_CONF)  -Wl,--defsym=__MPLAB_BUILD=1    -fno-short-double -fno-short-float -memi=wordwrite -O1 -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     $(COMPARISON_BUILD) -Wl,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml -o dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
+	${MP_CC} $(MP_EXTRA_LD_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -Wl,-Map=dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.map  -DXPRJ_default=$(CND_CONF)  -Wl,--defsym=__MPLAB_BUILD=1    -fno-short-double -fno-short-float -memi=wordwrite -Os -fasmfile -maddrqual=ignore -xassembler-with-cpp -I"../Application/Inc" -I"../Core/Inc" -I"../Drivers/Inc" -I"../Middleware/Inc" -I"../HAL/Inc" -mwarn=-3 -Wa,-a -msummary=-psect,-class,+mem,-hex,-file  -ginhx032 -Wl,--data-init -mkeep-startup -mdownload -mdefault-config-bits -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     $(COMPARISON_BUILD) -Wl,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml -o dist/${CND_CONF}/${IMAGE_TYPE}/NWPT_VR.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
 	
 endif
 

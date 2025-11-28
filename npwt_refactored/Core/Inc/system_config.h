@@ -29,10 +29,35 @@
 #define PRESSURE_BLEED_DURATION_MS  3000    // 开机泄压持续时间：3000ms（3秒）
 #define PRESSURE_LEAK_ALARM_TIMEOUT_MS  30000  // 泄漏报警超时时间：30000ms（30秒），PID建立负压时如果超时未达到目标值则报警
 #define PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS  60000  // 泄漏报警后延迟停止泵电机时间：60000ms（60秒/1分钟）
+#define PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS  120000  // 管路堵塞报警超时时间：120000ms（120秒/2分钟），负压稳定后2分钟内没有PID补充则报警
+#define PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD  10.0f  // 管路堵塞报警PID输出阈值：10.0，超过此值认为有负压补充，重置定时器
+#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  30  // 过压报警阈值：压力超过目标值+30mmHg时触发（检测入口堵塞）
+#define PRESSURE_OVERPRESSURE_ALARM_DELAY_MS  500  // 过压报警延迟时间：500ms，避免瞬态误报（设为0则立即触发）
+
+/****************************************************************************
+ * 容器体积配置
+ * 说明：
+ *   - 漏气报警超时时间与容器体积成正比：t ∝ V
+ *   - 理论公式：t = (V/S) × ln[760/(760-Pset)]
+ *   - 已知泵流速：S = 0.42 L/min
+ *   - 支持体积：600ml(默认)、400ml、140ml
+ ****************************************************************************/
+/* 支持的容器体积选项（单位：ml） */
+#define CONTAINER_VOLUME_600ML    600
+#define CONTAINER_VOLUME_400ML    400
+#define CONTAINER_VOLUME_140ML    140
+
+/* 当前系统使用的容器体积（修改此处选择不同容器） */
+#ifndef SYSTEM_CONTAINER_VOLUME_ML
+    #define SYSTEM_CONTAINER_VOLUME_ML    CONTAINER_VOLUME_600ML  // 默认600ml
+#endif
+
+/* 漏气报警查表基准体积（查表数组是基于600ml容器计算的，不要修改） */
+#define LEAK_ALARM_TIMEOUT_BASE_VOLUME_ML    600
 
 /****************************************************************************
  * 电池电压阈值（ADC值）
- ****************************************************************************/
+ ****************************************************************************/ 
 #define BAT_LEVEL_FULL          319         // 满电
 #define BAT_LEVEL_75            304         // 75%
 #define BAT_LEVEL_50            296         // 50%

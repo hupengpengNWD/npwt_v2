@@ -29,21 +29,26 @@
  *   3. 不在常量数据范围内（避免覆盖LOGO等数据）
  *   4. 64字节对齐（Flash块对齐要求）
  * 
- * 当前地址：0xD000
+ * 当前地址：0xD640 (更新于代码使用率94.2%时)
  *   - 在未使用的CODE区域内，安全
  *   - 64字节对齐
- *   - 距离程序代码结束约2623字节
- *   - 距离常量数据开始约3326字节
+ *   - 距离程序代码结束（0xD217）：1065字节 (1.04KB)
+ *   - 距离常量数据开始（0xE13E）：2814字节 (2.75KB)
+ *   - 安全边距：1KB
+ *   - 可用扩展空间：2.75KB (约可支持后续2800字节代码增长)
+ * 
+ * 历史更新记录：
+ *   - 0xD000 → 0xD640 (代码使用率从89%增至94.2%，增加查表法、过压报警等功能)
  * 
  * 如何调整地址（当代码增加新功能时）：
  *   1. 编译项目，生成map文件
- *   2. 运行脚本：python3 scripts/calculate_safe_flash_address.py
+ *   2. 运行脚本：python3 scripts/calculate_safe_flash_address.py NWPT_VR.X/dist/default/production/NWPT_VR.X.production.map 1
  *   3. 脚本会自动计算安全的Flash地址
  *   4. 更新本文件中的 HAL_FLASH_CONFIG_ADDRESS 宏定义
  * 
  * 详细说明请参考：scripts/README_FLASH_ADDRESS.md
  */
-#define HAL_FLASH_CONFIG_ADDRESS    0xD000U    // 配置数据起始地址（使用脚本自动计算：scripts/calculate_safe_flash_address.py）
+#define HAL_FLASH_CONFIG_ADDRESS    0xD640U    // 配置数据起始地址（使用脚本计算，1KB安全边距），当Os优化等级时配置为0xD2C0U时可以获得更多的配置控空间
 
 /****************************************************************************
  * Flash操作函数

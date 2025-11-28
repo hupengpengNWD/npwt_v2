@@ -33,6 +33,65 @@
 
 #define PRESSURE_FILTER_COUNT      5   // 滤波采样次数（10ms采样 * 5点滑动平均）
 
+/****************************************************************************
+ * 漏气报警超时时间查表（基于理论公式：t = (V/S) × ln[760/(760-Pset)]）
+ * 
+ * 计算条件：
+ *   - 基准容器体积：V = 600ml（查表基准值）
+ *   - 泵流速：S = 0.42 L/min
+ *   - 安全余量：理论时间 × 2.5
+ *   - 查表范围：20-300 mmHg，每10mmHg一档
+ * 
+ * 支持的容器体积（通过SYSTEM_CONTAINER_VOLUME_ML配置）：
+ *   - 600ml（默认，缩放系数 1.000）
+ *   - 400ml（缩放系数 0.667，约2/3）
+ *   - 140ml（缩放系数 0.233，约1/4.3）
+ * 
+ * 体积缩放说明：
+ *   建压时间与容器体积成正比：t_actual = t_base × (V_actual / V_base)
+ *   GetLeakAlarmTimeout()函数会根据配置的容器体积自动缩放超时时间
+ * 
+ * 示例：120mmHg目标压力
+ *   - 600ml容器：37秒（查表基准值）
+ *   - 400ml容器：25秒（37 × 400/600）
+ *   - 140ml容器：9秒（37 × 140/600）
+ ****************************************************************************/
+static const uint16_t g_leak_alarm_timeout_table[] = {
+    /*  20 mmHg */  6,    /* 理论2.3秒  × 2.5 = 5.7秒  */
+    /*  30 mmHg */  9,    /* 理论3.5秒  × 2.5 = 8.6秒  */
+    /*  40 mmHg */  12,   /* 理论4.6秒  × 2.5 = 11.6秒 */
+    /*  50 mmHg */  15,   /* 理论5.8秒  × 2.5 = 14.6秒 */
+    /*  60 mmHg */  18,   /* 理论7.0秒  × 2.5 = 17.6秒 */
+    /*  70 mmHg */  21,   /* 理论8.3秒  × 2.5 = 20.7秒 */
+    /*  80 mmHg */  24,   /* 理论9.5秒  × 2.5 = 23.8秒 */
+    /*  90 mmHg */  27,   /* 理论10.8秒 × 2.5 = 27.0秒 */
+    /* 100 mmHg */  30,   /* 理论12.1秒 × 2.5 = 30.2秒 */
+    /* 110 mmHg */  34,   /* 理论13.4秒 × 2.5 = 33.5秒 */
+    /* 120 mmHg */  37,   /* 理论14.7秒 × 2.5 = 36.8秒 */
+    /* 130 mmHg */  40,   /* 理论16.1秒 × 2.5 = 40.2秒 */
+    /* 140 mmHg */  44,   /* 理论17.5秒 × 2.5 = 43.7秒 */
+    /* 150 mmHg */  47,   /* 理论18.9秒 × 2.5 = 47.1秒 */
+    /* 160 mmHg */  51,   /* 理论20.3秒 × 2.5 = 50.7秒 */
+    /* 170 mmHg */  54,   /* 理论21.7秒 × 2.5 = 54.2秒 */
+    /* 180 mmHg */  58,   /* 理论23.2秒 × 2.5 = 57.9秒 */
+    /* 190 mmHg */  62,   /* 理论24.7秒 × 2.5 = 61.7秒 */
+    /* 200 mmHg */  66,   /* 理论26.2秒 × 2.5 = 65.5秒 */
+    /* 210 mmHg */  69,   /* 理论27.8秒 × 2.5 = 69.4秒 */
+    /* 220 mmHg */  73,   /* 理论29.3秒 × 2.5 = 73.3秒 */
+    /* 230 mmHg */  77,   /* 理论30.9秒 × 2.5 = 77.4秒 */
+    /* 240 mmHg */  82,   /* 理论32.6秒 × 2.5 = 81.5秒 */
+    /* 250 mmHg */  86,   /* 理论34.2秒 × 2.5 = 85.6秒 */
+    /* 260 mmHg */  90,   /* 理论35.9秒 × 2.5 = 89.7秒 */
+    /* 270 mmHg */  94,   /* 理论37.6秒 × 2.5 = 93.9秒 */
+    /* 280 mmHg */  98,   /* 理论39.3秒 × 2.5 = 98.2秒 */
+    /* 290 mmHg */  103,  /* 理论41.0秒 × 2.5 = 102.5秒 */
+    /* 300 mmHg */  107   /* 理论42.9秒 × 2.5 = 107.3秒 */
+};
+
+#define LEAK_ALARM_TIMEOUT_TABLE_SIZE   (sizeof(g_leak_alarm_timeout_table) / sizeof(g_leak_alarm_timeout_table[0]))
+#define LEAK_ALARM_TIMEOUT_BASE_PRESSURE  20U   /* 查表基准压力：20 mmHg */
+#define LEAK_ALARM_TIMEOUT_STEP_PRESSURE  10U   /* 查表步进：10 mmHg */
+
 #define PRESSURE_CONTROL_SAMPLE_TIME_S    (0.010f)   // 控制循环采样周期（10ms）
 #define PRESSURE_CONTROL_DEADBAND_MMHG    (5.0f)     // 允许的稳态误差
 #define PRESSURE_CONTROL_OUTPUT_MIN       (-100.0f)
@@ -98,6 +157,14 @@ static bool g_blockage_alarm_triggered = false;            // 管路堵塞报警
 static uint32_t g_blockage_alarm_hold_start_tick = 0;      // 进入保持状态的tick数，0表示未进入保持状态
 static bool g_blockage_alarm_hold_active = false;          // 是否已进入保持状态（用于检测管路堵塞）
 
+/* 过压报警检测相关变量（检测入口堵塞导致压力过高） */
+static bool g_overpressure_alarm_triggered = false;        // 过压报警已触发标志
+static uint32_t g_overpressure_alarm_start_tick = 0;       // 过压检测开始时刻（用于延迟判断）
+static bool g_overpressure_alarm_delay_active = false;     // 是否启用延迟判断（持续过压才触发）
+
+/* 泵工作原因记录 */
+static PumpWorkReason_e g_pump_work_reason = PUMP_REASON_IDLE;  // 泵工作原因（闲置、建立负压或维持补充）
+
 /****************************************************************************
  * 内部函数声明
  ****************************************************************************/
@@ -137,6 +204,16 @@ static uint16_t PressureControl_SelectMinDuty(float abs_error);
 static void AppPressure_BleedTimerCallback(void* user_data);
 static void AppPressure_IntermittentTimerCallback(void* user_data);
 static void AppPressure_StartIntermittentPhase(bool high_phase);
+
+/**
+ * @name      GetLeakAlarmTimeout
+ * @brief     根据目标压力查表获取漏气报警超时时间
+ * @param     target_mmHg - 目标压力（mmHg）
+ * @retval    超时时间（毫秒）
+ * @note      使用查表法，基于理论公式 t=(V/S)×ln[760/(760-Pset)] 预计算
+ *           超时时间 = 理论时间 × 2.5（安全余量）
+ */
+static uint32_t GetLeakAlarmTimeout(uint16_t target_mmHg);
 static void AppPressure_LowPhaseReleaseCallback(void* user_data);
 
 /****************************************************************************
@@ -291,8 +368,11 @@ void AppPressure_Process(void* user_data)
         }
 
         if (current_pressure <= reengage_threshold) {
+            /* 压力下降，退出保持状态，需要重新抽气补充 */
             g_pressure_hold_active = false;
             PID_Reset(&g_pressure_pid);
+            /* 设置泵工作原因：从保持状态恢复抽气为维持补充 */
+            g_pump_work_reason = PUMP_REASON_MAINTAINING;
         } else {
             /* 在保持状态下，检测管路堵塞报警（在return之前执行） */
             if (g_blockage_alarm_hold_active && g_pressure_control_user_target > 0) {
@@ -309,6 +389,34 @@ void AppPressure_Process(void* user_data)
                     }
                 }
             }
+            
+            /* 在保持状态下，持续检测过压报警（入口堵塞检测） */
+            if (g_pressure_control_user_target > 0) {
+                uint16_t overpressure_threshold = g_pressure_control_user_target + PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG;
+                
+                if (current_pressure >= overpressure_threshold) {
+                    /* 压力异常高，可能是入口被堵 */
+                    if (!g_overpressure_alarm_delay_active) {
+                        /* 首次检测到过压，启动延迟计时 */
+                        g_overpressure_alarm_delay_active = true;
+                        g_overpressure_alarm_start_tick = SoftTimer_GetTickCount();
+                    } else {
+                        /* 检查延迟时间 */
+                        uint32_t elapsed_ticks = SoftTimer_GetTickCount() - g_overpressure_alarm_start_tick;
+                        uint32_t elapsed_time_ms = elapsed_ticks * SOFT_TIMER_TICK_MS;
+                        
+                        if (elapsed_time_ms >= PRESSURE_OVERPRESSURE_ALARM_DELAY_MS) {
+                            /* 持续过压，触发报警 */
+                            g_overpressure_alarm_triggered = true;
+                        }
+                    }
+                } else {
+                    /* 压力恢复正常，清除延迟状态 */
+                    g_overpressure_alarm_delay_active = false;
+                    g_overpressure_alarm_start_tick = 0;
+                }
+            }
+            
             return;
         }
     }
@@ -325,6 +433,16 @@ void AppPressure_Process(void* user_data)
             g_blockage_alarm_hold_active = true;
             g_blockage_alarm_hold_start_tick = SoftTimer_GetTickCount();
             g_blockage_alarm_triggered = false;  // 重置堵塞报警标志
+            
+            /* 【新增】进入保持状态时立即检查过压（入口堵塞快速检测） */
+            if (g_pressure_control_user_target > 0) {
+                uint16_t overpressure_threshold = g_pressure_control_user_target + PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG;
+                
+                if (current_pressure >= overpressure_threshold) {
+                    /* 立即触发过压报警（无延迟，快速响应） */
+                    g_overpressure_alarm_triggered = true;
+                }
+            }
         }
         
         /* 达到目标压力，清除泄漏报警超时检测 */
@@ -342,7 +460,7 @@ void AppPressure_Process(void* user_data)
         g_blockage_alarm_triggered = false;
     }
     
-    /* Step5.5：泄漏报警超时检测 */
+    /* Step5.5：泄漏报警超时检测（使用动态查表法） */
     if (!g_leak_alarm_target_reached && g_pressure_control_user_target > 0) {
         /* 如果还未达到目标压力，检查是否超时 */
         if (g_leak_alarm_start_time_ms == 0) {
@@ -353,8 +471,11 @@ void AppPressure_Process(void* user_data)
             uint32_t current_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
             uint32_t elapsed_time_ms = current_time_ms - g_leak_alarm_start_time_ms;
             
+            /* 根据目标压力动态获取超时时间（查表法） */
+            uint32_t timeout_ms = GetLeakAlarmTimeout(g_pressure_control_user_target);
+            
             /* 如果超时且未达到目标，触发泄漏报警 */
-            if (elapsed_time_ms >= PRESSURE_LEAK_ALARM_TIMEOUT_MS) {
+            if (elapsed_time_ms >= timeout_ms) {
                 g_leak_alarm_triggered = true;
             }
         }
@@ -588,6 +709,14 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
     g_blockage_alarm_triggered = false;
     g_blockage_alarm_hold_active = false;
     g_blockage_alarm_hold_start_tick = 0;
+    
+    /* 重置过压报警检测 */
+    g_overpressure_alarm_triggered = false;
+    g_overpressure_alarm_delay_active = false;
+    g_overpressure_alarm_start_tick = 0;
+    
+    /* 设置泵工作原因：启动压力控制时为建立负压 */
+    g_pump_work_reason = PUMP_REASON_BUILDING;
 
     g_pressure_control_enabled = true;
 }
@@ -614,6 +743,14 @@ void AppPressure_StopControl(void)
     g_blockage_alarm_hold_active = false;
     g_blockage_alarm_hold_start_tick = 0;
     g_pressure_hold_active = false;
+    
+    /* 停止控制时清除过压报警检测 */
+    g_overpressure_alarm_triggered = false;
+    g_overpressure_alarm_delay_active = false;
+    g_overpressure_alarm_start_tick = 0;
+    
+    /* 设置泵工作原因：停止控制时为闲置 */
+    g_pump_work_reason = PUMP_REASON_IDLE;
 
     if (g_intermittent_active) {
         g_intermittent_active = false;
@@ -714,6 +851,42 @@ void AppPressure_ClearControlFault(void)
 /****************************************************************************
  * 内部函数实现
  ****************************************************************************/
+
+/**
+ * @name      GetLeakAlarmTimeout
+ * @brief     根据目标压力查表获取漏气报警超时时间（支持多种容器体积）
+ * @param     target_mmHg - 目标压力（mmHg）
+ * @retval    超时时间（毫秒）
+ * @note      使用查表法，基于理论公式 t=(V/S)×ln[760/(760-Pset)] 预计算
+ *           查表基准：V=600ml, S=0.42L/min，理论时间×2.5安全余量
+ *           支持体积：600ml, 400ml, 140ml（通过SYSTEM_CONTAINER_VOLUME_ML配置）
+ *           时间缩放：t_actual = t_base × (V_actual / V_base)
+ */
+static uint32_t GetLeakAlarmTimeout(uint16_t target_mmHg)
+{
+    /* 限制在查表范围内 */
+    if (target_mmHg < LEAK_ALARM_TIMEOUT_BASE_PRESSURE) {
+        target_mmHg = LEAK_ALARM_TIMEOUT_BASE_PRESSURE;  // 最小20mmHg
+    }
+    
+    /* 计算查表索引 */
+    uint16_t index = (target_mmHg - LEAK_ALARM_TIMEOUT_BASE_PRESSURE) / LEAK_ALARM_TIMEOUT_STEP_PRESSURE;
+    
+    /* 索引超出范围，使用最后一个值（300mmHg对应的超时时间） */
+    if (index >= LEAK_ALARM_TIMEOUT_TABLE_SIZE) {
+        index = LEAK_ALARM_TIMEOUT_TABLE_SIZE - 1;
+    }
+    
+    /* 查表获取600ml容器的基准超时时间（秒） */
+    uint32_t base_timeout_sec = (uint32_t)g_leak_alarm_timeout_table[index];
+    
+    /* 根据实际容器体积缩放超时时间 */
+    /* 公式：t_actual = t_base × (V_actual / V_base) */
+    /* 为避免浮点运算，使用整数乘除：timeout_ms = (base_timeout_sec * V_actual * 1000) / V_base */
+    uint32_t timeout_ms = (base_timeout_sec * SYSTEM_CONTAINER_VOLUME_ML * 1000UL) / LEAK_ALARM_TIMEOUT_BASE_VOLUME_ML;
+    
+    return timeout_ms;
+}
 
 /**
  * @name      PressureFilter_Update
@@ -828,7 +1001,7 @@ static void PressureControl_ApplyOutput(float control_output)
         /*
          * 正输出：需要抽气
          * - 先将 PID 输出（-100~100）归一化到 0~1，作为剩余占空比分配比例
-         * - duty = 动态最小占空比 + 剩余占空比 * normalized，避免进入“嗡嗡不抽”区间
+         * - duty = 动态最小占空比 + 剩余占空比 * normalized，避免进入"嗡嗡不抽"区间
          */
         float normalized = control_output / PRESSURE_CONTROL_OUTPUT_MAX;
         if (normalized > 1.0f) {
@@ -860,6 +1033,8 @@ static void PressureControl_ApplyOutput(float control_output)
         HAL_Valve2_Close();
         g_valve_bleeding_active = false;
         g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
+        
+        /* 泵工作原因保持不变（由外部在状态转换时设置为BUILDING或MAINTAINING） */
     } else {
         /*
          * 非正输出：需要减压 / 保压
@@ -879,6 +1054,9 @@ static void PressureControl_ApplyOutput(float control_output)
             g_valve_bleeding_active = false;
             g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
         }
+        
+        /* 非正输出时泵不工作，但不改变原因状态（因为可能马上又需要抽气） */
+        /* 只有在StopControl时才会设置为IDLE */
     }
 }
 
@@ -1175,5 +1353,48 @@ void AppPressure_ClearBlockageAlarm(void)
     /* 注意：不清除g_blockage_alarm_hold_active和g_blockage_alarm_hold_start_tick */
     /* 因为可能只是暂时清除标志，但检测逻辑应该继续 */
 }
+
+/**
+ * @name      AppPressure_IsOverpressureAlarmTriggered
+ * @brief     查询是否已触发过压报警（入口堵塞导致压力异常高）
+ * @retval    true=已触发过压报警, false=未触发
+ */
+bool AppPressure_IsOverpressureAlarmTriggered(void)
+{
+    return g_overpressure_alarm_triggered;
+}
+
+/**
+ * @name      AppPressure_ClearOverpressureAlarm
+ * @brief     清除过压报警标志
+ */
+void AppPressure_ClearOverpressureAlarm(void)
+{
+    g_overpressure_alarm_triggered = false;
+    g_overpressure_alarm_delay_active = false;
+    g_overpressure_alarm_start_tick = 0;
+}
+
+/**
+ * @name      AppPressure_GetPressureDeviation
+ * @brief     获取当前压力与目标的偏差（用于UI显示和判断）
+ * @retval    压力偏差（mmHg），正值表示超过目标，负值表示低于目标
+ */
+int16_t AppPressure_GetPressureDeviation(void)
+{
+    uint16_t current_pressure = AppPressure_GetPressureValue();
+    int16_t deviation = (int16_t)current_pressure - (int16_t)g_pressure_control_user_target;
+    return deviation;
+}
+
+/**
+ * @name      AppPressure_GetPumpWorkReason
+ * @brief     获取当前泵工作原因
+ * @retval    泵工作原因枚举值
+ */
+PumpWorkReason_e AppPressure_GetPumpWorkReason(void)
+{
+    return g_pump_work_reason;
+} 
  
 

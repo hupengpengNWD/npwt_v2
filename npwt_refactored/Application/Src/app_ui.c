@@ -44,6 +44,8 @@
 #define UI_LEAK_ALARM_TEXT_Y                  3U     // "Leak Alarms"文本显示Y坐标（屏幕中间）
 #define UI_BLOCKAGE_ALARM_TEXT_X               10U    // "Blockage Alarm"文本显示X坐标（居中显示）
 #define UI_BLOCKAGE_ALARM_TEXT_Y               3U     // "Blockage Alarm"文本显示Y坐标（屏幕中间）
+#define UI_OVERPRESSURE_ALARM_TEXT_X           5U     // "Overpressure!"文本显示X坐标（居中显示）
+#define UI_OVERPRESSURE_ALARM_TEXT_Y           3U     // "Overpressure!"文本显示Y坐标（屏幕中间）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
@@ -137,6 +139,9 @@ static void AppUI_UpdateLeakAlarm(void);
 static void AppUI_EnterBlockageAlarm(void);
 static void AppUI_ExitBlockageAlarm(void);
 static void AppUI_UpdateBlockageAlarm(void);
+static void AppUI_EnterOverpressureAlarm(void);
+static void AppUI_ExitOverpressureAlarm(void);
+static void AppUI_UpdateOverpressureAlarm(void);
 static void AppUI_LeakAlarmPumpStopCallback(void* user_data);
 
 /**
@@ -663,6 +668,94 @@ static void AppUI_UpdateBlockageAlarm(void)
             if (g_ui_context.blockage_alarm_previous_state == UI_STATE_LIX) {
                 AppUI_Display_LIX();
             } else if (g_ui_context.blockage_alarm_previous_state == UI_STATE_JIX) {
+                AppUI_Display_JIX();
+            }
+        }
+    }
+}
+
+/**
+ * @brief 进入过压报警状态：显示"Overpressure!"，关闭白色背光，打开黄色背光
+ * @note 入口堵塞导致压力异常高时触发
+ */
+static void AppUI_EnterOverpressureAlarm(void)
+{
+    g_ui_context.overpressure_alarm_active = true;
+    g_ui_context.overpressure_alarm_previous_state = g_ui_context.current_state;
+    
+    /* 如果之前处于空闲状态，先退出空闲状态（因为过压报警优先级最高） */
+    if (g_ui_context.idle_active) {
+        g_ui_context.idle_active = false;
+    }
+    
+    /* 清屏并显示"Overpressure!" */
+    Display_Clear();
+    Display_ShowString(UI_OVERPRESSURE_ALARM_TEXT_X, UI_OVERPRESSURE_ALARM_TEXT_Y, "Overpressure!", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    /* 关闭白色背光，打开黄色背光 */
+    HAL_LCD_Backlight_Off();
+    HAL_LED_Yellow_On();
+    
+    /* 启动蜂鸣器模式2（{8, 250}：响150ms，静5000ms） */
+    AppBeep_StartBeep2DMode(2);
+    
+    /* 注意：不打开电磁阀，只显示警告，由用户处理 */
+}
+
+/**
+ * @brief 退出过压报警状态：清理状态，恢复背光
+ */
+static void AppUI_ExitOverpressureAlarm(void)
+{
+    g_ui_context.overpressure_alarm_active = false;
+    
+    /* 如果之前处于锁屏状态，清除锁屏状态 */
+    if (g_ui_context.auto_lock_active) {
+        AppUI_ExitAutoLock();
+    }
+    
+    /* 恢复背光状态：打开白色背光，关闭黄色背光 */
+    HAL_LCD_Backlight_On();
+    HAL_LED_Yellow_Off();
+    
+    /* 停止蜂鸣器 */
+    AppBeep_StopBeep();
+    
+    /* 清除过压报警标志 */
+    AppPressure_ClearOverpressureAlarm();
+    
+    /* 重置空闲计时器和锁屏计时器 */
+    AppUI_ResetIdleTimer();
+    AppUI_ResetLockTimer();
+}
+
+/**
+ * @brief 过压报警检测：检测压力控制模块的过压报警标志
+ * @note 当压力恢复正常或用户手动退出时退出报警
+ */
+static void AppUI_UpdateOverpressureAlarm(void)
+{
+    /* 检测压力控制模块的过压报警标志 */
+    if (AppPressure_IsOverpressureAlarmTriggered()) {
+        /* 如果未进入过压报警状态，则触发 */
+        if (!g_ui_context.overpressure_alarm_active) {
+            AppUI_EnterOverpressureAlarm();
+        }
+    }
+    
+    /* 如果已进入过压报警状态，检测压力是否恢复正常 */
+    if (g_ui_context.overpressure_alarm_active) {
+        /* 获取当前压力与目标的偏差 */
+        int16_t deviation = AppPressure_GetPressureDeviation();
+        
+        /* 如果偏差回落到正常范围（目标+20mmHg以下），自动退出过压报警 */
+        if (deviation < (PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG - 10)) {
+            AppUI_ExitOverpressureAlarm();
+            /* 恢复到之前的治疗模式（清屏并重新显示） */
+            Display_Clear();
+            if (g_ui_context.overpressure_alarm_previous_state == UI_STATE_LIX) {
+                AppUI_Display_LIX();
+            } else if (g_ui_context.overpressure_alarm_previous_state == UI_STATE_JIX) {
                 AppUI_Display_JIX();
             }
         }
@@ -1614,6 +1707,8 @@ void AppUI_Init(void)
     g_ui_context.leak_alarm_previous_state = UI_STATE_SYS;
     g_ui_context.blockage_alarm_active = false;
     g_ui_context.blockage_alarm_previous_state = UI_STATE_SYS;
+    g_ui_context.overpressure_alarm_active = false;
+    g_ui_context.overpressure_alarm_previous_state = UI_STATE_SYS;
     // settings_sub_state已废弃，现在使用独立的FSM状态
     g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
     g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
@@ -1703,6 +1798,21 @@ void AppUI_Process(void)
                     }
                 }
                 
+                /* 如果处于过压报警状态，检测长按电源键（key_id=0）松开事件以退出过压报警 */
+                if (g_ui_context.overpressure_alarm_active) {
+                    if (key_event.key_id == 0 &&  // 电源键/确认键的key_id是0
+                        key_event.key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+                        AppUI_ExitOverpressureAlarm();
+                        /* 退出到暂停界面 */
+                        AppUI_StateEntry_ZHT(&g_ui_context, (st_fsm_event){0});
+                        g_ui_fsm.current_state = UI_STATE_ZHT;  // 手动同步FSM状态
+                        continue;  // 退出过压报警后，不处理该按键事件
+                    } else {
+                        /* 过压报警状态下忽略其他按键事件 */
+                        continue;
+                    }
+                }
+                
                 /* 如果处于管路堵塞报警状态，检测长按电源键（key_id=0）松开事件以退出管路堵塞报警 */
                 if (g_ui_context.blockage_alarm_active) {
                     if (key_event.key_id == 0 &&  // 电源键/确认键的key_id是0
@@ -1767,21 +1877,29 @@ void AppUI_Process(void)
         }
     }
     
-    /* 泄漏报警检测（在处理完本轮事件后执行，优先级最高） */
-    AppUI_UpdateLeakAlarm();
+    /* 过压报警检测（最高优先级，安全相关） */
+    AppUI_UpdateOverpressureAlarm();
     
-    /* 管路堵塞报警检测（在处理完本轮事件后执行，优先级低于泄漏报警，高于空闲检测） */
-    if (g_ui_context.leak_alarm_active == false) {
+    /* 泄漏报警检测（优先级仅次于过压报警） */
+    if (g_ui_context.overpressure_alarm_active == false) {
+        AppUI_UpdateLeakAlarm();
+    }
+    
+    /* 管路堵塞报警检测（优先级低于过压和泄漏报警，高于空闲检测） */
+    if (g_ui_context.overpressure_alarm_active == false && g_ui_context.leak_alarm_active == false) {
         AppUI_UpdateBlockageAlarm();
     }
     
-    /* 空闲检测（在处理完本轮事件后执行，优先级高于锁屏，但低于泄漏报警和管路堵塞报警） */
-    if (g_ui_context.leak_alarm_active == false && g_ui_context.blockage_alarm_active == false) {
+    /* 空闲检测（优先级高于锁屏，但低于所有报警） */
+    if (g_ui_context.overpressure_alarm_active == false && 
+        g_ui_context.leak_alarm_active == false && 
+        g_ui_context.blockage_alarm_active == false) {
         AppUI_UpdateIdle();
     }
     
-    /* 自动锁定检测（在处理完本轮事件后执行，如果处于空闲状态、泄漏报警状态或管路堵塞报警状态则暂停） */
+    /* 自动锁定检测（在处理完本轮事件后执行，如果处于任何报警或空闲状态则暂停） */
     if (g_ui_context.idle_active == false && 
+        g_ui_context.overpressure_alarm_active == false &&
         g_ui_context.leak_alarm_active == false && 
         g_ui_context.blockage_alarm_active == false) {
         AppUI_UpdateAutoLock();
@@ -1806,9 +1924,12 @@ void AppUI_Process(void)
     }
     
     /* 第四步：电池显示更新（参考未重构工程的实现） */
-    /* 如果处于空闲状态、泄漏报警状态或管路堵塞报警状态，跳过电池显示更新 */
-    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active || g_ui_context.blockage_alarm_active) {
-        return;  // 空闲状态、泄漏报警状态或管路堵塞报警状态下，只显示相应报警信息，不更新其他UI元素
+    /* 如果处于任何报警或空闲状态，跳过电池显示更新 */
+    if (g_ui_context.idle_active || 
+        g_ui_context.overpressure_alarm_active ||
+        g_ui_context.leak_alarm_active || 
+        g_ui_context.blockage_alarm_active) {
+        return;  // 报警或空闲状态下，只显示相应报警信息，不更新其他UI元素
     }
     
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
@@ -1951,9 +2072,12 @@ void AppUI_Process(void)
     }
 
     /* 治疗界面的实时压力刷新（连续/间歇共用） */
-    /* 如果处于空闲状态、泄漏报警状态或管路堵塞报警状态，跳过实时压力刷新 */
-    if (g_ui_context.idle_active || g_ui_context.leak_alarm_active || g_ui_context.blockage_alarm_active) {
-        return;  // 空闲状态、泄漏报警状态或管路堵塞报警状态下，只显示相应报警信息，不更新其他UI元素
+    /* 如果处于任何报警或空闲状态，跳过实时压力刷新 */
+    if (g_ui_context.idle_active || 
+        g_ui_context.overpressure_alarm_active ||
+        g_ui_context.leak_alarm_active || 
+        g_ui_context.blockage_alarm_active) {
+        return;  // 报警或空闲状态下，只显示相应报警信息，不更新其他UI元素
     }
     
     bool in_continuous = (g_ui_context.current_state == UI_STATE_LIX);

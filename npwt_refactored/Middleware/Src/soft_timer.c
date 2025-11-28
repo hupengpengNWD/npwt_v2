@@ -343,11 +343,11 @@ static void SoftTimer_ProcessTimer(SoftTimer_t* timer)
                 
                 // 若回调未改变状态，则根据模式处理超时
                 if (timer->state == SOFT_TIMER_STATE_TIMEOUT) {
-                    if (timer->mode == SOFT_TIMER_MODE_ONCE) {
-                        timer->state = SOFT_TIMER_STATE_STOPPED;
-                    } else if (timer->mode == SOFT_TIMER_MODE_PERIODIC) {
-                        timer->remaining_ticks = timer->period_ticks;
-                        timer->state = SOFT_TIMER_STATE_RUNNING;
+                if (timer->mode == SOFT_TIMER_MODE_ONCE) {
+                    timer->state = SOFT_TIMER_STATE_STOPPED;
+                } else if (timer->mode == SOFT_TIMER_MODE_PERIODIC) {
+                    timer->remaining_ticks = timer->period_ticks;
+                    timer->state = SOFT_TIMER_STATE_RUNNING;
                     }
                 }
             }

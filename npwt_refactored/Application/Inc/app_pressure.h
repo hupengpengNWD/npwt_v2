@@ -37,6 +37,16 @@ typedef enum {
     APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW
 } AppPressureControlMode_e;
 
+/**
+ * @brief 泵工作原因枚举
+ * @note 记录泵电机工作的原因，用于区分不同的工作场景
+ */
+typedef enum {
+    PUMP_REASON_IDLE = 0,          /**< 泵未工作（闲置状态） */
+    PUMP_REASON_BUILDING,          /**< 建立负压（首次达到目标前） */
+    PUMP_REASON_MAINTAINING        /**< 维持补充（达到目标后的压力补充） */
+} PumpWorkReason_e;
+
 /****************************************************************************
  * 压力管理接口函数
  ****************************************************************************/
@@ -142,6 +152,14 @@ bool AppPressure_IsControlEnabled(void);
  *           用于判断是否有实际负载，以决定电池电量显示的补偿策略
  */
 bool AppPressure_IsMotorRunning(void);
+
+/**
+ * @name      AppPressure_GetLastOutput
+ * @brief     获取上一次PID输出值
+ * @retval    PID输出值（-100 ~ 100，正值抽气，负值泄气）
+ * @note      用于检测是否有负压补充（判断管路是否堵塞）
+ */
+float AppPressure_GetLastOutput(void);
 bool AppPressure_HasControlFault(void);
 void AppPressure_ClearControlFault(void);
 
@@ -202,6 +220,47 @@ bool AppPressure_IsLeakAlarmTriggered(void);
  * @brief     清除泄漏报警标志
  */
 void AppPressure_ClearLeakAlarm(void);
+
+/**
+ * @name      AppPressure_IsBlockageAlarmTriggered
+ * @brief     查询是否已触发管路堵塞报警（负压稳定后2分钟内没有PID补充）
+ * @retval    true=已触发管路堵塞报警, false=未触发
+ */
+bool AppPressure_IsBlockageAlarmTriggered(void);
+
+/**
+ * @name      AppPressure_ClearBlockageAlarm
+ * @brief     清除管路堵塞报警标志
+ */
+void AppPressure_ClearBlockageAlarm(void);
+
+/**
+ * @name      AppPressure_IsOverpressureAlarmTriggered
+ * @brief     查询是否已触发过压报警（入口堵塞导致压力异常高）
+ * @retval    true=已触发过压报警, false=未触发
+ */
+bool AppPressure_IsOverpressureAlarmTriggered(void);
+
+/**
+ * @name      AppPressure_ClearOverpressureAlarm
+ * @brief     清除过压报警标志
+ */
+void AppPressure_ClearOverpressureAlarm(void);
+
+/**
+ * @name      AppPressure_GetPressureDeviation
+ * @brief     获取当前压力与目标的偏差（用于UI显示和判断）
+ * @retval    压力偏差（mmHg），正值表示超过目标，负值表示低于目标
+ */
+int16_t AppPressure_GetPressureDeviation(void);
+
+/**
+ * @name      AppPressure_GetPumpWorkReason
+ * @brief     获取当前泵工作原因
+ * @retval    泵工作原因枚举值
+ * @note      返回泵电机当前的工作状态：闲置、建立负压或维持补充
+ */
+PumpWorkReason_e AppPressure_GetPumpWorkReason(void);
 
 #endif /* APP_PRESSURE_H */
 
