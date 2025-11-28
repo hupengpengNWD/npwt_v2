@@ -28,6 +28,7 @@
 #define PRESSURE_TOLERANCE_HIGH 5           // 上限容差：5%
 #define PRESSURE_BLEED_DURATION_MS  3000    // 开机泄压持续时间：3000ms（3秒）
 #define PRESSURE_LEAK_ALARM_TIMEOUT_MS  30000  // 泄漏报警超时时间：30000ms（30秒），PID建立负压时如果超时未达到目标值则报警
+#define PRESSURE_LEAK_ALARM_PRESSURE_THRESHOLD_MMHG  5  // 泄漏报警气压阈值：超时且当前气压小于此值时触发报警（mmHg）
 #define PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS  60000  // 泄漏报警后延迟停止泵电机时间：60000ms（60秒/1分钟）
 #define PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS  120000  // 管路堵塞报警超时时间：120000ms（120秒/2分钟），负压稳定后2分钟内没有PID补充则报警
 #define PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD  10.0f  // 管路堵塞报警PID输出阈值：10.0，超过此值认为有负压补充，重置定时器

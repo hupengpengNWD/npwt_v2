@@ -474,8 +474,9 @@ void AppPressure_Process(void* user_data)
             /* 根据目标压力动态获取超时时间（查表法） */
             uint32_t timeout_ms = GetLeakAlarmTimeout(g_pressure_control_user_target);
             
-            /* 如果超时且未达到目标，触发泄漏报警 */
-            if (elapsed_time_ms >= timeout_ms) {
+            /* 如果超时且未达到目标，且当前气压小于阈值，触发泄漏报警 */
+            if (elapsed_time_ms >= timeout_ms && 
+                current_pressure < PRESSURE_LEAK_ALARM_PRESSURE_THRESHOLD_MMHG) {
                 g_leak_alarm_triggered = true;
             }
         }
