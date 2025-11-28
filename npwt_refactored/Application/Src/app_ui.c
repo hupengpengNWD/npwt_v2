@@ -44,8 +44,8 @@
 #define UI_LEAK_ALARM_TEXT_Y                  3U     // "Leak Alarms"文本显示Y坐标（屏幕中间）
 #define UI_BLOCKAGE_ALARM_TEXT_X               10U    // "Blockage Alarm"文本显示X坐标（居中显示）
 #define UI_BLOCKAGE_ALARM_TEXT_Y               3U     // "Blockage Alarm"文本显示Y坐标（屏幕中间）
-#define UI_OVERPRESSURE_ALARM_TEXT_X           5U     // "Overpressure!"文本显示X坐标（居中显示）
-#define UI_OVERPRESSURE_ALARM_TEXT_Y           3U     // "Overpressure!"文本显示Y坐标（屏幕中间）
+#define UI_OVERPRESSURE_ALARM_TEXT_X           5U     // "Canister Full"文本显示X坐标（居中显示）
+#define UI_OVERPRESSURE_ALARM_TEXT_Y           3U     // "Canister Full"文本显示Y坐标（屏幕中间）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
@@ -675,8 +675,8 @@ static void AppUI_UpdateBlockageAlarm(void)
 }
 
 /**
- * @brief 进入过压报警状态：显示"Overpressure!"，关闭白色背光，打开黄色背光
- * @note 入口堵塞导致压力异常高时触发
+ * @brief 进入过压报警状态：显示"Canister Full"，关闭白色背光，打开黄色背光
+ * @note 收集罐已满导致压力异常高时触发
  */
 static void AppUI_EnterOverpressureAlarm(void)
 {
@@ -688,9 +688,9 @@ static void AppUI_EnterOverpressureAlarm(void)
         g_ui_context.idle_active = false;
     }
     
-    /* 清屏并显示"Overpressure!" */
+    /* 清屏并显示"Canister Full" */
     Display_Clear();
-    Display_ShowString(UI_OVERPRESSURE_ALARM_TEXT_X, UI_OVERPRESSURE_ALARM_TEXT_Y, "Overpressure!", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(UI_OVERPRESSURE_ALARM_TEXT_X, UI_OVERPRESSURE_ALARM_TEXT_Y, "Canister Full", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
     
     /* 关闭白色背光，打开黄色背光 */
     HAL_LCD_Backlight_Off();
@@ -818,6 +818,13 @@ const st_fsm_transition g_ui_transition_table[32] = {
         .action_func   = AppUI_StateEntry_SET,               /* 动作函数：进入设置模式 */
         .next_state    = UI_STATE_SET                        /* 下一状态：设置模式 */
     },  
+    
+    [7] = {          
+        .current_state = UI_STATE_ZHT,                       /* 当前状态：暂停模式 */
+        .trigger_event = UI_EVENT_MENU_UP,                   /* 触发事件：向上方向键长按释放 */
+        .action_func   = AppUI_StateEntry_SET,               /* 动作函数：进入设置模式 */
+        .next_state    = UI_STATE_SET                        /* 下一状态：设置模式 */
+    },
     
     [8] = {          
         .current_state = UI_STATE_ZHT,                       /* 当前状态：暂停模式 */

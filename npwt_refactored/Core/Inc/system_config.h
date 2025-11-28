@@ -31,7 +31,7 @@
 #define PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS  60000  // 泄漏报警后延迟停止泵电机时间：60000ms（60秒/1分钟）
 #define PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS  120000  // 管路堵塞报警超时时间：120000ms（120秒/2分钟），负压稳定后2分钟内没有PID补充则报警
 #define PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD  10.0f  // 管路堵塞报警PID输出阈值：10.0，超过此值认为有负压补充，重置定时器
-#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  30  // 过压报警阈值：压力超过目标值+30mmHg时触发（检测入口堵塞）
+#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  30  // 过压报警阈值：压力超过目标值+30mmHg时触发（检测收集罐已满）
 #define PRESSURE_OVERPRESSURE_ALARM_DELAY_MS  500  // 过压报警延迟时间：500ms，避免瞬态误报（设为0则立即触发）
 
 /****************************************************************************
