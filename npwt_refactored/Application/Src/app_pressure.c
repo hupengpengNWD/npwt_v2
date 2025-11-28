@@ -151,6 +151,7 @@ static bool g_pressure_mmHg_initialized = false;           // 平滑滤波是否
 static bool g_leak_alarm_triggered = false;                // 泄漏报警已触发标志
 static uint32_t g_leak_alarm_start_time_ms = 0;           // 泄漏报警计时开始时间（毫秒）
 static bool g_leak_alarm_target_reached = false;           // 是否已达到目标压力（用于清除超时检测）
+static uint8_t g_leak_alarm_in_range_count = 0;            // 气压在区间内的连续计数（用于区间次数统计）
 
 /* 管路堵塞报警检测相关变量 */
 static bool g_blockage_alarm_triggered = false;            // 管路堵塞报警已触发标志
@@ -448,6 +449,7 @@ void AppPressure_Process(void* user_data)
         /* 达到目标压力，清除泄漏报警超时检测 */
         g_leak_alarm_target_reached = true;
         g_leak_alarm_start_time_ms = 0;
+        g_leak_alarm_in_range_count = 0;  // 重置区间计数
         
         return;
     }
@@ -474,10 +476,25 @@ void AppPressure_Process(void* user_data)
             /* 根据目标压力动态获取超时时间（查表法） */
             uint32_t timeout_ms = GetLeakAlarmTimeout(g_pressure_control_user_target);
             
-            /* 如果超时且未达到目标，且当前气压小于阈值，触发泄漏报警 */
-            if (elapsed_time_ms >= timeout_ms && 
-                current_pressure < PRESSURE_LEAK_ALARM_PRESSURE_THRESHOLD_MMHG) {
-                g_leak_alarm_triggered = true;
+            /* 如果还未超时，重置计数器（确保只在超时后开始统计） */
+            if (elapsed_time_ms < timeout_ms) {
+                g_leak_alarm_in_range_count = 0;
+            }
+            /* 如果超时，开始统计气压在区间内的次数 */
+            else if (elapsed_time_ms >= timeout_ms) {
+                /* 检查当前气压是否在区间[min, max]内 */
+                if (current_pressure >= PRESSURE_LEAK_ALARM_MIN_MMHG && 
+                    current_pressure <= PRESSURE_LEAK_ALARM_MAX_MMHG) {
+                    /* 气压在区间内，计数器+1 */
+                    g_leak_alarm_in_range_count++;
+                    /* 连续N次在区间内，触发泄漏报警 */
+                    if (g_leak_alarm_in_range_count >= PRESSURE_LEAK_ALARM_CONSECUTIVE_COUNT) {
+                        g_leak_alarm_triggered = true;
+                    }
+                } else {
+                    /* 气压不在区间内，重置计数器 */
+                    g_leak_alarm_in_range_count = 0;
+                }
             }
         }
     }
@@ -699,11 +716,13 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
         g_leak_alarm_triggered = false;
         g_leak_alarm_target_reached = false;
         g_leak_alarm_start_time_ms = 0;  // 在Process中首次检测时记录开始时间
+        g_leak_alarm_in_range_count = 0;  // 重置区间计数
     } else {
         /* 目标压力为0，清除泄漏报警检测 */
         g_leak_alarm_triggered = false;
         g_leak_alarm_target_reached = true;
         g_leak_alarm_start_time_ms = 0;
+        g_leak_alarm_in_range_count = 0;  // 重置区间计数
     }
     
     /* 重置管路堵塞报警检测 */
@@ -738,6 +757,7 @@ void AppPressure_StopControl(void)
     g_leak_alarm_triggered = false;
     g_leak_alarm_target_reached = true;
     g_leak_alarm_start_time_ms = 0;
+    g_leak_alarm_in_range_count = 0;  // 重置区间计数
     
     /* 停止控制时清除管路堵塞报警检测 */
     g_blockage_alarm_triggered = false;
@@ -1332,6 +1352,7 @@ void AppPressure_ClearLeakAlarm(void)
     g_leak_alarm_triggered = false;
     g_leak_alarm_target_reached = true;
     g_leak_alarm_start_time_ms = 0;
+    g_leak_alarm_in_range_count = 0;  // 重置区间计数
 }
 
 /**

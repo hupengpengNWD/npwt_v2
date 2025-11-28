@@ -28,11 +28,14 @@
 #define PRESSURE_TOLERANCE_HIGH 5           // 上限容差：5%
 #define PRESSURE_BLEED_DURATION_MS  3000    // 开机泄压持续时间：3000ms（3秒）
 #define PRESSURE_LEAK_ALARM_TIMEOUT_MS  30000  // 泄漏报警超时时间：30000ms（30秒），PID建立负压时如果超时未达到目标值则报警
-#define PRESSURE_LEAK_ALARM_PRESSURE_THRESHOLD_MMHG  5  // 泄漏报警气压阈值：超时且当前气压小于此值时触发报警（mmHg）
+#define PRESSURE_LEAK_ALARM_PRESSURE_THRESHOLD_MMHG  15  // 泄漏报警气压阈值：超时且当前气压小于此值时触发报警（mmHg，已废弃，现使用区间判断）
+#define PRESSURE_LEAK_ALARM_MIN_MMHG  1  // 泄漏报警气压区间最小值：1mmHg（排除传感器故障，0或负值）
+#define PRESSURE_LEAK_ALARM_MAX_MMHG  15  // 泄漏报警气压区间最大值：5mmHg（超时且气压在此区间内连续N次则触发）
+#define PRESSURE_LEAK_ALARM_CONSECUTIVE_COUNT  5  // 泄漏报警连续计数阈值：连续5次（50ms）气压在区间内则触发
 #define PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS  60000  // 泄漏报警后延迟停止泵电机时间：60000ms（60秒/1分钟）
 #define PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS  120000  // 管路堵塞报警超时时间：120000ms（120秒/2分钟），负压稳定后2分钟内没有PID补充则报警
 #define PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD  10.0f  // 管路堵塞报警PID输出阈值：10.0，超过此值认为有负压补充，重置定时器
-#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  30  // 过压报警阈值：压力超过目标值+30mmHg时触发（检测收集罐已满）
+#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  15  // 过压报警阈值：压力超过目标值+30mmHg时触发（检测收集罐已满）
 #define PRESSURE_OVERPRESSURE_ALARM_DELAY_MS  500  // 过压报警延迟时间：500ms，避免瞬态误报（设为0则立即触发）
 
 /****************************************************************************
