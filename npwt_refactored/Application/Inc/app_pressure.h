@@ -248,6 +248,14 @@ bool AppPressure_IsOverpressureAlarmTriggered(void);
 void AppPressure_ClearOverpressureAlarm(void);
 
 /**
+ * @name      AppPressure_IsOverpressureAlarmByBuildTime
+ * @brief     查询过压报警是否由建立时间过短触发（条件2：液位满）
+ * @retval    true=由建立时间过短触发, false=由压力超过阈值触发（条件1）
+ * @note      用于区分两种触发方式，液位满报警不应因压力稳定而自动退出
+ */
+bool AppPressure_IsOverpressureAlarmByBuildTime(void);
+
+/**
  * @name      AppPressure_GetPressureDeviation
  * @brief     获取当前压力与目标的偏差（用于UI显示和判断）
  * @retval    压力偏差（mmHg），正值表示超过目标，负值表示低于目标

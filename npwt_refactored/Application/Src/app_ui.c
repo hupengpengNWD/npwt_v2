@@ -34,8 +34,8 @@
 #define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
 
 #define UI_LOCK_TIMEOUT_TICKS                3000U // 自动锁定超时时间：30s @10ms Tick
-#define UI_LOCK_ICON_X                       102U  // 锁定图标显示坐标X
-#define UI_LOCK_ICON_Y                       6U    // 锁定图标显示坐标Y
+#define UI_LOCK_ICON_X                       80U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
+#define UI_LOCK_ICON_Y                       0U    // 锁定图标显示坐标Y（第一行，页0）
 
 #define UI_IDLE_TIMEOUT_TICKS                6000U // 空闲超时时间：1分钟 @10ms Tick (60秒)
 #define UI_IDLE_TEXT_X                       40U    // "Pump Idle"文本显示X坐标（居中显示）
@@ -325,12 +325,12 @@ static void AppUI_UpdateAutoLock(void)
 /**
  * @brief 判断当前状态是否可进入空闲检测
  * @param state UI状态
- * @retval true 可进入空闲检测（治疗模式或暂停模式）
+ * @retval true 可进入空闲检测（仅暂停模式）
  * @retval false 不可进入空闲检测
  */
 static bool AppUI_IsIdleableState(UIState_e state)
 {
-    return (state == UI_STATE_LIX || state == UI_STATE_JIX || state == UI_STATE_ZHT);
+    return (state == UI_STATE_ZHT);
 }
 
 /**
@@ -731,7 +731,8 @@ static void AppUI_ExitOverpressureAlarm(void)
 
 /**
  * @brief 过压报警检测：检测压力控制模块的过压报警标志
- * @note 当压力恢复正常或用户手动退出时退出报警
+ * @note 由条件1（压力超过阈值）触发的报警：当压力恢复正常时自动退出
+ *       由条件2（建立时间过短，液位满）触发的报警：只能手动退出，不会自动消失
  */
 static void AppUI_UpdateOverpressureAlarm(void)
 {
@@ -745,20 +746,25 @@ static void AppUI_UpdateOverpressureAlarm(void)
     
     /* 如果已进入过压报警状态，检测压力是否恢复正常 */
     if (g_ui_context.overpressure_alarm_active) {
-        /* 获取当前压力与目标的偏差 */
-        int16_t deviation = AppPressure_GetPressureDeviation();
-        
-        /* 如果偏差回落到正常范围（目标+20mmHg以下），自动退出过压报警 */
-        if (deviation < (PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG - 10)) {
-            AppUI_ExitOverpressureAlarm();
-            /* 恢复到之前的治疗模式（清屏并重新显示） */
-            Display_Clear();
-            if (g_ui_context.overpressure_alarm_previous_state == UI_STATE_LIX) {
-                AppUI_Display_LIX();
-            } else if (g_ui_context.overpressure_alarm_previous_state == UI_STATE_JIX) {
-                AppUI_Display_JIX();
+        /* 只有由条件1（压力超过阈值）触发的报警才允许自动退出 */
+        /* 由条件2（建立时间过短，液位满）触发的报警不应自动退出，只能手动退出 */
+        if (!AppPressure_IsOverpressureAlarmByBuildTime()) {
+            /* 获取当前压力与目标的偏差 */
+            int16_t deviation = AppPressure_GetPressureDeviation();
+            
+            /* 如果偏差回落到正常范围（目标+20mmHg以下），自动退出过压报警 */
+            if (deviation < (PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG - 10)) {
+                AppUI_ExitOverpressureAlarm();
+                /* 恢复到之前的治疗模式（清屏并重新显示） */
+                Display_Clear();
+                if (g_ui_context.overpressure_alarm_previous_state == UI_STATE_LIX) {
+                    AppUI_Display_LIX();
+                } else if (g_ui_context.overpressure_alarm_previous_state == UI_STATE_JIX) {
+                    AppUI_Display_JIX();
+                }
             }
         }
+        /* 如果是由建立时间过短触发的报警，不检查压力偏差，保持报警状态直到用户手动退出 */
     }
 }
 
@@ -1422,7 +1428,7 @@ static void AppUI_Display_WAT(void)
         Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
     }
     
-    Display_ShowString(25, 0, "-135 mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(25, 0, "-135mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     Display_ShowIcon(32, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
     Display_ShowString(48, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -1447,7 +1453,7 @@ static void AppUI_Display_LIX(void)
     }
 
     // 显示目标压力
-    char target_str[16] = {0};
+    static char target_str[16] = {0};
     uint16_t current_pressure = AppPressure_GetPressureValue();
     g_last_display_pressure = current_pressure;
     snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
@@ -1472,22 +1478,22 @@ static void AppUI_Display_JIX(void)
     }
 
     // 显示目标压力
-    char target_str[16] = {0};
-    snprintf(target_str, sizeof(target_str), "-%u mmhg", (unsigned int)g_ui_context.pressure_high);
+    static char target_str[16] = {0};
+    snprintf(target_str, sizeof(target_str), "-%ummhg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
     // 显示间歇模式高压时间
-    char hp_time_str[8] = {0};
+    static char hp_time_str[8] = {0};
     snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
     Display_ShowString(92, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
     // 显示间歇模式低压时间
-    char lp_time_str[8] = {0};
+    static char lp_time_str[8] = {0};
     snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
     Display_ShowString(92, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示实时压力值
-    char pressure_str[16] = {0};
+    static char pressure_str[16] = {0};
     uint16_t current_pressure = AppPressure_GetPressureValue();
     snprintf(pressure_str, sizeof(pressure_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(0, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
@@ -1512,8 +1518,8 @@ static void AppUI_Display_ZHT(void)
     }
     
     // 显示目标压力
-    char target_str[16]={0};
-    snprintf(target_str, sizeof(target_str), "-%u mmhg", (unsigned int)g_ui_context.pressure_high);
+    static char target_str[16]={0};
+    snprintf(target_str, sizeof(target_str), "-%ummhg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示暂停状态
@@ -1600,8 +1606,8 @@ static void AppUI_Display_SET_HP_Pressure(void)
     Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    char hp_pressure_str[8] = {0};
-    char lp_pressure_str[8] = {0};
+    static char hp_pressure_str[8] = {0};
+    static char lp_pressure_str[8] = {0};
     
     // 显示高压
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
@@ -1625,8 +1631,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
     Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    char hp_pressure_str[8] = {0};
-    char lp_pressure_str[8] = {0};
+    static char hp_pressure_str[8] = {0};
+    static char lp_pressure_str[8] = {0};
     
     
     // 显示高压
@@ -1651,8 +1657,8 @@ static void AppUI_Display_SET_Time(void)
     Display_ShowString(6, 2, "HP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(6, 4, "LP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
-    char hp_time_str[8] = {0};
-    char lp_time_str[8] = {0};
+    static char hp_time_str[8] = {0};
+    static char lp_time_str[8] = {0};
     
     // 显示高压时间
     snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
@@ -2099,8 +2105,8 @@ void AppUI_Process(void)
                                        : AppPressure_GetCurrentTarget();
             
             // 显示目标气压值
-            char target_buf[16] = {0};
-            snprintf(target_buf, sizeof(target_buf), "-%u mmhg", (unsigned int)display_target);
+            static char target_buf[16] = {0};
+            snprintf(target_buf, sizeof(target_buf), "-%ummhg", (unsigned int)display_target);
             Display_ShowString(25, 0, target_buf, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
             uint16_t current_pressure = AppPressure_GetPressureValue();
@@ -2119,7 +2125,7 @@ void AppUI_Process(void)
 
             if (need_refresh) {
                 
-                char pressure_buf[16] = {0};
+                static char pressure_buf[16] = {0};
                 g_last_display_pressure = current_pressure;
                 
                 if(in_continuous) {                
@@ -2136,12 +2142,12 @@ void AppUI_Process(void)
 
             if (in_intermittent) {
                 // 显示间歇模式高压时间
-                char hp_time_str[8] = {0};
+                static char hp_time_str[8] = {0};
                 snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
                 Display_ShowString(92, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
                 // 显示间歇模式低压时间
-                char lp_time_str[8] = {0};
+                static char lp_time_str[8] = {0};
                 snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
                 Display_ShowString(92, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
                  

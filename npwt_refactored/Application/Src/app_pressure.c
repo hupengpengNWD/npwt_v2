@@ -160,11 +160,15 @@ static bool g_blockage_alarm_hold_active = false;          // 是否已进入保
 
 /* 过压报警检测相关变量（检测入口堵塞导致压力过高） */
 static bool g_overpressure_alarm_triggered = false;        // 过压报警已触发标志
+static bool g_overpressure_alarm_by_build_time = false;    // 过压报警是否由建立时间过短触发（条件2）
 static uint32_t g_overpressure_alarm_start_tick = 0;       // 过压检测开始时刻（用于延迟判断）
 static bool g_overpressure_alarm_delay_active = false;     // 是否启用延迟判断（持续过压才触发）
 
 /* 泵工作原因记录 */
 static PumpWorkReason_e g_pump_work_reason = PUMP_REASON_IDLE;  // 泵工作原因（闲置、建立负压或维持补充）
+
+/* 建立负压时间记录（用于液位满报警检测） */
+static uint32_t g_build_start_time_ms = 0;  // 建立负压开始时间戳（毫秒）
 
 /****************************************************************************
  * 内部函数声明
@@ -409,6 +413,7 @@ void AppPressure_Process(void* user_data)
                         if (elapsed_time_ms >= PRESSURE_OVERPRESSURE_ALARM_DELAY_MS) {
                             /* 持续过压，触发报警 */
                             g_overpressure_alarm_triggered = true;
+                            g_overpressure_alarm_by_build_time = false;  // 条件1触发，标记为非建立时间触发
                         }
                     }
                 } else {
@@ -439,9 +444,44 @@ void AppPressure_Process(void* user_data)
             if (g_pressure_control_user_target > 0) {
                 uint16_t overpressure_threshold = g_pressure_control_user_target + PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG;
                 
+                /* 条件1：压力超过阈值（原有条件） */
                 if (current_pressure >= overpressure_threshold) {
                     /* 立即触发过压报警（无延迟，快速响应） */
                     g_overpressure_alarm_triggered = true;
+                    g_overpressure_alarm_by_build_time = false;  // 条件1触发，标记为非建立时间触发
+                }
+                
+                /* 条件2：建立负压时间过短（新条件，用于检测液位满，4档） */
+                if (g_build_start_time_ms > 0) {
+                    uint32_t current_time = SoftTimer_GetTickCount();
+                    uint32_t build_duration_ms = current_time - g_build_start_time_ms;
+                    
+                    /* 根据目标压力选择阈值（4档） */
+                    uint32_t time_threshold_ms = 0;
+                    uint16_t target = g_pressure_control_user_target;
+                    
+                    if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL1_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL1_MAX_MMHG) {
+                        /* 第一档：20-90mmHg */
+                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL1_MS;
+                    } else if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL2_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL2_MAX_MMHG) {
+                        /* 第二档：90-160mmHg */
+                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL2_MS;
+                    } else if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL3_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL3_MAX_MMHG) {
+                        /* 第三档：160-230mmHg */
+                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL3_MS;
+                    } else if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL4_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL4_MAX_MMHG) {
+                        /* 第四档：230-300mmHg */
+                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL4_MS;
+                    }
+                    
+                    /* 如果建立时间小于阈值，触发过压报警 */
+                    if (time_threshold_ms > 0 && build_duration_ms < time_threshold_ms) {
+                        g_overpressure_alarm_triggered = true;
+                        g_overpressure_alarm_by_build_time = true;  // 条件2触发，标记为建立时间触发
+                    }
+                    
+                    /* 判断后立即重置开始时间（方案A：判断后立即重置） */
+                    g_build_start_time_ms = 0;
                 }
             }
         }
@@ -615,7 +655,7 @@ static void AppPressure_BleedTimerCallback(void* user_data)
 {
     (void)user_data;
 
-//    HAL_Valve2_Close();
+    HAL_Valve2_Close();
     HAL_Valve1_Close();
     g_valve_bleeding_active = false;
     g_bleed_cooldown_ticks = BLEED_COOLDOWN_TICKS;
@@ -634,7 +674,7 @@ static void AppPressure_BleedTimerCallback(void* user_data)
 void AppPressure_BleedAndCalibrateZero(void)
 {
     /* 打开电磁阀释放压力 */
-//    HAL_Valve2_Open();
+    HAL_Valve2_Open();
     HAL_Valve1_Open();
     g_valve_bleeding_active = true;
     g_bleed_cooldown_ticks = 0U;
@@ -732,11 +772,15 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
     
     /* 重置过压报警检测 */
     g_overpressure_alarm_triggered = false;
+    g_overpressure_alarm_by_build_time = false;
     g_overpressure_alarm_delay_active = false;
     g_overpressure_alarm_start_tick = 0;
     
     /* 设置泵工作原因：启动压力控制时为建立负压 */
     g_pump_work_reason = PUMP_REASON_BUILDING;
+    
+    /* 记录建立负压开始时间（用于液位满报警检测） */
+    g_build_start_time_ms = SoftTimer_GetTickCount();
 
     g_pressure_control_enabled = true;
 }
@@ -772,6 +816,9 @@ void AppPressure_StopControl(void)
     
     /* 设置泵工作原因：停止控制时为闲置 */
     g_pump_work_reason = PUMP_REASON_IDLE;
+    
+    /* 清除建立负压时间记录 */
+    g_build_start_time_ms = 0;
 
     if (g_intermittent_active) {
         g_intermittent_active = false;
@@ -1387,12 +1434,24 @@ bool AppPressure_IsOverpressureAlarmTriggered(void)
 }
 
 /**
+ * @name      AppPressure_IsOverpressureAlarmByBuildTime
+ * @brief     查询过压报警是否由建立时间过短触发（条件2：液位满）
+ * @retval    true=由建立时间过短触发, false=由压力超过阈值触发（条件1）
+ * @note      用于区分两种触发方式，液位满报警不应因压力稳定而自动退出
+ */
+bool AppPressure_IsOverpressureAlarmByBuildTime(void)
+{
+    return g_overpressure_alarm_by_build_time;
+}
+
+/**
  * @name      AppPressure_ClearOverpressureAlarm
  * @brief     清除过压报警标志
  */
 void AppPressure_ClearOverpressureAlarm(void)
 {
     g_overpressure_alarm_triggered = false;
+    g_overpressure_alarm_by_build_time = false;
     g_overpressure_alarm_delay_active = false;
     g_overpressure_alarm_start_tick = 0;
 }
