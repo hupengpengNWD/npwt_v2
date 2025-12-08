@@ -1,0 +1,146 @@
+@startuml PID建立负压算法流程图
+
+title PID建立负压算法流程图
+
+start
+
+:启动压力控制\nAppPressure_StartControl();
+
+:限制目标压力范围\n(20-300mmHg);
+
+:应用偏移量调整目标;
+
+:重置PID控制器;
+
+:记录建立负压开始时间\ng_build_start_time_ms;
+
+:设置泵工作原因为\nPUMP_REASON_BUILDING;
+
+:重置所有报警标志;
+
+note right
+  初始化完成
+  开始主循环
+end note
+
+while (控制已启用?) is (是)
+  :获取当前压力值\ncurrent_pressure;
+
+  :计算误差\nerror = target - current_pressure;
+
+  :计算误差绝对值\nabs_error;
+
+  if (是否在保持状态?) then (是)
+    :计算重新抽气阈值\nreengage_threshold = target - 5mmHg;
+    
+    if (压力 <= 重新抽气阈值?) then (是)
+      :退出保持状态;
+      :重置PID;
+      :设置泵工作原因为\nPUMP_REASON_MAINTAINING;
+      :清除保持状态标志;
+    else (否)
+      :检测管路堵塞报警;
+      :检测过压报警;
+      :返回（不执行PID）;
+    endif
+  endif
+
+  if (达到死区?) then (是)
+    note right
+      死区条件：
+      error <= 0 且
+      current_pressure >= target + 5mmHg
+    end note
+    
+    :重置PID;
+    :停止泵电机\noutput = 0;
+    :进入保持状态\ng_pressure_hold_active = true;
+    
+    if (首次进入保持状态?) then (是)
+      :启动管路堵塞报警检测;
+      
+      :检查过压报警条件1\n压力超过目标+15mmHg;
+      
+      if (条件1触发?) then (是)
+        :触发过压报警\n(压力超阈值);
+      endif
+      
+      :检查过压报警条件2\n建立时间过短;
+      
+      if (建立时间 < 阈值?) then (是)
+        :触发过压报警\n(液位满);
+      endif
+    endif
+    
+    :清除泄漏报警检测;
+    :返回;
+  endif
+
+  :清除保持状态标志\n(如果存在);
+
+  :泄漏报警超时检测;
+  
+  if (超时且压力在1-15mmHg?) then (是)
+    if (连续5次在区间内?) then (是)
+      :触发泄漏报警;
+    endif
+  endif
+
+  :执行PID计算\nPID_Update();
+
+  note right
+    PID算法：
+    1. 比例项: P = Kp × error
+    2. 积分项: I += Ki × error × dt
+    3. 微分项: D = Kd × (error - prev_error) / dt
+    4. 输出 = P + I + D
+    5. 输出限幅: -100 ~ +100
+  end note
+
+  :保存PID输出\ng_pressure_last_output;
+
+  :管路堵塞报警检测\n(检查PID输出);
+
+  :根据误差选择动态最小占空比\ng_pressure_min_duty_current;
+
+  :应用PID输出\nPressureControl_ApplyOutput();
+
+  if (PID输出 > 0?) then (是)
+    note right
+      正输出：需要抽气
+    end note
+    
+    :归一化输出到0~1;
+    
+    :计算PWM占空比\n= 最小占空比 + 剩余占空比 × 归一化值;
+    
+    :设置PWM占空比;
+    
+    :启动PWM;
+    
+    :关闭阀门1和2;
+    
+    :设置泄气标志为false;
+  else (否)
+    note right
+      非正输出：需要泄气或保压
+    end note
+    
+    :停止PWM\n占空比 = 0;
+    
+    if (负输出幅度 >= 阈值?) then (是)
+      :打开阀门1和2;
+      :设置泄气标志为true;
+    else (否)
+      :关闭阀门1和2;
+      :设置泄气标志为false;
+    endif
+  endif
+
+  :等待10ms\n(下次循环);
+endwhile (否)
+
+stop
+
+@enduml
+

@@ -170,6 +170,43 @@ static PumpWorkReason_e g_pump_work_reason = PUMP_REASON_IDLE;  // 泵工作原�
 /* 建立负压时间记录（用于液位满报警检测） */
 static uint32_t g_build_start_time_ms = 0;  // 建立负压开始时间戳（毫秒）
 
+/* 液位满报警建立时间阈值表（29档，V=60ml, S=0.42L/min） */
+/* 公式: t = (V/S) × ln[760/(760-Pset)] */
+/* 注意：数组存储理论时间（毫秒），使用时需乘以安全系数 PRESSURE_BUILD_TIME_SAFETY_FACTOR */
+/* 单位: 毫秒（理论值，未乘以安全系数） */
+static const uint32_t g_build_time_threshold_table[] = {
+    /* 索引 | Pset(mmHg) | 理论时间(秒) | 理论时间(ms) */
+      228U,  // [ 0]  20mmHg: 0.228585s = 228ms（理论值）
+      345U,  // [ 1]  30mmHg: 0.345205s = 345ms（理论值）
+      463U,  // [ 2]  40mmHg: 0.463433s = 463ms（理论值）
+      583U,  // [ 3]  50mmHg: 0.583315s = 583ms（理论值）
+      704U,  // [ 4]  60mmHg: 0.704898s = 704ms（理论值）
+      828U,  // [ 5]  70mmHg: 0.828230s = 828ms（理论值）
+      953U,  // [ 6]  80mmHg: 0.953363s = 953ms（理论值）
+     1080U,  // [ 7]  90mmHg: 1.080349s = 1080ms（理论值）
+     1209U,  // [ 8] 100mmHg: 1.209245s = 1209ms（理论值）
+     1340U,  // [ 9] 110mmHg: 1.340109s = 1340ms（理论值）
+     1473U,  // [10] 120mmHg: 1.473002s = 1473ms（理论值）
+     1607U,  // [11] 130mmHg: 1.607988s = 1607ms（理论值）
+     1745U,  // [12] 140mmHg: 1.745134s = 1745ms（理论值）
+     1884U,  // [13] 150mmHg: 1.884510s = 1884ms（理论值）
+     2026U,  // [14] 160mmHg: 2.026190s = 2026ms（理论值）
+     2170U,  // [15] 170mmHg: 2.170251s = 2170ms（理论值）
+     2316U,  // [16] 180mmHg: 2.316774s = 2316ms（理论值）
+     2465U,  // [17] 190mmHg: 2.465846s = 2465ms（理论值）
+     2617U,  // [18] 200mmHg: 2.617557s = 2617ms（理论值）
+     2772U,  // [19] 210mmHg: 2.772001s = 2772ms（理论值）
+     2929U,  // [20] 220mmHg: 2.929280s = 2929ms（理论值）
+     3089U,  // [21] 230mmHg: 3.089498s = 3089ms（理论值）
+     3252U,  // [22] 240mmHg: 3.252768s = 3252ms（理论值）
+     3419U,  // [23] 250mmHg: 3.419209s = 3419ms（理论值）
+     3588U,  // [24] 260mmHg: 3.588946s = 3588ms（理论值）
+     3762U,  // [25] 270mmHg: 3.762112s = 3762ms（理论值）
+     3938U,  // [26] 280mmHg: 3.938849s = 3938ms（理论值）
+     4119U,  // [27] 290mmHg: 4.119306s = 4119ms（理论值）
+     4303U   // [28] 300mmHg: 4.303645s = 4303ms（理论值）
+};
+
 /****************************************************************************
  * 内部函数声明
  ****************************************************************************/
@@ -451,31 +488,33 @@ void AppPressure_Process(void* user_data)
                     g_overpressure_alarm_by_build_time = false;  // 条件1触发，标记为非建立时间触发
                 }
                 
-                /* 条件2：建立负压时间过短（新条件，用于检测液位满，4档） */
+                /* 条件2：建立负压时间过短（新条件，用于检测液位满，29档查表法） */
                 if (g_build_start_time_ms > 0) {
-                    uint32_t current_time = SoftTimer_GetTickCount();
-                    uint32_t build_duration_ms = current_time - g_build_start_time_ms;
+                    uint32_t current_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
+                    uint32_t build_duration_ms = current_time_ms - g_build_start_time_ms;
                     
-                    /* 根据目标压力选择阈值（4档） */
-                    uint32_t time_threshold_ms = 0;
+                    /* 根据目标压力查表获取阈值 */
                     uint16_t target = g_pressure_control_user_target;
+                    uint16_t index;
                     
-                    if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL1_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL1_MAX_MMHG) {
-                        /* 第一档：20-90mmHg */
-                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL1_MS;
-                    } else if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL2_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL2_MAX_MMHG) {
-                        /* 第二档：90-160mmHg */
-                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL2_MS;
-                    } else if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL3_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL3_MAX_MMHG) {
-                        /* 第三档：160-230mmHg */
-                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL3_MS;
-                    } else if (target >= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL4_MIN_MMHG && target <= PRESSURE_BUILD_TIME_THRESHOLD_LEVEL4_MAX_MMHG) {
-                        /* 第四档：230-300mmHg */
-                        time_threshold_ms = PRESSURE_BUILD_TIME_THRESHOLD_LEVEL4_MS;
+                    /* 边界处理：目标压力 < 20 使用20mmHg的阈值，> 300 使用300mmHg的阈值 */
+                    if (target < PRESSURE_BUILD_TIME_THRESHOLD_BASE_PRESSURE) {
+                        index = 0;  // 使用20mmHg的阈值
+                    } else {
+                        /* 计算查表索引 */
+                        index = (target - PRESSURE_BUILD_TIME_THRESHOLD_BASE_PRESSURE) / PRESSURE_BUILD_TIME_THRESHOLD_STEP_PRESSURE;
+                        /* 索引超出范围，使用最后一个值（300mmHg对应的阈值） */
+                        if (index >= PRESSURE_BUILD_TIME_THRESHOLD_TABLE_SIZE) {
+                            index = PRESSURE_BUILD_TIME_THRESHOLD_TABLE_SIZE - 1;
+                        }
                     }
                     
+                    /* 查表获取理论时间（毫秒），然后乘以安全系数 */
+                    uint32_t theoretical_time_ms = g_build_time_threshold_table[index];
+                    uint32_t time_threshold_ms = (uint32_t)(theoretical_time_ms * PRESSURE_BUILD_TIME_SAFETY_FACTOR);
+                    
                     /* 如果建立时间小于阈值，触发过压报警 */
-                    if (time_threshold_ms > 0 && build_duration_ms < time_threshold_ms) {
+                    if (build_duration_ms < time_threshold_ms) {
                         g_overpressure_alarm_triggered = true;
                         g_overpressure_alarm_by_build_time = true;  // 条件2触发，标记为建立时间触发
                     }
@@ -780,7 +819,7 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
     g_pump_work_reason = PUMP_REASON_BUILDING;
     
     /* 记录建立负压开始时间（用于液位满报警检测） */
-    g_build_start_time_ms = SoftTimer_GetTickCount();
+    g_build_start_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
 
     g_pressure_control_enabled = true;
 }
