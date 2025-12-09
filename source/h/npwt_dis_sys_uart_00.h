@@ -1,9 +1,0 @@
-#ifndef __npwt_dis_sys_uart_00__
-#define __npwt_dis_sys_uart_00__
-
-extern volatile unsigned char flager_a,bat_lev;
-
-extern void UART_Test(void);
-
-#endif
-

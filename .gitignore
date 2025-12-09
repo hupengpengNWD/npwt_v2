@@ -9,3 +9,14 @@ NWPT_VR.X/nbproject/private/
 NWPT_VR.X/nbproject/Makefile-*.mk
 NWPT_VR.X/nbproject/Package-*.bash
 NWPT_VR.X/nbproject/.DS_Store
+
+# 旧项目文件和不需要追踪的文件
+project/
+source/
+nbproject/
+npwt_refactored/cg.md
+npwt_refactored/git_log.txt
+
+# macOS系统文件
+.DS_Store
+**/.DS_Store
