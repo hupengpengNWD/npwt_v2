@@ -34,8 +34,10 @@
 #define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
 
 #define UI_LOCK_TIMEOUT_TICKS                3000U // 自动锁定超时时间：30s @10ms Tick
-#define UI_LOCK_ICON_X                       80U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
+#define UI_LOCK_ICON_X                       76U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
 #define UI_LOCK_ICON_Y                       0U    // 锁定图标显示坐标Y（第一行，页0）
+#define UI_MUTE_ICON_X                       94U   // 静音图标显示坐标X（第一行，锁定图标后面）
+#define UI_MUTE_ICON_Y                       0U    // 静音图标显示坐标Y（第一行，页0）
 
 #define UI_IDLE_TIMEOUT_TICKS                6000U // 空闲超时时间：1分钟 @10ms Tick (60秒)
 #define UI_IDLE_TEXT_X                       40U    // "Pump Idle"文本显示X坐标（居中显示）
@@ -259,6 +261,38 @@ static void AppUI_HideLockIcon(void)
     if (g_ui_context.lock_icon_visible) {
         Display_ClearRect(UI_LOCK_ICON_X, UI_LOCK_ICON_Y, 8, 16);
         g_ui_context.lock_icon_visible = false;
+    }
+}
+
+/**
+ * @brief 在指定坐标显示静音图标（若尚未显示）
+ */
+static void AppUI_ShowMuteIcon(void)
+{
+    if (AppBeep_IsMuted()) {
+        Display_ShowIcon(UI_MUTE_ICON_X, UI_MUTE_ICON_Y, ICON_SILENT);
+    }
+}
+
+/**
+ * @brief 清除静音图标占用区域（若当前可见）
+ */
+static void AppUI_HideMuteIcon(void)
+{
+    if (AppBeep_IsMuted() == false) {
+        Display_ClearRect(UI_MUTE_ICON_X, UI_MUTE_ICON_Y, 16, 16);
+    }
+}
+
+/**
+ * @brief 更新静音图标显示状态（根据当前静音状态显示或隐藏）
+ */
+static void AppUI_UpdateMuteIcon(void)
+{
+    if (AppBeep_IsMuted()) {
+        Display_ShowIcon(UI_MUTE_ICON_X, UI_MUTE_ICON_Y, ICON_SILENT);
+    } else {
+        Display_ClearRect(UI_MUTE_ICON_X, UI_MUTE_ICON_Y, 16, 16);
     }
 }
 
@@ -1462,6 +1496,9 @@ static void AppUI_Display_LIX(void)
     
     // 显示提示操作
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    // 更新静音图标显示
+    AppUI_UpdateMuteIcon();
 }
 
 /**
@@ -1502,6 +1539,9 @@ static void AppUI_Display_JIX(void)
         
     // 显示当前阶段
     Display_ShowString(12, 6, "High Phase", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    // 更新静音图标显示
+    AppUI_UpdateMuteIcon();
 }
 
 /**
@@ -1528,6 +1568,9 @@ static void AppUI_Display_ZHT(void)
     // 显示启动按键的图标
     Display_ShowIcon(16, 6, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
     Display_ShowString(30, 6, "Therapy", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    
+    // 更新静音图标显示
+    AppUI_UpdateMuteIcon();
     
 }
 
@@ -1847,6 +1890,8 @@ void AppUI_Process(void)
                     key_event.key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
                     /* 切换静音状态 */
                     AppBeep_SetMute(!AppBeep_IsMuted());
+                    /* 更新静音图标显示 */
+                    AppUI_UpdateMuteIcon();
                     continue;  // 不处理其他逻辑
                 }
                 
