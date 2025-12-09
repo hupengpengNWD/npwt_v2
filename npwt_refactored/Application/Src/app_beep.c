@@ -22,6 +22,7 @@ static PushPullPtr_t g_buzzer = NULL;           // 蜂鸣器控制指针
 static SoftTimerHandle_t g_beep_process_timer = 0; // 蜂鸣器处理定时器句柄
 static bool g_key_beep_active = false;         // 按键音是否正在播放
 static bool g_key_beep_started = false;        // 按键音是否已经开始播放（用于区分初始状态和完成状态）
+static bool g_beep_mute_enabled = false;       // 全局静音标志：true=静音，false=正常
 
 // 2秒周期循环时序：开1秒，关1秒（转换为tick数，20ms为单位）
 // 二维时序数组：支持多种不同的蜂鸣器模式
@@ -187,6 +188,15 @@ void AppBeep_BeepProcessCallback(void* user_data)
 {
     (void)user_data;
     
+    // 静音模式下不处理蜂鸣器状态机，并确保硬件关闭
+    if (g_beep_mute_enabled) {
+        if (g_buzzer) {
+            HAL_Buzzer_Off();  // 确保硬件关闭
+            g_buzzer->state = PUSHPULL_STATE_LOW;
+        }
+        return;
+    }
+    
     // 安全检查：确保蜂鸣器实例有效
     if (g_buzzer == NULL) {
         return;
@@ -266,6 +276,32 @@ void AppBeep_StopBeep(void)
 }
 
 /**
+ * @name      AppBeep_SetMute
+ * @brief     设置静音状态
+ * @param     mute - true=静音，false=正常
+ * @retval    无
+ * @remark    开启静音时立即停止当前蜂鸣器
+ */
+void AppBeep_SetMute(bool mute)
+{
+    g_beep_mute_enabled = mute;
+    if (mute) {
+        AppBeep_StopBeep();  // 开启静音时立即停止蜂鸣器
+    }
+}
+
+/**
+ * @name      AppBeep_IsMuted
+ * @brief     获取静音状态
+ * @param     无
+ * @retval    true=静音，false=正常
+ */
+bool AppBeep_IsMuted(void)
+{
+    return g_beep_mute_enabled;
+}
+
+/**
  * @name      AppBeep_StartBeep2D
  * @brief     开始蜂鸣器二维时序模式
  * @param     无
@@ -296,6 +332,11 @@ void AppBeep_StartBeep2D(void)
 void AppBeep_StartBeep2DMode(uint32_t mode_index)
 {
     if (g_buzzer == NULL) {
+        return;
+    }
+    
+    // 静音模式下不启动蜂鸣器
+    if (g_beep_mute_enabled) {
         return;
     }
     
@@ -357,6 +398,11 @@ void AppBeep_SwitchToNext2DMode(void)
 void AppBeep_BeepKey(void)
 {
     if (g_buzzer == NULL) {
+        return;
+    }
+    
+    // 静音模式下不播放按键音
+    if (g_beep_mute_enabled) {
         return;
     }
     

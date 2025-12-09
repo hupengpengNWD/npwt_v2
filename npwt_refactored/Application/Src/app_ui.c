@@ -1841,6 +1841,15 @@ void AppUI_Process(void)
                     }
                 }
                 
+                /* 在暂停模式下，检测长按静音键以切换静音状态 */
+                if (g_ui_context.current_state == UI_STATE_ZHT &&
+                    key_event.key_id == 3 &&  // 静音键的key_id是3
+                    key_event.key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+                    /* 切换静音状态 */
+                    AppBeep_SetMute(!AppBeep_IsMuted());
+                    continue;  // 不处理其他逻辑
+                }
+                
                 /* 记录用户交互：仅在未锁定时重置计时 */
                 if (g_ui_context.auto_lock_active == false) {
                     AppUI_ResetLockTimer();

@@ -174,4 +174,21 @@ void AppBeep_StopBeep(void);
  */
 void AppBeep_BeepKey(void);
 
+/**
+ * @name      AppBeep_SetMute
+ * @brief     设置静音状态
+ * @param     mute - true=静音，false=正常
+ * @retval    无
+ * @remark    开启静音时立即停止当前蜂鸣器
+ */
+void AppBeep_SetMute(bool mute);
+
+/**
+ * @name      AppBeep_IsMuted
+ * @brief     获取静音状态
+ * @param     无
+ * @retval    true=静音，false=正常
+ */
+bool AppBeep_IsMuted(void);
+
 #endif /* APP_BEEP_H */
