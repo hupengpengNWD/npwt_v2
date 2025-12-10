@@ -197,6 +197,19 @@ void Display_SetBacklight(bool white_on, bool yellow_on);
 void Display_ShowString(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
 
 /**
+ * @name      Display_ShowStringInvert
+ * @brief     显示字符串（反转显示）
+ * @param     x - X坐标
+ * @param     y - Y坐标
+ * @param     str - 字符串
+ * @param     font - 字体类型
+ * @param     align - 对齐方式
+ * @retval    无
+ * @note      用于设置界面中当前编辑项的显示，实现反转效果
+ */
+void Display_ShowStringInvert(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
+
+/**
  * @name      Display_ShowNumber
  * @brief     显示数字
  * @param     x - X坐标

@@ -63,7 +63,7 @@ static void Display_ClearInternal(void);
 static void Display_ClearRectInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
 static void Display_SetPositionInternal(uint8_t x, uint8_t y);
 static void Display_SetBacklightInternal(bool white_on, bool yellow_on);
-static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align);
+static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align, bool invert);
 static void Display_ShowNumberInternal(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e font, DisplayAlignType_e align);
 static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
 /* Display_ShowImageStartupFormat 已在 display.h 中声明为公开函数，此处不再声明 */
@@ -75,9 +75,9 @@ static void Display_ShowStartupInterfaceInternal(void);
 static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type);
 
 // 字符处理辅助函数
-static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* char_data, uint8_t width, uint8_t height);
-static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, DisplayFontType_e font);
-static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code, DisplayFontType_e font);
+static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* char_data, uint8_t width, uint8_t height, bool invert);
+static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, DisplayFontType_e font, bool invert);
+static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code, DisplayFontType_e font, bool invert);
 static const FontInfo_t* Display_GetFontInfo(DisplayFontType_e font);
 
 /****************************************************************************
@@ -234,6 +234,23 @@ void Display_ShowString(uint8_t x, uint8_t y, const char* str, DisplayFontType_e
     
     // 将显示字符串事件加入队列
     (void)g_display_queue.put(&g_display_queue, &event, 1);
+}
+
+/**
+ * @name      Display_ShowStringInvert
+ * @brief     显示字符串（反转显示）
+ * @param     x - X坐标
+ * @param     y - Y坐标
+ * @param     str - 字符串
+ * @param     font - 字体类型
+ * @param     align - 对齐方式
+ * @retval    无
+ * @note      用于设置界面中当前编辑项的显示，实现反转效果
+ */
+void Display_ShowStringInvert(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align)
+{
+    // 直接调用内部函数，传入invert=true实现反转显示
+    Display_ShowStringInternal(x, y, str, font, align, true);
 }
 
 /**
@@ -441,7 +458,7 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
             break;
             
         case DISPLAY_EVENT_SHOW_STRING: // 显示字符串
-            Display_ShowStringInternal(event->x, event->y, event->str_data, event->font, event->align);
+            Display_ShowStringInternal(event->x, event->y, event->str_data, event->font, event->align, false);
             break;
             
         case DISPLAY_EVENT_SHOW_NUMBER: // 显示数字
@@ -535,7 +552,7 @@ static void Display_ClearRectInternal(uint8_t x, uint8_t y, uint8_t width, uint8
     }
     
     // 使用Display_SendCharData写入空白数据（完全复用显示逻辑）
-    Display_SendCharData(y, x, blank_data, width, (uint8_t)(pages * 8U));
+    Display_SendCharData(y, x, blank_data, width, (uint8_t)(pages * 8U), false);
 }
 
 /**
@@ -572,7 +589,7 @@ static void Display_SetBacklightInternal(bool white_on, bool yellow_on)
  * @param     align - 对齐方式
  * @retval    无
  */
-static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align)
+static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align, bool invert)
 {
     if (str == NULL) {
         return;
@@ -588,7 +605,7 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
         // ASCII字符（0x20-0x7F）：数字、字母、符号等使用ASCII字库
         if (ch >= 0x20 && ch <= 0x7F) {
             if (font_info->ascii_font != NULL) {
-                Display_SendASCII(y, current_col, ch, font);
+                Display_SendASCII(y, current_col, ch, font, invert);
                 current_col += font_info->width;
             } else {
                 // ASCII字库不可用，占位前进
@@ -598,7 +615,7 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
         // 非ASCII字符（0x80-0xFF）：中文、俄文等使用扩展字符字库
         else if (ch >= 0x80) {
             if (font_info->char_font != NULL) {
-                Display_SendCharFont(y, current_col, ch, font);
+                Display_SendCharFont(y, current_col, ch, font, invert);
                 current_col += font_info->width;
             } else {
                 // 扩展字符字库不可用，占位前进
@@ -628,7 +645,7 @@ static void Display_ShowNumberInternal(uint8_t x, uint8_t y, uint16_t number, Di
     char number_str[16];
     snprintf(number_str, sizeof(number_str), "%d", number);
     
-    Display_ShowStringInternal(x, y, number_str, font, align);
+    Display_ShowStringInternal(x, y, number_str, font, align, false);
 }
 
 /**
@@ -725,12 +742,12 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
     }
 
     // 显示压力值
-    Display_ShowStringInternal(x, y, pressure_str, font, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, pressure_str, font, DISPLAY_ALIGN_LEFT, false);
 
     // 如果需要显示单位（使用较小的字体显示单位，保持可读性）
     if (show_unit) {
         // 单位使用8x16字体，位置在数字右侧，垂直对齐
-        Display_ShowStringInternal(x + unit_x_offset, y + unit_y_offset, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        Display_ShowStringInternal(x + unit_x_offset, y + unit_y_offset, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT, false);
     }
 }
 
@@ -778,7 +795,7 @@ static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e
             break;
     }
     
-    Display_ShowStringInternal(x, y, mode_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, mode_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
 }
 
 /**
@@ -828,7 +845,7 @@ static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e e
             break;
     }
     
-    Display_ShowStringInternal(x, y, error_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(x, y, error_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
 }
 
 /**
@@ -939,7 +956,7 @@ static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type)
     
     // 图标数据按照字符字模规则存储，使用Display_SendCharData倒序写入
     // 图标数据格式与字符相同（下半在前，上半在后），所以使用相同的倒序写入方式
-    Display_SendCharData(y, x+column_offset, icon_data->data, icon_data->width, icon_data->height);
+    Display_SendCharData(y, x+column_offset, icon_data->data, icon_data->width, icon_data->height, false);
 }
 
 /**
@@ -979,7 +996,7 @@ void Display_ClearIconArea(uint8_t x, uint8_t y, IconType_e icon_type)
     }
 
     /* 复用字符发送路径，保证与图标绘制相同的页/列映射 */
-    Display_SendCharData(y, (uint8_t)(x + column_offset), zero_buf, width, height);
+    Display_SendCharData(y, (uint8_t)(x + column_offset), zero_buf, width, height, false);
 }
 
 /****************************************************************************
@@ -996,7 +1013,7 @@ void Display_ClearIconArea(uint8_t x, uint8_t y, IconType_e icon_type)
  * @param     height - 字符高度
  * @retval    无
  */
-static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* char_data, uint8_t width, uint8_t height)
+static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* char_data, uint8_t width, uint8_t height, bool invert)
 {
     if (char_data == NULL) {
         return;
@@ -1012,12 +1029,12 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         // 上半页：char_data[15]..char_data[8] → page_hw（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw, column);
         for (int8_t idx = 15; idx >= 8; idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
         // 下半页：char_data[7]..char_data[0] → page_hw+1（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
         for (int8_t idx = 7; idx >= 0; idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
 
     } else {
@@ -1026,13 +1043,13 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         for (uint8_t i = 0; i < width; i++) {
             uint16_t data = (uint16_t)char_data[i] | ((uint16_t)char_data[i + width] << 8);
             data = (data >> 3) & 0xFF;
-            HAL_LCD_SendDataNonBlocking((uint8_t)data);
+            HAL_LCD_SendDataNonBlocking(invert ? ~(uint8_t)data : (uint8_t)data);
         }
         HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
         for (uint8_t i = 0; i < width; i++) {
             uint16_t data = ((uint16_t)char_data[i + width] << 8) | (uint16_t)char_data[i];
             data = (data >> 3) >> 8;
-            HAL_LCD_SendDataNonBlocking((uint8_t)data);
+            HAL_LCD_SendDataNonBlocking(invert ? ~(uint8_t)data : (uint8_t)data);
         }
     }
 #else
@@ -1052,25 +1069,25 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         // 第4页（最上页，字节48-63）→ page_hw（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw, column);
         for (int16_t idx = (int16_t)(4 * bytes_per_page - 1); idx >= (int16_t)(3 * bytes_per_page); idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
         
         // 第3页（字节32-47）→ page_hw+1（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
         for (int16_t idx = (int16_t)(3 * bytes_per_page - 1); idx >= (int16_t)(2 * bytes_per_page); idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
         
         // 第2页（字节16-31）→ page_hw+2（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw + 2, column);
         for (int16_t idx = (int16_t)(2 * bytes_per_page - 1); idx >= (int16_t)(1 * bytes_per_page); idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
         
         // 第1页（最下页，字节0-15）→ page_hw+3（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw + 3, column);
         for (int16_t idx = (int16_t)(1 * bytes_per_page - 1); idx >= 0; idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
     } else {
         // 16像素高（2页）：标准ASCII字库格式（en_char_7x14, en_char_8x16等）和图标数据
@@ -1081,13 +1098,13 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
         // 先写上半部分：char_data[(2*width-1)]..char_data[width] → page_hw（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw, column);
         for (int16_t idx = (int16_t)(2 * width - 1); idx >= (int16_t)width; idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
         
         // 再写下半部分：char_data[(width-1)]..char_data[0] → page_hw+1（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
         for (int16_t idx = (int16_t)(width - 1); idx >= 0; idx--) {
-            HAL_LCD_SendDataNonBlocking(char_data[idx]);
+            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
         }
     }
 #endif
@@ -1116,7 +1133,7 @@ static const FontInfo_t* Display_GetFontInfo(DisplayFontType_e font)
  * @param     font - 字体类型
  * @retval    无
  */
-static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code, DisplayFontType_e font)
+static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code, DisplayFontType_e font, bool invert)
 {
     const FontInfo_t* font_info = Display_GetFontInfo(font);
     if (font_info->char_font == NULL) {
@@ -1135,7 +1152,7 @@ static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code
     // 计算字符在字库中的偏移量
     uint16_t offset = (char_code - 0x80) * font_info->height;
     
-    Display_SendCharData(page, column, &font_info->char_font[offset], font_info->width, font_info->height);
+    Display_SendCharData(page, column, &font_info->char_font[offset], font_info->width, font_info->height, invert);
 }
 
 /**
@@ -1147,7 +1164,7 @@ static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code
  * @param     font - 字体类型
  * @retval    无
  */
-static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, DisplayFontType_e font)
+static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, DisplayFontType_e font, bool invert)
 {
     const FontInfo_t* font_info = Display_GetFontInfo(font);
     if (font_info->ascii_font == NULL) {
@@ -1178,7 +1195,7 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
         pixel_height = font_info->height;  // 对于16像素以下字体，字节数 = 像素高度
     }
     
-    Display_SendCharData(page, column, &font_info->ascii_font[offset], font_info->width, pixel_height);
+    Display_SendCharData(page, column, &font_info->ascii_font[offset], font_info->width, pixel_height, invert);
 }
 
 /****************************************************************************
@@ -1197,7 +1214,7 @@ void Display_ShowImageTest(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示图片测试标题
-    Display_ShowStringInternal(0, 0, "IMAGE TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "IMAGE TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
     
     // 显示开机Logo图片 (128x64像素)
     Display_ShowImageInternal(0, 14, 128, 64, LOGO_STARTUP_IMAGE);
@@ -1215,13 +1232,13 @@ void Display_ShowChineseTest(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示中文测试标题
-    Display_ShowStringInternal(0, 0, "CHINESE TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "CHINESE TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
     
     // 显示中文字符测试
-    Display_ShowStringInternal(0, 14, "Hello World", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 28, "NPWT System", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 42, "Test Mode", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 56, "Press Keys", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 14, "Hello World", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
+    Display_ShowStringInternal(0, 28, "NPWT System", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
+    Display_ShowStringInternal(0, 42, "Test Mode", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
+    Display_ShowStringInternal(0, 56, "Press Keys", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
 }
 
 /**
@@ -1236,11 +1253,11 @@ void Display_ShowEnglishTest(void)
     HAL_LCD_ClearNonBlocking();
     
     // 显示英文测试标题
-    Display_ShowStringInternal(0, 0, "ENGLISH TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 0, "ENGLISH TEST", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
     
     // 显示英文字符测试
-    Display_ShowStringInternal(0, 14, "ABCDEFGHIJK", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 28, "LMNOPQRSTUV", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 42, "WXYZ0123456", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
-    Display_ShowStringInternal(0, 56, "789!@#$%^&*", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInternal(0, 14, "ABCDEFGHIJK", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
+    Display_ShowStringInternal(0, 28, "LMNOPQRSTUV", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
+    Display_ShowStringInternal(0, 42, "WXYZ0123456", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
+    Display_ShowStringInternal(0, 56, "789!@#$%^&*", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
 }

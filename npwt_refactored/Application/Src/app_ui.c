@@ -1599,12 +1599,12 @@ static void AppUI_Display_SET_HP_Pressure(void)
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-    // 显示高压
+    // 显示高压（反转显示，表示当前正在编辑）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
-    Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     
-    // 显示低压
+    // 显示低压（正常显示）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
@@ -1625,14 +1625,14 @@ static void AppUI_Display_SET_LP_Pressure(void)
     static char lp_pressure_str[8] = {0};
     
     
-    // 显示高压
+    // 显示高压（正常显示）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     
-    // 显示低压
+    // 显示低压（反转显示，表示当前正在编辑）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
-    Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
        
 }
 
