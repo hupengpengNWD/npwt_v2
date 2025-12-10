@@ -611,6 +611,30 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
     const FontInfo_t* font_info = Display_GetFontInfo(font);
     
     // 如果反转显示，先清除该区域，避免与之前的内容混合
+//    if (invert) {
+//        // 计算字符串宽度
+//        uint8_t str_width = 0;
+//        const char* str_ptr = str;
+//        while (*str_ptr) {
+//            str_width += font_info->width;
+//            str_ptr++;
+//        }
+//        
+//        // 计算字符串高度（像素）
+//        uint8_t str_height = (font == DISPLAY_FONT_16X32) ? 32 : 16;
+//        
+//        // 分段清除该区域（Display_ClearRectInternal限制最大宽度16列）
+//        // 每次清除16列，直到清除完整个字符串区域
+//        uint8_t clear_x = x;
+//        uint8_t remaining_width = str_width;
+//        while (remaining_width > 0) {
+//            uint8_t clear_width = (remaining_width > 16) ? 16 : remaining_width;
+//            Display_ClearRectInternal(clear_x, y, clear_width, str_height);
+//            clear_x += clear_width;
+//            remaining_width -= clear_width;
+//        }
+//    }
+    
     if (invert) {
         // 计算字符串宽度
         uint8_t str_width = 0;
@@ -619,10 +643,11 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
             str_width += font_info->width;
             str_ptr++;
         }
-        
+
         // 计算字符串高度（像素）
-        uint8_t str_height = (font == DISPLAY_FONT_16X32) ? 32 : 16;
-        
+        // font_info->height 对于不同字体：6x12=12, 7x14=14, 8x16=16, 16x32=64(字节数，实际像素32)
+        uint8_t str_height = (font == DISPLAY_FONT_16X32) ? 32 : font_info->height;
+
         // 分段清除该区域（Display_ClearRectInternal限制最大宽度16列）
         // 每次清除16列，直到清除完整个字符串区域
         uint8_t clear_x = x;
@@ -633,7 +658,7 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
             clear_x += clear_width;
             remaining_width -= clear_width;
         }
-    }
+    }    
     
     uint8_t current_col = x;
     

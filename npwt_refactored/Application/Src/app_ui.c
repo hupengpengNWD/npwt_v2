@@ -1593,17 +1593,13 @@ static void AppUI_Display_SET_HP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+//    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+//    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-    
-    // 在显示反转内容之前，重新显示标签，确保负号完整（避免清除操作影响相邻区域）
-//    Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-//    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+   
     // 显示高压（反转显示，表示当前正在编辑）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1613,6 +1609,9 @@ static void AppUI_Display_SET_HP_Pressure(void)
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     Display_ShowString(93, 4, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    
+    Display_ShowString(14, 2, "HP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, "LP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1623,8 +1622,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+//    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+//    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
@@ -1643,6 +1642,9 @@ static void AppUI_Display_SET_LP_Pressure(void)
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     Display_ShowString(93, 4, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);   
+    
+    Display_ShowString(14, 2, "HP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, "LP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 }
 
 /**
