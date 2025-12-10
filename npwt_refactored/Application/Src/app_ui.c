@@ -1650,17 +1650,22 @@ static void AppUI_Display_SET_Time(void)
     static char hp_time_str[8] = {0};
     static char lp_time_str[8] = {0};
     
-    // 显示高压时间
-    snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
-    Display_ShowString(75, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
-    
-    // 显示低压时间
-    snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
-    Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
- 
-    // 显示当前选中的时间项（可选：添加选中指示，如箭头或高亮）
-    // 当前实现中，通过上下键切换编辑项，这里可以添加视觉反馈
+    // 根据time_edit_high标志决定哪个时间值反转显示
+    if (g_ui_context.time_edit_high) {
+        // 编辑高压时间：高压时间反转显示，低压时间正常显示
+        snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
+        Display_ShowStringInvert(75, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        
+        snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
+        Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    } else {
+        // 编辑低压时间：高压时间正常显示，低压时间反转显示
+        snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
+        Display_ShowString(75, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        
+        snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
+        Display_ShowStringInvert(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    }
 }
 
 /****************************************************************************

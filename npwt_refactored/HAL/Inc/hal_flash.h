@@ -48,7 +48,7 @@
  * 
  * 详细说明请参考：scripts/README_FLASH_ADDRESS.md
  */
-#define HAL_FLASH_CONFIG_ADDRESS    0xD640U    // 配置数据起始地址（使用脚本计算，1KB安全边距），当Os优化等级时配置为0xD2C0U时可以获得更多的配置控空间
+#define HAL_FLASH_CONFIG_ADDRESS    0xDCC0U//0xD640U    // 配置数据起始地址（使用脚本计算，1KB安全边距），当Os优化等级时配置为0xD2C0U时可以获得更多的配置控空间
 
 /****************************************************************************
  * Flash操作函数
