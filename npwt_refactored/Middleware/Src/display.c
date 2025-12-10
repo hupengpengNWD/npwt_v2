@@ -704,7 +704,7 @@ void Display_ShowImageStartupFormat(uint8_t x, uint8_t y, uint8_t width, uint8_t
 static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font)
 {
     char pressure_str[16];
-    snprintf(pressure_str, sizeof(pressure_str), "%d", pressure);
+    snprintf(pressure_str, sizeof(pressure_str), "%03d", pressure);
 
     // 获取字体信息以计算单位位置
     const FontInfo_t* font_info = Display_GetFontInfo(font);

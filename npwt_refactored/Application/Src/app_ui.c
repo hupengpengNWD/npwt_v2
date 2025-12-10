@@ -1531,6 +1531,7 @@ static void AppUI_Display_SET(void)
     Display_ShowString(2, 2, "Continuous", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     Display_ShowString(1, 4, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
+    
     // 根据当前选中的模式显示勾号
     if (g_ui_context.work_mode_backup == UI_STATE_LIX) {
         // 连续模式选中：在第2行显示勾号
@@ -1547,11 +1548,13 @@ static void AppUI_Display_SET(void)
  */
 static void AppUI_Display_SET_Pressure(void)
 {
-    // 参考未重构工程：显示"Pressure"和压力值
+//    static char hp_pressure_str[8] = {0};
+//    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
+    
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    // 显示压力值（使用16x32大字体，参考未重构工程的DISP_Dig15_32）
-    // y=4：16x32字体占用4页（页4-7），避免与"Pressure"文字（页0-1）重叠
+
     Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);  // 显示压力值和单位"mmHg"
+//    Display_ShowString(48, 4, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1941,6 +1944,15 @@ void AppUI_Process(void)
         g_ui_context.leak_alarm_active || 
         g_ui_context.blockage_alarm_active) {
         return;  // 报警或空闲状态下，只显示相应报警信息，不更新其他UI元素
+    }
+    
+    /* 设置界面不显示电池（模式选择、压力设置、时间设置等） */
+    if (g_ui_context.current_state == UI_STATE_SET ||
+        g_ui_context.current_state == UI_STATE_SET_PRESSURE ||
+        g_ui_context.current_state == UI_STATE_SET_HP_PRESSURE ||
+        g_ui_context.current_state == UI_STATE_SET_LP_PRESSURE ||
+        g_ui_context.current_state == UI_STATE_SET_TIME) {
+        return;  // 设置界面不显示电池
     }
     
     static uint16_t battery_display_counter = 0;      // 显示更新计数器（用于降低刷新频率）
