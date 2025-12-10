@@ -87,7 +87,8 @@ typedef enum {
     DISPLAY_EVENT_SHOW_BATTERY_ICON = 9,  // 显示电池图标
     DISPLAY_EVENT_SHOW_STARTUP_INTERFACE = 10, // 显示开机界面
     DISPLAY_EVENT_SHOW_ICON = 11,         // 显示图标
-    DISPLAY_EVENT_CLEAR_RECT = 12         // 局部清除
+    DISPLAY_EVENT_CLEAR_RECT = 12,        // 局部清除
+    DISPLAY_EVENT_SHOW_STRING_INVERT = 13 // 显示字符串（反转）
 } DisplayEventType_e;
 
 /****************************************************************************

@@ -249,8 +249,17 @@ void Display_ShowString(uint8_t x, uint8_t y, const char* str, DisplayFontType_e
  */
 void Display_ShowStringInvert(uint8_t x, uint8_t y, const char* str, DisplayFontType_e font, DisplayAlignType_e align)
 {
-    // 直接调用内部函数，传入invert=true实现反转显示
-    Display_ShowStringInternal(x, y, str, font, align, true);
+    DisplayEvent_t event = {
+        .type = DISPLAY_EVENT_SHOW_STRING_INVERT,
+        .x = x,
+        .y = y,
+        .str_data = str,
+        .font = font,
+        .align = align
+    };
+    
+    // 将显示字符串（反转）事件加入队列
+    (void)g_display_queue.put(&g_display_queue, &event, 1);
 }
 
 /**
@@ -461,6 +470,10 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
             Display_ShowStringInternal(event->x, event->y, event->str_data, event->font, event->align, false);
             break;
             
+        case DISPLAY_EVENT_SHOW_STRING_INVERT: // 显示字符串（反转）
+            Display_ShowStringInternal(event->x, event->y, event->str_data, event->font, event->align, true);
+            break;
+            
         case DISPLAY_EVENT_SHOW_NUMBER: // 显示数字
             Display_ShowNumberInternal(event->x, event->y, event->number_data, event->font, event->align);
             break;
@@ -596,6 +609,32 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
     }
     
     const FontInfo_t* font_info = Display_GetFontInfo(font);
+    
+    // 如果反转显示，先清除该区域，避免与之前的内容混合
+    if (invert) {
+        // 计算字符串宽度
+        uint8_t str_width = 0;
+        const char* str_ptr = str;
+        while (*str_ptr) {
+            str_width += font_info->width;
+            str_ptr++;
+        }
+        
+        // 计算字符串高度（像素）
+        uint8_t str_height = (font == DISPLAY_FONT_16X32) ? 32 : 16;
+        
+        // 分段清除该区域（Display_ClearRectInternal限制最大宽度16列）
+        // 每次清除16列，直到清除完整个字符串区域
+        uint8_t clear_x = x;
+        uint8_t remaining_width = str_width;
+        while (remaining_width > 0) {
+            uint8_t clear_width = (remaining_width > 16) ? 16 : remaining_width;
+            Display_ClearRectInternal(clear_x, y, clear_width, str_height);
+            clear_x += clear_width;
+            remaining_width -= clear_width;
+        }
+    }
+    
     uint8_t current_col = x;
     
     // 遍历字符串中的每个字符
