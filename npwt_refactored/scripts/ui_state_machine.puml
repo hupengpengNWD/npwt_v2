@@ -12,6 +12,7 @@ state "连续模式压力设置\nSET_PRESSURE" as SET_PRESSURE
 state "间歇模式高压设置\nSET_HP_PRESSURE" as SET_HP_PRESSURE
 state "间歇模式低压设置\nSET_LP_PRESSURE" as SET_LP_PRESSURE
 state "间歇模式时间设置\nSET_TIME" as SET_TIME
+state "异常模式\nWARING" as WARING
 
 [*] --> SYS
 
@@ -21,17 +22,18 @@ WAT --> SET : MENU_UP\n(菜单向上)
 WAT --> LIX : START\n(启动)
 
 LIX --> ZHT : CONFIRM_LONG\n(确认键长按)
-LIX --> SET : SETTINGS\n(设置键)
+LIX --> WARING : 漏气\n液位满\n阻塞\n
+
 
 JIX --> ZHT : CONFIRM_LONG\n(确认键长按)
-JIX --> SET : SETTINGS\n(设置键)
+JIX --> WARING : 漏气\n液位满\n阻塞\n
+
+WARING --> ZHT : CONFIRM_LONG\n(确认键长按)
 
 ZHT --> SET : MENU_UP\n(菜单向上)
-ZHT --> SET : SETTINGS\n(设置键)
 ZHT --> LIX : CONFIRM_LONG\n(恢复治疗-连续)
 ZHT --> JIX : CONFIRM_LONG\n(恢复治疗-间歇)
 
-SET --> ZHT : SETTINGS\n(设置键-退出)
 SET --> SET : MENU_UP\n(切换工作模式)
 SET --> SET : MENU_DOWN\n(切换工作模式)
 SET --> SET_PRESSURE : CONFIRM_LONG\n(连续模式)
@@ -40,17 +42,14 @@ SET --> SET_HP_PRESSURE : CONFIRM\n(间歇模式)
 SET_PRESSURE --> SET_PRESSURE : MENU_UP\n(增加压力)
 SET_PRESSURE --> SET_PRESSURE : MENU_DOWN\n(减少压力)
 SET_PRESSURE --> ZHT : CONFIRM_LONG\n(确认键长按)
-SET_PRESSURE --> ZHT : SETTINGS\n(设置键)
 
 SET_HP_PRESSURE --> SET_HP_PRESSURE : MENU_UP\n(增加高压)
 SET_HP_PRESSURE --> SET_HP_PRESSURE : MENU_DOWN\n(减少高压)
 SET_HP_PRESSURE --> SET_LP_PRESSURE : CONFIRM_LONG\n(确认键长按)
-SET_HP_PRESSURE --> ZHT : SETTINGS\n(设置键)
 
 SET_LP_PRESSURE --> SET_LP_PRESSURE : MENU_UP\n(增加低压)
 SET_LP_PRESSURE --> SET_LP_PRESSURE : MENU_DOWN\n(减少低压)
 SET_LP_PRESSURE --> SET_TIME : CONFIRM_LONG\n(确认键长按)
-SET_LP_PRESSURE --> ZHT : SETTINGS\n(设置键)
 
 SET_TIME --> SET_TIME : MENU_UP\n(增加时间)
 SET_TIME --> SET_TIME : MENU_DOWN\n(减少时间)
@@ -66,7 +65,7 @@ note right of WAT
   可以进入设置或启动治疗
 end note
 
-note right of SET
+note left of SET
   模式选择界面
   可以切换连续/间歇模式
 end note
