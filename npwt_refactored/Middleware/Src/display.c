@@ -644,6 +644,11 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
             str_ptr++;
         }
 
+        // 对于6x12和8x16字体，反转显示时增加1列宽度，使反转区域更明显
+        if (font == DISPLAY_FONT_6X12 || font == DISPLAY_FONT_8X16) {
+            str_width += 1;
+        }
+
         // 计算字符串高度（像素）
         // font_info->height 对于不同字体：6x12=12, 7x14=14, 8x16=16, 16x32=64(字节数，实际像素32)
         uint8_t str_height = (font == DISPLAY_FONT_16X32) ? 32 : font_info->height;
@@ -691,6 +696,12 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
             current_col += font_info->width;
         }
         str++;
+    }
+    
+    // 对于6x12和8x16字体，反转显示时在字符串后面再显示1列反转空白，使反转区域更明显
+    if (invert && (font == DISPLAY_FONT_6X12 || font == DISPLAY_FONT_8X16)) {
+        // 显示1列反转空白（使用空格字符，但反转显示）
+        Display_SendASCII(y, current_col, ' ', font, invert);
     }
 }
 
