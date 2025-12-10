@@ -1593,8 +1593,8 @@ static void AppUI_Display_SET_HP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
@@ -1605,14 +1605,14 @@ static void AppUI_Display_SET_HP_Pressure(void)
 //    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示高压（反转显示，表示当前正在编辑）
-    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
-    Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 2, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示低压（正常显示）
-    snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
-    Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+    snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
+    Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 4, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1623,8 +1623,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
     Display_ShowString(36, 0, "Pressure", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
@@ -1635,14 +1635,14 @@ static void AppUI_Display_SET_LP_Pressure(void)
 //    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 显示高压（正常显示）
-    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
-    Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
+    Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 2, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示低压（反转显示，表示当前正在编辑）
-    snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_low);
-    Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-       
+    snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
+    Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 4, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);   
 }
 
 /**
@@ -1653,8 +1653,8 @@ static void AppUI_Display_SET_Time(void)
 {
     // 显示"Intermittent"、"HP Time"和"LP Time"
     Display_ShowString(16, 0, "Intermittent", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 2, "HP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(6, 4, "LP Time:", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 2, "HP Time:", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, "LP Time:", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     static char hp_time_str[8] = {0};
     static char lp_time_str[8] = {0};
@@ -1662,18 +1662,22 @@ static void AppUI_Display_SET_Time(void)
     // 根据time_edit_high标志决定哪个时间值反转显示
     if (g_ui_context.time_edit_high) {
         // 编辑高压时间：高压时间反转显示，低压时间正常显示
-        snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
-        Display_ShowStringInvert(75, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        snprintf(hp_time_str, sizeof(hp_time_str), "%02u", (unsigned int)g_ui_context.time_high);
+        Display_ShowStringInvert(75, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(90, 2, "min", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT); 
         
-        snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
-        Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        snprintf(lp_time_str, sizeof(lp_time_str), "%02u", (unsigned int)g_ui_context.time_low);
+        Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(90, 4, "min", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT); 
     } else {
         // 编辑低压时间：高压时间正常显示，低压时间反转显示
-        snprintf(hp_time_str, sizeof(hp_time_str), "%02umin", (unsigned int)g_ui_context.time_high);
-        Display_ShowString(75, 2, hp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        snprintf(hp_time_str, sizeof(hp_time_str), "%02u", (unsigned int)g_ui_context.time_high);
+        Display_ShowString(75, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(90, 2, "min", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT); 
         
-        snprintf(lp_time_str, sizeof(lp_time_str), "%02umin", (unsigned int)g_ui_context.time_low);
-        Display_ShowStringInvert(75, 4, lp_time_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        snprintf(lp_time_str, sizeof(lp_time_str), "%02u", (unsigned int)g_ui_context.time_low);
+        Display_ShowStringInvert(75, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(90, 4, "min", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT); 
     }
 }
 
