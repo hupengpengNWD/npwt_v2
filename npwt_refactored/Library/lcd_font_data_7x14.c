@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#if 0
 // 英文，大小7x14
 const unsigned char en_char_7x14[] = {
 
@@ -114,5 +115,5 @@ const unsigned char en_char_7x14[] = {
 
 };
 
-
+#endif
 

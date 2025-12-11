@@ -1,5 +1,5 @@
-Display_ShowEnglishTest
-Display_ShowChineseTest
-Display_ShowImageTest
-Display_ShowErrorInternal
-Display_ShowWorkModeInternal
+    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);      [position 1442:45]	
+    Display_ShowString(12, 6, "High Phase", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);      [position 1485:45]	
+    Display_ShowString(30, 6, "Therapy", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);      [position 1514:42]	
+    Display_ShowString(12, 6, phase_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);      [position 2187:54]	
+    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);      [position 2190:57]	

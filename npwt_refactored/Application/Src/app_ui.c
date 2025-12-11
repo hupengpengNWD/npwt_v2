@@ -385,7 +385,7 @@ static void AppUI_EnterIdle(void)
     
     /* 清屏并显示"Pump Idle" */
     Display_Clear();
-    Display_ShowString(UI_IDLE_TEXT_X, UI_IDLE_TEXT_Y, "Pump Idle", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(UI_IDLE_TEXT_X, UI_IDLE_TEXT_Y, "Pump Idle", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     /* 关闭白色背光，打开黄色背光 */
     HAL_LCD_Backlight_Off();
@@ -509,7 +509,7 @@ static void AppUI_EnterLeakAlarm(void)
     
     /* 清屏并显示"Leak Alarms" */
     Display_Clear();
-    Display_ShowString(UI_LEAK_ALARM_TEXT_X, UI_LEAK_ALARM_TEXT_Y, "Leak Alarms", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(UI_LEAK_ALARM_TEXT_X, UI_LEAK_ALARM_TEXT_Y, "Leak Alarms", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     /* 关闭白色背光，打开黄色背光 */
     HAL_LCD_Backlight_Off();
@@ -640,7 +640,7 @@ static void AppUI_EnterBlockageAlarm(void)
     
     /* 清屏并显示"Blockage Alarm" */
     Display_Clear();
-    Display_ShowString(UI_BLOCKAGE_ALARM_TEXT_X, UI_BLOCKAGE_ALARM_TEXT_Y, "Blockage Alarm", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(UI_BLOCKAGE_ALARM_TEXT_X, UI_BLOCKAGE_ALARM_TEXT_Y, "Blockage Alarm", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     /* 关闭白色背光，打开黄色背光 */
     HAL_LCD_Backlight_Off();
@@ -724,7 +724,7 @@ static void AppUI_EnterOverpressureAlarm(void)
     
     /* 清屏并显示"Canister Full" */
     Display_Clear();
-    Display_ShowString(UI_OVERPRESSURE_ALARM_TEXT_X, UI_OVERPRESSURE_ALARM_TEXT_Y, "Canister Full", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(UI_OVERPRESSURE_ALARM_TEXT_X, UI_OVERPRESSURE_ALARM_TEXT_Y, "Canister Full", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     /* 关闭白色背光，打开黄色背光 */
     HAL_LCD_Backlight_Off();
@@ -1439,7 +1439,7 @@ static void AppUI_Display_LIX(void)
     Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);    
     
     // 显示提示操作
-    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 更新静音图标显示
     AppUI_UpdateMuteIcon();
@@ -1482,7 +1482,7 @@ static void AppUI_Display_JIX(void)
     g_last_display_pressure = current_pressure;
         
     // 显示当前阶段
-    Display_ShowString(12, 6, "High Phase", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(12, 6, "High Phase", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 更新静音图标显示
     AppUI_UpdateMuteIcon();
@@ -1511,7 +1511,7 @@ static void AppUI_Display_ZHT(void)
     
     // 显示启动按键的图标
     Display_ShowIcon(16, 6, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
-    Display_ShowString(30, 6, "Therapy", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(30, 6, "Therapy", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     
     // 更新静音图标显示
     AppUI_UpdateMuteIcon();
@@ -2184,10 +2184,10 @@ void AppUI_Process(void)
                 // 显示当前模式
                 AppPressureControlMode_e mode = AppPressure_GetCurrentMode();
                 const char* phase_str = (mode == APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW) ? "Low Phase" : "High Phase";
-                Display_ShowString(12, 6, phase_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+                Display_ShowString(12, 6, phase_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
                 
             } else {
-                Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT);
+                Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
             }
         }
     } else {

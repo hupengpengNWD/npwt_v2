@@ -5,7 +5,7 @@
 
 // 外部字体数据声明
 extern const unsigned char en_char_6x12[];    
-extern const unsigned char en_char_7x14[];    
+//extern const unsigned char en_char_7x14[];    
 extern const unsigned char en_char_8x16[];
 extern const unsigned char digit_char_16x32[];  // 16x32数字字模（仅包含0-9）
 
@@ -48,7 +48,7 @@ static uint8_t g_display_queue_buffer[(31 + 1) * sizeof(DisplayEvent_t)];
 // 对于16x32字体：32像素高 = 4页，每字符字节数 = 16列 × 4页 = 64字节
 static const FontInfo_t g_font_info[] = {
     {6, 12, NULL, en_char_6x12},           // 6x12: 每字符12字节
-    {7, 14, NULL, en_char_7x14},           // 7x14: 每字符14字节
+    {7, 14, NULL, NULL},                   // 7x14: 每字符14字节
     {8, 16, NULL, en_char_8x16},           // 8x16: 每字符16字节
     {16, 64, NULL, digit_char_16x32},      // 16x32: 每字符64字节（16列×4页）
     {40, 80, NULL, NULL}                   // 40x80: 预留
