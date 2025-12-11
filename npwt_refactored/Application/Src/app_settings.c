@@ -74,6 +74,11 @@ static bool AppSettings_ValidateData(const AppSettingsFlashData_t* data)
         return false;
     }
     
+    /* 验证语言值范围（1=英文, 2=中文, 3=俄文） */
+    if (data->language < 1 || data->language > 3) {
+        return false;
+    }
+    
     return true;
 }
 
@@ -87,6 +92,7 @@ static void AppSettings_SetDefaults(void)
     g_settings_data.pressure_low = 80;                     // 默认80mmHg（间歇模式）
     g_settings_data.time_high = 5;                         // 默认5分钟
     g_settings_data.time_low = 2;                          // 默认2分钟
+    g_settings_data.language = 1;                          // 默认英文（1=英文, 2=中文, 3=俄文）
     
     /* 清零预留字段 */
     memset(g_settings_data.reserved, 0, sizeof(g_settings_data.reserved));
@@ -309,5 +315,27 @@ void AppSettings_ResetToDefaults(void)
     AppSettings_SetDefaults();
     /* 可以选择立即保存到Flash */
     /* AppSettings_Save(); */
+}
+
+/**
+ * @brief 获取保存的语言设置
+ */
+uint16_t AppSettings_GetLanguage(void)
+{
+    return g_settings_data.language;
+}
+
+/**
+ * @brief 设置语言并保存
+ */
+bool AppSettings_SetLanguage(uint16_t language)
+{
+    // 验证语言值范围（1=英文, 2=中文, 3=俄文）
+    if (language < 1 || language > 3) {
+        return false;
+    }
+    
+    g_settings_data.language = language;
+    return true;
 }
 

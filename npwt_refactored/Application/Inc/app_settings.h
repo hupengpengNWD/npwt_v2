@@ -40,8 +40,11 @@ typedef struct {
     uint16_t time_high;              // 高压时间（分钟，仅间歇模式使用）
     uint16_t time_low;               // 低压时间（分钟，仅间歇模式使用）
     
+    /* 系统设置参数（2字节） */
+    uint16_t language;               // 语言设置（1=英文, 2=中文, 3=俄文，默认1）
+    
     /* 预留字段（可选，用于未来扩展） */
-    uint16_t reserved[29];           // 预留字段，使结构体大小为64字节（一个Flash块）
+    uint16_t reserved[28];           // 预留字段，使结构体大小为64字节（一个Flash块）
 } AppSettingsFlashData_t;
 
 /****************************************************************************
@@ -144,6 +147,23 @@ uint16_t AppSettings_GetTimeLow(void);
  * @note      用于恢复出厂设置或初始化新设备
  */
 void AppSettings_ResetToDefaults(void);
+
+/**
+ * @name      AppSettings_GetLanguage
+ * @brief     获取保存的语言设置
+ * @param     无
+ * @retval    uint16_t - 语言值（1=英文, 2=中文, 3=俄文）
+ */
+uint16_t AppSettings_GetLanguage(void);
+
+/**
+ * @name      AppSettings_SetLanguage
+ * @brief     设置语言并保存
+ * @param     language - 语言值（1=英文, 2=中文, 3=俄文）
+ * @retval    bool - true=设置成功, false=设置失败
+ * @note      设置后需要调用AppSettings_Save()才能持久化到Flash
+ */
+bool AppSettings_SetLanguage(uint16_t language);
 
 #endif /* APP_SETTINGS_H */
 

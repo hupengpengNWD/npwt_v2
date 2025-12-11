@@ -24,7 +24,7 @@ extern const uint8_t LOGO_STARTUP_IMAGE[1024];
  */
 typedef enum {
     DISPLAY_FONT_6X12 = 0,    // 6x12字体 (小字体)
-    DISPLAY_FONT_7X14 = 1,    // 7x14字体 (数字和字母)
+    DISPLAY_FONT_16X16 = 1,   // 16x16字体 (中文字符)
     DISPLAY_FONT_8X16 = 2,    // 8x16字体 (ASCII)
     DISPLAY_FONT_16X32 = 3,   // 16x32字体 (大字体)
     DISPLAY_FONT_40X80 = 4    // 40x80字体 (超大字体)
@@ -288,7 +288,7 @@ void Display_ShowIcon(uint8_t x, uint8_t y, uint8_t icon_type);
  * @param     y - Y坐标
  * @param     pressure - 压力值
  * @param     show_unit - 是否显示单位
- * @param     font - 字体类型（可选，默认使用DISPLAY_FONT_7X14）
+ * @param     font - 字体类型（可选，默认使用DISPLAY_FONT_16X16）
  * @retval    无
  */
 void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font);
