@@ -338,7 +338,7 @@ void Display_ShowStartupInterface(void);
  * @param     无
  * @retval    无
  */
-void Display_ShowImageTest(void);
+//void Display_ShowImageTest(void);
 
 /**
  * @name      Display_ShowImageStartupFormat
@@ -372,7 +372,7 @@ void Display_ClearIconArea(uint8_t x, uint8_t y, IconType_e icon_type);
  * @param     无
  * @retval    无
  */
-void Display_ShowChineseTest(void);
+//void Display_ShowChineseTest(void);
 
 /**
  * @name      Display_ShowEnglishTest
@@ -380,7 +380,7 @@ void Display_ShowChineseTest(void);
  * @param     无
  * @retval    无
  */
-void Display_ShowEnglishTest(void);
+//void Display_ShowEnglishTest(void);
 
 
 #endif /* __DISPLAY_H__ */

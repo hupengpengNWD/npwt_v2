@@ -68,8 +68,8 @@ static void Display_ShowNumberInternal(uint8_t x, uint8_t y, uint16_t number, Di
 static void Display_ShowImageInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
 /* Display_ShowImageStartupFormat 已在 display.h 中声明为公开函数，此处不再声明 */
 static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure, bool show_unit, DisplayFontType_e font);
-static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
-static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
+//static void Display_ShowWorkModeInternal(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
+//static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t battery_level, bool is_charging);
 static void Display_ShowStartupInterfaceInternal(void);
 static void Display_ShowIconInternal(uint8_t x, uint8_t y, IconType_e icon_type);
@@ -495,11 +495,11 @@ static void Display_ProcessEvent(const DisplayEvent_t* event)
             break;
             
         case DISPLAY_EVENT_SHOW_WORK_MODE: // 显示工作模式
-            Display_ShowWorkModeInternal(event->x, event->y, event->work_mode);
+//            Display_ShowWorkModeInternal(event->x, event->y, event->work_mode);
             break;
             
         case DISPLAY_EVENT_SHOW_ERROR: // 显示错误
-            Display_ShowErrorInternal(event->x, event->y, event->error_code);
+//            Display_ShowErrorInternal(event->x, event->y, event->error_code);
             break;
             
         case DISPLAY_EVENT_SHOW_BATTERY_ICON: // 显示电池图标
@@ -825,7 +825,7 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
         Display_ShowStringInternal(x + unit_x_offset, y + unit_y_offset, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT, false);
     }
 }
-
+#if 0
 /**
  * @name      Display_ShowWorkModeInternal
  * @brief     内部显示工作模式函数
@@ -922,7 +922,7 @@ static void Display_ShowErrorInternal(uint8_t x, uint8_t y, DisplayErrorCode_e e
     
     Display_ShowStringInternal(x, y, error_str, DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
 }
-
+#endif
 /**
  * @name      Display_ShowBatteryIconInternal
  * @brief     内部显示电池图标函数
@@ -1276,7 +1276,7 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
 /****************************************************************************
  * 测试界面实现
  ****************************************************************************/
-
+#if 0
 /**
  * @name      Display_ShowImageTest
  * @brief     显示图片测试界面
@@ -1336,3 +1336,4 @@ void Display_ShowEnglishTest(void)
     Display_ShowStringInternal(0, 42, "WXYZ0123456", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
     Display_ShowStringInternal(0, 56, "789!@#$%^&*", DISPLAY_FONT_7X14, DISPLAY_ALIGN_LEFT, false);
 }
+#endif
