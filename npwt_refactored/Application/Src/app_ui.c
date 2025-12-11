@@ -78,7 +78,8 @@ static UIContext_t g_ui_context;
 static st_queue_ptr g_key_event_queue = NULL;
 
 /* 初始化超时定时器句柄 */
-static SoftTimerHandle_t g_init_timeout_timer = 0;
+static SoftTimerHandle_t g_init_timeout_timer = 0;           // 7秒超时定时器（进入待机模式）
+static SoftTimerHandle_t g_init_switch_timer = 0;            // 4秒切换定时器（从Logo切换到字符串）
 static SoftTimerHandle_t g_leak_alarm_pump_stop_timer = 0;  // 泄漏报警延迟停止泵电机定时器
 static bool g_leak_alarm_beep_state = false;  // 泄漏报警声音报警状态：true=应该响, false=应该静音
 
@@ -994,6 +995,7 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     
     ctx->current_state = UI_STATE_SYS;
     ctx->work_mode_backup = UI_STATE_LIX;  // 默认连续模式
+    ctx->sys_show_logo = true;              // 初始显示Logo
     AppPressure_StopControl();
     AppUI_Display_SYS();
 }
@@ -1387,8 +1389,18 @@ static void AppUI_TimeSetting_ExitToPause(void* arg, st_fsm_event event)
  */
 static void AppUI_Display_SYS(void)
 {
-    // 显示开机Logo（由display模块处理）
-    Display_ShowStartupInterface();
+    if (g_ui_context.sys_show_logo) {
+        // 显示开机Logo（由display模块处理）
+        Display_ShowStartupInterface();
+    } else {
+        // 显示字符串"npwt"
+        Display_Clear();
+        // 计算居中位置：128像素宽度，8x16字体，每个字符8像素宽，"npwt"共4个字符=32像素
+        // 居中位置 = (128 - 32) / 2 = 48
+        // Y坐标使用页2（屏幕中间位置）
+        Display_ShowString(48, 2, "npwt", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(1, 4, "Vcare1000-300se.1.01", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    }
 }
 
 /**
@@ -1688,6 +1700,23 @@ static void AppUI_Display_SET_Time(void)
  ****************************************************************************/
 
 /**
+ * @name      AppUI_InitSwitchCallback
+ * @brief     初始化切换定时器回调函数（4秒后从Logo切换到字符串）
+ * @param     user_data - 用户数据（未使用）
+ * @retval    无
+ */
+static void AppUI_InitSwitchCallback(void* user_data)
+{
+    (void)user_data;
+    
+    /* 切换到显示字符串 */
+    g_ui_context.sys_show_logo = false;
+    
+    /* 重新显示开机界面（此时会显示字符串） */
+    AppUI_Display_SYS();
+}
+
+/**
  * @name      AppUI_InitTimeoutCallback
  * @brief     初始化超时定时器回调函数（7秒后触发超时事件）
  * @param     user_data - 用户数据（未使用）
@@ -1739,6 +1768,7 @@ void AppUI_Init(void)
     g_ui_context.time_low = TIME_LOW_DEFAULT;
     g_ui_context.time_edit_high = true;  // 默认编辑高压时间
     g_ui_context.pressure_step = 5;      // 压力调整步进值，默认5mmHg
+    g_ui_context.sys_show_logo = true;   // 初始显示Logo
     g_ui_context.user_data = NULL;
     
     /* 获取按键事件队列指针 */
@@ -1758,15 +1788,27 @@ void AppUI_Init(void)
         g_ui_fsm.initialize(&g_ui_fsm);
     }
     
-    /* 创建初始化超时定时器（7秒，单次模式） */
+    /* 创建初始化切换定时器（4秒，单次模式，从Logo切换到字符串） */
+    /* 注意：SoftTimer_Create的参数单位是毫秒，所以4秒应该填写4000 */
+    g_init_switch_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE, 
+                                           4000,  // 4秒 = 4000毫秒
+                                           AppUI_InitSwitchCallback, 
+                                           NULL);
+    
+    /* 创建初始化超时定时器（7秒，单次模式，进入待机模式） */
     /* 注意：SoftTimer_Create的参数单位是毫秒，所以7秒应该填写7000 */
     g_init_timeout_timer = SoftTimer_Create(SOFT_TIMER_MODE_ONCE, 
                                             7000,  // 7秒 = 7000毫秒
                                             AppUI_InitTimeoutCallback, 
                                             NULL);
     
+    if (g_init_switch_timer != 0) {
+        /* 启动切换定时器 */
+        SoftTimer_Start(g_init_switch_timer);
+    }
+    
     if (g_init_timeout_timer != 0) {
-        /* 启动定时器 */
+        /* 启动超时定时器 */
         SoftTimer_Start(g_init_timeout_timer);
     }
     
