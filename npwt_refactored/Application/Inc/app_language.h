@@ -14,6 +14,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "../../Middleware/Inc/display.h"
 
 /****************************************************************************
  * 语言类型定义
@@ -117,6 +118,29 @@ const char* AppLanguage_GetText(TextID_e text_id);
  * @note      如果文本ID无效或该语言不支持，返回英文文本
  */
 const char* AppLanguage_GetTextByLanguage(TextID_e text_id, LanguageType_e language);
+
+/**
+ * @name      AppLanguage_GetFontForText
+ * @brief     根据文本ID和当前语言获取合适的字体
+ * @param     text_id - 文本ID
+ * @param     original_font - 原字体（英文/俄文时使用的字体）
+ * @retval    DisplayFontType_e - 字体类型
+ * @note      中文时：文本使用DISPLAY_FONT_16X16，单位（mmHg/min）保持原字体
+ *            英文/俄文时：保持原字体（DISPLAY_FONT_8X16或DISPLAY_FONT_6X12）
+ */
+DisplayFontType_e AppLanguage_GetFontForText(TextID_e text_id, DisplayFontType_e original_font);
+
+/**
+ * @name      AppLanguage_GetTextConverted
+ * @brief     获取转换后的文本（中文时转换为字库索引数组，其他语言返回原字符串）
+ * @param     text_id - 文本ID
+ * @param     buffer - 输出缓冲区
+ * @param     buffer_size - 缓冲区大小
+ * @retval    const char* - 转换后的文本指针
+ * @note      中文时：返回字库索引数组（每个字符为0x80+索引）
+ *            英文/俄文时：返回原UTF-8字符串
+ */
+const char* AppLanguage_GetTextConverted(TextID_e text_id, char* buffer, uint8_t buffer_size);
 
 #endif /* APP_LANGUAGE_H */
 
