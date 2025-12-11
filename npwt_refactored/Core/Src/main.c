@@ -24,6 +24,7 @@
 #include "../../Application/Inc/app_pressure.h"
 #include "../../Application/Inc/app_alarm.h"
 #include "../../Application/Inc/app_settings.h"
+#include "../../Application/Inc/app_language.h"
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../Middleware/Inc/display.h"
 #include "../../Middleware/Inc/pwm.h"
@@ -272,6 +273,9 @@ void main(void)
     
     /* 6.6 初始化参数保存模块（在UI初始化之前，以便加载参数） */
     AppSettings_Init();
+    
+    /* 6.6.1 初始化语言管理模块（在Settings初始化之后，以便读取语言配置） */
+    AppLanguage_Init();
     
     /* 6.7 初始化UI模块（FSM状态机） */
     AppUI_Init();

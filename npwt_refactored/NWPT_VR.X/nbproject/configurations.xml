@@ -10,6 +10,7 @@
         <itemPath>../Application/Inc/app_pressure.h</itemPath>
         <itemPath>../Application/Inc/app_alarm.h</itemPath>
         <itemPath>../Application/Inc/app_settings.h</itemPath>
+        <itemPath>../Application/Inc/app_language.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
         <itemPath>../Core/Inc/mcu_config.h</itemPath>
@@ -44,6 +45,7 @@
         <itemPath>../Application/Src/app_pressure.c</itemPath>
         <itemPath>../Application/Src/app_alarm.c</itemPath>
         <itemPath>../Application/Src/app_settings.c</itemPath>
+        <itemPath>../Application/Src/app_language.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Code" projectFiles="true">
         <itemPath>../Core/Src/main.c</itemPath>
@@ -57,10 +59,10 @@
       </logicalFolder>
       <logicalFolder name="f6" displayName="Library" projectFiles="true">
         <itemPath>../Library/lcd_font_data_8x16.c</itemPath>
-        <itemPath>../Library/lcd_font_data_7x14.c</itemPath>
         <itemPath>../Library/lcd_font_data_6x12.c</itemPath>
         <itemPath>../Library/lcd_icon_data.c</itemPath>
         <itemPath>../Library/lcd_font_data_16x32.c</itemPath>
+        <itemPath>../Library/lcd_font_data_16x16.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="Middeleware" projectFiles="true">
         <itemPath>../Middleware/Src/pushpull.c</itemPath>
@@ -221,6 +223,7 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

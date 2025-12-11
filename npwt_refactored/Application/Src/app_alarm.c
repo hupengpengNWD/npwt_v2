@@ -100,7 +100,8 @@ static void AppAlarm_EnterCriticalBatteryAlarm(void)
     /* 显示低电图标（只显示一次，之后保持显示） */
     if (!g_icon_displayed)
     {
-        Display_ShowImageStartupFormat(0, 0, 128, 64, LOW_BATTERY_IMAGE);
+//        Display_ShowImageStartupFormat(0, 0, 128, 64, LOW_BATTERY_IMAGE);
+        Display_ShowString(80, 4, "Low Battery", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);//hpp
         g_icon_displayed = true;
     }
     
@@ -196,7 +197,8 @@ void AppAlarm_Process(void)
             /* 如果已经在报警状态，确保图标持续显示 */
             if (!g_icon_displayed)
             {
-                Display_ShowImageStartupFormat(0, 0, 128, 64, LOW_BATTERY_IMAGE);
+//                Display_ShowImageStartupFormat(0, 0, 128, 64, LOW_BATTERY_IMAGE);
+                Display_ShowString(80, 4, "Low Battery", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);//hpp
                 g_icon_displayed = true;
             }
         }
