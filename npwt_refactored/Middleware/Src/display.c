@@ -1249,16 +1249,38 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
     uint16_t offset;
     uint8_t pixel_height;  // 像素高度（用于Display_SendCharData）
     
-    // 16x32字体特殊处理：只包含数字0-9（ASCII 48-57）
+    // 16x32字体特殊处理：包含数字0-9（ASCII 48-57）和字母N/P/W/T（ASCII 78/80/87/84）
     if (font == DISPLAY_FONT_16X32) {
-        // 只处理数字字符 '0'-'9' (ASCII 48-57)
+        // 处理数字字符 '0'-'9' (ASCII 48-57)
         if (ascii_char >= '0' && ascii_char <= '9') {
             // 数字字模按顺序存储：'0'在偏移0，'1'在偏移64，...，'9'在偏移576
             uint8_t digit = ascii_char - '0';
             offset = digit * font_info->height;  // height = 64字节/字符（在g_font_info中设置）
             pixel_height = 32;  // 32像素高
-        } else {
-            // 非数字字符不支持，直接返回
+        }
+        // 处理字母字符 'N'/'P'/'W'/'T' (ASCII 78/80/87/84)，也支持小写转大写
+        else if (ascii_char == 'N' || ascii_char == 'n') {
+            // 'N'在索引10，偏移 = 10 * 64 = 640
+            offset = 10 * font_info->height;
+            pixel_height = 32;
+        }
+        else if (ascii_char == 'P' || ascii_char == 'p') {
+            // 'P'在索引11，偏移 = 11 * 64 = 704
+            offset = 11 * font_info->height;
+            pixel_height = 32;
+        }
+        else if (ascii_char == 'W' || ascii_char == 'w') {
+            // 'W'在索引12，偏移 = 12 * 64 = 768
+            offset = 12 * font_info->height;
+            pixel_height = 32;
+        }
+        else if (ascii_char == 'T' || ascii_char == 't') {
+            // 'T'在索引13，偏移 = 13 * 64 = 832
+            offset = 13 * font_info->height;
+            pixel_height = 32;
+        }
+        else {
+            // 其他字符不支持，直接返回
             return;
         }
     } else {

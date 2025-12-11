@@ -1393,12 +1393,12 @@ static void AppUI_Display_SYS(void)
         // 显示开机Logo（由display模块处理）
         Display_ShowStartupInterface();
     } else {
-        // 显示字符串"npwt"
+        // 显示字符串"npwt"（使用16x32字体）
         Display_Clear();
-        // 计算居中位置：128像素宽度，8x16字体，每个字符8像素宽，"npwt"共4个字符=32像素
-        // 居中位置 = (128 - 32) / 2 = 48
-        // Y坐标使用页2（屏幕中间位置）
-        Display_ShowString(48, 2, "npwt", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+        // 计算居中位置：128像素宽度，16x32字体，每个字符16像素宽，"npwt"共4个字符=64像素
+        // 居中位置 = (128 - 64) / 2 = 32
+        // Y坐标使用页2（16x32字体高度32像素=4页，屏幕64像素高=8页，垂直居中从页2开始显示）
+        Display_ShowString(32, 2, "npwt", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
         Display_ShowString(1, 4, "Vcare1000-300se.1.01", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     }
 }
