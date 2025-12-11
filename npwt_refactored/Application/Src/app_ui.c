@@ -1472,7 +1472,7 @@ static void AppUI_Display_JIX(void)
 
     // 显示目标压力
     static char target_str[16] = {0};
-    snprintf(target_str, sizeof(target_str), "-%ummhg", (unsigned int)g_ui_context.pressure_high);
+    snprintf(target_str, sizeof(target_str), "-%ummHg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
     // 显示间歇模式高压时间
@@ -1515,7 +1515,7 @@ static void AppUI_Display_ZHT(void)
     
     // 显示目标压力
     static char target_str[16]={0};
-    snprintf(target_str, sizeof(target_str), "-%ummhg", (unsigned int)g_ui_context.pressure_high);
+    snprintf(target_str, sizeof(target_str), "-%ummHg", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(25, 0, target_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示暂停状态
@@ -2183,7 +2183,7 @@ void AppUI_Process(void)
             
             // 显示目标气压值
             static char target_buf[16] = {0};
-            snprintf(target_buf, sizeof(target_buf), "-%ummhg", (unsigned int)display_target);
+            snprintf(target_buf, sizeof(target_buf), "-%ummHg", (unsigned int)display_target);
             Display_ShowString(25, 0, target_buf, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 
             uint16_t current_pressure = AppPressure_GetPressureValue();
