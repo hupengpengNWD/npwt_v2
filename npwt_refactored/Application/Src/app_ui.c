@@ -34,7 +34,7 @@
 #define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
 
 #define UI_LOCK_TIMEOUT_TICKS                3000U // 自动锁定超时时间：30s @10ms Tick
-#define UI_LOCK_ICON_X                       76U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
+#define UI_LOCK_ICON_X                       78U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
 #define UI_LOCK_ICON_Y                       0U    // 锁定图标显示坐标Y（第一行，页0）
 #define UI_MUTE_ICON_X                       94U   // 静音图标显示坐标X（第一行，锁定图标后面）
 #define UI_MUTE_ICON_Y                       0U    // 静音图标显示坐标Y（第一行，页0）
@@ -1398,7 +1398,7 @@ static void AppUI_Display_SYS(void)
         // 计算居中位置：128像素宽度，16x32字体，每个字符16像素宽，"npwt"共4个字符=64像素
         // 居中位置 = (128 - 64) / 2 = 32
         // Y坐标使用页2（16x32字体高度32像素=4页，屏幕64像素高=8页，垂直居中从页2开始显示）
-        Display_ShowString(32, 2, "npwt", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(46, 2, "npwt", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
         Display_ShowString(1, 4, "Vcare1000-300se.1.01", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     }
 }
@@ -1418,7 +1418,7 @@ static void AppUI_Display_WAT(void)
         Display_ShowIcon(0, 0, ICON_INTERMITTENT); // 间歇模式图标
     }
     
-    Display_ShowString(25, 0, "-135mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(25, 0, "-120mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     Display_ShowIcon(32, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
     Display_ShowString(48, 2, "Settings", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -1448,7 +1448,7 @@ static void AppUI_Display_LIX(void)
     g_last_display_pressure = current_pressure;
     snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);    
+    Display_ShowString(80, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);    
     
     // 显示提示操作
     Display_ShowString(12, 6, "Therapy On", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
@@ -1490,7 +1490,7 @@ static void AppUI_Display_JIX(void)
     uint16_t current_pressure = AppPressure_GetPressureValue();
     snprintf(pressure_str, sizeof(pressure_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(0, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(60, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(60, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
     g_last_display_pressure = current_pressure;
         
     // 显示当前阶段
@@ -1615,12 +1615,12 @@ static void AppUI_Display_SET_HP_Pressure(void)
     // 显示高压（反转显示，表示当前正在编辑）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 2, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 2, "mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示低压（正常显示）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 4, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 4, "mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     Display_ShowString(14, 2, "HP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     Display_ShowString(14, 4, "LP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1648,12 +1648,12 @@ static void AppUI_Display_SET_LP_Pressure(void)
     // 显示高压（正常显示）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 2, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 2, "mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     
     // 显示低压（反转显示，表示当前正在编辑）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 4, "mmhg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);   
+    Display_ShowString(93, 4, "mmHg", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);   
     
     Display_ShowString(14, 2, "HP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     Display_ShowString(14, 4, "LP Set: -", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -2008,6 +2008,11 @@ void AppUI_Process(void)
         return;  // 报警或空闲状态下，只显示相应报警信息，不更新其他UI元素
     }
     
+    /* 开机界面不显示电池（显示Logo和版本号期间） */
+    if (g_ui_context.current_state == UI_STATE_SYS) {
+        return;  // 开机界面不显示电池
+    }
+    
     /* 设置界面不显示电池（模式选择、压力设置、时间设置等） */
     if (g_ui_context.current_state == UI_STATE_SET ||
         g_ui_context.current_state == UI_STATE_SET_PRESSURE ||
@@ -2203,12 +2208,12 @@ void AppUI_Process(void)
                 if(in_continuous) {                
                     snprintf(pressure_buf, sizeof(pressure_buf), "-%03u", (unsigned int)current_pressure);
                     Display_ShowString(16, 4, pressure_buf, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-                    Display_ShowString(80, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+                    Display_ShowString(80, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
                     
                 }else if (in_intermittent){        
                     snprintf(pressure_buf, sizeof(pressure_buf), "-%03u", (unsigned int)current_pressure);
                     Display_ShowString(0, 4, pressure_buf, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-                    Display_ShowString(60, 4, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+                    Display_ShowString(60, 4, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
                 }
             }
 

@@ -822,7 +822,7 @@ static void Display_ShowPressureInternal(uint8_t x, uint8_t y, uint16_t pressure
     // 如果需要显示单位（使用较小的字体显示单位，保持可读性）
     if (show_unit) {
         // 单位使用8x16字体，位置在数字右侧，垂直对齐
-        Display_ShowStringInternal(x + unit_x_offset, y + unit_y_offset, "mmhg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT, false);
+        Display_ShowStringInternal(x + unit_x_offset, y + unit_y_offset, "mmHg", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT, false);
     }
 }
 #if 0
