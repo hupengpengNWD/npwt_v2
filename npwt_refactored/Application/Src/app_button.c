@@ -619,6 +619,19 @@ void AppButton_KeyProcessCallback(void* user_data)
 }
 
 /**
+ * @name      AppButton_ResetLanguageComboSkipCounter
+ * @brief     重置语言切换组合按键的屏蔽计数器
+ * @param     无
+ * @retval    无
+ * @note      用于语言切换完成后，确保后续按键事件不被屏蔽
+ */
+void AppButton_ResetLanguageComboSkipCounter(void)
+{
+    g_language_combo_skip_release = 0;
+    g_language_combo_pressed = false;
+}
+
+/**
  * @name      AppButton_PowerKeyReadLevel
  * @brief     电源按键电平读取函数
  * @param     gpio_drv_ptr - GPIO驱动指针

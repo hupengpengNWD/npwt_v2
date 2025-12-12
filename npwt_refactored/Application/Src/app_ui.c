@@ -1253,6 +1253,9 @@ static void AppUI_SwitchLanguage(void* arg, st_fsm_event event)
 //    AppSettings_SetLanguage((uint16_t)AppLanguage_GetCurrent());
 //    AppSettings_Save();
     
+    // 重置语言切换组合按键的屏蔽计数器，确保后续按键事件不被屏蔽
+    AppButton_ResetLanguageComboSkipCounter();
+    
     // 刷新显示（AppUI_Process会检测到语言变化并自动刷新显示）
     Display_Clear();
     AppUI_Display_SET();
@@ -1455,7 +1458,7 @@ static void AppUI_Display_SYS(void)
         Display_ShowString(40, 2, AppLanguage_GetTextConverted(TEXT_ID_MODE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MODE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
 #else        
         Display_ShowString(46, 3, "NPWT", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-        Display_ShowString(1, 5, "Vcare1000-300se.1.01", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        Display_ShowString(3, 5, "Vcare1000-300se.1.01", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
 #endif
     }
 }

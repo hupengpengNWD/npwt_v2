@@ -122,6 +122,15 @@ const KeyConfig_t* AppButton_GetCancelKeyConfig(void);
 SoftTimerHandle_t AppButton_GetKeyProcessTimer(void);
 
 /**
+ * @name      AppButton_ResetLanguageComboSkipCounter
+ * @brief     重置语言切换组合按键的屏蔽计数器
+ * @param     无
+ * @retval    无
+ * @note      用于语言切换完成后，确保后续按键事件不被屏蔽
+ */
+void AppButton_ResetLanguageComboSkipCounter(void);
+
+/**
  * @name      AppButton_PowerKeyCallback
  * @brief     电源按键事件回调函数
  * @param     ptr - 按键状态机指针
