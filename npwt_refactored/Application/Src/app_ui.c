@@ -107,6 +107,7 @@ static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_ZHT_ToTherapy(void* arg, st_fsm_event event);
 static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event);
+static void AppUI_SwitchLanguage(void* arg, st_fsm_event event);
 static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event);
 static void AppUI_AdjustPressureDown(void* arg, st_fsm_event event);
 static void AppUI_AdjustTimeUp(void* arg, st_fsm_event event);
@@ -157,11 +158,16 @@ static void AppUI_LeakAlarmPumpStopCallback(void* user_data);
  */
 static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_event)
 {
-    /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL */
+    /* key_id: 0=OK/START, 1=UP, 2=DN, 3=CANCEL, 4=UP+DN组合, 5=OK+CANCEL组合 */
 
     if (key_id == APP_BUTTON_KEY_ID_UNLOCK_COMBO &&
         key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
         return UI_EVENT_UNLOCK;
+    }
+    
+    if (key_id == APP_BUTTON_KEY_ID_LANGUAGE_COMBO &&
+        key_event == KEY_MACHINE_EVENT_LONG_PRESS_RELEASE) {
+        return UI_EVENT_LANGUAGE_SWITCH;
     }
     
     if (key_event == KEY_MACHINE_EVENT_LONG_PRESS) {
@@ -811,7 +817,7 @@ static void AppUI_InitTimeoutCallback(void* user_data);
  * FSM状态转换表（必须在函数声明之后定义）
  ****************************************************************************/
 
-const st_fsm_transition g_ui_transition_table[24] = {
+const st_fsm_transition g_ui_transition_table[25] = {
     [0] = {
         .current_state = UI_STATE_SYS,                       /* 当前状态：初始化模式 */
         .trigger_event = UI_EVENT_TIMEOUT,                   /* 触发事件：超时 */
@@ -978,7 +984,14 @@ const st_fsm_transition g_ui_transition_table[24] = {
         .trigger_event = UI_EVENT_CONFIRM,                  /* 触发事件：确认键（长按释放，低压时间完成后退出） */
         .action_func   = AppUI_TimeSetting_ExitToPause,     /* 动作函数：退出时间设置并进入暂停 */
         .next_state    = UI_STATE_ZHT                       /* 下一状态：暂停模式 */
-    },   
+    },
+    
+    [24] = {
+        .current_state = UI_STATE_SET,                      /* 当前状态：设置模式 */
+        .trigger_event = UI_EVENT_LANGUAGE_SWITCH,          /* 触发事件：语言切换（OK+CANCEL组合按键） */
+        .action_func   = AppUI_SwitchLanguage,              /* 动作函数：切换语言 */
+        .next_state    = UI_STATE_SET                       /* 下一状态：保持设置模式 */
+    },
 };
 
 /****************************************************************************
@@ -1206,6 +1219,43 @@ static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event)
     
     // 注意：显示刷新由AppUI_Process统一处理，这里只需要更新work_mode_backup
     // AppUI_Process会检测到work_mode_backup变化并自动刷新显示
+}
+
+/**
+ * @name      AppUI_SwitchLanguage
+ * @brief     切换语言（在设置界面中，通过OK+CANCEL组合按键触发）
+ */
+static void AppUI_SwitchLanguage(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 仅在设置界面才允许切换语言
+    if (ctx->current_state != UI_STATE_SET) {
+        return;
+    }
+    
+    // 获取当前语言
+    LanguageType_e current_lang = AppLanguage_GetCurrent();
+    
+    // 切换语言：英文 <-> 中文（暂时只支持这两种语言）
+    if (current_lang == LANGUAGE_ENGLISH) {
+        AppLanguage_SetCurrent(LANGUAGE_CHINESE);
+    } else if (current_lang == LANGUAGE_CHINESE) {
+        AppLanguage_SetCurrent(LANGUAGE_ENGLISH);
+    }
+    // 如果当前是俄文，切换到英文
+    else {
+        AppLanguage_SetCurrent(LANGUAGE_ENGLISH);
+    }
+    
+    // 保存语言设置到Flash
+//    AppSettings_SetLanguage((uint16_t)AppLanguage_GetCurrent());
+//    AppSettings_Save();
+    
+    // 刷新显示（AppUI_Process会检测到语言变化并自动刷新显示）
+    Display_Clear();
+    AppUI_Display_SET();
 }
 
 /**

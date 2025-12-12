@@ -28,12 +28,14 @@
  * @brief 按键事件结构体（用于app_button到app_ui的事件传递）
  */
 typedef struct {
-    uint8_t key_id;                     // 按键ID: 0=OK/START, 1=UP, 2=DN, 3=CANCEL, 4=UP+DN组合
+    uint8_t key_id;                     // 按键ID: 0=OK/START, 1=UP, 2=DN, 3=CANCEL, 4=UP+DN组合, 5=OK+CANCEL组合
     KeyMachineEvent_e key_event;        // 按键事件类型
 } KeyEvent_t;
 
 /* 组合按键ID（上+下同时按下，用于解锁） */
 #define APP_BUTTON_KEY_ID_UNLOCK_COMBO   (4U)
+/* 组合按键ID（OK+CANCEL同时按下，用于语言切换） */
+#define APP_BUTTON_KEY_ID_LANGUAGE_COMBO (5U)
 
 /****************************************************************************
  * 函数声明

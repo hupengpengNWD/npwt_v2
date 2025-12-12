@@ -171,8 +171,10 @@ static bool AppButton_PutKeyEvent(uint8_t key_id, KeyMachineEvent_e event)
 }
 
 /* 组合按键检测状态：记录是否保持同时按下，以及需要跳过的单键释放次数 */
-static bool g_unlock_combo_pressed = false;       /* 当前是否处于“上+下”同时按下 */
+static bool g_unlock_combo_pressed = false;       /* 当前是否处于"上+下"同时按下 */
 static uint8_t g_unlock_combo_skip_release = 0;   /* 组合释放后需忽略的上/下键释放事件数 */
+static bool g_language_combo_pressed = false;     /* 当前是否处于"OK+CANCEL"同时按下 */
+static uint8_t g_language_combo_skip_release = 0;  /* 组合释放后需忽略的OK/CANCEL键释放事件数 */
 
 /**
  * @name      AppButton_CheckComboUnlock
@@ -197,6 +199,33 @@ static void AppButton_CheckComboUnlock(void)
         g_unlock_combo_pressed = false;
         g_unlock_combo_skip_release = 2;
         AppButton_PutKeyEvent(APP_BUTTON_KEY_ID_UNLOCK_COMBO, KEY_MACHINE_EVENT_LONG_PRESS_RELEASE);
+    }
+}
+
+/**
+ * @name      AppButton_CheckComboLanguage
+ * @brief     检测OK键+CANCEL键组合按下并生成语言切换事件
+ */
+static void AppButton_CheckComboLanguage(void)
+{
+    /* 仅在设置界面（UI_STATE_SET）才检测语言切换组合，避免其他界面误触发 */
+    if (AppUI_GetCurrentState() != UI_STATE_SET) {
+        g_language_combo_pressed = false;
+        g_language_combo_skip_release = 0;
+        return;
+    }
+
+    uint8_t key_port = PORTB & 0x3C;
+    /* 参考未重构工程：LONG_PRESS_SWITCH_LANG = 0x98，这是OK+CANCEL组合按键的硬件编码值 */
+    bool combo_pressed = (key_port == 0x18);  /* 0x18对应OK键与CANCEL键同时按下（PORTB&0x3C后的值） */
+
+    if (combo_pressed) {
+        g_language_combo_pressed = true;
+    } else if (g_language_combo_pressed) {
+        /* 检测到组合释放：产生一次语言切换事件，并屏蔽随后两个单键释放事件 */
+        g_language_combo_pressed = false;
+        g_language_combo_skip_release = 2;
+        AppButton_PutKeyEvent(APP_BUTTON_KEY_ID_LANGUAGE_COMBO, KEY_MACHINE_EVENT_LONG_PRESS_RELEASE);
     }
 }
 
@@ -363,6 +392,12 @@ void AppButton_PowerKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, vo
         
         case KEY_MACHINE_EVENT_LONG_PRESS_RELEASE:
         {
+            // 如果刚释放了语言切换组合，屏蔽此次释放事件
+            if (g_language_combo_skip_release > 0) {
+                g_language_combo_skip_release--;
+                break;
+            }
+            
             // 长按释放 - 如果在关机准备状态，则真正关机
             // 如果不在关机准备状态，发送UI事件作为确认键
 //            if (g_power_state == POWER_STATE_SHUTDOWN_PREPARE) {
@@ -540,6 +575,12 @@ void AppButton_CancelKeyCallback(KeyMachinePtr_t ptr, KeyMachineEvent_e event, v
         
         case KEY_MACHINE_EVENT_LONG_PRESS_RELEASE:
         {
+            // 如果刚释放了语言切换组合，屏蔽此次释放事件
+            if (g_language_combo_skip_release > 0) {
+                g_language_combo_skip_release--;
+                break;
+            }
+            
             // 长按释放（已通过队列发送给UI模块）
             // TODO: 实现具体功能
             break;
@@ -572,6 +613,9 @@ void AppButton_KeyProcessCallback(void* user_data)
 
     /* 检测组合解锁 */
     AppButton_CheckComboUnlock();
+    
+    /* 检测语言切换组合 */
+    AppButton_CheckComboLanguage();
 }
 
 /**

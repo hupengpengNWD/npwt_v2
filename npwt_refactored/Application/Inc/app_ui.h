@@ -69,6 +69,7 @@ typedef enum {
     UI_EVENT_TIMEOUT = 7,        // 超时事件
     UI_EVENT_UNLOCK = 8,         // 解锁事件
     UI_EVENT_CONFIRM_LONG = 9,   // 长按确认键释放（进入第二个设置界面）
+    UI_EVENT_LANGUAGE_SWITCH = 10, // 语言切换事件（OK+CANCEL组合按键）
     UI_EVENT_COUNT               // 事件总数
 } UIEvent_e;
 
