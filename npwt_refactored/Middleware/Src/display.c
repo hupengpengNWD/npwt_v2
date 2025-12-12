@@ -37,6 +37,10 @@ typedef struct {
                                       // 计算字库偏移量需要字节数：bytes_per_char = width * ((height + 7) / 8)
     const unsigned char* char_font;  // 扩展字符字库指针（中文、俄文等非ASCII字符，如 arry_char/arry_char2）
     const unsigned char* ascii_font; // ASCII字符字库指针（包含数字0-9、字母A-Z/a-z及符号，如 8x16 ASCII）
+#if DISPLAY_FONT_COMPACT_ENABLE
+    const uint8_t* char_map;         // 字符映射表指针（ASCII码 -> 数组索引）
+    uint8_t char_map_size;           // 映射表大小（字符数量）
+#endif
 } FontInfo_t;
 
 /****************************************************************************
@@ -46,16 +50,41 @@ typedef struct {
 static st_queue g_display_queue;              // 循环队列对象
 static uint8_t g_display_queue_buffer[(15 + 1) * sizeof(DisplayEvent_t)];
 
+#if DISPLAY_FONT_COMPACT_ENABLE
+// 字符映射表（ASCII码 -> 数组索引）
+// en_char_6x12 字符映射表（30个字符）
+static const uint8_t g_char_map_6x12[] = {
+    32, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,  // ' ' '-' '.' '0'-'9' ':'
+    72, 76, 80, 83, 84, 86,  // 'H' 'L' 'P' 'S' 'T' 'V'
+    97, 99, 101, 103, 105, 109, 110, 114, 115, 116  // 'a' 'c' 'e' 'g' 'i' 'm' 'n' 'r' 's' 't'
+};
+
+// en_char_8x16 字符映射表（33个字符）
+static const uint8_t g_char_map_8x16[] = {
+    32,  // ' '
+    65, 66, 67, 70, 72, 73, 76, 77, 79, 80, 83, 84,  // 'A' 'B' 'C' 'F' 'H' 'I' 'L' 'M' 'O' 'P' 'S' 'T'
+    97, 99, 100, 101, 102, 103, 104, 105, 107, 108, 109, 110, 111, 112, 114, 115, 116, 117, 119, 121  // 'a'-'y'
+};
+#endif
+
 // 字体信息表
 // height字段表示字体高度（像素行数）
 // 计算页数：页数 = (height + 7) / 8（向上取整）
 // 计算每字符字节数：bytes_per_char = width * ((height + 7) / 8)
 static const FontInfo_t g_font_info[] = {
-    {6, 12, NULL, en_char_6x12},           // 6x12: 6列×2页=12字节/字符（像素高度12）
-    {16, 16, zn_char_16x16, NULL},         // 16x16: 16列×2页=32字节/字符（像素高度16）
-    {8, 16, NULL, en_char_8x16},           // 8x16: 8列×2页=16字节/字符（像素高度16）
-    {16, 32, NULL, digit_char_16x32},      // 16x32: 16列×4页=64字节/字符（像素高度32）
-    {40, 80, NULL, NULL}                   // 40x80: 预留
+#if DISPLAY_FONT_COMPACT_ENABLE
+    {6, 12, NULL, en_char_6x12, g_char_map_6x12, sizeof(g_char_map_6x12)},           // 6x12: 精简版
+    {16, 16, zn_char_16x16, NULL, NULL, 0},         // 16x16: 16列×2页=32字节/字符（像素高度16）
+    {8, 16, NULL, en_char_8x16, g_char_map_8x16, sizeof(g_char_map_8x16)},           // 8x16: 精简版
+    {16, 32, NULL, digit_char_16x32, NULL, 0},      // 16x32: 16列×4页=64字节/字符（像素高度32）
+    {40, 80, NULL, NULL, NULL, 0}                   // 40x80: 预留
+#else
+    {6, 12, NULL, en_char_6x12, NULL, 0},           // 6x12: 6列×2页=12字节/字符（像素高度12）
+    {16, 16, zn_char_16x16, NULL, NULL, 0},         // 16x16: 16列×2页=32字节/字符（像素高度16）
+    {8, 16, NULL, en_char_8x16, NULL, 0},           // 8x16: 8列×2页=16字节/字符（像素高度16）
+    {16, 32, NULL, digit_char_16x32, NULL, 0},      // 16x32: 16列×4页=64字节/字符（像素高度32）
+    {40, 80, NULL, NULL, NULL, 0}                   // 40x80: 预留
+#endif
 };
 
 /****************************************************************************
@@ -63,6 +92,16 @@ static const FontInfo_t g_font_info[] = {
  ****************************************************************************/
 
 static void Display_ProcessEvent(const DisplayEvent_t* event);
+#if DISPLAY_FONT_COMPACT_ENABLE
+/**
+ * @brief 在字符映射表中查找ASCII字符对应的数组索引
+ * @param ascii_char - ASCII字符
+ * @param char_map - 字符映射表（ASCII码数组）
+ * @param map_size - 映射表大小
+ * @return 数组索引，如果未找到返回0xFF
+ */
+static uint8_t Display_FindCharIndex(uint8_t ascii_char, const uint8_t* char_map, uint8_t map_size);
+#endif
 static void Display_ClearInternal(void);
 static void Display_ClearRectInternal(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
 static void Display_SetPositionInternal(uint8_t x, uint8_t y);
@@ -1224,9 +1263,47 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
         if (ascii_char < 32) {
             ascii_char = 32;  // 转换为空格
         }
+        
+#if DISPLAY_FONT_COMPACT_ENABLE
+        // 精简模式：使用映射表查找字符索引
+        if (font_info->char_map != NULL && font_info->char_map_size > 0) {
+            uint8_t char_index = Display_FindCharIndex(ascii_char, font_info->char_map, font_info->char_map_size);
+            if (char_index == 0xFF) {
+                // 字符未找到，显示空格
+                char_index = 0;  // 空格在索引0
+            }
+            offset = char_index * bytes_per_char;
+        } else {
+            // 未启用精简模式或没有映射表，使用原始方式
+            offset = (ascii_char - 32) * bytes_per_char;
+        }
+#else
+        // 未启用精简模式，使用原始方式
         offset = (ascii_char - 32) * bytes_per_char;  // 每个ASCII字符的字节数
+#endif
         pixel_height = font_info->height;  // 像素高度
     }
     
     Display_SendCharData(page, column, &font_info->ascii_font[offset], font_info->width, pixel_height, invert);
 }
+
+#if DISPLAY_FONT_COMPACT_ENABLE
+/**
+ * @name      Display_FindCharIndex
+ * @brief     在字符映射表中查找ASCII字符对应的数组索引
+ * @param     ascii_char - ASCII字符
+ * @param     char_map - 字符映射表（ASCII码数组）
+ * @param     map_size - 映射表大小
+ * @retval    数组索引，如果未找到返回0xFF
+ */
+static uint8_t Display_FindCharIndex(uint8_t ascii_char, const uint8_t* char_map, uint8_t map_size)
+{
+    // 使用线性查找（字符数量少，性能影响小）
+    for (uint8_t i = 0; i < map_size; i++) {
+        if (char_map[i] == ascii_char) {
+            return i;  // 返回数组索引
+        }
+    }
+    return 0xFF;  // 未找到
+}
+#endif
