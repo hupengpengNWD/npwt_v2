@@ -165,25 +165,25 @@ bool HAL_Flash_ReadBlock(uint32_t address, uint8_t* buffer, uint16_t size)
  * @brief 写入一个块到Flash（64字节）
  * @note  与未重构工程保持一致，不恢复EECON1寄存器（未重构工程也没有恢复）
  */
-bool HAL_Flash_WriteBlock(uint32_t address, const uint8_t* buffer, uint16_t size)
-{
-    if (buffer == NULL || size == 0) {
-        return false;
-    }
+// bool HAL_Flash_WriteBlock(uint32_t address, const uint8_t* buffer, uint16_t size)
+// {
+//     if (buffer == NULL || size == 0) {
+//         return false;
+//     }
     
-    /* 按字（16位）写入 */
-    const uint16_t* word_buffer = (const uint16_t*)buffer;
-    uint16_t word_count = (size + 1) / 2;  // 向上取整
+//     /* 按字（16位）写入 */
+//     const uint16_t* word_buffer = (const uint16_t*)buffer;
+//     uint16_t word_count = (size + 1) / 2;  // 向上取整
     
-    for (uint16_t i = 0; i < word_count; i++) {
-        if (!HAL_Flash_WriteWord(address + (i * 2), word_buffer[i])) {
-            return false;
-        }
-    }
+//     for (uint16_t i = 0; i < word_count; i++) {
+//         if (!HAL_Flash_WriteWord(address + (i * 2), word_buffer[i])) {
+//             return false;
+//         }
+//     }
     
-    /* 与未重构工程保持一致，不恢复EECON1寄存器 */
-    /* 未重构工程的Write_One_Word()只恢复WREN=0（在Write_Cycle中），不恢复其他位 */
+//     /* 与未重构工程保持一致，不恢复EECON1寄存器 */
+//     /* 未重构工程的Write_One_Word()只恢复WREN=0（在Write_Cycle中），不恢复其他位 */
     
-    return true;
-}
+//     return true;
+// }
 

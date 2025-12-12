@@ -214,6 +214,9 @@ static UIEvent_e AppUI_ConvertKeyEvent(uint8_t key_id, KeyMachineEvent_e key_eve
                         return UI_EVENT_CONFIRM;       // 低压时间→退出到暂停界面
                     }
                 }
+                else if (g_ui_context.current_state == UI_STATE_WAT) {
+                    return UI_EVENT_CONFIRM_LONG;  // 待机模式→进入治疗模式
+                }
                 // 其他状态下默认为普通确认
                 return UI_EVENT_CONFIRM;
             case 1: return UI_EVENT_MENU_UP;      // 上键长按释放：菜单向上/参数增加
@@ -834,7 +837,7 @@ const st_fsm_transition g_ui_transition_table[25] = {
     
     [2] = {
         .current_state = UI_STATE_WAT,                       /* 当前状态：待机模式 */
-        .trigger_event = UI_EVENT_START,                     /* 触发事件：启动 */
+        .trigger_event = UI_EVENT_CONFIRM_LONG,              /* 触发事件：长按电源键释放 */
         .action_func   = AppUI_StateEntry_LIX,               /* 动作函数：进入连续工作模式 */
         .next_state    = UI_STATE_LIX                        /* 下一状态：连续工作模式 */
     },
@@ -1250,8 +1253,7 @@ static void AppUI_SwitchLanguage(void* arg, st_fsm_event event)
     }
     
     // 保存语言设置到Flash
-//    AppSettings_SetLanguage((uint16_t)AppLanguage_GetCurrent());
-//    AppSettings_Save();
+    AppSettings_SetLanguage((uint16_t)AppLanguage_GetCurrent());
     
     // 重置语言切换组合按键的屏蔽计数器，确保后续按键事件不被屏蔽
     AppButton_ResetLanguageComboSkipCounter();

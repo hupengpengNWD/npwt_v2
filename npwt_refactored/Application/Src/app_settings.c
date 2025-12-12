@@ -12,6 +12,7 @@
 #include "../Inc/app_settings.h"
 #include "../../HAL/Inc/hal_flash.h"
 #include "../../Core/Inc/system_config.h"
+#include "../../Application/Inc/app_language.h"
 #include <string.h>
 
 /****************************************************************************
@@ -111,17 +112,29 @@ void AppSettings_Init(void)
     HAL_Flash_Init();
     
     /* 尝试从Flash加载参数 */
-//    if (!AppSettings_Load()) {
+    if (!AppSettings_Load()) {
         /* 加载失败，使用默认值 */
         AppSettings_SetDefaults();
-//    }
+    }
     
     g_settings_initialized = true;
 }
 
 /**
  * @brief 从Flash加载参数
- * @note  与未重构工程保持一致，只读取20字节（10个word）
+ * @note  只读取20字节（10个word）
+ * 
+ * 数据格式:
+ *   addr+0:  pressure_high  (高压值)
+ *   addr+2:  time_high      (高压时间)
+ *   addr+4:  time_low       (低压时间)
+ *   addr+6:  work_mode      (工作模式)
+ *   addr+8:  pressure_low   (低压值)
+ *   addr+10: language       (语言设置：1=英文, 2=中文, 3=俄文)
+ *   addr+12: 0              (校准系数K3，不需要)
+ *   addr+14: 0              (校准系数K4，不需要)
+ *   addr+16: 0              (静音标志+语言，不需要)
+ *   addr+18: 不使用
  */
 bool AppSettings_Load(void)
 {
@@ -130,14 +143,16 @@ bool AppSettings_Load(void)
     /* 先清零整个结构体，确保reserved字段为0 */
     memset(&temp_data, 0, sizeof(temp_data));
     
-    /* 按照未重构工程的格式，逐个读取10个word（20字节） */
+    /* 按照新的格式，逐个读取10个word（20字节） */
     temp_data.pressure_high = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 0);
     temp_data.time_high     = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 2);
     temp_data.time_low      = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 4);
     temp_data.work_mode     = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 6);
-    /* addr+8, addr+10, addr+12, addr+14: 校准系数K1-K4，不需要读取 */
+    temp_data.pressure_low  = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 8);   // 低压值
+    temp_data.language      = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 10);  // 语言设置
+    /* addr+12, addr+14: 校准系数K3-K4，不需要读取 */
     /* addr+16: 静音标志+语言，不需要读取 */
-    temp_data.pressure_low  = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS + 18);
+    /* addr+18: 不使用 */
     
     /* 验证数据有效性 */
     if (!AppSettings_ValidateData(&temp_data)) {
@@ -154,17 +169,17 @@ bool AppSettings_Load(void)
  * @brief 保存参数到Flash
  * @note  与未重构工程保持一致，只写入20字节（10个word），不进行CRC校验
  * 
- * 数据格式（与未重构工程一致）:
+ * 数据格式:
  *   addr+0:  pressure_high  (高压值，对应未重构工程的mod_seta_preh_bak)
  *   addr+2:  time_high      (高压时间，对应未重构工程的mod_seta_ont)
  *   addr+4:  time_low       (低压时间，对应未重构工程的mod_seta_oft)
  *   addr+6:  work_mode      (工作模式，对应未重构工程的mod_main_baka)
- *   addr+8:  0              (校准系数K1，未重构工程使用，重构工程不需要)
- *   addr+10: 0              (校准系数K2，未重构工程使用，重构工程不需要)
+ *   addr+8:  pressure_low   (低压值)
+ *   addr+10: language       (语言设置：1=英文, 2=中文, 3=俄文)
  *   addr+12: 0              (校准系数K3，未重构工程使用，重构工程不需要)
  *   addr+14: 0              (校准系数K4，未重构工程使用，重构工程不需要)
  *   addr+16: 0              (静音标志+语言，未重构工程使用，重构工程不需要)
- *   addr+18: pressure_low   (低压值，对应未重构工程的mod_seta_prel)
+ *   addr+18: 不使用
  */
 bool AppSettings_Save(void)
 {
@@ -192,24 +207,22 @@ bool AppSettings_Save(void)
     if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 6,  g_settings_data.work_mode)) {
         return false;
     }
-    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 8,  0)) {  // 校准系数K1，不需要
+    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 8,  g_settings_data.pressure_low)) {  // 保存低压值
         return false;
     }
-    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 10, 0)) {  // 校准系数K2，不需要
+    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 10, g_settings_data.language)) {  // 保存语言设置
         return false;
     }
-    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 12, 0)) {  // 校准系数K3，不需要
-        return false;
-    }
-    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 14, 0)) {  // 校准系数K4，不需要
-        return false;
-    }
-    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 16, 0)) {  // 静音标志+语言，不需要
-        return false;
-    }
-    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 18, g_settings_data.pressure_low)) {
-        return false;
-    }
+//    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 12, 0)) {  // 校准系数K3，不需要
+//        return false;
+//    }
+//    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 14, 0)) {  // 校准系数K4，不需要
+//        return false;
+//    }
+//    if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 16, 0)) {  // 静音标志+语言，不需要
+//        return false;
+//    }
+    // HAL_FLASH_CONFIG_ADDRESS + 18 不使用
     
     return true;
 }
@@ -240,6 +253,9 @@ void AppSettings_UpdateFromUI(const UIContext_t* ui_context)
     /* 更新时间值 */
     g_settings_data.time_high = ui_context->time_high;
     g_settings_data.time_low = ui_context->time_low;
+    
+    /* 更新语言设置（从AppLanguage模块获取当前语言） */
+    g_settings_data.language = (uint16_t)AppLanguage_GetCurrent();
 }
 
 

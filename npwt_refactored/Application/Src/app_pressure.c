@@ -661,20 +661,20 @@ uint16_t AppPressure_GetPressureValue(void)
  * @brief     获取压力传感器ADC原始值（滤波后）
  * @retval    ADC采样值（10位：0-1023）
  */
-uint16_t AppPressure_GetADCValue(void)
-{
-    return g_pressure_adc_filtered;
-}
+// uint16_t AppPressure_GetADCValue(void)
+// {
+//     return g_pressure_adc_filtered;
+// }
 
 /**
  * @name      AppPressure_GetRawADCValue
  * @brief     获取压力传感器ADC原始值（未滤波，最后一次采样值）
  * @retval    ADC采样值（10位：0-1023）
  */
-uint16_t AppPressure_GetRawADCValue(void)
-{
-    return g_pressure_adc_raw;
-}
+// uint16_t AppPressure_GetRawADCValue(void)
+// {
+//     return g_pressure_adc_raw;
+// }
 
 /**
  * @name      AppPressure_CalibrateZero
@@ -742,32 +742,32 @@ void AppPressure_BleedAndCalibrateZero(void)
  * @brief     设置ADC到mmHg的转换系数（valueK）
  * @param     factor - 转换系数（默认2.75）
  */
-void AppPressure_SetConversionFactor(float factor)
-{
-    if (factor > 0.0f) {  // 有效性检查
-        g_pressure_conversion_factor = factor;
-    }
-}
+// void AppPressure_SetConversionFactor(float factor)
+// {
+//     if (factor > 0.0f) {  // 有效性检查
+//         g_pressure_conversion_factor = factor;
+//     }
+// }
 
 /**
  * @name      AppPressure_GetConversionFactor
  * @brief     获取当前转换系数
  * @retval    转换系数（float）
  */
-float AppPressure_GetConversionFactor(void)
-{
-    return g_pressure_conversion_factor;
-}
+// float AppPressure_GetConversionFactor(void)
+// {
+//     return g_pressure_conversion_factor;
+// }
 
 /**
  * @name      AppPressure_GetZeroOffset
  * @brief     获取零点偏移值（adc_zero）
  * @retval    零点偏移ADC值（10位：0-1023）
  */
-uint16_t AppPressure_GetZeroOffset(void)
-{
-    return g_pressure_zero_offset;
-}
+// uint16_t AppPressure_GetZeroOffset(void)
+// {
+//     return g_pressure_zero_offset;
+// }
 
 /**
  * @name      AppPressure_StartControl
@@ -873,13 +873,13 @@ void AppPressure_StopControl(void)
  * @brief     更新目标压力
  * @param     target_mmHg - 新目标（自动限幅）
  */
-void AppPressure_UpdateTarget(uint16_t target_mmHg)
-{
-    uint16_t clamped_user_target = PressureControl_ClampTarget(target_mmHg);
-    g_pressure_control_user_target = clamped_user_target;
-    uint16_t adjusted_target = PressureControl_ApplyOffset(clamped_user_target);
-    g_pressure_control_target = PressureControl_ClampTarget(adjusted_target);
-}
+// void AppPressure_UpdateTarget(uint16_t target_mmHg)
+// {
+//     uint16_t clamped_user_target = PressureControl_ClampTarget(target_mmHg);
+//     g_pressure_control_user_target = clamped_user_target;
+//     uint16_t adjusted_target = PressureControl_ApplyOffset(clamped_user_target);
+//     g_pressure_control_target = PressureControl_ClampTarget(adjusted_target);
+// }
 
 /**
  * @name      AppPressure_IsControlEnabled
@@ -941,19 +941,19 @@ float AppPressure_GetLastOutput(void)
  * @brief     查询控制故障标志
  * @retval    true=存在故障（已强制泄气）, false=无故障
  */
-bool AppPressure_HasControlFault(void)
-{
-    return g_pressure_control_fault;
-}
+// bool AppPressure_HasControlFault(void)
+// {
+//     return g_pressure_control_fault;
+// }
 
 /**
  * @name      AppPressure_ClearControlFault
  * @brief     清除故障标志（不改变执行器状态）
  */
-void AppPressure_ClearControlFault(void)
-{
-    g_pressure_control_fault = false;
-}
+// void AppPressure_ClearControlFault(void)
+// {
+//     g_pressure_control_fault = false;
+// }
 
 /****************************************************************************
  * 内部函数实现
@@ -1512,9 +1512,9 @@ int16_t AppPressure_GetPressureDeviation(void)
  * @brief     获取当前泵工作原因
  * @retval    泵工作原因枚举值
  */
-PumpWorkReason_e AppPressure_GetPumpWorkReason(void)
-{
-    return g_pump_work_reason;
-} 
+// PumpWorkReason_e AppPressure_GetPumpWorkReason(void)
+// {
+//     return g_pump_work_reason;
+// } 
  
 

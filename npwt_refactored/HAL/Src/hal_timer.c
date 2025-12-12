@@ -50,32 +50,32 @@ void HAL_Timer3_Init(void)
  * 函数: HAL_PWM_SetDuty
  * 功能: 设置PWM占空比
  */
-void HAL_PWM_SetDuty(uint8_t duty)
-{
-	/* 占空比范围：0-10 */
-	if (duty > 10) duty = 10;
+// void HAL_PWM_SetDuty(uint8_t duty)
+// {
+// 	/* 占空比范围：0-10 */
+// 	if (duty > 10) duty = 10;
 	
-	/* 这里需要根据实际硬件设置PWM寄存器 */
-	/* 原代码使用pwm_cnt2变量控制 */
-}
+// 	/* 这里需要根据实际硬件设置PWM寄存器 */
+// 	/* 原代码使用pwm_cnt2变量控制 */
+// }
 
 /**
  * 函数: HAL_Timer_GetTick
  * 功能: 获取系统运行时间
  */
-uint32_t HAL_Timer_GetTick(void)
-{
-	return g_system_tick_ms;
-}
+// uint32_t HAL_Timer_GetTick(void)
+// {
+// 	return g_system_tick_ms;
+// }
 
 /**
  * 函数: HAL_Watchdog_Clear
  * 功能: 清除看门狗
  */
-void HAL_Watchdog_Clear(void)
-{
-	asm("clrwdt");
-}
+// void HAL_Watchdog_Clear(void)
+// {
+// 	asm("clrwdt");
+// }
 
 /****************************************************************************
  * Timer1 相关函数
@@ -128,52 +128,52 @@ void HAL_Timer1_ISR(void)
  * 函数: HAL_Timer2_Init
  * 功能: 初始化Timer2
  */
-void HAL_Timer2_Init(void)
-{
-	/* Timer2配置 - 8位定时器 */
-	T2CON = 0x00;           // 停止Timer2，1:1预分频和后分频
-	PR2 = 0xFF;             // 周期寄存器
-	TMR2 = 0x00;            // 初值
+// void HAL_Timer2_Init(void)
+// {
+// 	/* Timer2配置 - 8位定时器 */
+// 	T2CON = 0x00;           // 停止Timer2，1:1预分频和后分频
+// 	PR2 = 0xFF;             // 周期寄存器
+// 	TMR2 = 0x00;            // 初值
 	
-	/* 使能Timer2中断 */
-	PIE1bits.TMR2IE = 1;    // 使能Timer2中断
-	PIR1bits.TMR2IF = 0;    // 清除中断标志
+// 	/* 使能Timer2中断 */
+// 	PIE1bits.TMR2IE = 1;    // 使能Timer2中断
+// 	PIR1bits.TMR2IF = 0;    // 清除中断标志
 	
-	/* 启动Timer2 */
-	T2CONbits.TMR2ON = 1;
-}
+// 	/* 启动Timer2 */
+// 	T2CONbits.TMR2ON = 1;
+// }
 
 /**
  * 函数: HAL_Timer2_ISR
  * 功能: Timer2中断服务程序
  */
-void HAL_Timer2_ISR(void)
-{
-	if (PIR1bits.TMR2IF)
-	{
-		PIR1bits.TMR2IF = 0;  // 清除中断标志
+// void HAL_Timer2_ISR(void)
+// {
+// 	if (PIR1bits.TMR2IF)
+// 	{
+// 		PIR1bits.TMR2IF = 0;  // 清除中断标志
 		
-		/* 在这里添加Timer2中断处理逻辑 */
-	}
-}
+// 		/* 在这里添加Timer2中断处理逻辑 */
+// 	}
+// }
 
 /**
  * 函数: HAL_Timer_ISR
  * 功能: Timer0中断服务程序（10ms）
  */
-void HAL_Timer_ISR(void)
-{
-	/* Timer0中断：10ms系统滴答 */
-	if (INTCONbits.TMR0IF)
-	{
-		INTCONbits.TMR0IF = 0;  // 清除标志
-		TMR0H = 0xD8;           // 重载初值（10ms）
-		TMR0L = 0xF0;
+// void HAL_Timer_ISR(void)
+// {
+// 	/* Timer0中断：10ms系统滴答 */
+// 	if (INTCONbits.TMR0IF)
+// 	{
+// 		INTCONbits.TMR0IF = 0;  // 清除标志
+// 		TMR0H = 0xD8;           // 重载初值（10ms）
+// 		TMR0L = 0xF0;
 		
-		// g_system_tick_ms += 10;  // 累加10ms
-		FLG_SYS_10MS = 1;        // 设置10ms标志位
-	}
-}
+// 		// g_system_tick_ms += 10;  // 累加10ms
+// 		FLG_SYS_10MS = 1;        // 设置10ms标志位
+// 	}
+// }
 
 /* 中断回调函数（由中间件层注册） */
 static void (*g_timer3_callback_1ms)(void) = NULL;   // 1ms回调

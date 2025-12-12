@@ -174,10 +174,10 @@ void Display_Process(void)
  * @param     无
  * @retval    true-忙碌, false-空闲
  */
-bool Display_IsBusy(void)
-{
-    return HAL_LCD_IsBusy();
-}
+// bool Display_IsBusy(void)
+// {
+//     return HAL_LCD_IsBusy();
+// }
 
 /**
  * @name      Display_ClearQueue
@@ -239,19 +239,19 @@ void Display_ClearRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height)
  * @param     yellow_on - 黄色背光是否开启
  * @retval    无
  */
-void Display_SetBacklight(bool white_on, bool yellow_on)
-{
-    DisplayEvent_t event = {
-        .type = DISPLAY_EVENT_SET_BACKLIGHT,
-        .x = 0,
-        .y = 0,
-        .bool_data = white_on,
-        .byte_data = yellow_on ? 1 : 0
-    };
+// void Display_SetBacklight(bool white_on, bool yellow_on)
+// {
+//     DisplayEvent_t event = {
+//         .type = DISPLAY_EVENT_SET_BACKLIGHT,
+//         .x = 0,
+//         .y = 0,
+//         .bool_data = white_on,
+//         .byte_data = yellow_on ? 1 : 0
+//     };
     
-    // 将设置背光事件加入队列
-    (void)g_display_queue.put(&g_display_queue, &event, 1);
-}
+//     // 将设置背光事件加入队列
+//     (void)g_display_queue.put(&g_display_queue, &event, 1);
+// }
 
 
 /**
@@ -340,20 +340,20 @@ void Display_ShowNumber(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e
  * @param     image_data - 图像数据
  * @retval    无
  */
-void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
-{
-    DisplayEvent_t event = {
-        .type = DISPLAY_EVENT_SHOW_IMAGE,
-        .x = x,
-        .y = y,
-        .image_data = image_data,
-        .image_width = width,
-        .image_height = height
-    };
+// void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data)
+// {
+//     DisplayEvent_t event = {
+//         .type = DISPLAY_EVENT_SHOW_IMAGE,
+//         .x = x,
+//         .y = y,
+//         .image_data = image_data,
+//         .image_width = width,
+//         .image_height = height
+//     };
     
-    // 将显示图像事件加入队列
-    (void)g_display_queue.put(&g_display_queue, &event, 1);
-}
+//     // 将显示图像事件加入队列
+//     (void)g_display_queue.put(&g_display_queue, &event, 1);
+// }
 
 /**
  * @name      Display_ShowIcon
@@ -408,18 +408,18 @@ void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_uni
  * @param     mode - 工作模式
  * @retval    无
  */
-void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode)
-{
-    DisplayEvent_t event = {
-        .type = DISPLAY_EVENT_SHOW_WORK_MODE,
-        .x = x,
-        .y = y,
-        .work_mode = mode
-    };
+// void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode)
+// {
+//     DisplayEvent_t event = {
+//         .type = DISPLAY_EVENT_SHOW_WORK_MODE,
+//         .x = x,
+//         .y = y,
+//         .work_mode = mode
+//     };
     
-    // 将显示工作模式事件加入队列
-    (void)g_display_queue.put(&g_display_queue, &event, 1);
-}
+//     // 将显示工作模式事件加入队列
+//     (void)g_display_queue.put(&g_display_queue, &event, 1);
+// }
 
 /**
  * @name      Display_ShowError
@@ -429,18 +429,18 @@ void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode)
  * @param     error - 错误代码
  * @retval    无
  */
-void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error)
-{
-    DisplayEvent_t event = {
-        .type = DISPLAY_EVENT_SHOW_ERROR,
-        .x = x,
-        .y = y,
-        .error_code = error
-    };
+// void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error)
+// {
+//     DisplayEvent_t event = {
+//         .type = DISPLAY_EVENT_SHOW_ERROR,
+//         .x = x,
+//         .y = y,
+//         .error_code = error
+//     };
     
-    // 将显示错误事件加入队列
-    (void)g_display_queue.put(&g_display_queue, &event, 1);
-}
+//     // 将显示错误事件加入队列
+//     (void)g_display_queue.put(&g_display_queue, &event, 1);
+// }
 
 /**
  * @name      Display_ShowBatteryIcon

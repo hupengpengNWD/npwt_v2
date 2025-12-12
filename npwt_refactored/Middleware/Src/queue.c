@@ -13,15 +13,15 @@
 /**
   * @brief  销毁队列
   */
-void lib_queue_destroy(st_queue_ptr queue) {
-    if (queue == NULL) {
-        return;
-    }
-    QUEUE_API_LOCK(queue);
-    // free(queue->buffer);  // 暂不释放，由用户管理
-    QUEUE_API_UNLOCK(queue);
-    QUEUE_API_DELETE_LOCK(queue);
-}
+//void lib_queue_destroy(st_queue_ptr queue) {
+//    if (queue == NULL) {
+//        return;
+//    }
+//    QUEUE_API_LOCK(queue);
+//    // free(queue->buffer);  // 暂不释放，由用户管理
+//    QUEUE_API_UNLOCK(queue);
+//    QUEUE_API_DELETE_LOCK(queue);
+//}
 
 /** 获取已使用元素数 */
 size_t lib_queue_used(st_queue_ptr queue) {
@@ -118,44 +118,44 @@ bool lib_queue_get(st_queue_ptr queue, void* buf, size_t num) {
 }
 
 /** 观察不移除 */
-bool lib_queue_peek(st_queue_ptr queue, void* buf, size_t num, size_t offset) {
-    if ((queue == NULL) || (queue->buffer == NULL) || (buf == NULL) || (num == 0)) {
-        return false;
-    }
-    bool result = false;
-    QUEUE_API_LOCK(queue);
-    size_t num_in_queue = QUEUE_USED_COUNT(queue);
-    if ((offset + num) <= num_in_queue) {
-        size_t temp_front = (queue->front) + offset;
-        size_t temp_len = lib_queue_minimum((queue->len) - temp_front, num);
-        if (temp_len > 0) {
-            lib_queue_copy((char*)buf, (char*)(queue->buffer) + temp_front * (queue->size), temp_len * (queue->size));
-        }
-        if (num > temp_len) {
-            lib_queue_copy((char*)buf + temp_len * (queue->size), queue->buffer, (num - temp_len) * (queue->size));
-        }
-        result = true;
-    }
-    QUEUE_API_UNLOCK(queue);
-    return result;
-}
+//bool lib_queue_peek(st_queue_ptr queue, void* buf, size_t num, size_t offset) {
+//    if ((queue == NULL) || (queue->buffer == NULL) || (buf == NULL) || (num == 0)) {
+//        return false;
+//    }
+//    bool result = false;
+//    QUEUE_API_LOCK(queue);
+//    size_t num_in_queue = QUEUE_USED_COUNT(queue);
+//    if ((offset + num) <= num_in_queue) {
+//        size_t temp_front = (queue->front) + offset;
+//        size_t temp_len = lib_queue_minimum((queue->len) - temp_front, num);
+//        if (temp_len > 0) {
+//            lib_queue_copy((char*)buf, (char*)(queue->buffer) + temp_front * (queue->size), temp_len * (queue->size));
+//        }
+//        if (num > temp_len) {
+//            lib_queue_copy((char*)buf + temp_len * (queue->size), queue->buffer, (num - temp_len) * (queue->size));
+//        }
+//        result = true;
+//    }
+//    QUEUE_API_UNLOCK(queue);
+//    return result;
+//}
 
 /** 清除指定数量 */
-bool lib_queue_clear(st_queue_ptr queue, size_t num) {
-    if ((queue == NULL) || (num == 0)) {
-        return false;
-    }
-    bool result = true;
-    QUEUE_API_LOCK(queue);
-    size_t num_in_queue = QUEUE_USED_COUNT(queue);
-    if (num <= num_in_queue) {
-        queue->front = (queue->front + num) % (queue->len);
-    } else {
-        result = false;
-    }
-    QUEUE_API_UNLOCK(queue);
-    return result;
-}
+//bool lib_queue_clear(st_queue_ptr queue, size_t num) {
+//    if ((queue == NULL) || (num == 0)) {
+//        return false;
+//    }
+//    bool result = true;
+//    QUEUE_API_LOCK(queue);
+//    size_t num_in_queue = QUEUE_USED_COUNT(queue);
+//    if (num <= num_in_queue) {
+//        queue->front = (queue->front + num) % (queue->len);
+//    } else {
+//        result = false;
+//    }
+//    QUEUE_API_UNLOCK(queue);
+//    return result;
+//}
 
 /** 清空队列 */
 bool lib_queue_clears(st_queue_ptr queue) {
@@ -189,10 +189,10 @@ void lib_queue_configure(st_queue_ptr ptr) {
     ptr->empty = lib_queue_empty;
     ptr->put = lib_queue_put;
     ptr->get = lib_queue_get;
-    ptr->peek = lib_queue_peek;
-    ptr->clear = lib_queue_clear;
+//    ptr->peek = lib_queue_peek;
+//    ptr->clear = lib_queue_clear;
     ptr->clears = lib_queue_clears;
-    ptr->destroy = lib_queue_destroy;
+//    ptr->destroy = lib_queue_destroy;
 }
 
 /** 创建实例(设置函数指针) */
