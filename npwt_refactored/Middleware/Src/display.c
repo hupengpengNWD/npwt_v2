@@ -44,7 +44,7 @@ typedef struct {
  ****************************************************************************/
 
 static st_queue g_display_queue;              // 循环队列对象
-static uint8_t g_display_queue_buffer[(31 + 1) * sizeof(DisplayEvent_t)];
+static uint8_t g_display_queue_buffer[(15 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
 // height字段表示字体高度（像素行数）
@@ -102,7 +102,7 @@ void Display_Init(void)
     // 初始化显示队列（容量8，物理长度=容量+1）
     lib_queue_create(&g_display_queue);
     g_display_queue.configure(&g_display_queue);
-    g_display_queue.initialize(&g_display_queue, 31 + 1, sizeof(DisplayEvent_t), g_display_queue_buffer);
+    g_display_queue.initialize(&g_display_queue, 15 + 1, sizeof(DisplayEvent_t), g_display_queue_buffer);
     
     // 清屏
     // Display_Clear();

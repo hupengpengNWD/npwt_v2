@@ -79,8 +79,8 @@ static const ChineseCharMap_t g_chinese_char_map[] = {
     {0x00E4BD8E, 21},
     // 时(22) - 0xE6 0x97 0xB6
     {0x00E697B6, 22},
-    // 间(23) - 0xE9 0x97 0xB4 (与索引15相同，但注释中显示有两个"间")
-    {0x00E997B4, 23},
+    // 力(23) - 0xE5 0x8A 0x9B
+    {0x00E58A9B, 23},
     // 运(24) - 0xE8 0xBF 0x90
     {0x00E8BF90, 24},
     // 行(25) - 0xE8 0xA1 0x8C
@@ -130,52 +130,52 @@ static LanguageType_e g_current_language = LANGUAGE_ENGLISH;
  *        语言索引 = language - 1（因为LANGUAGE_ENGLISH=1）
  */
 static const char* g_text_table[TEXT_ID_COUNT][3] = {
-    // TEXT_ID_SETTINGS
+    // TEXT_ID_SETTINGS (0)
     {"Settings", "模式设定", "Настройки"},
     
-    // TEXT_ID_THERAPY
+    // TEXT_ID_THERAPY (1)
     {"Therapy", "开始治疗", "Терапия"},
     
-    // TEXT_ID_MODE
+    // TEXT_ID_MODE (2)
     {"Mode", "参数设定", "Режим"},
     
-    // TEXT_ID_SWITCH
+    // TEXT_ID_SWITCH (3)
     {"Switch", "切换", "Переключить"},
     
-    // TEXT_ID_CONTINUOUS
+    // TEXT_ID_CONTINUOUS (4)
     {"Continuous", "连续模式", "Непрерывный"},
     
-    // TEXT_ID_INTERMITTENT
+    // TEXT_ID_INTERMITTENT (5)
     {"Intermittent", "间歇模式", "Прерывистый"},
     
-    // TEXT_ID_PRESSURE
-    {"Pressure", "压力设置", "Давление"},
+    // TEXT_ID_PRESSURE (6)
+    {"Pressure", "压力设定", "Давление"},
     
-    // TEXT_ID_HP_SET
-    {"HP Set: -", "高压设置: -", "ВП Уст: -"},
+    // TEXT_ID_HP_SET (7)
+    {"HP Set: -", "高压: -", "ВП Уст: -"},
     
-    // TEXT_ID_LP_SET
-    {"LP Set: -", "低压设置: -", "НП Уст: -"},
+    // TEXT_ID_LP_SET (8)
+    {"LP Set: -", "低压: -", "НП Уст: -"},
     
-    // TEXT_ID_HP_TIME
-    {"HP Time:", "高压时间:", "ВП Время:"},
+    // TEXT_ID_HP_TIME (9)
+    {"HP Time:", "高压:", "ВП Время:"},
     
-    // TEXT_ID_LP_TIME
-    {"LP Time:", "低压时间:", "НП Время:"},
+    // TEXT_ID_LP_TIME (10)
+    {"LP Time:", "低压:", "НП Время:"},
     
-    // TEXT_ID_THERAPY_ON
+    // TEXT_ID_THERAPY_ON (11)
     {"Therapy On", "治疗中", "Терапия Вкл"},
     
-    // TEXT_ID_THERAPY_OFF
-    {"Therapy Off", "治疗关闭", "Терапия Выкл"},
+    // TEXT_ID_THERAPY_OFF (12)
+    {"Therapy Off", "停机中", "Терапия Выкл"},
     
-    // TEXT_ID_HIGH_PHASE
+    // TEXT_ID_HIGH_PHASE (13)
     {"High Phase", "高压治疗", "Высокая фаза"},
     
-    // TEXT_ID_MMHG
+    // TEXT_ID_MMHG (14)
     {"mmHg", "mmHg", "мм рт.ст."},
     
-    // TEXT_ID_MIN
+    // TEXT_ID_MIN (15)
     {"min", "min", "мин"}
 };
 

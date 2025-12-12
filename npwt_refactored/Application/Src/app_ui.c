@@ -1459,10 +1459,11 @@ static void AppUI_Display_LIX(void)
     snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
     static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer1[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
     Display_ShowString(80, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);    
     
     // 显示提示操作
-    Display_ShowString(12, 6, AppLanguage_GetTextConverted(TEXT_ID_THERAPY_ON, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_THERAPY_ON, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(12, 6, AppLanguage_GetTextConverted(TEXT_ID_THERAPY_ON, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_THERAPY_ON, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
     // 更新静音图标显示
     AppUI_UpdateMuteIcon();
@@ -1532,11 +1533,12 @@ static void AppUI_Display_ZHT(void)
     
     // 显示暂停状态
     static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer1[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
     Display_ShowString(24, 3, AppLanguage_GetTextConverted(TEXT_ID_THERAPY_OFF, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_THERAPY_OFF, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
     // 显示启动按键的图标
     Display_ShowIcon(16, 6, ICON_KEY1);  // 按键图标上半部分（页2，指向Settings）
-    Display_ShowString(30, 6, AppLanguage_GetTextConverted(TEXT_ID_THERAPY, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_THERAPY, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(30, 6, AppLanguage_GetTextConverted(TEXT_ID_THERAPY, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_THERAPY, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
     // 更新静音图标显示
     AppUI_UpdateMuteIcon();
@@ -1626,27 +1628,35 @@ static void AppUI_RefreshPressureValue(void)
 static void AppUI_Display_SET_HP_Pressure(void)
 {
     // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
-    static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer[16] = {0};  
+    static char text_buffer1[16] = {0}; 
+    static char text_buffer2[16] = {0}; 
+    static char text_buffer3[16] = {0}; 
+    static char text_buffer4[16] = {0}; 
+    
     Display_ShowString(36, 0, AppLanguage_GetTextConverted(TEXT_ID_PRESSURE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_PRESSURE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-//    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-//    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-   
+#if 0
     // 显示高压（反转显示，表示当前正在编辑）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 2, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 2, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     
     // 显示低压（正常显示）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    
-    Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+#endif    
+//    if(g_settings_data.language = 2) {
+//    } else {
+//    }
+    //将x暂时从14改成1
+    Display_ShowString(1, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(1, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1655,32 +1665,32 @@ static void AppUI_Display_SET_HP_Pressure(void)
  */
 static void AppUI_Display_SET_LP_Pressure(void)
 {
-    // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
-    static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+ 
+    static char text_buffer[16] = {0}; 
+    static char text_buffer1[16] = {0}; 
+    static char text_buffer2[16] = {0}; 
+    static char text_buffer3[16] = {0}; 
+    static char text_buffer4[16] = {0}; 
     Display_ShowString(36, 0, AppLanguage_GetTextConverted(TEXT_ID_PRESSURE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_PRESSURE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-//    Display_ShowString(14, 2, "HP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-//    Display_ShowString(14, 4, "LP Set:-", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-    
-//    // 在显示反转内容之前，重新显示标签，确保负号完整（避免清除操作影响相邻区域）
-//    Display_ShowString(6, 2, "HP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-//    Display_ShowString(6, 4, "LP Set:-", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
-    
+#if 0    
     // 显示高压（正常显示）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 2, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 2, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     
     // 显示低压（反转显示，表示当前正在编辑）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    
-    Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+#endif    
+    //将x暂时14改成1
+    Display_ShowString(1, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(1, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 }
 
 /**

@@ -39,35 +39,35 @@ typedef enum {
  */
 typedef enum {
     // 待机界面
-    TEXT_ID_SETTINGS = 0,
-    TEXT_ID_THERAPY,
+    TEXT_ID_SETTINGS = 0,      // 0
+    TEXT_ID_THERAPY,           // 1
     
     // 设置界面
-    TEXT_ID_MODE,
-    TEXT_ID_SWITCH,
-    TEXT_ID_CONTINUOUS,
-    TEXT_ID_INTERMITTENT,
+    TEXT_ID_MODE,              // 2
+    TEXT_ID_SWITCH,            // 3
+    TEXT_ID_CONTINUOUS,        // 4
+    TEXT_ID_INTERMITTENT,      // 5
     
     // 压力设置界面
-    TEXT_ID_PRESSURE,
-    TEXT_ID_HP_SET,
-    TEXT_ID_LP_SET,
+    TEXT_ID_PRESSURE,          // 6
+    TEXT_ID_HP_SET,            // 7
+    TEXT_ID_LP_SET,            // 8
     
     // 时间设置界面
-    TEXT_ID_HP_TIME,
-    TEXT_ID_LP_TIME,
+    TEXT_ID_HP_TIME,           // 9
+    TEXT_ID_LP_TIME,           // 10
     
     // 工作模式界面
-    TEXT_ID_THERAPY_ON,
-    TEXT_ID_THERAPY_OFF,
-    TEXT_ID_HIGH_PHASE,
+    TEXT_ID_THERAPY_ON,        // 11
+    TEXT_ID_THERAPY_OFF,       // 12
+    TEXT_ID_HIGH_PHASE,        // 13
     
     // 单位
-    TEXT_ID_MMHG,
-    TEXT_ID_MIN,
+    TEXT_ID_MMHG,              // 14
+    TEXT_ID_MIN,               // 15
     
     // 文本ID总数（用于边界检查）
-    TEXT_ID_COUNT
+    TEXT_ID_COUNT              // 16
 } TextID_e;
 
 /****************************************************************************
