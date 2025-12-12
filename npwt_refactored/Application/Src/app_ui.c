@@ -1459,7 +1459,7 @@ static void AppUI_Display_LIX(void)
     snprintf(target_str, sizeof(target_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(16, 4, target_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
     static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
-    static char text_buffer1[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer1[16] = {0};  
     Display_ShowString(80, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);    
     
     // 显示提示操作
@@ -1591,14 +1591,16 @@ static void AppUI_Display_SET(void)
  */
 static void AppUI_Display_SET_Pressure(void)
 {
-//    static char hp_pressure_str[8] = {0};
-//    snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03ummhg", (unsigned int)g_ui_context.pressure_high);
     
     static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
     Display_ShowString(36, 0, AppLanguage_GetTextConverted(TEXT_ID_PRESSURE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_PRESSURE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-
-    Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);  // 显示压力值和单位"mmHg"
-//    Display_ShowString(48, 4, hp_pressure_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+//    Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);  // 显示压力值和单位"mmHg"
+    
+    
+    static char text_buffer1[16] = {0}; 
+    //x从48改成39
+    Display_ShowNumber(39, 4, g_ui_context.pressure_high, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
+    Display_ShowString(90, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1606,6 +1608,29 @@ static void AppUI_Display_SET_Pressure(void)
  * @brief     刷新连续模式压力值显示（局部刷新，只刷新压力值区域，不刷新"Pressure"文字）
  * @note      用于压力值调整后的动态刷新，避免全屏刷新导致的闪烁
  */
+//static void AppUI_RefreshPressureValue(void)
+//{
+//    // 清除压力值显示区域（包括压力值和单位）
+//    // 压力值起始位置：列48，页4
+//    // 16x32字体最多3位数字：48列宽（16*3）
+//    // 单位"mmHg"：32列宽（4字符*8），在压力值右侧，起始列约98（48+48+2间距）
+//    // 单位结束列约130，但电池图标在列102（实际起始119），所以清除到列102之前
+//    // 清除策略：由于Display_ClearRect单次最多支持16列宽，需要分段清除
+//    
+//    // 清除压力值区域（列48-96，高度32像素，4页）：分3次清除，每次16列
+//    Display_ClearRect(48, 4, 16, 32);  // 第1段：列48-64
+//    Display_ClearRect(64, 4, 16, 32);  // 第2段：列64-80
+//    Display_ClearRect(80, 4, 16, 32);  // 第3段：列80-96
+//    
+//    // 清除单位区域（列96-102，高度16像素，2页，覆盖单位的前4列）
+//    // 注意：Display_ClearRect限制最小宽度，这里使用16列清除，覆盖列96-112
+//    // 虽然单位延伸到130列，但清除到102列足够避免与电池图标重叠时的显示问题
+//    Display_ClearRect(96, 4, 16, 16);  // 单位区域前半部分，高度16像素（2页）
+//    
+//    // 重新显示压力值和单位
+//    Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);
+//}
+
 static void AppUI_RefreshPressureValue(void)
 {
     // 清除压力值显示区域（包括压力值和单位）
@@ -1616,17 +1641,17 @@ static void AppUI_RefreshPressureValue(void)
     // 清除策略：由于Display_ClearRect单次最多支持16列宽，需要分段清除
     
     // 清除压力值区域（列48-96，高度32像素，4页）：分3次清除，每次16列
-    Display_ClearRect(48, 4, 16, 32);  // 第1段：列48-64
-    Display_ClearRect(64, 4, 16, 32);  // 第2段：列64-80
-    Display_ClearRect(80, 4, 16, 32);  // 第3段：列80-96
+    Display_ClearRect(39, 4, 16, 32);  // 第1段：列48-64
+    Display_ClearRect(55, 4, 16, 32);  // 第2段：列64-80
+    Display_ClearRect(71, 4, 16, 32);  // 第3段：列80-96
     
     // 清除单位区域（列96-102，高度16像素，2页，覆盖单位的前4列）
     // 注意：Display_ClearRect限制最小宽度，这里使用16列清除，覆盖列96-112
     // 虽然单位延伸到130列，但清除到102列足够避免与电池图标重叠时的显示问题
-    Display_ClearRect(96, 4, 16, 16);  // 单位区域前半部分，高度16像素（2页）
+//    Display_ClearRect(87, 4, 16, 16);  // 单位区域前半部分，高度16像素（2页）
     
-    // 重新显示压力值和单位
-    Display_ShowPressure(48, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);
+    // x从48改成39
+    Display_ShowPressure(39, 4, g_ui_context.pressure_high, true, DISPLAY_FONT_16X32);
 }
 
 /**
