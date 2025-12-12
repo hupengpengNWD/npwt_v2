@@ -131,13 +131,13 @@ static LanguageType_e g_current_language = LANGUAGE_ENGLISH;
  */
 static const char* g_text_table[TEXT_ID_COUNT][3] = {
     // TEXT_ID_SETTINGS
-    {"Settings", "模式设置", "Настройки"},
+    {"Settings", "模式设定", "Настройки"},
     
     // TEXT_ID_THERAPY
     {"Therapy", "开始治疗", "Терапия"},
     
     // TEXT_ID_MODE
-    {"Mode", "参数设置", "Режим"},
+    {"Mode", "参数设定", "Режим"},
     
     // TEXT_ID_SWITCH
     {"Switch", "切换", "Переключить"},

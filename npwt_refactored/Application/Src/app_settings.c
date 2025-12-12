@@ -92,7 +92,7 @@ static void AppSettings_SetDefaults(void)
     g_settings_data.pressure_low = 80;                     // 默认80mmHg（间歇模式）
     g_settings_data.time_high = 5;                         // 默认5分钟
     g_settings_data.time_low = 2;                          // 默认2分钟
-    g_settings_data.language = 1;                          // 默认英文（1=英文, 2=中文, 3=俄文）
+    g_settings_data.language = 2;                          // 默认英文（1=英文, 2=中文, 3=俄文）
     
     /* 清零预留字段 */
     memset(g_settings_data.reserved, 0, sizeof(g_settings_data.reserved));
@@ -111,10 +111,10 @@ void AppSettings_Init(void)
     HAL_Flash_Init();
     
     /* 尝试从Flash加载参数 */
-    if (!AppSettings_Load()) {
+//    if (!AppSettings_Load()) {
         /* 加载失败，使用默认值 */
         AppSettings_SetDefaults();
-    }
+//    }
     
     g_settings_initialized = true;
 }

@@ -32,7 +32,9 @@ extern const unsigned char icon_image_bat4_24x16[];  // 100%电池图标
 
 typedef struct {
     uint8_t width;                   // 字体宽度（像素列数），渲染时的列步进
-    uint8_t height;                  // 字体高度（像素行数/页累计字节），用于按字形字节数定位
+    uint8_t height;                  // 字体高度（像素行数）
+                                      // 用于判断数据格式和计算页数：页数 = (height + 7) / 8
+                                      // 计算字库偏移量需要字节数：bytes_per_char = width * ((height + 7) / 8)
     const unsigned char* char_font;  // 扩展字符字库指针（中文、俄文等非ASCII字符，如 arry_char/arry_char2）
     const unsigned char* ascii_font; // ASCII字符字库指针（包含数字0-9、字母A-Z/a-z及符号，如 8x16 ASCII）
 } FontInfo_t;
@@ -45,13 +47,14 @@ static st_queue g_display_queue;              // 循环队列对象
 static uint8_t g_display_queue_buffer[(31 + 1) * sizeof(DisplayEvent_t)];
 
 // 字体信息表
-// height字段在Display_SendASCII中用作每个字符的字节数来计算偏移
-// 对于16x32字体：32像素高 = 4页，每字符字节数 = 16列 × 4页 = 64字节
+// height字段表示字体高度（像素行数）
+// 计算页数：页数 = (height + 7) / 8（向上取整）
+// 计算每字符字节数：bytes_per_char = width * ((height + 7) / 8)
 static const FontInfo_t g_font_info[] = {
-    {6, 12, NULL, en_char_6x12},           // 6x12: 每字符12字节
-    {16, 32, zn_char_16x16, NULL},         // 16x16: 每字符32字节（16列×2页）
-    {8, 16, NULL, en_char_8x16},           // 8x16: 每字符16字节
-    {16, 64, NULL, digit_char_16x32},      // 16x32: 每字符64字节（16列×4页）
+    {6, 12, NULL, en_char_6x12},           // 6x12: 6列×2页=12字节/字符（像素高度12）
+    {16, 16, zn_char_16x16, NULL},         // 16x16: 16列×2页=32字节/字符（像素高度16）
+    {8, 16, NULL, en_char_8x16},           // 8x16: 8列×2页=16字节/字符（像素高度16）
+    {16, 32, NULL, digit_char_16x32},      // 16x32: 16列×4页=64字节/字符（像素高度32）
     {40, 80, NULL, NULL}                   // 40x80: 预留
 };
 
@@ -651,8 +654,8 @@ static void Display_ShowStringInternal(uint8_t x, uint8_t y, const char* str, Di
         }
 
         // 计算字符串高度（像素）
-        // font_info->height 对于不同字体：6x12=12, 16x16=32(字节数，实际像素16), 8x16=16, 16x32=64(字节数，实际像素32)
-        uint8_t str_height = (font == DISPLAY_FONT_16X32) ? 32 : ((font == DISPLAY_FONT_16X16) ? 16 : font_info->height);
+        // font_info->height 表示像素高度
+        uint8_t str_height = font_info->height;
 
         // 分段清除该区域（Display_ClearRectInternal限制最大宽度16列）
         // 每次清除16列，直到清除完整个字符串区域
@@ -1037,36 +1040,58 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
     uint8_t page_hw = (uint8_t)(6 - (page & 0x07));  // 软件页0→硬件页6，软件页6→硬件页0
     
     // 根据字符高度选择不同的数据格式处理
-    if (height == 32) {
+    // height字段表示像素高度
+    // 计算页数：页数 = (height + 7) / 8（向上取整，因为LCD每页8像素）
+    // 16x32字体：height=32像素，页数=4
+    // 16x16字体：height=16像素，页数=2
+    // 8x16字体：height=16像素，页数=2
+    // 6x12字体：height=12像素，页数=2
+    uint8_t pages = (height + 7) / 8;  // 向上取整
+    if (pages == 4) {
         // 32像素高（4页）：16x32数字字模格式
         // 数据格式：按页顺序存储，每页16字节（16列）
         // char_data[0..15] = 第1页，char_data[16..31] = 第2页
         // char_data[32..47] = 第3页，char_data[48..63] = 第4页
-        // 写入顺序：第4页→第3页→第2页→第1页（从下到上，倒序）
+        // 硬件页排列：页7=最上面（第0行），页6=第1行，...，页0=最下面（第7行）
+        // 写入顺序：第1页→硬件页(page_hw+3，最上面)，第2页→硬件页(page_hw+2)，
+        //           第3页→硬件页(page_hw+1)，第4页→硬件页(page_hw，最下面)
+        // 每页的列数据正序写入（从小到大），避免左右镜像
+        // 注意：硬件页范围是0-7，需要确保 page_hw+3 <= 7，即 page_hw <= 4
         uint8_t bytes_per_page = width;  // 16列 = 16字节/页
         
-        // 第4页（最上页，字节48-63）→ page_hw（倒序）
-        HAL_LCD_SetPositionNonBlocking(page_hw, column);
-        for (int16_t idx = (int16_t)(4 * bytes_per_page - 1); idx >= (int16_t)(3 * bytes_per_page); idx--) {
-            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+        // 边界检查：如果超出范围，允许部分显示（只显示在范围内的页）
+        
+        // 第1页（字节0-15）→ page_hw+3（硬件页7，最上面，第0行）
+        // 倒序写入（从大到小），与其他字体保持一致
+        if ((page_hw + 3) <= 7) {
+            HAL_LCD_SetPositionNonBlocking(page_hw + 3, column);
+            for (int16_t idx = (int16_t)(bytes_per_page - 1); idx >= 0; idx--) {
+                HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+            }
         }
         
-        // 第3页（字节32-47）→ page_hw+1（倒序）
-        HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
-        for (int16_t idx = (int16_t)(3 * bytes_per_page - 1); idx >= (int16_t)(2 * bytes_per_page); idx--) {
-            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+        // 第2页（字节16-31）→ page_hw+2（硬件页6，第1行）
+        if ((page_hw + 2) <= 7) {
+            HAL_LCD_SetPositionNonBlocking(page_hw + 2, column);
+            for (int16_t idx = (int16_t)(2 * bytes_per_page - 1); idx >= (int16_t)bytes_per_page; idx--) {
+                HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+            }
         }
         
-        // 第2页（字节16-31）→ page_hw+2（倒序）
-        HAL_LCD_SetPositionNonBlocking(page_hw + 2, column);
-        for (int16_t idx = (int16_t)(2 * bytes_per_page - 1); idx >= (int16_t)(1 * bytes_per_page); idx--) {
-            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+        // 第3页（字节32-47）→ page_hw+1（硬件页5，第2行）
+        if ((page_hw + 1) <= 7) {
+            HAL_LCD_SetPositionNonBlocking(page_hw + 1, column);
+            for (int16_t idx = (int16_t)(3 * bytes_per_page - 1); idx >= (int16_t)(2 * bytes_per_page); idx--) {
+                HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+            }
         }
         
-        // 第1页（最下页，字节0-15）→ page_hw+3（倒序）
-        HAL_LCD_SetPositionNonBlocking(page_hw + 3, column);
-        for (int16_t idx = (int16_t)(1 * bytes_per_page - 1); idx >= 0; idx--) {
-            HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+        // 第4页（字节48-63）→ page_hw（硬件页4，第3行）
+        if (page_hw <= 7) {
+            HAL_LCD_SetPositionNonBlocking(page_hw, column);
+            for (int16_t idx = (int16_t)(4 * bytes_per_page - 1); idx >= (int16_t)(3 * bytes_per_page); idx--) {
+                HAL_LCD_SendDataNonBlocking(invert ? ~char_data[idx] : char_data[idx]);
+            }
         }
     } else {
         // 16像素高（2页）：标准字库格式（zn_char_16x16, en_char_8x16等）和图标数据
@@ -1129,7 +1154,10 @@ static void Display_SendCharFont(uint8_t page, uint8_t column, uint8_t char_code
     }
     
     // 计算字符在字库中的偏移量
-    uint16_t offset = (char_code - 0x80) * font_info->height;
+    // 每字符字节数 = width * pages，其中 pages = (height + 7) / 8
+    uint8_t pages = (font_info->height + 7) / 8;
+    uint16_t bytes_per_char = font_info->width * pages;
+    uint16_t offset = (char_code - 0x80) * bytes_per_char;
     
     Display_SendCharData(page, column, &font_info->char_font[offset], font_info->width, font_info->height, invert);
 }
@@ -1153,35 +1181,39 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
     uint16_t offset;
     uint8_t pixel_height;  // 像素高度（用于Display_SendCharData）
     
+    // 计算每字符字节数：bytes_per_char = width * pages
+    uint8_t pages = (font_info->height + 7) / 8;
+    uint16_t bytes_per_char = font_info->width * pages;
+    
     // 16x32字体特殊处理：包含数字0-9（ASCII 48-57）和字母N/P/W/T（ASCII 78/80/87/84）
     if (font == DISPLAY_FONT_16X32) {
         // 处理数字字符 '0'-'9' (ASCII 48-57)
         if (ascii_char >= '0' && ascii_char <= '9') {
             // 数字字模按顺序存储：'0'在偏移0，'1'在偏移64，...，'9'在偏移576
             uint8_t digit = ascii_char - '0';
-            offset = digit * font_info->height;  // height = 64字节/字符（在g_font_info中设置）
-            pixel_height = 32;  // 32像素高
+            offset = digit * bytes_per_char;  // bytes_per_char = 16 * 4 = 64
+            pixel_height = font_info->height;  // 32像素高
         }
         // 处理字母字符 'N'/'P'/'W'/'T' (ASCII 78/80/87/84)，也支持小写转大写
         else if (ascii_char == 'N' || ascii_char == 'n') {
             // 'N'在索引10，偏移 = 10 * 64 = 640
-            offset = 10 * font_info->height;
-            pixel_height = 32;
+            offset = 10 * bytes_per_char;
+            pixel_height = font_info->height;
         }
         else if (ascii_char == 'P' || ascii_char == 'p') {
             // 'P'在索引11，偏移 = 11 * 64 = 704
-            offset = 11 * font_info->height;
-            pixel_height = 32;
+            offset = 11 * bytes_per_char;
+            pixel_height = font_info->height;
         }
         else if (ascii_char == 'W' || ascii_char == 'w') {
             // 'W'在索引12，偏移 = 12 * 64 = 768
-            offset = 12 * font_info->height;
-            pixel_height = 32;
+            offset = 12 * bytes_per_char;
+            pixel_height = font_info->height;
         }
         else if (ascii_char == 'T' || ascii_char == 't') {
             // 'T'在索引13，偏移 = 13 * 64 = 832
-            offset = 13 * font_info->height;
-            pixel_height = 32;
+            offset = 13 * bytes_per_char;
+            pixel_height = font_info->height;
         }
         else {
             // 其他字符不支持，直接返回
@@ -1192,8 +1224,8 @@ static void Display_SendASCII(uint8_t page, uint8_t column, uint8_t ascii_char, 
         if (ascii_char < 32) {
             ascii_char = 32;  // 转换为空格
         }
-        offset = (ascii_char - 32) * font_info->height;  // 每个ASCII字符的字节数
-        pixel_height = font_info->height;  // 对于16像素以下字体，字节数 = 像素高度
+        offset = (ascii_char - 32) * bytes_per_char;  // 每个ASCII字符的字节数
+        pixel_height = font_info->height;  // 像素高度
     }
     
     Display_SendCharData(page, column, &font_info->ascii_font[offset], font_info->width, pixel_height, invert);
