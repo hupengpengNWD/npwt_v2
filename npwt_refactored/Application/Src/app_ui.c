@@ -1429,8 +1429,8 @@ static void AppUI_Display_WAT(void)
     
     Display_ShowIcon(32, 2, ICON_KEY2);  // 按键图标上半部分（页2，指向Settings）
     // 中文需要转换为字库索引数组
-    static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
-    static char text_buffer1[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer[16] = {0};   
+    static char text_buffer1[16] = {0};   
     Display_ShowString(48, 2, AppLanguage_GetTextConverted(TEXT_ID_SETTINGS, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_SETTINGS, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
    
@@ -1556,15 +1556,22 @@ static void AppUI_Display_SET(void)
     static char text_buffer1[16] = {0}; 
     static char text_buffer2[16] = {0}; 
     static char text_buffer3[16] = {0}; 
-    
+    uint8_t x1 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 0;
+    uint8_t x2 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 86 : 66;
+    uint8_t x3 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 102 : 78;
     // 标题
-    Display_ShowString(2, 0, AppLanguage_GetTextConverted(TEXT_ID_MODE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MODE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-    Display_ShowIcon(66, 0, ICON_KEY2); // 三角图标  
-    Display_ShowString(78, 0, AppLanguage_GetTextConverted(TEXT_ID_SWITCH, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_SWITCH, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(x1, 0, AppLanguage_GetTextConverted(TEXT_ID_MODE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MODE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
-    //可选模式
-    Display_ShowString(2, 2, AppLanguage_GetTextConverted(TEXT_ID_CONTINUOUS, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_CONTINUOUS, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(1, 4, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    // 切换提示
+    Display_ShowIcon(x2, 0, ICON_KEY2); // 三角图标  
+    Display_ShowString(x3, 0, AppLanguage_GetTextConverted(TEXT_ID_SWITCH, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_SWITCH, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    
+    // 可选模式
+    // 中文需x需要是14，英文需要时1和2，根据语言动态调整
+    uint8_t x_continuous = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 1;
+    uint8_t x_intermittent = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 2;
+    Display_ShowString(x_continuous, 2, AppLanguage_GetTextConverted(TEXT_ID_CONTINUOUS, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_CONTINUOUS, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(x_intermittent, 4, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
     
     // 根据当前选中的模式显示勾号
@@ -1640,7 +1647,7 @@ static void AppUI_Display_SET_HP_Pressure(void)
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-#if 1
+
     // 显示高压（反转显示，表示当前正在编辑）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1650,7 +1657,7 @@ static void AppUI_Display_SET_HP_Pressure(void)
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-#endif    
+   
     //将x暂时从14改成1
     Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
@@ -1673,8 +1680,7 @@ static void AppUI_Display_SET_LP_Pressure(void)
     
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
-    
-#if 1    
+       
     // 显示高压（正常显示）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1683,9 +1689,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
     // 显示低压（反转显示，表示当前正在编辑）
     snprintf(lp_pressure_str, sizeof(lp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_low);
     Display_ShowStringInvert(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-    Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-#endif    
-    //将x暂时14改成1
+    Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);  
+
     Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 }
@@ -1700,8 +1705,10 @@ static void AppUI_Display_SET_Time(void)
     static char text_buffer[16] = {0}; 
     static char text_buffer1[16] = {0};  
     static char text_buffer2[16] = {0};  
+    
     // 中文时x需要时36，英文需要时16，这里先硬编码为36
-    Display_ShowString(36, 0, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    uint8_t x_continuous = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 36 : 16;
+    Display_ShowString(x_continuous, 0, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_TIME, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HP_TIME, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_TIME, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_LP_TIME, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     
