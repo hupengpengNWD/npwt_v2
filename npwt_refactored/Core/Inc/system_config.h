@@ -35,14 +35,21 @@
 #define PRESSURE_LEAK_ALARM_PUMP_STOP_DELAY_MS  60000  // 泄漏报警后延迟停止泵电机时间：60000ms（60秒/1分钟）
 #define PRESSURE_BLOCKAGE_ALARM_TIMEOUT_MS  120000  // 管路堵塞报警超时时间：120000ms（120秒/2分钟），负压稳定后2分钟内没有PID补充则报警
 #define PRESSURE_BLOCKAGE_ALARM_PID_THRESHOLD  10.0f  // 管路堵塞报警PID输出阈值：10.0，超过此值认为有负压补充，重置定时器
-#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  15  // 过压报警阈值：压力超过目标值+15mmHg时触发（检测收集罐已满）
+#define PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG  20  // 过压报警阈值百分比：压力超过目标值+目标值的20%时触发（检测收集罐已满）
 #define PRESSURE_OVERPRESSURE_ALARM_DELAY_MS  500  // 过压报警延迟时间：500ms，避免瞬态误报（设为0则立即触发）
 
 /* 基于建立负压时间的液位满报警阈值（29档，查表法） */
+/* 条件2：建立负压时间过短检测（液位满报警） */
+#ifndef ENABLE_LIQUID_FULL_CONDITION2
+#define ENABLE_LIQUID_FULL_CONDITION2  0  // 默认关闭，节省代码空间
+#endif
+
+#if ENABLE_LIQUID_FULL_CONDITION2
 #define PRESSURE_BUILD_TIME_SAFETY_FACTOR  2.5f  // 建立时间安全系数（理论时间×此系数）
 #define PRESSURE_BUILD_TIME_THRESHOLD_BASE_PRESSURE  20U   // 查表基准压力：20 mmHg
 #define PRESSURE_BUILD_TIME_THRESHOLD_STEP_PRESSURE  10U   // 查表步进：10 mmHg
 #define PRESSURE_BUILD_TIME_THRESHOLD_TABLE_SIZE  29U      // 查表大小：29档（20-300mmHg，步进10）
+#endif
 
 /****************************************************************************
  * 容器体积配置

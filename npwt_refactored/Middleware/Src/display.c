@@ -12,7 +12,7 @@ extern const unsigned char digit_char_16x32[];  // 16x32数字字模（仅包含
 
 // 外部图标数据声明（在Library/lcd_icon_data.c中定义）
 extern const unsigned char icon_image_lock_8x16[];
-extern const unsigned char icon_image_unlock_8x16[];
+//extern const unsigned char icon_image_unlock_8x16[];
 extern const unsigned char icon_image_key1_16x16[];
 extern const unsigned char icon_image_key2_16x16[];
 extern const unsigned char icon_image_silent_16x16[];
@@ -927,7 +927,7 @@ static const IconData_t g_icon_table[ICON_COUNT] = {
     {24, 16, icon_image_intermittent_24x16},  // ICON_INTERMITTENT
     {16, 16, icon_image_silent_16x16},        // ICON_SILENT
     {8, 16, icon_image_lock_8x16},            // ICON_LOCK
-    {8, 16, icon_image_unlock_8x16},          // ICON_UNLOCK
+//    {8, 16, icon_image_unlock_8x16},          // ICON_UNLOCK
     {16, 16, icon_image_tick_16x16},          // ICON_TICK
     {24, 16, icon_image_bat0_24x16},          // ICON_BAT0 - 电池图标0%
     {24, 16, icon_image_bat1_24x16},          // ICON_BAT1 - 电池图标25%

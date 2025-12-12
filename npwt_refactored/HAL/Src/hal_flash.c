@@ -126,6 +126,9 @@ bool HAL_Flash_EraseBlock(uint32_t address)
 {
     // 1KB 对齐到块起始
     address &= 0xFFFFFC00u;
+    
+    // 64 字节对齐
+//    address &= 0xFFFFFFC0u;   
 
     TBLPTRL = (uint8_t)(address & 0xFFu);
     TBLPTRH = (uint8_t)((address >> 8) & 0xFFu);

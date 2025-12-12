@@ -168,8 +168,12 @@ static bool g_overpressure_alarm_delay_active = false;     // 是否启用延迟
 static PumpWorkReason_e g_pump_work_reason = PUMP_REASON_IDLE;  // 泵工作原因（闲置、建立负压或维持补充）
 
 /* 建立负压时间记录（用于液位满报警检测） */
+#if ENABLE_LIQUID_FULL_CONDITION2
 static uint32_t g_build_start_time_ms = 0;  // 建立负压开始时间戳（毫秒）
+//static uint16_t g_build_start_pressure = 0;  // 建立负压开始时的起始气压（mmHg）- 已屏蔽，节省空间
+#endif
 
+#if ENABLE_LIQUID_FULL_CONDITION2
 /* 液位满报警建立时间阈值表（29档，V=60ml, S=0.42L/min） */
 /* 公式: t = (V/S) × ln[760/(760-Pset)] */
 /* 注意：数组存储理论时间（毫秒），使用时需乘以安全系数 PRESSURE_BUILD_TIME_SAFETY_FACTOR */
@@ -206,6 +210,7 @@ static const uint32_t g_build_time_threshold_table[] = {
      4119U,  // [27] 290mmHg: 4.119306s = 4119ms（理论值）
      4303U   // [28] 300mmHg: 4.303645s = 4303ms（理论值）
 };
+#endif  // ENABLE_LIQUID_FULL_CONDITION2
 
 /****************************************************************************
  * 内部函数声明
@@ -434,7 +439,8 @@ void AppPressure_Process(void* user_data)
             
             /* 在保持状态下，持续检测过压报警（入口堵塞检测） */
             if (g_pressure_control_user_target > 0) {
-                uint16_t overpressure_threshold = g_pressure_control_user_target + PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG;
+                /* 条件1：压力超过阈值（目标值 + 目标值的百分比） */
+                uint16_t overpressure_threshold = g_pressure_control_user_target + (g_pressure_control_user_target * PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG / 100);
                 
                 if (current_pressure >= overpressure_threshold) {
                     /* 压力异常高，可能是入口被堵 */
@@ -479,17 +485,20 @@ void AppPressure_Process(void* user_data)
             
             /* 【新增】进入保持状态时立即检查过压（入口堵塞快速检测） */
             if (g_pressure_control_user_target > 0) {
-                uint16_t overpressure_threshold = g_pressure_control_user_target + PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG;
+                /* 条件1：压力超过阈值（目标值 + 目标值的百分比） */
+                uint16_t overpressure_threshold = g_pressure_control_user_target + (g_pressure_control_user_target * PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG / 100);
                 
-                /* 条件1：压力超过阈值（原有条件） */
+                /* 条件1：压力超过阈值 */
                 if (current_pressure >= overpressure_threshold) {
                     /* 立即触发过压报警（无延迟，快速响应） */
                     g_overpressure_alarm_triggered = true;
                     g_overpressure_alarm_by_build_time = false;  // 条件1触发，标记为非建立时间触发
                 }
                 
+#if ENABLE_LIQUID_FULL_CONDITION2
                 /* 条件2：建立负压时间过短（新条件，用于检测液位满，29档查表法） */
-                if (g_build_start_time_ms > 0) {
+                /* 附加条件：建立负压时的起始气压必须小于10mmHg - 已屏蔽，节省空间 */
+                if (g_build_start_time_ms > 0) {  // && g_build_start_pressure < 10) {
                     uint32_t current_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
                     uint32_t build_duration_ms = current_time_ms - g_build_start_time_ms;
                     
@@ -521,7 +530,9 @@ void AppPressure_Process(void* user_data)
                     
                     /* 判断后立即重置开始时间（方案A：判断后立即重置） */
                     g_build_start_time_ms = 0;
+                    //g_build_start_pressure = 0;  // 已屏蔽，节省空间
                 }
+#endif  // ENABLE_LIQUID_FULL_CONDITION2
             }
         }
         
@@ -818,8 +829,11 @@ void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mod
     /* 设置泵工作原因：启动压力控制时为建立负压 */
     g_pump_work_reason = PUMP_REASON_BUILDING;
     
+#if ENABLE_LIQUID_FULL_CONDITION2
     /* 记录建立负压开始时间（用于液位满报警检测） */
     g_build_start_time_ms = SoftTimer_GetTickCount() * SOFT_TIMER_TICK_MS;
+    //g_build_start_pressure = AppPressure_GetPressureValue();  // 已屏蔽，节省空间
+#endif  // ENABLE_LIQUID_FULL_CONDITION2
 
     g_pressure_control_enabled = true;
 }
@@ -856,8 +870,11 @@ void AppPressure_StopControl(void)
     /* 设置泵工作原因：停止控制时为闲置 */
     g_pump_work_reason = PUMP_REASON_IDLE;
     
+#if ENABLE_LIQUID_FULL_CONDITION2
     /* 清除建立负压时间记录 */
     g_build_start_time_ms = 0;
+    //g_build_start_pressure = 0;  // 已屏蔽，节省空间
+#endif  // ENABLE_LIQUID_FULL_CONDITION2
 
     if (g_intermittent_active) {
         g_intermittent_active = false;

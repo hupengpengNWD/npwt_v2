@@ -275,7 +275,7 @@ typedef enum {
     ICON_INTERMITTENT,          // 间歇模式图标（24x16）
     ICON_SILENT,                // 静音图标（16x16）
     ICON_LOCK,                  // 锁定图标（8x16）
-    ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
+//    ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
     ICON_TICK,                  // 勾号图标（16x16）
     ICON_BAT0,                  // 电池图标0%（24x16）
     ICON_BAT1,                  // 电池图标25%（24x16）

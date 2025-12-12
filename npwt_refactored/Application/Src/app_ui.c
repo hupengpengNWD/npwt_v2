@@ -797,8 +797,11 @@ static void AppUI_UpdateOverpressureAlarm(void)
             /* 获取当前压力与目标的偏差 */
             int16_t deviation = AppPressure_GetPressureDeviation();
             
-            /* 如果偏差回落到正常范围（目标+20mmHg以下），自动退出过压报警 */
-            if (deviation < (PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG - 10)) {
+            /* 如果偏差回落到正常范围（目标+目标值的百分比以下），自动退出过压报警 */
+            /* 计算阈值：目标值的百分比，然后减去10mmHg作为退出阈值 */
+            uint16_t target = AppPressure_GetCurrentTarget();
+            uint16_t exit_threshold = (target * PRESSURE_OVERPRESSURE_ALARM_THRESHOLD_MMHG / 100) - 10;
+            if (deviation < exit_threshold) {
                 AppUI_ExitOverpressureAlarm();
                 /* 恢复到之前的治疗模式（清屏并重新显示） */
                 Display_Clear();
