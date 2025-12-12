@@ -31,32 +31,63 @@ static void HAL_Flash_WriteCycle(void);
  * @brief Flash写周期（内部函数）
  * @note  修复中断恢复逻辑：如果之前中断使能，写入后恢复中断
  */
+//static void HAL_Flash_WriteCycle(void)
+//{
+//    WREN = 1;
+//    
+//    CARRY = 0;
+//    if(GIE) 
+//        CARRY = 1;
+//    GIE = 0;
+//    
+//    EECON2 = 0x55;
+//    EECON2 = 0xAA;
+//    
+//    WR = 1;
+//    NOP();
+//    NOP();
+//    NOP();
+//    NOP();
+//    NOP();
+//    NOP();
+//    while(WR);
+//    WREN = 0;
+//    
+//    /* 修复中断恢复逻辑：如果之前中断使能，写入后恢复中断 */
+//    if(CARRY) 
+//        GIE = 0;//hpp
+//}
+
+
 static void HAL_Flash_WriteCycle(void)
 {
-    WREN = 1;
-    
+    WREN = 1;          // 允许写
+
+    // 备份全局中断状态到 CARRY
     CARRY = 0;
-    if(GIE) 
+    if (GIE)
         CARRY = 1;
-    GIE = 0;
-    
-    EECON2 = 0x55;
+    GIE = 0;           // 关总中断，防止写过程中被打断
+
+    EECON2 = 0x55;     // 解锁序列
     EECON2 = 0xAA;
-    
-    WR = 1;
+
+    WR = 1;            // 启动写/擦除
     NOP();
     NOP();
     NOP();
     NOP();
     NOP();
     NOP();
-    while(WR);
-    WREN = 0;
-    
-    /* 修复中断恢复逻辑：如果之前中断使能，写入后恢复中断 */
-    if(CARRY) 
-        GIE = 0;//hpp
+    while (WR);        // 等待完成
+
+    WREN = 0;          // 禁止写
+
+    // 写完后恢复全局中断
+    if (CARRY)
+        GIE = 1;
 }
+
 
 /**
  * @brief 初始化Flash模块
@@ -73,51 +104,108 @@ void HAL_Flash_Init(void)
  * @brief 擦除Flash块（64字节）
  * @note  与未重构工程的Flash_Erase()完全一致
  */
+//bool HAL_Flash_EraseBlock(uint32_t address)
+//{
+//    /* 检查地址是否64字节对齐 */
+//    // if ((address & 0x3F) != 0) {
+//    //     return false;
+//    // }
+//    
+//    /* 设置地址指针（与未重构工程的计算方式一致） */
+//    TBLPTRL = ((address) & 0xFF);
+//    TBLPTRH = (((address) >> 8) & 0xFF);
+//    TBLPTRU = (((address) >> 8) >> 8);
+//    
+//    FREE = 1;
+//    HAL_Flash_WriteCycle();
+//    
+//    return true;
+//}
+
 bool HAL_Flash_EraseBlock(uint32_t address)
 {
-    /* 检查地址是否64字节对齐 */
-    // if ((address & 0x3F) != 0) {
-    //     return false;
-    // }
-    
-    /* 设置地址指针（与未重构工程的计算方式一致） */
-    TBLPTRL = ((address) & 0xFF);
-    TBLPTRH = (((address) >> 8) & 0xFF);
-    TBLPTRU = (((address) >> 8) >> 8);
-    
-    FREE = 1;
+    // 1KB 对齐到块起始
+    address &= 0xFFFFFC00u;
+
+    TBLPTRL = (uint8_t)(address & 0xFFu);
+    TBLPTRH = (uint8_t)((address >> 8) & 0xFFu);
+    TBLPTRU = (uint8_t)((address >> 16) & 0xFFu);
+
+    // 访问程序 Flash
+//    EEPGD = 1;   // Program memory
+//    CFGS  = 0;   // 不是配置字
+
+    // 擦除模式
+    WPROG = 0;   // 不用 2-byte 编程模式
+    FREE  = 1;   // 擦除 Enable
+
     HAL_Flash_WriteCycle();
-    
+
+    FREE  = 0;   // 擦除结束，清 FREE
     return true;
 }
+
+
+
 
 /**
  * @brief 写入一个字（16位）到Flash
  * @note  与未重构工程的Write_One_Word()完全一致，使用unsigned int类型
  */
+//bool HAL_Flash_WriteWord(uint32_t address, unsigned int data)
+//{
+//    /* 检查地址是否2字节对齐 */
+//    // if ((address & 0x01) != 0) {
+//    //     return false;
+//    // }
+//    
+//    /* 设置地址指针（与未重构工程的计算方式一致） */
+//    TBLPTRL = ((address) & 0xFF);
+//    TBLPTRH = (((address) >> 8) & 0xFF);
+//    TBLPTRU = (((address) >> 8) >> 8);
+//    
+//    TABLAT = data>>8;
+//    asm("\tTBLWT*+");
+//    TABLAT = data;
+//    asm("\tTBLWT*");
+//    
+//    FREE = 0;
+//    WPROG = 1;
+//    HAL_Flash_WriteCycle();
+//    
+//    return true;
+//}
+
 bool HAL_Flash_WriteWord(uint32_t address, unsigned int data)
 {
-    /* 检查地址是否2字节对齐 */
-    // if ((address & 0x01) != 0) {
-    //     return false;
-    // }
-    
-    /* 设置地址指针（与未重构工程的计算方式一致） */
-    TBLPTRL = ((address) & 0xFF);
-    TBLPTRH = (((address) >> 8) & 0xFF);
-    TBLPTRU = (((address) >> 8) >> 8);
-    
-    TABLAT = data>>8;
-    asm("\tTBLWT*+");
-    TABLAT = data;
-    asm("\tTBLWT*");
-    
-    FREE = 0;
-    WPROG = 1;
+    // 必须 2 字节对齐
+    if (address & 0x01u)
+        return false;
+
+    // 设置地址（字节地址）
+    TBLPTRL = (uint8_t)(address & 0xFFu);
+    TBLPTRH = (uint8_t)((address >> 8) & 0xFFu);
+    TBLPTRU = (uint8_t)((address >> 16) & 0xFFu);
+
+    // 装载要写的 16-bit 数据，高字节在前
+    TABLAT = (uint8_t)(data >> 8);
+    asm("TBLWT*+");           // 写高字节并地址+1
+    TABLAT = (uint8_t)(data & 0xFF);
+    asm("TBLWT*");            // 写低字节
+
+    // 访问程序 Flash，按“单 word 编程”
+//    EEPGD = 1;   // Program memory
+//    CFGS  = 0;   // 非配置区
+    FREE  = 0;   // 写模式
+    WPROG = 1;   // 写 1 word（2 字节），不是 64 字节块
+
     HAL_Flash_WriteCycle();
-    
+
+    WPROG = 0;   // 用完关掉（可选）
     return true;
 }
+
+
 
 /**
  * @brief 从Flash读取一个字（16位）

@@ -115,7 +115,7 @@ void PowerOff(void)
         GIE = 0;  // 禁用全局中断
         
         AppSettings_UpdateFromUI(ui_context);
-//        AppSettings_Save();  // 保存到Flash
+        AppSettings_Save();  // 保存到Flash
         
         // Flash写入后不恢复中断，直接关闭外设并进入死循环
         // 与未重构工程保持一致：Write_Cycle()中如果CARRY=1，则GIE=0（不恢复中断）

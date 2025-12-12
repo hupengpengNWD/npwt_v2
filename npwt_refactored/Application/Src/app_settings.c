@@ -184,15 +184,17 @@ bool AppSettings_Load(void)
 bool AppSettings_Save(void)
 {
     /* 检查Flash是否需要擦除：读取第一个word，如果是0xFFFF则不需要擦除 */
-    unsigned int first_word = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS);
+//    unsigned int first_word = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS);
     
-    /* 如果Flash不是0xFFFF（已擦除状态），需要先擦除 */
-    if (first_word != 0xFFFF) {
-        /* 擦除Flash块 */
-        if (!HAL_Flash_EraseBlock(HAL_FLASH_CONFIG_ADDRESS)) {
-            return false;
-        }
-    }
+//    /* 如果Flash不是0xFFFF（已擦除状态），需要先擦除 */
+//    if (first_word != 0xFFFF) {
+//        /* 擦除Flash块 */
+//        if (!HAL_Flash_EraseBlock(HAL_FLASH_CONFIG_ADDRESS)) {
+//            return false;
+//        }
+//    }
+    
+    HAL_Flash_EraseBlock(HAL_FLASH_CONFIG_ADDRESS);
     
     /* 按照未重构工程的格式，逐个写入10个word（20字节） */
     if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 0,  g_settings_data.pressure_high)) {

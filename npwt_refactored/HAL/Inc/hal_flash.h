@@ -61,7 +61,7 @@
  * 
  * 详细说明请参考：scripts/README_FLASH_ADDRESS.md
  */
-#define HAL_FLASH_CONFIG_ADDRESS    0xE7A0U    // 配置数据起始地址（距离代码结束536字节，距离mediumconst起始558字节）
+#define HAL_FLASH_CONFIG_ADDRESS    0xE400u    // 配置数据起始地址（距离代码结束536字节，距离mediumconst起始558字节）
 
 /****************************************************************************
  * Flash操作函数
