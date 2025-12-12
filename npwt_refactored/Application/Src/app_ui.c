@@ -2275,9 +2275,13 @@ void AppUI_Process(void)
                 Display_ShowString(92, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
                  
                 // 显示当前模式
+                static char text_buffer_phase[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
                 AppPressureControlMode_e mode = AppPressure_GetCurrentMode();
-                const char* phase_str = (mode == APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW) ? "Low Phase" : "High Phase";
-                Display_ShowString(12, 6, phase_str, DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+                TextID_e phase_text_id = (mode == APP_PRESSURE_CONTROL_MODE_INTERMITTENT_LOW) ? TEXT_ID_LOW_PHASE : TEXT_ID_HIGH_PHASE;
+                Display_ShowString(12, 6, 
+                    AppLanguage_GetTextConverted(phase_text_id, text_buffer_phase, sizeof(text_buffer_phase)), 
+                    AppLanguage_GetFontForText(phase_text_id, DISPLAY_FONT_8X16), 
+                    DISPLAY_ALIGN_LEFT);
                 
             } else {
                 static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针

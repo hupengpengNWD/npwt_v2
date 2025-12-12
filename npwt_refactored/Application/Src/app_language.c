@@ -172,10 +172,13 @@ static const char* g_text_table[TEXT_ID_COUNT][3] = {
     // TEXT_ID_HIGH_PHASE (13)
     {"High Phase", "高压治疗", "Высокая фаза"},
     
-    // TEXT_ID_MMHG (14)
+    // TEXT_ID_LOW_PHASE (14)
+    {"Low Phase", "低压治疗", "Низкая фаза"},
+    
+    // TEXT_ID_MMHG (15)
     {"mmHg", "mmHg", "мм рт.ст."},
     
-    // TEXT_ID_MIN (15)
+    // TEXT_ID_MIN (16)
     {"min", "min", "мин"}
 };
 

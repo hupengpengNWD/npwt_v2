@@ -61,13 +61,14 @@ typedef enum {
     TEXT_ID_THERAPY_ON,        // 11
     TEXT_ID_THERAPY_OFF,       // 12
     TEXT_ID_HIGH_PHASE,        // 13
+    TEXT_ID_LOW_PHASE,         // 14
     
     // 单位
-    TEXT_ID_MMHG,              // 14
-    TEXT_ID_MIN,               // 15
+    TEXT_ID_MMHG,              // 15
+    TEXT_ID_MIN,               // 16
     
     // 文本ID总数（用于边界检查）
-    TEXT_ID_COUNT              // 16
+    TEXT_ID_COUNT              // 17
 } TextID_e;
 
 /****************************************************************************
