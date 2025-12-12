@@ -1640,7 +1640,7 @@ static void AppUI_Display_SET_HP_Pressure(void)
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-#if 0
+#if 1
     // 显示高压（反转显示，表示当前正在编辑）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowStringInvert(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1651,12 +1651,9 @@ static void AppUI_Display_SET_HP_Pressure(void)
     Display_ShowString(73, 4, lp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 #endif    
-//    if(g_settings_data.language = 2) {
-//    } else {
-//    }
     //将x暂时从14改成1
-    Display_ShowString(1, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(1, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1677,7 +1674,7 @@ static void AppUI_Display_SET_LP_Pressure(void)
     static char hp_pressure_str[8] = {0};
     static char lp_pressure_str[8] = {0};
     
-#if 0    
+#if 1    
     // 显示高压（正常显示）
     snprintf(hp_pressure_str, sizeof(hp_pressure_str), "%03u", (unsigned int)g_ui_context.pressure_high);
     Display_ShowString(73, 2, hp_pressure_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
@@ -1689,8 +1686,8 @@ static void AppUI_Display_SET_LP_Pressure(void)
     Display_ShowString(93, 4, AppLanguage_GetTextConverted(TEXT_ID_MMHG, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_MMHG, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 #endif    
     //将x暂时14改成1
-    Display_ShowString(1, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(1, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_SET, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_HP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_SET, text_buffer4, sizeof(text_buffer4)), AppLanguage_GetFontForText(TEXT_ID_LP_SET, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
 }
 
 /**
@@ -1699,11 +1696,14 @@ static void AppUI_Display_SET_LP_Pressure(void)
  */
 static void AppUI_Display_SET_Time(void)
 {
-    // 显示"Intermittent"、"HP Time"和"LP Time"
-    static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
-    Display_ShowString(16, 0, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_TIME, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_HP_TIME, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
-    Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_TIME, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_LP_TIME, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+
+    static char text_buffer[16] = {0}; 
+    static char text_buffer1[16] = {0};  
+    static char text_buffer2[16] = {0};  
+    // 中文时x需要时36，英文需要时16，这里先硬编码为36
+    Display_ShowString(36, 0, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 2, AppLanguage_GetTextConverted(TEXT_ID_HP_TIME, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HP_TIME, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(14, 4, AppLanguage_GetTextConverted(TEXT_ID_LP_TIME, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_LP_TIME, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT);
     
     static char hp_time_str[8] = {0};
     static char lp_time_str[8] = {0};

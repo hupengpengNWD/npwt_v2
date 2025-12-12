@@ -152,16 +152,16 @@ static const char* g_text_table[TEXT_ID_COUNT][3] = {
     {"Pressure", "压力设定", "Давление"},
     
     // TEXT_ID_HP_SET (7)
-    {"HP Set: -", "高压: -", "ВП Уст: -"},
+    {"HP Set: -", "高压压力", "ВП Уст: -"},
     
     // TEXT_ID_LP_SET (8)
-    {"LP Set: -", "低压: -", "НП Уст: -"},
+    {"LP Set: -", "低压压力", "НП Уст: -"},
     
     // TEXT_ID_HP_TIME (9)
-    {"HP Time:", "高压:", "ВП Время:"},
+    {"HP Time:", "高压时间:", "ВП Время:"},
     
     // TEXT_ID_LP_TIME (10)
-    {"LP Time:", "低压:", "НП Время:"},
+    {"LP Time:", "低压时间:", "НП Время:"},
     
     // TEXT_ID_THERAPY_ON (11)
     {"Therapy On", "治疗中", "Терапия Вкл"},
@@ -278,9 +278,12 @@ DisplayFontType_e AppLanguage_GetFontForText(TextID_e text_id, DisplayFontType_e
         return original_font;  // 单位保持原字体
     }
     
-    // 如果是中文，且原字体是8x16，则改为16x16
-    if (g_current_language == LANGUAGE_CHINESE && original_font == DISPLAY_FONT_8X16) {
-        return DISPLAY_FONT_16X16;
+    // 如果是中文，需要将不支持中文的字体改为16x16
+    if (g_current_language == LANGUAGE_CHINESE) {
+        // 6x12和8x16字体不支持中文，需要改为16x16
+        if (original_font == DISPLAY_FONT_6X12 || original_font == DISPLAY_FONT_8X16) {
+            return DISPLAY_FONT_16X16;
+        }
     }
     
     // 其他情况保持原字体
