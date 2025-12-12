@@ -92,7 +92,7 @@ static void AppSettings_SetDefaults(void)
     g_settings_data.pressure_low = 80;                     // 默认80mmHg（间歇模式）
     g_settings_data.time_high = 5;                         // 默认5分钟
     g_settings_data.time_low = 2;                          // 默认2分钟
-    g_settings_data.language = 2;                          // 默认英文（1=英文, 2=中文, 3=俄文）
+    g_settings_data.language = 1;                          // 默认英文（1=英文, 2=中文, 3=俄文）
     
     /* 清零预留字段 */
     memset(g_settings_data.reserved, 0, sizeof(g_settings_data.reserved));

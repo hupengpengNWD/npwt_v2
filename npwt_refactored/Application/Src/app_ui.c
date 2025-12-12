@@ -1557,7 +1557,7 @@ static void AppUI_Display_SET(void)
     static char text_buffer1[16] = {0}; 
     static char text_buffer2[16] = {0}; 
     static char text_buffer3[16] = {0}; 
-    uint8_t x1 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 0;
+    uint8_t x1 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 2;
     uint8_t x2 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 86 : 66;
     uint8_t x3 = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 102 : 78;
     // 标题
@@ -1569,7 +1569,7 @@ static void AppUI_Display_SET(void)
     
     // 可选模式
     // 中文需x需要是14，英文需要时1和2，根据语言动态调整
-    uint8_t x_continuous = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 1;
+    uint8_t x_continuous = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 2;
     uint8_t x_intermittent = (AppLanguage_GetCurrent() == LANGUAGE_CHINESE) ? 14 : 2;
     Display_ShowString(x_continuous, 2, AppLanguage_GetTextConverted(TEXT_ID_CONTINUOUS, text_buffer2, sizeof(text_buffer2)), AppLanguage_GetFontForText(TEXT_ID_CONTINUOUS, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     Display_ShowString(x_intermittent, 4, AppLanguage_GetTextConverted(TEXT_ID_INTERMITTENT, text_buffer3, sizeof(text_buffer3)), AppLanguage_GetFontForText(TEXT_ID_INTERMITTENT, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
