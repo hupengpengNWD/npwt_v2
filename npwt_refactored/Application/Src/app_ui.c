@@ -1500,6 +1500,7 @@ static void AppUI_Display_JIX(void)
     // 显示实时压力值
     static char pressure_str[16] = {0};
     static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer1[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
     uint16_t current_pressure = AppPressure_GetPressureValue();
     snprintf(pressure_str, sizeof(pressure_str), "-%03u", (unsigned int)current_pressure);
     Display_ShowString(0, 4, pressure_str, DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
@@ -1507,7 +1508,7 @@ static void AppUI_Display_JIX(void)
     g_last_display_pressure = current_pressure;
         
     // 显示当前阶段
-    Display_ShowString(12, 6, AppLanguage_GetTextConverted(TEXT_ID_HIGH_PHASE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_HIGH_PHASE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
+    Display_ShowString(12, 6, AppLanguage_GetTextConverted(TEXT_ID_HIGH_PHASE, text_buffer1, sizeof(text_buffer1)), AppLanguage_GetFontForText(TEXT_ID_HIGH_PHASE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
     // 更新静音图标显示
     AppUI_UpdateMuteIcon();
@@ -1533,7 +1534,7 @@ static void AppUI_Display_ZHT(void)
     
     // 显示暂停状态
     static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
-    static char text_buffer1[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
+    static char text_buffer1[16] = {0};  
     Display_ShowString(24, 3, AppLanguage_GetTextConverted(TEXT_ID_THERAPY_OFF, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_THERAPY_OFF, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
     
     // 显示启动按键的图标
