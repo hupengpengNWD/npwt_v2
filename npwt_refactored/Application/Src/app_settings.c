@@ -184,6 +184,8 @@ bool AppSettings_Load(void)
 bool AppSettings_Save(void)
 {
     /* 检查Flash是否需要擦除：读取第一个word，如果是0xFFFF则不需要擦除 */
+    unsigned int first_word = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS);
+    
 //    unsigned int first_word = HAL_Flash_ReadWord(HAL_FLASH_CONFIG_ADDRESS);
     
 //    /* 如果Flash不是0xFFFF（已擦除状态），需要先擦除 */
@@ -288,52 +290,52 @@ void AppSettings_ApplyToUI(UIContext_t* ui_context)
 /**
  * @brief 获取保存的工作模式
  */
-UIState_e AppSettings_GetWorkMode(void)
-{
-    return (UIState_e)g_settings_data.work_mode;
-}
+// UIState_e AppSettings_GetWorkMode(void)
+// {
+//     return (UIState_e)g_settings_data.work_mode;
+// }
 
 /**
  * @brief 获取保存的高压值
  */
-uint16_t AppSettings_GetPressureHigh(void)
-{
-    return g_settings_data.pressure_high;
-}
+// uint16_t AppSettings_GetPressureHigh(void)
+// {
+//     return g_settings_data.pressure_high;
+// }
 
 /**
  * @brief 获取保存的低压值
  */
-uint16_t AppSettings_GetPressureLow(void)
-{
-    return g_settings_data.pressure_low;
-}
+// uint16_t AppSettings_GetPressureLow(void)
+// {
+//     return g_settings_data.pressure_low;
+// }
 
 /**
  * @brief 获取保存的高压时间
  */
-uint16_t AppSettings_GetTimeHigh(void)
-{
-    return g_settings_data.time_high;
-}
+// uint16_t AppSettings_GetTimeHigh(void)
+// {
+//     return g_settings_data.time_high;
+// }
 
 /**
  * @brief 获取保存的低压时间
  */
-uint16_t AppSettings_GetTimeLow(void)
-{
-    return g_settings_data.time_low;
-}
+// uint16_t AppSettings_GetTimeLow(void)
+// {
+//     return g_settings_data.time_low;
+// }
 
 /**
  * @brief 重置所有参数为默认值
  */
-void AppSettings_ResetToDefaults(void)
-{
-    AppSettings_SetDefaults();
-    /* 可以选择立即保存到Flash */
-    /* AppSettings_Save(); */
-}
+// void AppSettings_ResetToDefaults(void)
+// {
+//     AppSettings_SetDefaults();
+//     /* 可以选择立即保存到Flash */
+//     /* AppSettings_Save(); */
+// }
 
 /**
  * @brief 获取保存的语言设置

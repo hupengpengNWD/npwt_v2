@@ -172,10 +172,10 @@ void HAL_LCD_SetBacklight(bool enable)
  * @param     ms - 延时毫秒数
  * @retval    无
  */
-void HAL_LCD_Delay(uint16_t ms)
-{
-    HAL_LCD_HardwareDelay(ms);
-}
+// void HAL_LCD_Delay(uint16_t ms)
+// {
+//     HAL_LCD_HardwareDelay(ms);
+// }
 
 /**
  * @name      HAL_LCD_SendCommandNonBlocking
@@ -183,11 +183,11 @@ void HAL_LCD_Delay(uint16_t ms)
  * @param     cmd - 命令字节
  * @retval    无
  */
-void HAL_LCD_SendCommandNonBlocking(uint8_t cmd)
-{
-    // 同步执行：直接写命令
-    HAL_LCD_SendCommandInternal(cmd);
-}
+// void HAL_LCD_SendCommandNonBlocking(uint8_t cmd)
+// {
+//     // 同步执行：直接写命令
+//     HAL_LCD_SendCommandInternal(cmd);
+// }
 
 /**
  * @name      HAL_LCD_SendDataNonBlocking

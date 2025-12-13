@@ -177,10 +177,10 @@ bool AppBattery_IsCharging(void)
  * @name      AppBattery_GetADCValue
  * @brief     获取电池ADC原始值（用于调试）
  */
-uint16_t AppBattery_GetADCValue(void)
-{
-    return g_battery_adc;
-}
+// uint16_t AppBattery_GetADCValue(void)
+// {
+//     return g_battery_adc;
+// }
 
 /**
  * @name      AppBattery_IsLevelChanged

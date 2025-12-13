@@ -74,7 +74,7 @@ void HAL_GPIO_Init(void);
 /* 气泵控制 */
 void HAL_Pump_Start(void);
 void HAL_Pump_Stop(void);
-void HAL_Pump_Enable(bool enable);
+// void HAL_Pump_Enable(bool enable);
 
 /* 电磁阀控制 */
 void HAL_Valve1_Open(void);
@@ -83,8 +83,8 @@ void HAL_Valve2_Open(void);
 void HAL_Valve2_Close(void);
 
 /* LED控制 */
-void HAL_LED_White_On(void);
-void HAL_LED_White_Off(void);
+// void HAL_LED_White_On(void);
+// void HAL_LED_White_Off(void);
 void HAL_LED_Yellow_On(void);
 void HAL_LED_Yellow_Off(void);
 void HAL_LED_Yellow_Toggle(void);
@@ -103,11 +103,11 @@ void HAL_Power_Release(void);
 
 /* 电机电源使能控制 */
 void HAL_MotorPWR_Enable(void);
-void HAL_MotorPWR_Disable(void);
+// void HAL_MotorPWR_Disable(void);
 
 /* 电池状态读取 */
 bool HAL_Battery_IsCharging(void);
-bool HAL_Battery_IsGood(void);
+// bool HAL_Battery_IsGood(void);
 
 #endif /* HAL_GPIO_H */
 

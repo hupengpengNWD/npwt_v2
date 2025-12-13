@@ -88,7 +88,7 @@ bool AppBattery_IsCharging(void);
  * @param     无
  * @retval    ADC采样值（10位：0-1023）
  */
-uint16_t AppBattery_GetADCValue(void);
+// uint16_t AppBattery_GetADCValue(void);
 
 /**
  * @name      AppBattery_IsLevelChanged

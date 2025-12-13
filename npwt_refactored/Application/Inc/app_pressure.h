@@ -94,7 +94,7 @@ uint16_t AppPressure_GetPressureValue(void);
  * @retval    ADC采样值（10位：0-1023）
  * @note      返回经过3次采样平均滤波后的ADC值
  */
-uint16_t AppPressure_GetADCValue(void);
+// uint16_t AppPressure_GetADCValue(void);
 
 /**
  * @name      AppPressure_GetRawADCValue
@@ -103,7 +103,7 @@ uint16_t AppPressure_GetADCValue(void);
  * @retval    ADC采样值（10位：0-1023）
  * @note      用于调试或特殊应用
  */
-uint16_t AppPressure_GetRawADCValue(void);
+// uint16_t AppPressure_GetRawADCValue(void);
 
 /**
  * @name      AppPressure_CalibrateZero
@@ -122,7 +122,7 @@ void AppPressure_CalibrateZero(void);
  * @retval    无
  * @note      转换公式：压力值(mmHg) = (adc_ps0 - adc_zero) / factor
  */
-void AppPressure_SetConversionFactor(float factor);
+// void AppPressure_SetConversionFactor(float factor);
 
 /**
  * @name      AppPressure_GetConversionFactor
@@ -130,7 +130,7 @@ void AppPressure_SetConversionFactor(float factor);
  * @param     无
  * @retval    转换系数（float）
  */
-float AppPressure_GetConversionFactor(void);
+// float AppPressure_GetConversionFactor(void);
 
 /**
  * @name      AppPressure_GetZeroOffset
@@ -138,11 +138,11 @@ float AppPressure_GetConversionFactor(void);
  * @param     无
  * @retval    零点偏移ADC值（10位：0-1023）
  */
-uint16_t AppPressure_GetZeroOffset(void);
+// uint16_t AppPressure_GetZeroOffset(void);
 
 void AppPressure_StartControl(uint16_t target_mmHg, AppPressureControlMode_e mode);
 void AppPressure_StopControl(void);
-void AppPressure_UpdateTarget(uint16_t target_mmHg);
+// void AppPressure_UpdateTarget(uint16_t target_mmHg);
 bool AppPressure_IsControlEnabled(void);
 /**
  * @name      AppPressure_IsMotorRunning
@@ -160,8 +160,8 @@ bool AppPressure_IsMotorRunning(void);
  * @note      用于检测是否有负压补充（判断管路是否堵塞）
  */
 float AppPressure_GetLastOutput(void);
-bool AppPressure_HasControlFault(void);
-void AppPressure_ClearControlFault(void);
+// bool AppPressure_HasControlFault(void);
+// void AppPressure_ClearControlFault(void);
 
 /**
  * @name      AppPressure_BleedAndCalibrateZero
@@ -268,7 +268,7 @@ int16_t AppPressure_GetPressureDeviation(void);
  * @retval    泵工作原因枚举值
  * @note      返回泵电机当前的工作状态：闲置、建立负压或维持补充
  */
-PumpWorkReason_e AppPressure_GetPumpWorkReason(void);
+// PumpWorkReason_e AppPressure_GetPumpWorkReason(void);
 
 #endif /* APP_PRESSURE_H */
 

@@ -41,20 +41,20 @@ void HAL_Timer1_ISR(void);
  * 函数: HAL_Timer2_Init
  * 功能: 初始化Timer2
  */
-void HAL_Timer2_Init(void);
+// void HAL_Timer2_Init(void);
 
 /**
  * 函数: HAL_Timer2_ISR
  * 功能: Timer2中断服务程序
  */
-void HAL_Timer2_ISR(void);
+// void HAL_Timer2_ISR(void);
 
 /**
  * 函数: HAL_Timer_GetTick
  * 功能: 获取系统运行时间
  * 返回: 系统运行的毫秒数
  */
-uint32_t HAL_Timer_GetTick(void);
+// uint32_t HAL_Timer_GetTick(void);
 
 /**
  * 20ms系统滴答标志（与未重构工程完全一致，使用相同的变量名）
@@ -74,19 +74,19 @@ void HAL_Timer3_Init(void);
  * 功能: 设置PWM占空比
  * 参数: duty - 占空比值（0-10）
  */
-void HAL_PWM_SetDuty(uint8_t duty);
+// void HAL_PWM_SetDuty(uint8_t duty);
 
 /**
  * 函数: HAL_Watchdog_Clear
  * 功能: 清除看门狗
  */
-void HAL_Watchdog_Clear(void);
+// void HAL_Watchdog_Clear(void);
 
 /**
  * 函数: HAL_Timer_ISR
  * 功能: Timer0中断服务程序（在主中断中调用）
  */
-void HAL_Timer_ISR(void);
+// void HAL_Timer_ISR(void);
 
 /**
  * 函数: HAL_Timer3_ISR

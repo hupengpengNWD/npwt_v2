@@ -58,10 +58,10 @@ void HAL_Pump_Stop(void)
 	LATCbits.LATC7 = 0;  // 气泵停止
 }
 
-void HAL_Pump_Enable(bool enable)
-{
-	LATCbits.LATC7 = enable ? 1 : 0;  // 气泵使能控制
-}
+// void HAL_Pump_Enable(bool enable)
+// {
+// 	LATCbits.LATC7 = enable ? 1 : 0;  // 气泵使能控制
+// }
 
 /* 电磁阀控制 */
 void HAL_Valve1_Open(void)
@@ -85,15 +85,15 @@ void HAL_Valve2_Close(void)
 }
 
 /* LED控制 */
-void HAL_LED_White_On(void)
-{
-	LATCbits.LATC6 = 1;  // 白色LED背光开启
-}
+// void HAL_LED_White_On(void)
+// {
+// 	LATCbits.LATC6 = 1;  // 白色LED背光开启
+// }
 
-void HAL_LED_White_Off(void)
-{
-	LATCbits.LATC6 = 0;  // 白色LED背光关闭
-}
+// void HAL_LED_White_Off(void)
+// {
+// 	LATCbits.LATC6 = 0;  // 白色LED背光关闭
+// }
 
 void HAL_LED_Yellow_On(void)
 {
@@ -149,10 +149,10 @@ void HAL_MotorPWR_Enable(void)
 	LATCbits.LATC3 = 1;  // DRV_EN = 1，使能驱动（与未重构工程一致）
 }
 
-void HAL_MotorPWR_Disable(void)
-{
-	LATCbits.LATC3 = 0;  // DRV_EN = 0，禁用驱动
-}
+// void HAL_MotorPWR_Disable(void)
+// {
+// 	LATCbits.LATC3 = 0;  // DRV_EN = 0，禁用驱动
+// }
 
 /* 电池状态读取 */
 bool HAL_Battery_IsCharging(void)
@@ -162,9 +162,9 @@ bool HAL_Battery_IsCharging(void)
 	return (PORTCbits.RC1 == 0);
 }
 
-bool HAL_Battery_IsGood(void)
-{
-	/* 读取RC0引脚（BAT_GOOD） */
-	return (PORTCbits.RC0 == 1);
-}
+// bool HAL_Battery_IsGood(void)
+// {
+// 	/* 读取RC0引脚（BAT_GOOD） */
+// 	return (PORTCbits.RC0 == 1);
+// }
 

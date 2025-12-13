@@ -105,7 +105,7 @@ void AppSettings_ApplyToUI(UIContext_t* ui_context);
  * @param     无
  * @retval    UIState_e - 工作模式（UI_STATE_LIX或UI_STATE_JIX）
  */
-UIState_e AppSettings_GetWorkMode(void);
+// UIState_e AppSettings_GetWorkMode(void);
 
 /**
  * @name      AppSettings_GetPressureHigh
@@ -113,7 +113,7 @@ UIState_e AppSettings_GetWorkMode(void);
  * @param     无
  * @retval    uint16_t - 高压值（mmHg）
  */
-uint16_t AppSettings_GetPressureHigh(void);
+// uint16_t AppSettings_GetPressureHigh(void);
 
 /**
  * @name      AppSettings_GetPressureLow
@@ -121,7 +121,7 @@ uint16_t AppSettings_GetPressureHigh(void);
  * @param     无
  * @retval    uint16_t - 低压值（mmHg）
  */
-uint16_t AppSettings_GetPressureLow(void);
+// uint16_t AppSettings_GetPressureLow(void);
 
 /**
  * @name      AppSettings_GetTimeHigh
@@ -129,7 +129,7 @@ uint16_t AppSettings_GetPressureLow(void);
  * @param     无
  * @retval    uint16_t - 高压时间（分钟）
  */
-uint16_t AppSettings_GetTimeHigh(void);
+// uint16_t AppSettings_GetTimeHigh(void);
 
 /**
  * @name      AppSettings_GetTimeLow
@@ -137,7 +137,7 @@ uint16_t AppSettings_GetTimeHigh(void);
  * @param     无
  * @retval    uint16_t - 低压时间（分钟）
  */
-uint16_t AppSettings_GetTimeLow(void);
+// uint16_t AppSettings_GetTimeLow(void);
 
 /**
  * @name      AppSettings_ResetToDefaults
@@ -146,7 +146,7 @@ uint16_t AppSettings_GetTimeLow(void);
  * @retval    无
  * @note      用于恢复出厂设置或初始化新设备
  */
-void AppSettings_ResetToDefaults(void);
+// void AppSettings_ResetToDefaults(void);
 
 /**
  * @name      AppSettings_GetLanguage

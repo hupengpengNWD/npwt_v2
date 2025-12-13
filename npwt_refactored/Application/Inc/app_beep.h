@@ -64,7 +64,7 @@ uint32_t AppBeep_GetBuzzer2DCount(void);
  * @param     无
  * @retval    uint32_t - 时序数组长度
  */
-uint32_t AppBeep_GetBuzzerSeqLength(void);
+// uint32_t AppBeep_GetBuzzerSeqLength(void);
 
 /**
  * @name      AppBeep_GetBuzzerSeqCount
@@ -72,7 +72,7 @@ uint32_t AppBeep_GetBuzzerSeqLength(void);
  * @param     无
  * @retval    uint32_t - 重复次数
  */
-uint32_t AppBeep_GetBuzzerSeqCount(void);
+// uint32_t AppBeep_GetBuzzerSeqCount(void);
 
 /**
  * @name      AppBeep_BuzzerCallback
@@ -130,7 +130,7 @@ void AppBeep_SetBeepProcessTimer(SoftTimerHandle_t timer_handle);
  * @param     无
  * @retval    无
  */
-void AppBeep_StartBeep(void);
+// void AppBeep_StartBeep(void);
 
 /**
  * @name      AppBeep_StartBeep2D

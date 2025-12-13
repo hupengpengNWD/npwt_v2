@@ -160,7 +160,7 @@ void Display_Process(void);
  * @param     无
  * @retval    true-忙碌, false-空闲
  */
-bool Display_IsBusy(void);
+// bool Display_IsBusy(void);
 
 /**
  * @name      Display_ClearQueue
@@ -196,7 +196,7 @@ void Display_ClearRect(uint8_t x, uint8_t y, uint8_t width, uint8_t height);
  * @param     yellow_on - 黄色背光是否开启
  * @retval    无
  */
-void Display_SetBacklight(bool white_on, bool yellow_on);
+// void Display_SetBacklight(bool white_on, bool yellow_on);
 
 
 /**
@@ -246,7 +246,7 @@ void Display_ShowNumber(uint8_t x, uint8_t y, uint16_t number, DisplayFontType_e
  * @param     image_data - 图像数据
  * @retval    无
  */
-void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
+// void Display_ShowImage(uint8_t x, uint8_t y, uint8_t width, uint8_t height, const uint8_t* image_data);
 
 /****************************************************************************
  * 图标数据结构
@@ -275,7 +275,7 @@ typedef enum {
     ICON_INTERMITTENT,          // 间歇模式图标（24x16）
     ICON_SILENT,                // 静音图标（16x16）
     ICON_LOCK,                  // 锁定图标（8x16）
-//    ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
+    ICON_UNLOCK,                // 解锁图标（8x16，与锁定图标相同但用于清除）
     ICON_TICK,                  // 勾号图标（16x16）
     ICON_BAT0,                  // 电池图标0%（24x16）
     ICON_BAT1,                  // 电池图标25%（24x16）
@@ -315,7 +315,7 @@ void Display_ShowPressure(uint8_t x, uint8_t y, uint16_t pressure, bool show_uni
  * @param     mode - 工作模式
  * @retval    无
  */
-void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
+// void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
 
 /**
  * @name      Display_ShowError
@@ -325,7 +325,7 @@ void Display_ShowWorkMode(uint8_t x, uint8_t y, DisplayWorkMode_e mode);
  * @param     error - 错误代码
  * @retval    无
  */
-void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error);
+// void Display_ShowError(uint8_t x, uint8_t y, DisplayErrorCode_e error);
 
 /**
  * @name      Display_ShowBatteryIcon

@@ -220,10 +220,10 @@ void AppAlarm_Process(void)
  * @param     无
  * @retval    当前激活的报警类型（ALARM_TYPE_NONE表示无报警）
  */
-AlarmType_e AppAlarm_GetActiveAlarm(void)
-{
-    return g_alarm_state;
-}
+// AlarmType_e AppAlarm_GetActiveAlarm(void)
+// {
+//     return g_alarm_state;
+// }
 
 /**
  * @name      AppAlarm_IsCriticalBatteryActive
