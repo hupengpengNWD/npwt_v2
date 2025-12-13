@@ -15,8 +15,6 @@
       <logicalFolder name="f2" displayName="Core" projectFiles="true">
         <itemPath>../Core/Inc/mcu_config.h</itemPath>
         <itemPath>../Core/Inc/system_config.h</itemPath>
-        <itemPath>../Core/Inc/system_enums.h</itemPath>
-        <itemPath>../Core/Inc/system_types.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="HAL" projectFiles="true">
         <itemPath>../HAL/Inc/hal_adc.h</itemPath>

@@ -7,6 +7,7 @@
 
 #include "../Inc/app_language.h"
 #include "../Inc/app_settings.h"
+#include "../../Core/Inc/system_config.h"  // 包含系统配置（DEFAULT_LANGUAGE等）
 #include <string.h>
 
 /****************************************************************************
@@ -117,8 +118,8 @@ static uint8_t AppLanguage_ConvertChineseString(const char* utf8_str, uint8_t* i
  * 内部变量定义
  ****************************************************************************/
 
-/* 当前语言类型（默认英文） */
-static LanguageType_e g_current_language = LANGUAGE_ENGLISH;
+/* 当前语言类型（默认值从system_config.h中的DEFAULT_LANGUAGE宏定义获取） */
+static LanguageType_e g_current_language = (LanguageType_e)DEFAULT_LANGUAGE;
 
 /****************************************************************************
  * 多语言文本映射表

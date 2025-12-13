@@ -18,7 +18,7 @@
  ****************************************************************************/
 
 #include "../Inc/app_pressure.h"
-#include "../../Core/Inc/system_config.h"  // 包含系统配置（PRESSURE_BLEED_DURATION_MS, PRESSURE_LEAK_ALARM_TIMEOUT_MS）
+#include "../../Core/Inc/system_config.h"  // 包含系统配置（PRESSURE_BLEED_DURATION_MS等）
 #include "../../HAL/Inc/hal_adc.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../Middleware/Inc/pid.h"
@@ -93,14 +93,11 @@ static const uint16_t g_leak_alarm_timeout_table[] = {
 #define LEAK_ALARM_TIMEOUT_STEP_PRESSURE  10U   /* 查表步进：10 mmHg */
 
 #define PRESSURE_CONTROL_SAMPLE_TIME_S    (0.010f)   // 控制循环采样周期（10ms）
-#define PRESSURE_CONTROL_DEADBAND_MMHG    (5.0f)     // 允许的稳态误差
 #define PRESSURE_CONTROL_OUTPUT_MIN       (-100.0f)
 #define PRESSURE_CONTROL_OUTPUT_MAX       (100.0f)
 #define PRESSURE_CONTROL_MIN_DUTY_VALUE   700U       // 70% duty = 700/1000（动态调节基准）
 #define PRESSURE_CONTROL_VALVE_THRESHOLD  (5.0f)     // 控制输出小于该值则不开阀
-#define PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG  (5.0f)  // 再次介入需要超过的误差
 #define PRESSURE_MM_FILTER_ALPHA          (0.25f)   // 额外一阶IIR平滑系数（0~1）
-#define PRESSURE_CONTROL_TARGET_OFFSET    (4U)      // 控制用目标偏移（防止停泵后下跌）
 #define PRESSURE_CONTROL_TARGET_MAX       320U
 #define PRESSURE_CONTROL_SAFE_LIMIT       320U       // 超出则强制泄气
 #define PRESSURE_CONTROL_TARGET_MIN       0U        // 允许的最小控制目标（mmHg）

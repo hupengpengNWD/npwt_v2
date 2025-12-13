@@ -19,7 +19,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "../../Core/Inc/system_types.h"
+//#include "../../Core/Inc/system_types.h"
 #include "../../Application/Inc/app_ui.h"
 
 /****************************************************************************

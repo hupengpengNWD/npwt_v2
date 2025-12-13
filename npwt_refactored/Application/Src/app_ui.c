@@ -10,44 +10,24 @@
 #include "../../Middleware/Inc/pwm.h"  // PWM控制接口（用于停止泵电机）
 #include <stdbool.h>
 /****************************************************************************
- * 常量定义（参考未重构工程）
+ * UI图标显示坐标（仅在本文件使用）
  ****************************************************************************/
-#define PRESSURE_HIGH_MAX     300    // 最大压力值（mmHg）
-#define PRESSURE_HIGH_MIN     20     // 最小压力值（mmHg）
-#define PRESSURE_LOW_MAX      100    // 最大低压值（mmHg）
-#define PRESSURE_LOW_MIN      10     // 最小低压值（mmHg）
-#define PRESSURE_STEP         10     // 压力调整步进值（mmHg）
+#define UI_LOCK_ICON_X                          78U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
+#define UI_LOCK_ICON_Y                           0U   // 锁定图标显示坐标Y（第一行，页0）
+#define UI_MUTE_ICON_X                          94U   // 静音图标显示坐标X（第一行，锁定图标后面）
+#define UI_MUTE_ICON_Y                           0U   // 静音图标显示坐标Y（第一行，页0）
+#define BATTERY_ICON_X                         102U   // 电池图标X坐标（列坐标）
+#define BATTERY_ICON_Y                           0U   // 电池图标Y坐标（页坐标）
 
-#define TIME_HIGH_MAX         99     // 最大高压时间（分钟）
-#define TIME_HIGH_MIN         1      // 最小高压时间（分钟）
-#define TIME_LOW_MAX          99     // 最大低压时间（分钟）
-#define TIME_LOW_MIN          1      // 最小低压时间（分钟）
-#define TIME_STEP             1      // 时间调整步进值（分钟）
+#define UI_IDLE_TEXT_X                          40U   // "Pump Idle"文本显示X坐标（居中显示）
+#define UI_IDLE_TEXT_Y                           3U   // "Pump Idle"文本显示Y坐标（屏幕中间）
+#define UI_LEAK_ALARM_TEXT_X                    20U   // "Leak Alarms"文本显示X坐标（居中显示）
+#define UI_LEAK_ALARM_TEXT_Y                     3U   // "Leak Alarms"文本显示Y坐标（屏幕中间）
+#define UI_BLOCKAGE_ALARM_TEXT_X                10U   // "Blockage Alarm"文本显示X坐标（居中显示）
+#define UI_BLOCKAGE_ALARM_TEXT_Y                 3U   // "Blockage Alarm"文本显示Y坐标（屏幕中间）
+#define UI_OVERPRESSURE_ALARM_TEXT_X             5U   // "Canister Full"文本显示X坐标（居中显示）
+#define UI_OVERPRESSURE_ALARM_TEXT_Y             3U   // "Canister Full"文本显示Y坐标（屏幕中间）
 
-#define PRESSURE_SET_DEFAULT      120    // 默认压力值（mmHg，设置界面使用）
-#define PRESSURE_LOW_DEFAULT      80     // 默认低压值（mmHg）
-#define TIME_HIGH_DEFAULT         1      // 默认高压时间（分钟）
-#define TIME_LOW_DEFAULT          1      // 默认低压时间（分钟）
-
-// 实时压力显示刷新控制
-#define UI_PRESSURE_REFRESH_INTERVAL_TICKS   20    // 连续模式压力刷新间隔（10ms Tick）；20=200ms
-#define UI_PRESSURE_REFRESH_THRESHOLD_MMHG   0     // 最小刷新差值阈值（mmHg）
-
-#define UI_LOCK_TIMEOUT_TICKS                3000U // 自动锁定超时时间：30s @10ms Tick
-#define UI_LOCK_ICON_X                       78U   // 锁定图标显示坐标X（第一行，目标压力和电池图标之间）
-#define UI_LOCK_ICON_Y                       0U    // 锁定图标显示坐标Y（第一行，页0）
-#define UI_MUTE_ICON_X                       94U   // 静音图标显示坐标X（第一行，锁定图标后面）
-#define UI_MUTE_ICON_Y                       0U    // 静音图标显示坐标Y（第一行，页0）
-
-#define UI_IDLE_TIMEOUT_TICKS                6000U // 空闲超时时间：1分钟 @10ms Tick (60秒)
-#define UI_IDLE_TEXT_X                       40U    // "Pump Idle"文本显示X坐标（居中显示）
-#define UI_IDLE_TEXT_Y                       3U     // "Pump Idle"文本显示Y坐标（屏幕中间）
-#define UI_LEAK_ALARM_TEXT_X                  20U    // "Leak Alarms"文本显示X坐标（居中显示）
-#define UI_LEAK_ALARM_TEXT_Y                  3U     // "Leak Alarms"文本显示Y坐标（屏幕中间）
-#define UI_BLOCKAGE_ALARM_TEXT_X               10U    // "Blockage Alarm"文本显示X坐标（居中显示）
-#define UI_BLOCKAGE_ALARM_TEXT_Y               3U     // "Blockage Alarm"文本显示Y坐标（屏幕中间）
-#define UI_OVERPRESSURE_ALARM_TEXT_X           5U     // "Canister Full"文本显示X坐标（居中显示）
-#define UI_OVERPRESSURE_ALARM_TEXT_Y           3U     // "Canister Full"文本显示Y坐标（屏幕中间）
 
 #include "../Inc/app_button.h"    // 获取KeyEvent_t和队列接口
 #include "../Inc/app_battery.h"   // 电池管理模块
@@ -1014,7 +994,7 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     (void)event;
     
     ctx->current_state = UI_STATE_SYS;
-    ctx->work_mode_backup = UI_STATE_LIX;  // 默认连续模式
+    ctx->work_mode_backup = (UIState_e)DEFAULT_WORK_MODE;  // 默认治疗模式（使用system_config.h中的宏定义）
     ctx->sys_show_logo = true;              // 初始显示Logo
     AppPressure_StopControl();
     AppUI_Display_SYS();
@@ -1448,23 +1428,14 @@ static void AppUI_TimeSetting_ExitToPause(void* arg, st_fsm_event event)
  */
 static void AppUI_Display_SYS(void)
 {
-#define SW 0
     if (g_ui_context.sys_show_logo) {
         // 显示开机Logo（由display模块处理）
         Display_ShowStartupInterface();
     } else {
         // 显示"npwt"和版本号
-        Display_Clear();
-        // 16x32字体需要4页（32像素），屏幕总共8页（0-7）
-        // Y=2时，page_hw=4，占用硬件页4,5,6,7（完整显示）
-        // 6x12字体需要2页（12像素），Y=5时，page_hw=1，占用硬件页1,2（不重叠）
-#if SW
-        static char text_buffer[32] = {0};
-        Display_ShowString(40, 2, AppLanguage_GetTextConverted(TEXT_ID_MODE, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MODE, DISPLAY_FONT_8X16), DISPLAY_ALIGN_LEFT);
-#else        
+        Display_Clear();     
         Display_ShowString(42, 3, "NPWT", DISPLAY_FONT_16X32, DISPLAY_ALIGN_LEFT);
-        Display_ShowString(3, 5, "Vcare1000-300se.1.01", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
-#endif
+        Display_ShowString(3, 5, DEVICE_VERSION_STRING, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
     }
 }
 
@@ -1889,13 +1860,12 @@ void AppUI_Init(void)
     g_ui_context.blockage_alarm_previous_state = UI_STATE_SYS;
     g_ui_context.overpressure_alarm_active = false;
     g_ui_context.overpressure_alarm_previous_state = UI_STATE_SYS;
-    // settings_sub_state已废弃，现在使用独立的FSM状态
-    g_ui_context.pressure_high = PRESSURE_SET_DEFAULT;
+    g_ui_context.pressure_high = PRESSURE_DEFAULT;
     g_ui_context.pressure_low = PRESSURE_LOW_DEFAULT;
     g_ui_context.time_high = TIME_HIGH_DEFAULT;
     g_ui_context.time_low = TIME_LOW_DEFAULT;
     g_ui_context.time_edit_high = true;  // 默认编辑高压时间
-    g_ui_context.pressure_step = 5;      // 压力调整步进值，默认5mmHg
+    g_ui_context.pressure_step = PRESSURE_STEP;  // 压力调整步进值，使用宏定义
     g_ui_context.sys_show_logo = true;   // 初始显示Logo
     g_ui_context.user_data = NULL;
     

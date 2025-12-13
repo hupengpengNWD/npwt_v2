@@ -10,7 +10,7 @@
  ****************************************************************************/
 
 #include "../Inc/system_config.h"
-#include "../Inc/system_types.h"
+//#include "../Inc/system_types.h"
 #include "../Inc/system_enums.h"
 #include "../../HAL/Inc/hal_gpio.h"
 #include "../../HAL/Inc/hal_timer.h"
@@ -36,7 +36,7 @@
 extern volatile unsigned char FLG_SYS_10MS;
 
 /* 系统状态 */
-static SystemState_t g_system;
+//static SystemState_t g_system;  // 未使用，已删除以节省RAM空间
 static volatile bool g_pressure_process_flag = false;
 
 /****************************************************************************

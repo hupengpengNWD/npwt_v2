@@ -42,18 +42,6 @@ typedef enum {
     UI_STATE_COUNT                 // 状态总数
 } UIState_e;
 
-/**
- * @brief 设置模式子状态（已废弃，改为使用独立的FSM状态）
- * @deprecated 现在使用UI_STATE_SET、UI_STATE_SET_PRESSURE等独立状态
- */
-typedef enum {
-    SET_SUB_STATE_MODE_SELECT = 0,      // 模式选择界面（对应UI_STATE_SET）
-    SET_SUB_STATE_PRESSURE = 1,         // 压力设置界面（对应UI_STATE_SET_PRESSURE）
-    SET_SUB_STATE_HP_PRESSURE = 2,      // 高压设置界面（对应UI_STATE_SET_HP_PRESSURE）
-    SET_SUB_STATE_LP_PRESSURE = 3,      // 低压设置界面（对应UI_STATE_SET_LP_PRESSURE）
-    SET_SUB_STATE_TIME = 4,             // 时间设置界面（对应UI_STATE_SET_TIME）
-    SET_SUB_STATE_COUNT
-} SettingsSubState_e;
 
 /**
  * @brief UI事件类型（基于按键事件和系统事件）
@@ -93,7 +81,6 @@ typedef struct {
     UIState_e blockage_alarm_previous_state;  // 管路堵塞报警前的状态（用于恢复显示）
     bool overpressure_alarm_active;  // 是否处于过压报警状态（收集罐已满）
     UIState_e overpressure_alarm_previous_state;  // 过压报警前的状态（用于恢复显示）
-    SettingsSubState_e settings_sub_state;  // 设置模式子状态
     uint16_t pressure_high;         // 高压值（mmHg，连续模式使用，间歇模式也使用）
     uint16_t pressure_low;          // 低压值（mmHg，仅间歇模式使用）
     uint16_t time_high;             // 高压时间（分钟，仅间歇模式使用）

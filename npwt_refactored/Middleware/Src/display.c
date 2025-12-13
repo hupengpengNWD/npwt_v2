@@ -1,6 +1,7 @@
 #include "display.h"
 #include "hal_lcd.h"
 #include "../../Application/Inc/app_language.h"
+#include "../../Core/Inc/system_config.h"  // 包含系统配置（STARTUP_LOGO_SELECT等）
 #include <stdio.h>
 #include <string.h>
 
@@ -913,7 +914,17 @@ static void Display_ShowStartupInterfaceInternal(void)
     // 清屏
     HAL_LCD_ClearNonBlocking();
 //    Display_ShowStringInternal(0, 0, "VR NPWT DEVICE", DISPLAY_FONT_8X16, DISPLAY_ALIGN_LEFT);
+    
+    // 根据STARTUP_LOGO_SELECT宏定义选择使用哪个Logo数组
+    #if (STARTUP_LOGO_SELECT == 0)
     Display_ShowImageStartupFormat(0, 0, 128, 64, LOGO_STARTUP_IMAGE);
+    #elif (STARTUP_LOGO_SELECT == 1)
+    Display_ShowImageStartupFormat(0, 0, 128, 64, LOGO_STARTUP_IMAGE1);
+    #elif (STARTUP_LOGO_SELECT == 2)
+    Display_ShowImageStartupFormat(0, 0, 128, 64, LOGO_STARTUP_IMAGE2);
+    #else
+    #error "Invalid STARTUP_LOGO_SELECT value. Must be 0, 1, or 2."
+    #endif
 }
 
 /****************************************************************************

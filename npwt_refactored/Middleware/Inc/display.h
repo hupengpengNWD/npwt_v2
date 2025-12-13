@@ -26,8 +26,19 @@
 /**
  * @brief 开机Logo图片数据
  * @note  尺寸：128x64像素，8页，每页128字节，共1024字节
+ * @note  根据STARTUP_LOGO_SELECT宏定义选择使用哪个Logo数组
  */
+#include "../../Core/Inc/system_config.h"  // 包含系统配置（STARTUP_LOGO_SELECT等）
+
+#if (STARTUP_LOGO_SELECT == 0)
 extern const uint8_t LOGO_STARTUP_IMAGE[1024];
+#elif (STARTUP_LOGO_SELECT == 1)
+extern const uint8_t LOGO_STARTUP_IMAGE1[1024];
+#elif (STARTUP_LOGO_SELECT == 2)
+extern const uint8_t LOGO_STARTUP_IMAGE2[1024];
+#else
+#error "Invalid STARTUP_LOGO_SELECT value. Must be 0, 1, or 2."
+#endif
 
 /****************************************************************************
  * 显示模块类型定义

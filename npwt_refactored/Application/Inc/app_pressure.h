@@ -22,7 +22,7 @@
 #define APP_PRESSURE_H
 
 #include "../../Core/Inc/system_config.h"
-#include "../../Core/Inc/system_types.h"
+//#include "../../Core/Inc/system_types.h"
 #include <stdint.h>
 #include <stdbool.h>
 

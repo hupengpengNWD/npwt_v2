@@ -13,6 +13,7 @@
 #include "../../HAL/Inc/hal_flash.h"
 #include "../../Core/Inc/system_config.h"
 #include "../../Application/Inc/app_language.h"
+#include "../../Application/Inc/app_ui.h"  // 包含UI状态枚举（UI_STATE_LIX, UI_STATE_JIX）
 #include <string.h>
 
 /****************************************************************************
@@ -58,11 +59,11 @@ static bool AppSettings_ValidateData(const AppSettingsFlashData_t* data)
     }
     
     /* 验证压力值范围 */
-    if (data->pressure_high < PRESSURE_MIN || data->pressure_high > PRESSURE_MAX) {
+    if (data->pressure_high < PRESSURE_HIGH_MIN || data->pressure_high > PRESSURE_HIGH_MAX) {
         return false;
     }
     
-    if (data->pressure_low < PRESSURE_MIN || data->pressure_low > PRESSURE_MAX) {
+    if (data->pressure_low < PRESSURE_LOW_MIN || data->pressure_low > PRESSURE_LOW_MAX) {
         return false;
     }
     
@@ -88,12 +89,12 @@ static bool AppSettings_ValidateData(const AppSettingsFlashData_t* data)
  */
 static void AppSettings_SetDefaults(void)
 {
-    g_settings_data.work_mode = UI_STATE_LIX;              // 默认连续模式
+    g_settings_data.work_mode = (uint16_t)DEFAULT_WORK_MODE;  // 默认治疗模式（使用system_config.h中的宏定义）
     g_settings_data.pressure_high = PRESSURE_DEFAULT;      // 默认120mmHg
     g_settings_data.pressure_low = 80;                     // 默认80mmHg（间歇模式）
     g_settings_data.time_high = 5;                         // 默认5分钟
     g_settings_data.time_low = 2;                          // 默认2分钟
-    g_settings_data.language = 1;                          // 默认英文（1=英文, 2=中文, 3=俄文）
+    g_settings_data.language = DEFAULT_LANGUAGE;          // 默认语言（使用system_config.h中的宏定义）
     
     /* 清零预留字段 */
     memset(g_settings_data.reserved, 0, sizeof(g_settings_data.reserved));
