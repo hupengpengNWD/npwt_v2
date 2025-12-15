@@ -57,7 +57,7 @@ void HAL_Timer1_ISR(void);
 // uint32_t HAL_Timer_GetTick(void);
 
 /**
- * 20ms系统滴答标志（与未重构工程完全一致，使用相同的变量名）
+ * 20ms系统滴答标志（与老版本工程完全一致，使用相同的变量名）
  * 由Timer0中断设置，主循环清除
  */
 extern volatile unsigned char FLG_SYS_10MS;

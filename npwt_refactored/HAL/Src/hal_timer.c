@@ -16,7 +16,7 @@
 /* 系统滴答计数器 */
 static volatile uint32_t g_system_tick_ms = 0;
 
-/* 20ms系统滴答标志（与未重构工程完全一致的变量名） */
+/* 20ms系统滴答标志（与老版本工程完全一致的变量名） */
 volatile unsigned char FLG_SYS_10MS = 0;
 
 /**
@@ -41,8 +41,8 @@ void HAL_Timer0_Init(void)
  */
 void HAL_Timer3_Init(void)
 {
-	/* 完全按照未重构工程 SYS_TMR3_Ini() 的寄存器值 */
-	T3CON = 0x34;           // Timer3配置（与未重构工程一致）
+	/* 完全按照老版本工程 SYS_TMR3_Ini() 的寄存器值 */
+	T3CON = 0x34;           // Timer3配置（与老版本工程一致）
 	PIE2 = PIE2 | 0x02;     // 使能Timer3中断（不影响其他中断位）
 }
 

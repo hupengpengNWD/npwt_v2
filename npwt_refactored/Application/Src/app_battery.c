@@ -3,7 +3,7 @@
  * 功能: 电池管理应用层实现
  * 
  * 说明: 
- *   参考未重构工程的实现方式
+ *   参考老版本工程的实现方式
  *   - ADC采集频率：每500ms一次（低频采集）
  *   - 滤波方式：10次滑动平均（在HAL层完成）
  *   - 防抖处理：连续10次相同才更新（1秒@100ms周期）
@@ -200,7 +200,7 @@ bool AppBattery_IsLevelChanged(void)
 
 /**
  * @name      BatteryLevel_Calculate
- * @brief     根据ADC值计算电量等级（与未重构工程一致）
+ * @brief     根据ADC值计算电量等级（与老版本工程一致）
  * @param     adc_bat - ADC采样值
  * @param     is_working_mode - 是否在工作模式（连续或间歇治疗模式）
  * @retval    电量等级枚举值

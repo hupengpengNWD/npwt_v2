@@ -1,12 +1,12 @@
 /****************************************************************************
  * 文件名: main.c
  * 功能: 主程序入口（基于按键状态机的电源控制版本）
- * 
+ * 作者: 韦睿医疗
  * 说明: 
- *   使用key_machine组件实现电源控制
- *   长按1秒开机，长按3秒关机
+ *   前后台系统
+ *   主循环轮训
  * 
- * 创建日期: 2025-10-22
+ * 创建日期: 2025-10-20
  ****************************************************************************/
 
 #include "../Inc/system_config.h"
@@ -78,7 +78,7 @@ void PowerOn(void)
     HAL_LCD_Backlight_On();
     
     // 更新状态
-    // 注意：电源状态现在由app_button模块管理
+    // 电源状态现在由app_button模块管理
     // 状态更新在AppButton_PowerKeyCallback中处理
     // 但为了保持与备份文件的一致性，这里也更新状态
     AppButton_SetPowerState(1); // POWER_STATE_ON = 1
@@ -111,14 +111,14 @@ void PowerOff(void)
     UIContext_t* ui_context = AppUI_GetContext();  // 获取UI上下文指针
     if (ui_context != NULL) {
         // Flash写入前禁用中断，避免中断破坏RAM状态
-        // 注意：与未重构工程一致，Flash写入后不恢复中断，直接进入死循环
+        // 注意：与老版本工程一致，Flash写入后不恢复中断，直接进入死循环
         GIE = 0;  // 禁用全局中断
         
         AppSettings_UpdateFromUI(ui_context);
         AppSettings_Save();  // 保存到Flash
         
         // Flash写入后不恢复中断，直接关闭外设并进入死循环
-        // 与未重构工程保持一致：Write_Cycle()中如果CARRY=1，则GIE=0（不恢复中断）
+        // 与老版本工程保持一致：Write_Cycle()中如果CARRY=1，则GIE=0（不恢复中断）
     }
     PowerOff_Delay(1000);
     // 关闭背光
@@ -212,7 +212,7 @@ void main(void)
 {
     /* ========== 系统初始化 ========== */
     
-    /* 1. 初始化振荡器（与未重构工程SYS_OSC_Ini完全一致） */
+    /* 1. 初始化振荡器（与老版本工程SYS_OSC_Ini完全一致） */
     OSCCON = 0b01110000;    // 内部振荡器，8MHz
     OSCTUNE = OSCTUNE | 0x40; // 使能4×PLL → 32MHz
     while (!(OSCCON & 0x08)); // 等待振荡器稳定
@@ -348,7 +348,7 @@ void main(void)
     /* 8.3 开始蜂鸣器二维时序模式（支持多种模式切换） */
 //    AppBeep_StartBeep2D();  // 测试代码，已屏蔽
     
-    /* 8.4 创建黄色LED翻转定时器（每1秒执行一次） */
+    /* 8.4 创建黄色LED翻转定时器（每1秒执行一次），测试代码，已屏蔽 */
 //    SoftTimerHandle_t led_toggle_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC, 1000, LED_ToggleCallback, NULL);
 //    if (led_toggle_timer != 0) {
 //        SoftTimer_Start(led_toggle_timer);

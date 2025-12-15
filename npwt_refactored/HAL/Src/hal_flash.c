@@ -4,7 +4,7 @@
  * 
  * 说明: 
  *   实现PIC18F46J11的Flash读写操作
- *   参考未重构工程的Flash.c实现
+ *   参考老版本工程的Flash.c实现
  * 
  * 创建日期: 2025-11-21
  ****************************************************************************/
@@ -92,17 +92,17 @@ static void HAL_Flash_WriteCycle(void)
 /**
  * @brief 初始化Flash模块
  * @note  参考lj/flash_driver.c中的Flash_Init()实现
- * @note  未重构工程的Flash.c没有Flash_Init()函数，所以这里也保持为空
+ * @note  老版本工程的Flash.c没有Flash_Init()函数，所以这里也保持为空
  */
 void HAL_Flash_Init(void)
 {
-    /* 未重构工程的Flash.c没有Flash_Init()函数，所以这里也保持为空 */
-    /* 与未重构工程保持一致 */
+    /* 老版本工程的Flash.c没有Flash_Init()函数，所以这里也保持为空 */
+    /* 与老版本工程保持一致 */
 }
 
 /**
  * @brief 擦除Flash块（64字节）
- * @note  与未重构工程的Flash_Erase()完全一致
+ * @note  与老版本工程的Flash_Erase()完全一致
  */
 //bool HAL_Flash_EraseBlock(uint32_t address)
 //{
@@ -111,7 +111,7 @@ void HAL_Flash_Init(void)
 //    //     return false;
 //    // }
 //    
-//    /* 设置地址指针（与未重构工程的计算方式一致） */
+//    /* 设置地址指针（与老版本工程的计算方式一致） */
 //    TBLPTRL = ((address) & 0xFF);
 //    TBLPTRH = (((address) >> 8) & 0xFF);
 //    TBLPTRU = (((address) >> 8) >> 8);
@@ -153,7 +153,7 @@ bool HAL_Flash_EraseBlock(uint32_t address)
 
 /**
  * @brief 写入一个字（16位）到Flash
- * @note  与未重构工程的Write_One_Word()完全一致，使用unsigned int类型
+ * @note  与老版本工程的Write_One_Word()完全一致，使用unsigned int类型
  */
 //bool HAL_Flash_WriteWord(uint32_t address, unsigned int data)
 //{
@@ -162,7 +162,7 @@ bool HAL_Flash_EraseBlock(uint32_t address)
 //    //     return false;
 //    // }
 //    
-//    /* 设置地址指针（与未重构工程的计算方式一致） */
+//    /* 设置地址指针（与老版本工程的计算方式一致） */
 //    TBLPTRL = ((address) & 0xFF);
 //    TBLPTRH = (((address) >> 8) & 0xFF);
 //    TBLPTRU = (((address) >> 8) >> 8);
@@ -212,13 +212,13 @@ bool HAL_Flash_WriteWord(uint32_t address, unsigned int data)
 
 /**
  * @brief 从Flash读取一个字（16位）
- * @note  与未重构工程的Flash_Read()完全一致，使用unsigned int类型
+ * @note  与老版本工程的Flash_Read()完全一致，使用unsigned int类型
  */
 unsigned int HAL_Flash_ReadWord(uint32_t address)
 {
     unsigned int temp;
     
-    /* 设置地址指针（与未重构工程的计算方式一致） */
+    /* 设置地址指针（与老版本工程的计算方式一致） */
     TBLPTRL = ((address) & 0xFF);
     TBLPTRH = (((address) >> 8) & 0xFF);
     TBLPTRU = (((address) >> 8) >> 8);
@@ -254,7 +254,7 @@ bool HAL_Flash_ReadBlock(uint32_t address, uint8_t* buffer, uint16_t size)
 
 /**
  * @brief 写入一个块到Flash（64字节）
- * @note  与未重构工程保持一致，不恢复EECON1寄存器（未重构工程也没有恢复）
+ * @note  与老版本工程保持一致，不恢复EECON1寄存器（老版本工程也没有恢复）
  */
 // bool HAL_Flash_WriteBlock(uint32_t address, const uint8_t* buffer, uint16_t size)
 // {
@@ -272,8 +272,8 @@ bool HAL_Flash_ReadBlock(uint32_t address, uint8_t* buffer, uint16_t size)
 //         }
 //     }
     
-//     /* 与未重构工程保持一致，不恢复EECON1寄存器 */
-//     /* 未重构工程的Write_One_Word()只恢复WREN=0（在Write_Cycle中），不恢复其他位 */
+//     /* 与老版本工程保持一致，不恢复EECON1寄存器 */
+//     /* 老版本工程的Write_One_Word()只恢复WREN=0（在Write_Cycle中），不恢复其他位 */
     
 //     return true;
 // }

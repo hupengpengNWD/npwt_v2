@@ -390,7 +390,7 @@ void KeyManager_DestroyKey(KeyMachinePtr_t ptr) {
     
     g_key_manager.count--;
     
-    // 注意：对于静态实例，不需要调用free()
+    // 对于静态实例，不需要调用free()
     // 只有动态分配的实例才需要释放内存
 }
 

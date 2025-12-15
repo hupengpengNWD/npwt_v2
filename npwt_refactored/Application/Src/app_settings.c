@@ -168,18 +168,18 @@ bool AppSettings_Load(void)
 
 /**
  * @brief 保存参数到Flash
- * @note  与未重构工程保持一致，只写入20字节（10个word），不进行CRC校验
+ * @note  与老版本工程保持一致，只写入20字节（10个word），不进行CRC校验
  * 
  * 数据格式:
- *   addr+0:  pressure_high  (高压值，对应未重构工程的mod_seta_preh_bak)
- *   addr+2:  time_high      (高压时间，对应未重构工程的mod_seta_ont)
- *   addr+4:  time_low       (低压时间，对应未重构工程的mod_seta_oft)
- *   addr+6:  work_mode      (工作模式，对应未重构工程的mod_main_baka)
+ *   addr+0:  pressure_high  (高压值，对应老版本工程的mod_seta_preh_bak)
+ *   addr+2:  time_high      (高压时间，对应老版本工程的mod_seta_ont)
+ *   addr+4:  time_low       (低压时间，对应老版本工程的mod_seta_oft)
+ *   addr+6:  work_mode      (工作模式，对应老版本工程的mod_main_baka)
  *   addr+8:  pressure_low   (低压值)
  *   addr+10: language       (语言设置：1=英文, 2=中文, 3=俄文)
- *   addr+12: 0              (校准系数K3，未重构工程使用，重构工程不需要)
- *   addr+14: 0              (校准系数K4，未重构工程使用，重构工程不需要)
- *   addr+16: 0              (静音标志+语言，未重构工程使用，重构工程不需要)
+ *   addr+12: 0              (校准系数K3，老版本工程使用，重构工程不需要)
+ *   addr+14: 0              (校准系数K4，老版本工程使用，重构工程不需要)
+ *   addr+16: 0              (静音标志+语言，老版本工程使用，重构工程不需要)
  *   addr+18: 不使用
  */
 bool AppSettings_Save(void)
@@ -199,7 +199,7 @@ bool AppSettings_Save(void)
     
     HAL_Flash_EraseBlock(HAL_FLASH_CONFIG_ADDRESS);
     
-    /* 按照未重构工程的格式，逐个写入10个word（20字节） */
+    /* 按照老版本工程的格式，逐个写入10个word（20字节） */
     if (!HAL_Flash_WriteWord(HAL_FLASH_CONFIG_ADDRESS + 0,  g_settings_data.pressure_high)) {
         return false;
     }

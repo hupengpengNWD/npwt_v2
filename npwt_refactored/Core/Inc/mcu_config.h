@@ -41,10 +41,10 @@
 #define __delay_us(x) _delay((unsigned long)((x)*(_XTAL_FREQ/4000000.0)))
 #define __delay_ms(x) _delay((unsigned long)((x)*(_XTAL_FREQ/4000.0)))
 
-/* NOP宏定义（与未重构工程一致） */
+/* NOP宏定义（与老版本工程一致） */
 #define NOP()       asm("nop")
 
-/* 注意：WREN, GIE, WR, CARRY, FREE, WPROG 等位变量
+/* WREN, GIE, WR, CARRY, FREE, WPROG 等位变量
  * 已由 XC8 编译器的 pic18f46j11.h 头文件直接提供定义
  * 无需在此定义宏，可直接使用这些名称
  */

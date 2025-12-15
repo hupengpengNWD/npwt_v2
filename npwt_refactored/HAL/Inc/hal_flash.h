@@ -23,7 +23,7 @@
 /****************************************************************************
  * Flash地址定义
  ****************************************************************************/
-/* 注意：Flash地址必须满足以下条件：
+/* Flash地址必须满足以下条件：
  *   1. 不在程序代码范围内（避免覆盖程序）
  *   2. 不在常量数据范围内（避免覆盖LOGO等数据）
  *   3. 64字节对齐（Flash块对齐要求）
@@ -91,7 +91,7 @@ bool HAL_Flash_EraseBlock(uint32_t address);
  * @name      HAL_Flash_WriteWord
  * @brief     写入一个字（16位）到Flash
  * @param     address - 写入地址（必须是2字节对齐）
- * @param     data - 要写入的数据（16位，unsigned int类型，与未重构工程保持一致）
+ * @param     data - 要写入的数据（16位，unsigned int类型，与老版本工程保持一致）
  * @retval    true=成功, false=失败
  * @note      写入前必须确保该地址所在的块已被擦除
  *           写入操作会禁用中断，操作完成后恢复
@@ -102,7 +102,7 @@ bool HAL_Flash_WriteWord(uint32_t address, unsigned int data);
  * @name      HAL_Flash_ReadWord
  * @brief     从Flash读取一个字（16位）
  * @param     address - 读取地址（必须是2字节对齐）
- * @retval    读取的数据（16位，unsigned int类型，与未重构工程保持一致）
+ * @retval    读取的数据（16位，unsigned int类型，与老版本工程保持一致）
  * @note      读取操作不会修改Flash内容，可以随时调用
  */
 unsigned int HAL_Flash_ReadWord(uint32_t address);

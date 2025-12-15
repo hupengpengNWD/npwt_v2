@@ -13,7 +13,7 @@ extern const unsigned char digit_char_16x32[];  // 16x32数字字模（仅包含
 
 // 外部图标数据声明（在Library/lcd_icon_data.c中定义）
 extern const unsigned char icon_image_lock_8x16[];
-//extern const unsigned char icon_image_unlock_8x16[];
+extern const unsigned char icon_image_unlock_8x16[];
 extern const unsigned char icon_image_key1_16x16[];
 extern const unsigned char icon_image_key2_16x16[];
 extern const unsigned char icon_image_silent_16x16[];
@@ -883,7 +883,7 @@ static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t batter
 {
     IconType_e battery_icon_type;
     
-    // 根据电池电量选择对应的图标类型（与未重构工程一致：bat_lev 0-4对应0%, 25%, 50%, 75%, 100%）
+    // 根据电池电量选择对应的图标类型（与老版本工程一致：bat_lev 0-4对应0%, 25%, 50%, 75%, 100%）
     if (battery_level <= 20) {
         battery_icon_type = ICON_BAT0;  // 0%电池图标
     } else if (battery_level <= 40) {
@@ -899,8 +899,8 @@ static void Display_ShowBatteryIconInternal(uint8_t x, uint8_t y, uint8_t batter
     // 使用统一的图标显示函数（自动处理列偏移等）
     Display_ShowIconInternal(x, y, battery_icon_type);
     
-    // 如果正在充电，可以在图标旁边显示充电指示（可选）
-    // 注意：未重构工程中充电状态通过LED显示，这里暂时不显示文字
+    // 如果正在充电，可以在图标旁边显示充电指示
+    // 老版本工程中充电状态通过LED显示，这里暂时不显示文字
 }
 
 /**
@@ -938,7 +938,7 @@ static const IconData_t g_icon_table[ICON_COUNT] = {
     {24, 16, icon_image_intermittent_24x16},  // ICON_INTERMITTENT
     {16, 16, icon_image_silent_16x16},        // ICON_SILENT
     {8, 16, icon_image_lock_8x16},            // ICON_LOCK
-//    {8, 16, icon_image_unlock_8x16},          // ICON_UNLOCK
+    {8, 16, icon_image_unlock_8x16},          // ICON_UNLOCK
     {16, 16, icon_image_tick_16x16},          // ICON_TICK
     {24, 16, icon_image_bat0_24x16},          // ICON_BAT0 - 电池图标0%
     {24, 16, icon_image_bat1_24x16},          // ICON_BAT1 - 电池图标25%
@@ -1057,7 +1057,7 @@ static void Display_SendCharData(uint8_t page, uint8_t column, const uint8_t* ch
     
     // 针对不同字模布局分别处理
     if (width == 8 && height == 16) {
-        // 与未重构工程一致：先写上半到 page_hw，再写下半到 page_hw+1
+        // 与老版本工程一致：先写上半到 page_hw，再写下半到 page_hw+1
         // 上半页：char_data[15]..char_data[8] → page_hw（倒序）
         HAL_LCD_SetPositionNonBlocking(page_hw, column);
         for (int8_t idx = 15; idx >= 8; idx--) {

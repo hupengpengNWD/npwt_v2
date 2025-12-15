@@ -3,11 +3,10 @@
  * 功能: 压力传感器管理应用层实现
  * 
  * 说明: 
- *   参考未重构工程的实现方式
  *   - ADC采集频率：约每4ms（250Hz，由调用频率决定）
  *   - 滤波方式：3次采样滑动平均（参考adc_press_filter）
  *   - 转换公式：压力值(mmHg) = (adc_ps0 - adc_zero) / valueK
- *   - valueK默认值：2.75（参考未重构工程）
+ *   - valueK默认值：2.75（参考老版本工程）
  * 
  * 实现细节：
  *   1. 3次采样平均滤波：每次UpdateADC时更新一个样本，计算平均值
@@ -1011,7 +1010,7 @@ static uint32_t GetLeakAlarmTimeout(uint16_t target_mmHg)
 
 /**
  * @name      PressureFilter_Update
- * @brief     更新滤波缓冲区并计算平均值（参考未重构工程adc_press_filter）
+ * @brief     更新滤波缓冲区并计算平均值（参考老版本工程adc_press_filter）
  * @param     adc_value - 新的ADC采样值
  * @retval    滤波后的ADC值（3次采样平均）
  */
@@ -1032,7 +1031,7 @@ static uint16_t PressureFilter_Update(uint16_t adc_value)
     }
     sum = (uint16_t)(sum / PRESSURE_FILTER_COUNT);
     
-    /* 边界检查（参考未重构工程） */
+    /* 边界检查（参考老版本工程） */
     if (sum > 1023) {
         sum = 1023;
     }
@@ -1045,7 +1044,7 @@ static uint16_t PressureFilter_Update(uint16_t adc_value)
 
 /**
  * @name      PressureConvert_ADCToMMHG
- * @brief     ADC值转换为mmHg（参考未重构工程DISP_MainA）
+ * @brief     ADC值转换为mmHg（参考老版本工程DISP_MainA）
  * @param     adc_value - ADC值（滤波后）
  * @retval    压力值（mmHg）
  * @note      转换公式：压力值(mmHg) = (adc_ps0 - adc_zero) / valueK
@@ -1054,7 +1053,7 @@ static uint16_t PressureConvert_ADCToMMHG(uint16_t adc_value)
 {
     float pressure_float;
     
-    /* 参考未重构工程：if (adc_ps0 > adc_zero) */
+    /* 参考老版本工程：if (adc_ps0 > adc_zero) */
     if (adc_value > g_pressure_zero_offset) {
         /* 转换公式：i = (float)(adc_ps0 - adc_zero) / valueK */
         pressure_float = (float)(adc_value - g_pressure_zero_offset) / g_pressure_conversion_factor;
@@ -1066,7 +1065,7 @@ static uint16_t PressureConvert_ADCToMMHG(uint16_t adc_value)
     /* 转换为整数（mmHg） */
     uint16_t pressure = (uint16_t)pressure_float;
     
-    /* 边界检查：压力范围0-320mmHg（参考未重构工程注释） */
+    /* 边界检查：压力范围0-320mmHg（参考老版本工程注释） */
     if (pressure > 320) {
         pressure = 320;
     }

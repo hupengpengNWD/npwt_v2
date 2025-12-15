@@ -18,7 +18,7 @@
  */
 void HAL_GPIO_Init(void)
 {
-	/* 完全按照未重构工程 SYS_IO_Ini() 的写法 */
+	/* 完全按照老版本工程 SYS_IO_Ini() 的写法 */
 	TRISA  =  0b00110111;
 	LATA  =  0;
 	PORTA  =  0;
@@ -135,18 +135,18 @@ void HAL_Buzzer_Off(void)
 /* 电源控制 */
 void HAL_Power_Hold(void)
 {
-	LATCbits.LATC2 = 1;  // POWER_ON = 1，保持电源（与未重构工程一致）
+	LATCbits.LATC2 = 1;  // POWER_ON = 1，保持电源（与老版本工程一致）
 }
 
 void HAL_Power_Release(void)
 {
-	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源（与未重构工程一致）
+	LATCbits.LATC2 = 0;  // POWER_ON = 0，释放电源（与老版本工程一致）
 }
 
 /* 电机电源使能控制 */
 void HAL_MotorPWR_Enable(void)
 {
-	LATCbits.LATC3 = 1;  // DRV_EN = 1，使能驱动（与未重构工程一致）
+	LATCbits.LATC3 = 1;  // DRV_EN = 1，使能驱动（与老版本工程一致）
 }
 
 // void HAL_MotorPWR_Disable(void)
@@ -157,7 +157,7 @@ void HAL_MotorPWR_Enable(void)
 /* 电池状态读取 */
 bool HAL_Battery_IsCharging(void)
 {
-	/* 参考未重构工程：BAT_CHARGE == BAT_CHARGING (0) 表示充电中 */
+	/* 参考老版本工程：BAT_CHARGE == BAT_CHARGING (0) 表示充电中 */
 	/* RC1 = 0 表示充电中，RC1 = 1 表示未充电 */
 	return (PORTCbits.RC1 == 0);
 }

@@ -464,7 +464,7 @@ static void AppUI_LeakAlarmPumpStopCallback(void* user_data)
     (void)user_data;
     
     /* 延迟时间到，停止压力控制（停止泵电机和PID控制） */
-    /* 注意：AppPressure_StopControl() 会清除泄漏报警标志，但UI层通过 */
+    /* AppPressure_StopControl() 会清除泄漏报警标志，但UI层通过 */
     /* g_ui_context.leak_alarm_active 来维护泄漏报警状态，所以不影响UI显示 */
     AppPressure_StopControl();
 }
@@ -1016,7 +1016,7 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     Display_Clear();
     AppUI_Display_WAT();
 
-    /* 进入待机界面首次执行零点校准（参考未重构工程） */
+    /* 进入待机界面首次执行零点校准（参考老版本工程） */
     if (!g_pressure_zero_calibrated || ctx->last_state == UI_STATE_SYS) {
         AppPressure_BleedAndCalibrateZero();
         g_pressure_zero_calibrated = true;
@@ -1689,7 +1689,7 @@ static void AppUI_RefreshPressureValue(void)
  */
 static void AppUI_Display_SET_HP_Pressure(void)
 {
-    // 参考未重构工程：显示"Pressure"、"HP Set"和"LP Set"
+    // 参考老版本工程：显示"Pressure"、"HP Set"和"LP Set"
     static char text_buffer[16] = {0};  
     static char text_buffer1[16] = {0}; 
     static char text_buffer2[16] = {0}; 
@@ -2097,7 +2097,7 @@ void AppUI_Process(void)
         last_work_mode_backup = UI_STATE_COUNT;
     }
     
-    /* 第四步：电池显示更新（参考未重构工程的实现） */
+    /* 第四步：电池显示更新（参考老版本工程的实现） */
     /* 如果处于任何报警或空闲状态，跳过电池显示更新 */
     if (g_ui_context.idle_active || 
         g_ui_context.overpressure_alarm_active ||
@@ -2183,7 +2183,7 @@ void AppUI_Process(void)
         }
         battery_display_counter = 0;  // 重置计数器
     } else if (!freeze_battery_display && current_battery_charging) {
-        /* 充电时，每20ms更新一次（实现闪烁动画，与未重构工程一致） */
+        /* 充电时，每20ms更新一次（实现闪烁动画，与老版本工程一致） */
         if (++battery_display_counter >= 2) {  // 2次 = 20ms@10ms
             need_update = true;
             battery_display_counter = 0;
@@ -2204,7 +2204,7 @@ void AppUI_Process(void)
             display_level = last_battery_level;
         }
         
-        /* 充电时实现闪烁效果（参考未重构工程：循环显示不同电量图标） */
+        /* 充电时实现闪烁效果（参考老版本工程：循环显示不同电量图标） */
         if (!freeze_battery_display && current_battery_charging) {
             /* 根据闪烁计数器选择显示的图标（每25次切换一个图标） */
             uint8_t blink_phase = (uint8_t)(battery_charge_blink_counter / 25);  // 0-4
@@ -2235,7 +2235,7 @@ void AppUI_Process(void)
                 Display_ClearIconArea(BATTERY_ICON_X, BATTERY_ICON_Y, ICON_BAT0);
             }
         } else {
-            /* 非警告状态或正在充电，正常显示电池图标（参考未重构工程：DISP_Bat000(6, 102)，即页6，列102） */
+            /* 非警告状态或正在充电，正常显示电池图标（参考老版本工程：DISP_Bat000(6, 102)，即页6，列102） */
             /* Display_ShowBatteryIcon参数：x=列坐标，y=页坐标 */
             Display_ShowBatteryIcon(BATTERY_ICON_X, BATTERY_ICON_Y, display_level, current_battery_charging);
     }

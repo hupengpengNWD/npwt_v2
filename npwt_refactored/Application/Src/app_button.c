@@ -216,7 +216,7 @@ static void AppButton_CheckComboLanguage(void)
     }
 
     uint8_t key_port = PORTB & 0x3C;
-    /* 参考未重构工程：LONG_PRESS_SWITCH_LANG = 0x98，这是OK+CANCEL组合按键的硬件编码值 */
+    /* 参考老版本工程：LONG_PRESS_SWITCH_LANG = 0x98，这是OK+CANCEL组合按键的硬件编码值 */
     bool combo_pressed = (key_port == 0x18);  /* 0x18对应OK键与CANCEL键同时按下（PORTB&0x3C后的值） */
 
     if (combo_pressed) {
