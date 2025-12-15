@@ -88,6 +88,7 @@ static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event);
 static void AppUI_StateEntry_ZHT_ToTherapy(void* arg, st_fsm_event event);
+static void AppUI_StateEntry_WAT_ToTherapy(void* arg, st_fsm_event event);
 static void AppUI_SwitchWorkMode(void* arg, st_fsm_event event);
 static void AppUI_SwitchLanguage(void* arg, st_fsm_event event);
 static void AppUI_AdjustPressureUp(void* arg, st_fsm_event event);
@@ -823,8 +824,8 @@ const st_fsm_transition g_ui_transition_table[25] = {
     [2] = {
         .current_state = UI_STATE_WAT,                       /* 当前状态：待机模式 */
         .trigger_event = UI_EVENT_CONFIRM_LONG,              /* 触发事件：长按电源键释放 */
-        .action_func   = AppUI_StateEntry_LIX,               /* 动作函数：进入连续工作模式 */
-        .next_state    = UI_STATE_LIX                        /* 下一状态：连续工作模式 */
+        .action_func   = AppUI_StateEntry_WAT_ToTherapy,     /* 动作函数：根据work_mode_backup进入治疗模式 */
+        .next_state    = UI_STATE_LIX                        /* 下一状态：连续或间歇工作模式（由action_func决定） */
     },
     
     [3] = {
@@ -996,7 +997,10 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     (void)event;
     
     ctx->current_state = UI_STATE_SYS;
-    ctx->work_mode_backup = (UIState_e)DEFAULT_WORK_MODE;  // 默认治疗模式（使用system_config.h中的宏定义）
+    /* 注意：不要在这里重置work_mode_backup，因为AppSettings_ApplyToUI已经设置了从Flash加载的值
+     * 如果work_mode_backup还未初始化（首次开机），AppUI_Init中已经设置为默认值
+     * 这里重置会覆盖从Flash加载的治疗模式设置 */
+    // ctx->work_mode_backup = (UIState_e)DEFAULT_WORK_MODE;  // 已移除：避免覆盖从Flash加载的值
     ctx->sys_show_logo = true;              // 初始显示Logo
     AppPressure_StopControl();
     AppUI_Display_SYS();
@@ -1081,6 +1085,28 @@ static void AppUI_StateEntry_ZHT(void* arg, st_fsm_event event)
     AppUI_ExitAutoLock();
     Display_Clear();
     AppUI_Display_ZHT();
+}
+
+/**
+ * @name      AppUI_StateEntry_WAT_ToTherapy
+ * @brief     从待机界面进入治疗界面（根据work_mode_backup决定进入连续或间歇模式）
+ */
+static void AppUI_StateEntry_WAT_ToTherapy(void* arg, st_fsm_event event)
+{
+    UIContext_t* ctx = (UIContext_t*)arg;
+    (void)event;
+    
+    // 根据work_mode_backup决定进入哪个治疗模式
+    if (ctx->work_mode_backup == UI_STATE_LIX) {
+        // 进入连续模式治疗界面
+        AppUI_StateEntry_LIX(arg, event);
+    } else if (ctx->work_mode_backup == UI_STATE_JIX) {
+        // 进入间歇模式治疗界面
+        AppUI_StateEntry_JIX(arg, event);
+    } else {
+        // 如果work_mode_backup不是治疗模式，默认进入连续模式
+        AppUI_StateEntry_LIX(arg, event);
+    }
 }
 
 /**

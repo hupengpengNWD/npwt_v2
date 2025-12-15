@@ -34,7 +34,7 @@
 #define PRESSURE_OVERPRESSURE_ALARM_DELAY_MS               500  // 过压报警延迟时间：500ms，避免瞬态误报（设为0则立即触发）
 
 #define PRESSURE_CONTROL_TARGET_OFFSET                      4U  // 控制用目标偏移（防止停泵后下跌）：用户目标值+4mmHg作为内部控制目标
-#define PRESSURE_CONTROL_DEADBAND_MMHG                    5.0f  // 允许的稳态误差（死区）：压力达到内部控制目标+5mmHg时进入保持状态
+#define PRESSURE_CONTROL_DEADBAND_MMHG                    5.0f  // 允许的稳态误差（死区）：压力达到内部控制目标+5mmHg时进入(稳定)保持状态
 #define PRESSURE_CONTROL_REENGAGE_THRESHOLD_MMHG          5.0f  // 再次介入需要超过的误差：压力下降到用户目标值-5mmHg时重新启动PID控制
 
 /****************************************************************************
