@@ -1813,13 +1813,23 @@ static void AppUI_Display_SET_Time(void)
         static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
         Display_ShowString(90, 2, AppLanguage_GetTextConverted(TEXT_ID_MIN, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MIN, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT); 
         
+        // 先清除低压时间的反转显示区域（如果之前是反转显示），避免残留反转效果
+        // 2个字符宽度=12列，反转时额外添加1列，总共13列；高度=12像素
+        Display_ClearRect(75, 4, 13, 12);
         snprintf(lp_time_str, sizeof(lp_time_str), "%02u", (unsigned int)g_ui_context.time_low);
         Display_ShowString(75, 4, lp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        // 额外显示一个空格字符覆盖第13列（反转显示时额外添加的1列反转空白），确保完全清除反转效果
+        Display_ShowString(87, 4, " ", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
         Display_ShowString(90, 4, AppLanguage_GetTextConverted(TEXT_ID_MIN, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MIN, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT); 
     } else {
         // 编辑低压时间：高压时间正常显示，低压时间反转显示
+        // 先清除高压时间的反转显示区域（包括额外添加的1列），避免残留反转效果
+        // 2个字符宽度=12列，反转时额外添加1列，总共13列；高度=12像素
+        Display_ClearRect(75, 2, 13, 12);
         snprintf(hp_time_str, sizeof(hp_time_str), "%02u", (unsigned int)g_ui_context.time_high);
         Display_ShowString(75, 2, hp_time_str, DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
+        // 额外显示一个空格字符覆盖第13列（反转显示时额外添加的1列反转空白），确保完全清除反转效果
+        Display_ShowString(87, 2, " ", DISPLAY_FONT_6X12, DISPLAY_ALIGN_LEFT);
         static char text_buffer[16] = {0};  // 必须使用static，因为Display_ShowString会入队保存指针
         Display_ShowString(90, 2, AppLanguage_GetTextConverted(TEXT_ID_MIN, text_buffer, sizeof(text_buffer)), AppLanguage_GetFontForText(TEXT_ID_MIN, DISPLAY_FONT_6X12), DISPLAY_ALIGN_LEFT); 
         
