@@ -2185,6 +2185,10 @@ void AppUI_Process(void)
         if (!freeze_battery_display) {
             last_battery_level = current_battery_level;
             last_battery_charging = current_battery_charging;
+        } else if (last_battery_level == 100) {
+            /* 泄气阶段，但如果last_battery_level是初始值（100），允许更新一次以获取真实电量 */
+            last_battery_level = current_battery_level;
+            last_battery_charging = current_battery_charging;
         }
         battery_display_counter = 0;  // 重置计数器
     } else if (!freeze_battery_display && current_battery_charging) {
@@ -2206,7 +2210,11 @@ void AppUI_Process(void)
         uint8_t display_level = current_battery_level;
         if (freeze_battery_display) {
             /* 冻结显示为上一次稳定等级，避免泄气负载导致的短暂降格 */
-            display_level = last_battery_level;
+            /* 但如果last_battery_level是初始值（100），说明还未获取真实电量，不冻结显示 */
+            if (last_battery_level != 100) {
+                display_level = last_battery_level;
+            }
+            /* 否则使用current_battery_level（初始值情况） */
         }
         
         /* 充电时实现闪烁效果（参考老版本工程：循环显示不同电量图标） */
