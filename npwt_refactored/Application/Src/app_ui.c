@@ -1004,6 +1004,12 @@ static void AppUI_StateEntry_SYS(void* arg, st_fsm_event event)
     ctx->sys_show_logo = true;              // 初始显示Logo
     AppPressure_StopControl();
     AppUI_Display_SYS();
+    
+    /* 开机时立即开始泄压（在显示Logo的同时） */
+    if (!g_pressure_zero_calibrated) {
+        AppPressure_BleedAndCalibrateZero();
+        g_pressure_zero_calibrated = true;
+    }
 }
 
 /**
@@ -1022,8 +1028,9 @@ static void AppUI_StateEntry_WAT(void* arg, st_fsm_event event)
     Display_Clear();
     AppUI_Display_WAT();
 
-    /* 进入待机界面首次执行零点校准（参考老版本工程） */
-    if (!g_pressure_zero_calibrated || ctx->last_state == UI_STATE_SYS) {
+    /* 注意：泄压已在AppUI_StateEntry_SYS中执行（开机显示Logo时），这里不再重复执行 */
+    /* 如果从其他状态进入待机模式且未校准过，才执行泄压（通常不会发生） */
+    if (!g_pressure_zero_calibrated && ctx->last_state != UI_STATE_SYS) {
         AppPressure_BleedAndCalibrateZero();
         g_pressure_zero_calibrated = true;
     }
