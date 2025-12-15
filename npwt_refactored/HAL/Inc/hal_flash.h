@@ -63,7 +63,7 @@
  */
 #define HAL_FLASH_CONFIG_ADDRESS    0xE400u    // 1K 0-E3FF,E800-FFF7
 //#define HAL_FLASH_CONFIG_ADDRESS   0xE540u // 128Byte  0-E53F,E5C0-FFF7
-
+//#define HAL_FLASH_CONFIG_ADDRESS   0xE540u // 64Byte  0-E53F,E580-FFF7
 
 /****************************************************************************
  * Flash操作函数
