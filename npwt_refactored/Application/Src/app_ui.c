@@ -2111,6 +2111,11 @@ void AppUI_Process(void)
         return;  // 开机界面不显示电池
     }
     
+    /* 待机界面不显示电池 */
+//    if (g_ui_context.current_state == UI_STATE_WAT) {
+//        return;  // 待机界面不显示电池
+//    }
+    
     /* 设置界面不显示电池（模式选择、压力设置、时间设置等） */
     if (g_ui_context.current_state == UI_STATE_SET ||
         g_ui_context.current_state == UI_STATE_SET_PRESSURE ||
