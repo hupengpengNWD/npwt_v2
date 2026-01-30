@@ -66,8 +66,10 @@ static SoftTimerHandle_t g_init_switch_timer = 0;            // 4秒切换定时
 static SoftTimerHandle_t g_leak_alarm_pump_stop_timer = 0;  // 泄漏报警延迟停止泵电机定时器
 static bool g_leak_alarm_beep_state = false;  // 泄漏报警声音报警状态：true=应该响, false=应该静音
 
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
 /* 连续调节定时器句柄 */
 static SoftTimerHandle_t g_continuous_adjust_timer = 0;  // 连续调节定时器
+#endif
 
 /* 连续模式界面上次显示的实时压力值（用于检测显示是否需要刷新） */
 static uint16_t g_last_display_pressure = 0xFFFF;
@@ -134,10 +136,12 @@ static void AppUI_EnterOverpressureAlarm(void);
 static void AppUI_ExitOverpressureAlarm(void);
 static void AppUI_UpdateOverpressureAlarm(void);
 static void AppUI_LeakAlarmPumpStopCallback(void* user_data);
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
 static bool AppUI_IsAdjustableState(UIState_e state);
 static void AppUI_StartContinuousAdjust(uint8_t key_id);
 static void AppUI_StopContinuousAdjust(void);
 static void AppUI_ContinuousAdjustCallback(void* user_data);
+#endif
 
 /**
  * @name      AppUI_ConvertKeyEvent
@@ -265,25 +269,7 @@ static void AppUI_HideLockIcon(void)
     }
 }
 
-/**
- * @brief 在指定坐标显示静音图标（若尚未显示）
- */
-static void AppUI_ShowMuteIcon(void)
-{
-    if (AppBeep_IsMuted()) {
-        Display_ShowIcon(UI_MUTE_ICON_X, UI_MUTE_ICON_Y, ICON_SILENT);
-    }
-}
-
-/**
- * @brief 清除静音图标占用区域（若当前可见）
- */
-static void AppUI_HideMuteIcon(void)
-{
-    if (AppBeep_IsMuted() == false) {
-        Display_ClearRect(UI_MUTE_ICON_X, UI_MUTE_ICON_Y, 16, 16);
-    }
-}
+/* AppUI_ShowMuteIcon 和 AppUI_HideMuteIcon 已删除（未使用，节省Flash空间） */
 
 /**
  * @brief 更新静音图标显示状态（根据当前静音状态显示或隐藏）
@@ -806,6 +792,7 @@ static void AppUI_UpdateOverpressureAlarm(void)
     }
 }
 
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
 /**
  * @brief 判断当前UI状态是否允许连续调节
  * @param state UI状态枚举
@@ -821,48 +808,47 @@ static bool AppUI_IsAdjustableState(UIState_e state)
 }
 
 /**
+ * @brief 执行一次调节操作（内部函数，减少代码重复）
+ * @param key_id 按键ID：1=上键（增加），2=下键（减少）
+ */
+static void AppUI_DoAdjust(uint8_t key_id)
+{
+    st_fsm_event evt = {0};
+    if (g_ui_context.current_state == UI_STATE_SET_TIME) {
+        if (key_id == 1) {
+            AppUI_AdjustTimeUp(&g_ui_context, evt);
+        } else {
+            AppUI_AdjustTimeDown(&g_ui_context, evt);
+        }
+    } else {
+        if (key_id == 1) {
+            AppUI_AdjustPressureUp(&g_ui_context, evt);
+        } else {
+            AppUI_AdjustPressureDown(&g_ui_context, evt);
+        }
+    }
+}
+
+/**
  * @brief 启动连续调节
  * @param key_id 按键ID：1=上键（增加），2=下键（减少）
  */
 static void AppUI_StartContinuousAdjust(uint8_t key_id)
 {
-    /* 如果已经在连续调节，先停止 */
     if (g_ui_context.continuous_adjust_active) {
         AppUI_StopContinuousAdjust();
     }
-    
-    /* 检查是否允许连续调节 */
-    if (!AppUI_IsAdjustableState(g_ui_context.current_state)) {
+    if (!AppUI_IsAdjustableState(g_ui_context.current_state) || (key_id != 1 && key_id != 2)) {
         return;
     }
     
-    /* 立即执行一次调节（首次响应） */
-    if (key_id == 1) {
-        /* 上键：增加 */
-        if (g_ui_context.current_state == UI_STATE_SET_TIME) {
-            AppUI_AdjustTimeUp(&g_ui_context, (st_fsm_event){0});
-        } else {
-            AppUI_AdjustPressureUp(&g_ui_context, (st_fsm_event){0});
-        }
-    } else if (key_id == 2) {
-        /* 下键：减少 */
-        if (g_ui_context.current_state == UI_STATE_SET_TIME) {
-            AppUI_AdjustTimeDown(&g_ui_context, (st_fsm_event){0});
-        } else {
-            AppUI_AdjustPressureDown(&g_ui_context, (st_fsm_event){0});
-        }
-    } else {
-        return;  // 无效的按键ID
-    }
+    AppUI_DoAdjust(key_id);  // 首次响应
     
-    /* 创建并启动连续调节定时器 */
     if (g_continuous_adjust_timer == 0) {
         g_continuous_adjust_timer = SoftTimer_Create(SOFT_TIMER_MODE_PERIODIC,
                                                     UI_CONTINUOUS_ADJUST_INTERVAL_MS,
-                                                    AppUI_ContinuousAdjustCallback,
-                                                    NULL);
+                                                    AppUI_ContinuousAdjustCallback, NULL);
     } else {
-        /* 定时器已存在，重新设置周期并启动 */
         SoftTimer_Stop(g_continuous_adjust_timer);
         SoftTimer_SetPeriod(g_continuous_adjust_timer, UI_CONTINUOUS_ADJUST_INTERVAL_MS);
         SoftTimer_SetCallback(g_continuous_adjust_timer, AppUI_ContinuousAdjustCallback, NULL);
@@ -883,7 +869,6 @@ static void AppUI_StopContinuousAdjust(void)
     if (g_continuous_adjust_timer != 0) {
         SoftTimer_Stop(g_continuous_adjust_timer);
     }
-    
     g_ui_context.continuous_adjust_active = false;
     g_ui_context.continuous_adjust_key_id = 0;
 }
@@ -896,53 +881,28 @@ static void AppUI_ContinuousAdjustCallback(void* user_data)
 {
     (void)user_data;
     
-    /* 检查是否仍在可调节状态 */
     if (!AppUI_IsAdjustableState(g_ui_context.current_state)) {
         AppUI_StopContinuousAdjust();
         return;
     }
     
-    /* 检查按键是否仍在按下（通过按键状态机查询） */
+    /* 检查按键是否仍在按下 */
+    KeyMachinePtr_t key = (g_ui_context.continuous_adjust_key_id == 1) ?
+                          AppButton_GetUpKeyInstance() : AppButton_GetDownKeyInstance();
     bool key_still_pressed = false;
-    if (g_ui_context.continuous_adjust_key_id == 1) {
-        /* 上键 */
-        KeyMachinePtr_t up_key = AppButton_GetUpKeyInstance();
-        if (up_key != NULL) {
-            KeyState_e state = KeyMachine_GetState(up_key);
-            key_still_pressed = (state == KEY_STATE_LONG || state == KEY_STATE_ULTRA_LONG);
-        }
-    } else if (g_ui_context.continuous_adjust_key_id == 2) {
-        /* 下键 */
-        KeyMachinePtr_t down_key = AppButton_GetDownKeyInstance();
-        if (down_key != NULL) {
-            KeyState_e state = KeyMachine_GetState(down_key);
-            key_still_pressed = (state == KEY_STATE_LONG || state == KEY_STATE_ULTRA_LONG);
-        }
+    if (key != NULL) {
+        KeyState_e state = KeyMachine_GetState(key);
+        key_still_pressed = (state == KEY_STATE_LONG || state == KEY_STATE_ULTRA_LONG);
     }
     
-    /* 如果按键已释放，停止连续调节 */
     if (!key_still_pressed) {
         AppUI_StopContinuousAdjust();
         return;
     }
     
-    /* 执行调节 */
-    if (g_ui_context.continuous_adjust_key_id == 1) {
-        /* 上键：增加 */
-        if (g_ui_context.current_state == UI_STATE_SET_TIME) {
-            AppUI_AdjustTimeUp(&g_ui_context, (st_fsm_event){0});
-        } else {
-            AppUI_AdjustPressureUp(&g_ui_context, (st_fsm_event){0});
-        }
-    } else if (g_ui_context.continuous_adjust_key_id == 2) {
-        /* 下键：减少 */
-        if (g_ui_context.current_state == UI_STATE_SET_TIME) {
-            AppUI_AdjustTimeDown(&g_ui_context, (st_fsm_event){0});
-        } else {
-            AppUI_AdjustPressureDown(&g_ui_context, (st_fsm_event){0});
-        }
-    }
+    AppUI_DoAdjust(g_ui_context.continuous_adjust_key_id);
 }
+#endif
 
 /* 初始化超时定时器回调函数 */
 static void AppUI_InitTimeoutCallback(void* user_data);
@@ -1311,7 +1271,9 @@ static void AppUI_StateEntry_SET_Pressure(void* arg, st_fsm_event event)
     ctx->current_state = UI_STATE_SET_PRESSURE;
     AppPressure_StopControl();
     AppUI_ExitAutoLock();
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
     AppUI_StopContinuousAdjust();  // 清理连续调节定时器
+#endif
     Display_Clear();
     AppUI_Display_SET_Pressure();
 }
@@ -1329,7 +1291,9 @@ static void AppUI_StateEntry_SET_HP_Pressure(void* arg, st_fsm_event event)
     ctx->current_state = UI_STATE_SET_HP_PRESSURE;
     AppPressure_StopControl();
     AppUI_ExitAutoLock();
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
     AppUI_StopContinuousAdjust();  // 清理连续调节定时器
+#endif
     Display_Clear();
     AppUI_Display_SET_HP_Pressure();
 }
@@ -1347,7 +1311,9 @@ static void AppUI_StateEntry_SET_LP_Pressure(void* arg, st_fsm_event event)
     ctx->current_state = UI_STATE_SET_LP_PRESSURE;
     AppPressure_StopControl();
     AppUI_ExitAutoLock();
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
     AppUI_StopContinuousAdjust();  // 清理连续调节定时器
+#endif
     Display_Clear();
     AppUI_Display_SET_LP_Pressure();
 }
@@ -1366,7 +1332,9 @@ static void AppUI_StateEntry_SET_Time(void* arg, st_fsm_event event)
     ctx->time_edit_high = true;  // 重置编辑标志
     AppPressure_StopControl();
     AppUI_ExitAutoLock();
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
     AppUI_StopContinuousAdjust();  // 清理连续调节定时器
+#endif
     Display_Clear();
     AppUI_Display_SET_Time();
 }
@@ -2061,8 +2029,10 @@ void AppUI_Init(void)
     g_ui_context.time_edit_high = true;  // 默认编辑高压时间
     g_ui_context.pressure_step = PRESSURE_STEP;  // 压力调整步进值，使用宏定义
     g_ui_context.sys_show_logo = true;   // 初始显示Logo
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
     g_ui_context.continuous_adjust_active = false;  // 连续调节未激活
     g_ui_context.continuous_adjust_key_id = 0;  // 连续调节按键ID初始化为0
+#endif
     g_ui_context.user_data = NULL;
     
     /* 获取按键事件队列指针 */
@@ -2208,6 +2178,7 @@ void AppUI_Process(void)
                     AppUI_ResetIdleTimer();
                 }
 
+#if (ENABLE_CONTINUOUS_ADJUST == 1)
                 /* 处理连续调节逻辑：检测长按事件（上键或下键） */
                 if ((key_event.key_id == 1 || key_event.key_id == 2) &&
                     AppUI_IsAdjustableState(g_ui_context.current_state)) {
@@ -2222,6 +2193,7 @@ void AppUI_Process(void)
                         /* 注意：继续处理该事件，因为释放事件可能还需要触发其他操作（如状态转换） */
                     }
                 }
+#endif
 
                 /* 转换按键事件为UI事件 */
                 UIEvent_e ui_event = AppUI_ConvertKeyEvent(key_event.key_id, key_event.key_event);
