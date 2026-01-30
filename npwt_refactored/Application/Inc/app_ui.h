@@ -90,6 +90,8 @@ typedef struct {
     bool time_edit_high;            // 时间编辑标志：true=编辑高压时间，false=编辑低压时间
     uint16_t pressure_step;         // 压力调整步进值（mmHg，默认5，可通过变量修改）
     bool sys_show_logo;             // 开机界面显示标志：true=显示Logo，false=显示字符串
+    bool continuous_adjust_active;  // 是否正在连续调节
+    uint8_t continuous_adjust_key_id; // 当前调节的按键ID（1=上键，2=下键）
     void* user_data;                // 用户数据指针
 } UIContext_t;
 
