@@ -1,6 +1,7 @@
 /npwt_refactored/NWPT_VR.X/build/
 /npwt_refactored/NWPT_VR.X/dist/
 /project/npwt.X/build/
+npwt_refactored/build/
 
 # IDE配置文件（NetBeans项目文件）
 NWPT_VR.X/nbproject/Makefile-genesis.properties
